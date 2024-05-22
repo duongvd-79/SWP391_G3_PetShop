@@ -18,7 +18,7 @@ public class DBContext {
 // Edit URL , username, password to authenticate with your MS SQL Server
             String url = "jdbc:mysql://localhost:3306/petshop";
             String username = "root";
-            String password = "yourpassword";
+            String password = "1234";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
