@@ -27,7 +27,7 @@ public class Product {
     String title, status, thumbnail, categoryId;
     double importPrice, listPrice;
     Date createdDate;
-    boolean featured;
+    boolean isFeatured;
 
     public Product() {
     }
@@ -42,7 +42,7 @@ public class Product {
         this.importPrice = importPrice;
         this.listPrice = listPrice;
         this.createdDate = createdDate;
-        this.featured = featured;
+        this.isFeatured = featured;
     }
 
     public int getId() {
@@ -118,11 +118,11 @@ public class Product {
     }
 
     public boolean isFeatured() {
-        return featured;
+        return isFeatured;
     }
 
     public void setFeatured(boolean featured) {
-        this.featured = featured;
+        this.isFeatured = featured;
     }
 
 }
