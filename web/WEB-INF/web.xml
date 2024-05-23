@@ -7,5 +7,11 @@
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
+        <servlet-name>SettingServlet</servlet-name>
+        <servlet-class>controller.SettingServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SettingServlet</servlet-name>
+        <url-pattern>/setting</url-pattern>
     </servlet-mapping>
 </web-app>
