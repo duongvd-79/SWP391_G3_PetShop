@@ -3,6 +3,7 @@
 
 package controller;
 
+import dal.PostDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Post;
 import model.Product;
 
 /**
@@ -40,9 +42,16 @@ public class HomeServlet extends HttpServlet {
 //            out.println("</body>");
 //            out.println("</html>");
 //        }
-        ProductDAO pdao = new ProductDAO();
-        List<Product> featuredList = pdao.getFeatured();
-        request.setAttribute("featuredlist", featuredList);
+        ProductDAO productDAO = new ProductDAO();
+        PostDAO postDAO = new PostDAO();
+        
+        List<Product> allProduct = productDAO.getAll();
+        List<Product> featuredProduct = productDAO.getFeatured();
+        List<Post> featuredPost = postDAO.getFeatured();
+        
+        request.setAttribute("featuredproduct", featuredProduct);
+        request.setAttribute("allproduct", allProduct);
+        request.setAttribute("featuredpost", featuredPost);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 
