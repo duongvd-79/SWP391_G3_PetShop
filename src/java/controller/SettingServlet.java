@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.settingDAO;
+import dal.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -60,7 +60,7 @@ public class SettingServlet extends HttpServlet {
             throws ServletException, IOException {
         
         //Lấy danh sách setting
-        settingDAO sDAO = new settingDAO();
+        SettingDAO sDAO = new SettingDAO();
         List<Setting> sList = sDAO.getAll();
         //Lay type setting
         List<String> types = sDAO.getAllType();
