@@ -118,20 +118,53 @@ public class settingDAO extends DBContext {
     public List<Setting> getByPage(List<Setting> list, int page) {
         List<Setting> outputlist = new ArrayList<>();
         for (int i = (page - 1) * 3; i <= (page - 1) * 3 + 2; i++) {
-            if(i>=list.size()) return outputlist;
+            if (i >= list.size()) {
+                return outputlist;
+            }
             outputlist.add(list.get(i));
         }
         return outputlist;
+    }
+    //Lấy id từ tên type
+    public int getTypeId(String n) {
+        int id=0;
+        try {
+            String strSelect = "select id from setting_type where name = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setString(1,n);
+            rs = stm.executeQuery();
+            while (rs.next()) id = rs.getInt("id");
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return id;
+    }
+    //Update setting 
+    public void updateSetting(int id, Setting s) {
+        try {
+            String strSelect = "UPDATE setting SET setting_type_id = ?,value = null,name = ?,`order` = ?,status = ?,description = ? WHERE id = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, s.getSettingTypeId());
+            stm.setString(2, s.getName());
+            stm.setInt(3, s.getOrder());
+            stm.setString(4, s.getStatus());
+            stm.setString(5, s.getDescription());
+            stm.setInt(6, s.getId());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {
         settingDAO s = new settingDAO();
 
+        Setting st = new Setting(1, 2, 1, "SẢn Phẩm cho mèo", 0, "Active", "hehehe");
+        s.updateSetting(1, st);
         List<Setting> sList = s.getAll();
-        List<Setting> filter = s.getAllByStatus(sList, "Inactive");
-        for (Setting st : filter) {
-            System.out.println(st.getName() + st.getType());
+        for (Setting stt : sList) {
+            System.out.println(stt.getName() + stt.getType());
         }
-
+        System.out.println(s.getTypeId("Product Category"));
     }
 }

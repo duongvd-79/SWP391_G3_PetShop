@@ -28,7 +28,7 @@
                 <div class="row d-flex align-items-center mb-3">
                     <div class="col-md-5 function">
                         <div class="input-group d-flex ">
-                            <form style="width: 80%" class="d-flex" action="admin" method="get">
+                            <form style="width: 80%" class="d-flex" action="setting" method="get">
                                 <input type="search" name="search" class="form-control" placeholder="Type setting name to search" value="${requestScope.sName}">
                                 <span class="input-group-addon"><button class="btn search" type="submit"><img width="25" height="25" src="https://img.icons8.com/?size=100&id=7695&format=png&color=000000" alt=""></button></span>
                             </form>
@@ -40,19 +40,19 @@
                     <div class="col-md-3 function">
                         <select name="type" class="form-select" id="type" onchange="if (this.value)
                                     window.location.href = this.value">
-                            <option value="admin?page=1&search=${requestScope.sName}&action=filter&status=${requestScope.status}">All type</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=${requestScope.status}">All type</option>
                             <c:forEach items="${requestScope.types}" var="t">
-                                <option value="admin?page=1&search=${requestScope.sName}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
+                                <option value="setting?page=1&search=${requestScope.sName}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
                             </c:forEach>                          
                         </select>
                     </div>
                     <div class="col-md-2 function">
                         <select class="form-select function" id="status" onchange="if (this.value)
                                     window.location.href = this.value">
-                            <option value="admin?page=1&search=${requestScope.sName}&action=filter&type=${requestScope.type}">All Status</option>
-                            <option value="admin?page=1&search=${requestScope.sName}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
-                            <option value="admin?page=1&search=${requestScope.sName}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
-                            <option value="admin?page=1&search=${requestScope.sName}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&type=${requestScope.type}">All Status</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
                         </select>
                     </div>
 
@@ -83,7 +83,7 @@
                                             <td>${s.getValue()}</td>
                                             <td>${s.getStatus()}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
-                                                    <div class="me-4"><a href="admin?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                    <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                     <div class="pe-2 btn py-1" style="line-height: 25px;"><a style="text-decoration: none;color: white;" href="#" >Active</a></div>
                                                 </div>
                                             </td>
@@ -96,12 +96,12 @@
                     </div>
                     <nav aria-label="setting list paging ">
                         <ul class="pagination d-flex justify-content-end">
-                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="admin?page=${requestScope.page-1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
+                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
                             
                             <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
-                            <li class="page-item"><a class="page-link" href="admin?page=${i}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                            <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="admin?page=${requestScope.page+1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
+                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
                         </ul>
                     </nav>
                 </div>

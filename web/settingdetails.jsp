@@ -33,32 +33,33 @@
                 
                 <div">
                     <div class="p-2 pb-5 pt-1">
-
-                        <div class="row mt-3">
+                        
+                        <form class="row mt-3" method="get" action="setting?action=add&">
+                            <input type="hidden" name="id" value="${detail.getId()}">
                             <div class="col-md-7"><label class="labels">Group</label>
-                                <select class="form-select" id="roles" value="">
+                                <select class="form-select" id="roles" name="type" value="${detail.getType()}">
                                     <c:forEach items="${requestScope.types}" var="t">
                                         <option value="${t}" ${t.equals(requestScope.detail.getType()) ? 'selected' : ''}>${t}</option>
                                     </c:forEach>                             
                                 </select>
                             </div>
-                            <div class="col-md-5"><label class="labels">Order</label><input type="text" class="form-control" value="${detail.getOrder()}"></div>
-                            <div class="col-md-12 mt-2"><label class="labels">Name</label><input type="text" class="form-control" value="${detail.getName()}"></div>
-                            <div class="col-md-4 mt-2"><label class="labels">Value</label><input type="text" class="form-control" value="${detail.getValue()}"></div>
+                            <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" value="${detail.getOrder()}"></div>
+                            <div class="col-md-12 mt-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" value="${detail.getName()}"></div>
+                            <div class="col-md-4 mt-2"><label class="labels">Value</label><input type="text" name="value" class="form-control" value="${detail.getValue()}"></div>
                             <div class="col-md-1 mt-2"></div>
                             <div class="col-md-6 mt-2">
                                 <label class="labels">Status</label><br>
                                 <div class="mt-2">
                                     <div class="form-check custom-radio form-check-inline">
                                         
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="active"${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
+                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active"${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
                                         <label class="form-check-label" for="active">
                                             Active
                                         </label>
                                     </div>
                                     <div class="form-check custom-radio form-check-inline">
                                         
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="inactive"${"Active".equals(requestScope.detail.getStatus()) ? '':'checked'}>
+                                        <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive"${"Active".equals(requestScope.detail.getStatus()) ? '':'checked'}>
                                         <label class="form-check-label" for="inactive">
                                             Inactive
                                         </label>
@@ -67,14 +68,14 @@
                                 </div>
                             </div>
                             <div class="col-md-12"><label class="labels">Description</label>
-                                <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}"></textarea>
+                                <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}">${detail.getDescription()}</textarea>
                             </div>
                             
-                        </div>
+                        
                         <div class="d-flex justify-content-center">
-                            <div class="mt-4"><button class="btn btn-primary set-button" type="button">Save Changes</button></div>
-
+                            <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Save Changes</button></div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
