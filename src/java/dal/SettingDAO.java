@@ -15,7 +15,7 @@ import model.Setting;
  *
  * @author ACER
  */
-public class settingDAO extends DBContext {
+public class SettingDAO extends DBContext {
 
     PreparedStatement stm;
     ResultSet rs;
@@ -42,7 +42,7 @@ public class settingDAO extends DBContext {
     }
 
     public Setting getById(int id) {
-        settingDAO s = new settingDAO();
+        SettingDAO s = new SettingDAO();
         List<Setting> list = s.getAll();
         for (Setting st : list) {
             if (st.getId() == id) {
@@ -157,7 +157,7 @@ public class settingDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        settingDAO s = new settingDAO();
+        SettingDAO s = new SettingDAO();
 
         Setting st = new Setting(1, 2, 1, "SẢn Phẩm cho mèo", 0, "Active", "hehehe");
         s.updateSetting(1, st);
