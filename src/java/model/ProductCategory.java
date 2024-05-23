@@ -10,28 +10,29 @@ package model;
  */
 public class ProductCategory {
     /*
-    id VARCHAR(10) PRIMARY KEY,
+    id INT PRIMARY KEY,
     name VARCHAR(255),
     status VARCHAR(50),
     parent_id VARCHAR(10),
     */
-    String id, name, status, parentId;
+    int id, parentId;
+    String name, status;
 
     public ProductCategory() {
     }
 
-    public ProductCategory(String id, String name, String status, String parentId) {
+    public ProductCategory(int id, String name, String status, int parentId) {
         this.id = id;
         this.name = name;
         this.status = status;
         this.parentId = parentId;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -51,11 +52,11 @@ public class ProductCategory {
         this.status = status;
     }
 
-    public String getParentId() {
+    public int getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
     }
 
