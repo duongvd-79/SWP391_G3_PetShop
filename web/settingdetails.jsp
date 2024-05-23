@@ -34,14 +34,17 @@
                 <div">
                     <div class="p-2 pb-5 pt-1">
                         
-                        <form class="row mt-3" method="get" action="setting?action=add&">
+                        <form class="row mt-3" method="get" action="setting">
+                            <input type="hidden" name="action" value="update">
                             <input type="hidden" name="id" value="${detail.getId()}">
+                            <input type="hidden" name="type" value="${detail.getType()}">
                             <div class="col-md-7"><label class="labels">Group</label>
-                                <select class="form-select" id="roles" name="type" value="${detail.getType()}">
+                                <select class="form-select" id="roles" name="" value="${detail.getType()}" disabled >
                                     <c:forEach items="${requestScope.types}" var="t">
                                         <option value="${t}" ${t.equals(requestScope.detail.getType()) ? 'selected' : ''}>${t}</option>
                                     </c:forEach>                             
                                 </select>
+                                    
                             </div>
                             <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" value="${detail.getOrder()}"></div>
                             <div class="col-md-12 mt-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" value="${detail.getName()}"></div>

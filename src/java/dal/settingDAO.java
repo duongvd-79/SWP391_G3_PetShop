@@ -139,8 +139,10 @@ public class settingDAO extends DBContext {
         }
         return id;
     }
+
     //Update setting 
     public void updateSetting(int id, Setting s) {
+        settingDAO sDAO = new settingDAO();
         try {
             String strSelect = "UPDATE setting SET setting_type_id = ?,value = null,name = ?,`order` = ?,status = ?,description = ? WHERE id = ?";
             stm = connection.prepareStatement(strSelect);
@@ -149,22 +151,59 @@ public class settingDAO extends DBContext {
             stm.setInt(3, s.getOrder());
             stm.setString(4, s.getStatus());
             stm.setString(5, s.getDescription());
-            stm.setInt(6, s.getId());
+            stm.setInt(6, id);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    //active 
+    public void active(int id){
+        try {
+            String strSelect = "update setting set status = 'Active' where id = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1,id);
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
+    public void inactive(int id){
+        try {
+            String strSelect = "update setting set status = 'Inactive' where id = ?";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1,id);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+        
+            // update product category
+//    public void updateProductCategory(int id, Setting s) {
+//        try {
+//            String strSelect = "UPDATE product_category SET name = ?,status = ? WHERE id = ?";
+//            stm = connection.prepareStatement(strSelect);
+//            stm.setString(1, s.getName());
+//            stm.setString(2, s.getStatus());
+//            stm.setInt(3, id);
+//            stm.executeUpdate();
+//        } catch (SQLException e) {
+//            System.out.println(e);
+//        }
+//    }
 
     public static void main(String[] args) {
         settingDAO s = new settingDAO();
 
-        Setting st = new Setting(1, 2, 1, "SẢn Phẩm cho mèo", 0, "Active", "hehehe");
-        s.updateSetting(1, st);
-        List<Setting> sList = s.getAll();
-        for (Setting stt : sList) {
-            System.out.println(stt.getName() + stt.getType());
-        }
+//        Setting st = new Setting(1, 1, 1, "SẢn Phẩm cho mèo", 0, "Active", "hehehe");
+//        s.updateProductCategory(1, st);
+//        List<Setting> sList = s.getAll();
+//        for (Setting stt : sList) {
+//            System.out.println(stt.getName() + stt.getType());
+//        }
+        s.inactive(4);
         System.out.println(s.getTypeId("Product Category"));
     }
 }
