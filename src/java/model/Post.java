@@ -22,15 +22,15 @@ public class Post {
     created_by VARCHAR(10),
     category_id VARCHAR(10),
     */
-    int id;
-    String title, thumbnail, detail, status, createdBy, categoryId;
+    int id, categoryId;
+    String title, thumbnail, detail, status, createdBy;
     boolean isFeatured;
     Date createdDate;
 
     public Post() {
     }
 
-    public Post(int id, String title, String thumbnail, String detail, String status, String createdBy, String categoryId, boolean isFeatured, Date createdDate) {
+    public Post(int id, String title, String thumbnail, String detail, String status, String createdBy, int categoryId, boolean isFeatured, Date createdDate) {
         this.id = id;
         this.title = title;
         this.thumbnail = thumbnail;
@@ -90,11 +90,11 @@ public class Post {
         this.createdBy = createdBy;
     }
 
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 

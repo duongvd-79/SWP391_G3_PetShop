@@ -1,10 +1,5 @@
-
 package dal;
 
-/**
- *
- * @author ACER
- */
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +10,6 @@ public class DBContext {
 
     public DBContext() {
         try {
-// Edit URL , username, password to authenticate with your MS SQL Server
             String url = "jdbc:mysql://localhost:3306/petshop";
             String username = "root";
             String password = "1234";
@@ -25,4 +19,9 @@ public class DBContext {
             System.out.println(ex);
         }
     }
+
+//    public static void main(String[] args) {
+//        DBContext d = new DBContext();
+//        System.out.println(d.connection);
+//    }
 }
