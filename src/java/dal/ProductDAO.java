@@ -11,7 +11,7 @@ public class ProductDAO extends DBContext {
 
     private PreparedStatement stm;
     private ResultSet rs;
-    private final List<Product> productList = new ArrayList<>();
+    private List<Product> productList = new ArrayList<>();
 
     private static Product setProduct(ResultSet rs) {
         Product p = new Product();
