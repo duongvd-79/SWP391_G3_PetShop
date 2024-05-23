@@ -23,14 +23,14 @@ public class settingDAO extends DBContext {
     public List<Setting> getAll() {
         List<Setting> list = new ArrayList<>();
         try {
-            String strSelect = "SELECT s.id,setting_type_id,value,s.name,`order`,"
+            String strSelect = "SELECT s.id,type_id,value,s.name,`order`,"
                     + " status, description,t.name as type FROM setting as s join setting_type as t "
-                    + "on s.setting_type_id = t.id order by s.id";
+                    + "on type_id = t.id order by s.id";
             stm = connection.prepareStatement(strSelect);
             rs = stm.executeQuery();
             while (rs.next()) {
                 Setting setting = new Setting(rs.getInt("id"),
-                        rs.getInt("setting_Type_Id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
+                        rs.getInt("type_id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
                         rs.getInt("value"), rs.getString("status"), rs.getString("description")
                 );
                 list.add(setting);
@@ -73,15 +73,15 @@ public class settingDAO extends DBContext {
     public List<Setting> getAllByName(String n) {
         List<Setting> list = new ArrayList<>();
         try {
-            String strSelect = "SELECT s.id,setting_type_id,value,s.name,`order`,"
+            String strSelect = "SELECT s.id,type_id,value,s.name,`order`,"
                     + " status, description,t.name as type FROM setting as s join setting_type as t "
-                    + "on s.setting_type_id = t.id where s.name like ?";
+                    + "on type_id = t.id where s.name like ?";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, "%" + n + "%");
             rs = stm.executeQuery();
             while (rs.next()) {
                 Setting setting = new Setting(rs.getInt("id"),
-                        rs.getInt("setting_Type_Id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
+                        rs.getInt("type_id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
                         rs.getInt("value"), rs.getString("status"), rs.getString("description")
                 );
                 list.add(setting);
@@ -144,14 +144,15 @@ public class settingDAO extends DBContext {
     public void updateSetting(int id, Setting s) {
         settingDAO sDAO = new settingDAO();
         try {
-            String strSelect = "UPDATE setting SET setting_type_id = ?,value = null,name = ?,`order` = ?,status = ?,description = ? WHERE id = ?";
+            String strSelect = "UPDATE setting SET type_id = ?,value = ?,name = ?,`order` = ?,status = ?,description = ? WHERE id = ?";
             stm = connection.prepareStatement(strSelect);
-            stm.setInt(1, s.getSettingTypeId());
-            stm.setString(2, s.getName());
-            stm.setInt(3, s.getOrder());
-            stm.setString(4, s.getStatus());
-            stm.setString(5, s.getDescription());
-            stm.setInt(6, id);
+            stm.setInt(1, s.getTypeId());
+            stm.setInt(2, s.getValue());
+            stm.setString(3, s.getName());
+            stm.setInt(4, s.getOrder());
+            stm.setString(5, s.getStatus());
+            stm.setString(6, s.getDescription());
+            stm.setInt(7, id);
             stm.executeUpdate();
 
         } catch (SQLException e) {
@@ -197,13 +198,13 @@ public class settingDAO extends DBContext {
     public static void main(String[] args) {
         settingDAO s = new settingDAO();
 
-//        Setting st = new Setting(1, 1, 1, "SẢn Phẩm cho mèo", 0, "Active", "hehehe");
+        Setting st = new Setting(1, 1, 1, "SẢn Phẩm cho mèo", 1, "Active", "hehehe");
+        s.updateSetting(1, st);
 //        s.updateProductCategory(1, st);
-//        List<Setting> sList = s.getAll();
-//        for (Setting stt : sList) {
-//            System.out.println(stt.getName() + stt.getType());
-//        }
-        s.inactive(4);
+        List<Setting> sList = s.getAll();
+        for (Setting stt : sList) {
+            System.out.println(stt.getName() + stt.getType());
+        }
         System.out.println(s.getTypeId("Product Category"));
     }
 }

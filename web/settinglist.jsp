@@ -12,13 +12,6 @@
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Setting List</title>
-        <script type="text/javascript">
-            function doActive(id,status) {
-                if (confirm("Are you sure to Active/Inactive id " + id)) {
-                    window.location = "setting?active=" + id+"&status="+status;
-                }
-            }
-        </script>
     </head>
     <body>
         <div class="container-fluid rounded bg-white mt-5 mb-5 shadow-sm">
@@ -100,7 +93,7 @@
                                             <td>${s.getStatus()}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
                                                     <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                    <div class="pe-2 btn py-1" style="line-height: 25px;"><a onclick="doActive('${s.id}','${s.getStatus()}')" style="text-decoration: none;color: white;" href="#" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
+                                                    <div class="btn py-1" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&status=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
                                                 </div>
                                             </td>
                                         </tr>

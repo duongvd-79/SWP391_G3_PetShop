@@ -61,20 +61,21 @@ public class SettingServlet extends HttpServlet {
         
         String sort = request.getParameter("sort");
         request.setAttribute("sort", sort);
-        //Lấy danh sách setting
-        settingDAO sDAO = new settingDAO();
-        List<Setting> sList = sDAO.getAll();
         
+        settingDAO sDAO = new settingDAO();
+
         //active hoặc inactive
         try {
-            int active = Integer.parseInt(request.getParameter("active"));
+            int id = Integer.parseInt(request.getParameter("id"));
             String stat = request.getParameter("status");
-            if(stat.equals("Active"))
-                sDAO.active(active);
+            if(stat!=null && stat.equals("Active"))
+                sDAO.active(id);
             else
-                sDAO.inactive(active);
+                sDAO.inactive(id);
         } catch (NumberFormatException e) {
         }
+        //Lấy danh sách setting
+        List<Setting> sList = sDAO.getAll();
         //Lay type setting
         List<String> types = sDAO.getAllType();
         request.setAttribute("types", types);
@@ -116,17 +117,12 @@ public class SettingServlet extends HttpServlet {
             int typeId = sDAO.getTypeId(typeName);
             int order = Integer.parseInt(request.getParameter("order"));
             String name = request.getParameter("name");
-//            String stt = request.getParameter("status");
+//          String stt = request.getParameter("status");
             String desciption = request.getParameter("note");
             int value = Integer.parseInt(request.getParameter("value"));
             Setting changeSetting = new Setting(id, typeId, order, name, value, status, desciption);
-            String notice = "";
-            try {
                 sDAO.updateSetting(id, changeSetting);
-                notice = "Change Comitted";
-            } catch (Exception e) {
-                notice = "Change not Committed";
-            }
+            
             sList = sDAO.getAll();
         }
         //Phân trang
