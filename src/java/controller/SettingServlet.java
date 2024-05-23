@@ -74,6 +74,7 @@ public class SettingServlet extends HttpServlet {
                 sDAO.inactive(id);
         } catch (NumberFormatException e) {
         }
+        
         //Lấy danh sách setting
         List<Setting> sList = sDAO.getAll();
         //Lay type setting
