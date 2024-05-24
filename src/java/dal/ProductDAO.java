@@ -11,7 +11,7 @@ public class ProductDAO extends DBContext {
 
     private PreparedStatement stm;
     private ResultSet rs;
-    private List<Product> productList = new ArrayList<>();
+    private List<Product> productList;
 
     private static Product setProduct(ResultSet rs) {
         Product p = new Product();
@@ -34,6 +34,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getAll() {
         String sql = "SELECT * FROM product";
         try {
+            productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -49,6 +50,7 @@ public class ProductDAO extends DBContext {
     public List<Product> getFeatured() {
         String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 5";
         try {
+            productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
