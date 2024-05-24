@@ -15,15 +15,13 @@ public class DBContext {
             String password = "1234";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
-            System.out.println("Kết nối thành công!");
-        } catch (ClassNotFoundException ex) {
-            System.out.println("Không tìm thấy Driver MySQL: " + ex.getMessage());
-        } catch (SQLException ex) {
-            System.out.println("Không thể thiết lập kết nối: " + ex.getMessage());
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println(ex);
         }
     }
 
-    public Connection getConnection() {
-        return connection;
+    public static void main(String[] args) {
+        DBContext d = new DBContext();
+        System.out.println(d.connection);
     }
 }

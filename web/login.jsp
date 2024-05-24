@@ -41,8 +41,8 @@
                                 <form action="login" method="post" class="signin-form">
                                     <p class="text-danger">${requestScope.error}</p>
                                     <div class="form-group mt-3">
-                                        <input name="user" type="text" class="form-control" required value="${cookie.user.value}">
-                                        <label class="form-control-placeholder" for="username">Username</label>
+                                        <input name="email" type="text" class="form-control" required value="${cookie.user.value}">
+                                        <label class="form-control-placeholder" for="email">Username</label>
                                     </div>
                                     <div class="form-group">
                                         <input name="pass" id="password-field" type="password" class="form-control" required value="${cookie.pass.value}">

@@ -41,8 +41,8 @@
                                         <p class="text-danger">${requestScope.error1}</p>
                                     </c:if>
                                     <div class="form-group mt-3">
-                                        <input name="user" type="text" class="form-control" required>
-                                        <label class="form-control-placeholder" for="username">Username</label>
+                                        <input name="name" type="text" class="form-control" required>
+                                        <label class="form-control-placeholder" for="name">Username</label>
                                     </div>
                                     <div class="form-group">
                                         <input name="pass" id="password-field" type="password" class="form-control" required>

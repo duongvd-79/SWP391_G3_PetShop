@@ -1,7 +1,8 @@
 package controller;
 
 
-import dal.settingDAO;
+import dal.UserDAO;
+
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,7 +43,7 @@ throws ServletException, IOException {
         request.setAttribute("error", "Password does not match!");
         request.getRequestDispatcher("register.jsp").forward(request, response);
     } else {
-        settingDAO dao = new settingDAO();
+        UserDAO dao = new UserDAO();
         User existingAccount = dao.checkUserExist(name);
         if (existingAccount == null) {               
             dao.signup(name, helper.MD5.getMD5(pass), email);

@@ -1,7 +1,8 @@
 package controller;
 
 import dal.DBContext;
-import dal.settingDAO;
+import dal.UserDAO;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -42,13 +43,13 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String user = request.getParameter("user");
+        String name = request.getParameter("name");
         String pass = request.getParameter("pass");
         String remember = request.getParameter("remember");
 
         DBContext dbContext = new DBContext();
-        settingDAO d = new settingDAO(dbContext.getConnection());
-        User a = d.login(user, MD5.getMD5(pass)); // Sử dụng phương thức mã hóa MD5 của bạn
+        UserDAO d = new UserDAO();
+        User a = d.login(name, MD5.getMD5(pass)); // Sử dụng phương thức mã hóa MD5 của bạn
 
         if (a == null) {
             request.setAttribute("error", "Username or password does not exist!");
@@ -57,7 +58,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("userid", a.getId());
             session.setAttribute("account", a);
-            Cookie cuser = new Cookie("user", user);
+            Cookie cuser = new Cookie("user", name);
             Cookie cpass = new Cookie("pass", pass);
             Cookie cremember = new Cookie("remember", remember);
             if (remember == null) {
@@ -72,7 +73,7 @@ public class LoginServlet extends HttpServlet {
             response.addCookie(cuser);
             response.addCookie(cpass);
             response.addCookie(cremember);
-            response.sendRedirect("home");
+            response.sendRedirect("home.jsp");
         }
     }
 
