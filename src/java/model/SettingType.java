@@ -10,12 +10,12 @@ package model;
  */
 public class SettingType {
     int id;
-    String name;
+    String name,value;
 
     public SettingType() {
     }
 
-    public SettingType(int id, String name) {
+    public SettingType(int id, String name,String value) {
         this.id = id;
         this.name = name;
     }

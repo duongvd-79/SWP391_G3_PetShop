@@ -59,8 +59,28 @@ public class SettingServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+
         //Lấy danh sách setting
         SettingDAO sDAO = new SettingDAO();
+
+        String sort = request.getParameter("sort");
+        request.setAttribute("sort", sort);
+        
+        sDAO = new SettingDAO();
+
+        //active hoặc inactive
+        try {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String stat = request.getParameter("status");
+            if(stat!=null && stat.equals("Active"))
+                sDAO.active(id);
+            else
+                sDAO.inactive(id);
+        } catch (NumberFormatException e) {
+        }
+        
+        //Lấy danh sách setting
+
         List<Setting> sList = sDAO.getAll();
         //Lay type setting
         List<String> types = sDAO.getAllType();
@@ -74,62 +94,59 @@ public class SettingServlet extends HttpServlet {
             request.setAttribute("detail", s);
             request.getRequestDispatcher("settingdetails.jsp").forward(request, response);
         }
-         String type=request.getParameter("type");
-         String status=request.getParameter("status");
-         String sName = request.getParameter("search");
-         //Nếu có search
+        String type = request.getParameter("type");
+        String status = request.getParameter("status");
+        String sName = request.getParameter("search");
+        //Nếu có search
         if (sName != null) {
             request.setAttribute("sName", sName);
             sList = sDAO.getAllByName(sName);
         }
 
         //Lọc theo type
-        if (action != null && type!= null && !type.isEmpty() && action.equals("filter")) {
-            
+        if (action != null && type != null && !type.isEmpty() && action.equals("filter")) {
+
             request.setAttribute("type", type);
-            sList=sDAO.getAllByType(sList, type);
+            sList = sDAO.getAllByType(sList, type);
         }
         //Lọc theo status
-        if (action != null && status!= null && !status.isEmpty() && action.equals("filter")) {
-            
+        if (action != null && status != null && !status.isEmpty() && action.equals("filter")) {
+
             request.setAttribute("status", status);
-            sList=sDAO.getAllByStatus(sList, status);
+            sList = sDAO.getAllByStatus(sList, status);
         }
-        
+
         //Update setting
-        if (action != null && action.equals("add")) {
+        if (action != null && action.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
-            String typeName = request.getParameter("typeid");
+            String typeName = request.getParameter("type");
             int typeId = sDAO.getTypeId(typeName);
             int order = Integer.parseInt(request.getParameter("order"));
             String name = request.getParameter("name");
-            String stt = request.getParameter("status");
+//          String stt = request.getParameter("status");
             String desciption = request.getParameter("note");
-            int value = Integer.parseInt(request.getParameter("value"));
-            Setting changeSetting = new Setting(id, typeId, order, name, value, status, desciption);
-            String notice = "";
-            try{
-                sDAO.updateSetting(id,changeSetting);
-                notice="Change Comitted";
-            }catch(Exception e){
-                notice = "Change not Committed";
-            }
+            Setting changeSetting = new Setting(id, typeId, order, name, status, desciption);
+                sDAO.updateSetting(id, changeSetting);
+            
+            sList = sDAO.getAll();
         }
-                //Phân trang
-        int page=0;
-        try{
+        //Phân trang
+        int page = 0;
+        try {
             page = Integer.parseInt(request.getParameter("page"));
-        }catch(NumberFormatException e){
-            page=1;
+        } catch (NumberFormatException e) {
+            page = 1;
         }
         int pageNum = 0;
-        if(sList.size()%3==0)
-              pageNum=sList.size()/3;
-        else pageNum=sList.size()/3+1;
+        if (sList.size() % 3 == 0) {
+            pageNum = sList.size() / 3;
+        } else {
+            pageNum = sList.size() / 3 + 1;
+        }
         request.setAttribute("pageNum", pageNum);
         request.setAttribute("page", page);
-        sList=sDAO.getByPage(sList, page);
-        
+        sList = sDAO.getByPage(sList, page);
+
         request.setAttribute("settingList", sList);
         request.getRequestDispatcher("settinglist.jsp").forward(request, response);
     }

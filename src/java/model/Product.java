@@ -23,8 +23,8 @@ public class Product {
     quantity INT,
     category_id VARCHAR(10),
     */
-    int id, quantity;
-    String title, status, thumbnail, categoryId;
+    int id, quantity,categoryId;
+    String title, status, thumbnail;
     double importPrice, listPrice;
     Date createdDate;
     boolean isFeatured;
@@ -32,7 +32,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int quantity, String title, String status, String thumbnail, String categoryId, double importPrice, double listPrice, Date createdDate, boolean featured) {
+    public Product(int id, int quantity, String title, String status, String thumbnail, int categoryId, double importPrice, double listPrice, Date createdDate, boolean featured) {
         this.id = id;
         this.quantity = quantity;
         this.title = title;
@@ -85,13 +85,15 @@ public class Product {
         this.thumbnail = thumbnail;
     }
 
-    public String getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
+
+
 
     public double getImportPrice() {
         return importPrice;

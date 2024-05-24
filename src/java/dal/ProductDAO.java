@@ -21,7 +21,7 @@ public class ProductDAO extends DBContext {
             p.setTitle(rs.getString("title"));
             p.setStatus(rs.getString("status"));
             p.setThumbnail(rs.getString("thumbnail"));
-            p.setCategoryId(rs.getString("category_id"));
+            p.setCategoryId(rs.getInt("category_id"));
             p.setImportPrice(rs.getDouble("import_price"));
             p.setListPrice(rs.getDouble("list_price"));
             p.setCreatedDate(rs.getDate("created_date"));
@@ -47,7 +47,8 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getFeatured() {
-        String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 5";
+        productList.clear();
+        String sql = "SELECT * FROM product WHERE featured = 1 LIMIT 5";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -58,7 +59,7 @@ public class ProductDAO extends DBContext {
             return productList;
         } catch (SQLException e) {
         }
-        return null;
+        return productList;
     }
 
     public static void main(String[] args) {

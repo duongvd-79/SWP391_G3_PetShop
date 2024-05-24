@@ -56,7 +56,16 @@
                         </select>
                     </div>
 
-
+                    <div class="col-md-2 function mt-4 mb-2">
+                            <select class="form-select function" id="sort" onchange="if (this.value)
+                                        window.location.href = this.value">
+                                <option value="setting?page=1&sort=id&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'id'.equals(requestScope.sort) ? 'selected' : ''}>Sort by ID</option>
+                                <option value="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'type'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Type</option>
+                                <option value="setting?page=1&sort=value&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'value'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Value</option>
+                                <option value="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'order'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Order</option>
+                                <option value="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'status'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Status</option>
+                            </select>
+                    </div>
                 </div>
                 <div class="container">
                     <div class="row">
@@ -68,7 +77,6 @@
                                         <th>Setting type</th>
                                         <th>Name</th>
                                         <th>Order</th>
-                                        <th>Value</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -80,11 +88,10 @@
                                             <td>${s.getType()}</td>
                                             <td>${s.getName()}</td>
                                             <td>${s.getOrder()}</td>
-                                            <td>${s.getValue()}</td>
                                             <td>${s.getStatus()}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
                                                     <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                    <div class="pe-2 btn py-1" style="line-height: 25px;"><a style="text-decoration: none;color: white;" href="#" >Active</a></div>
+                                                    <div class="btn py-1" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&status=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -94,16 +101,17 @@
                             </table>
                         </div>
                     </div>
-                    <nav aria-label="setting list paging ">
-                        <ul class="pagination d-flex justify-content-end">
-                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
-                            
-                            <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
-                            <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
-                                </c:forEach>
-                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
-                        </ul>
-                    </nav>
+                        
+                            <nav aria-label="setting list paging ">
+                                <ul class="pagination d-flex justify-content-end">
+                                    <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
+
+                                    <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                        <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                        </c:forEach>
+                                    <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
+                                </ul>
+                            </nav>
                 </div>
 
             </div>
