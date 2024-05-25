@@ -4,6 +4,14 @@
         <servlet-name>HomeServlet</servlet-name>
         <servlet-class>controller.HomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PostListServlet</servlet-name>
+        <servlet-class>controller.PostListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PostDetailServlet</servlet-name>
+        <servlet-class>controller.PostDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -15,5 +23,13 @@
     <servlet-mapping>
         <servlet-name>SettingServlet</servlet-name>
         <url-pattern>/setting</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostListServlet</servlet-name>
+        <url-pattern>/postlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PostDetailServlet</servlet-name>
+        <url-pattern>/postdetail</url-pattern>
     </servlet-mapping>
 </web-app>
