@@ -316,14 +316,14 @@
                 </div>
 
                 <div class="row special-list">
-                    <c:forEach items="${requestScope.featuredproduct}" var="fpr">
+                    <c:forEach items="${featuredproduct}" var="fpr">
                         <div class="col-lg-3 col-md-6 special-grid top-featured">
                             <div class="products-single fix">
                                 <div class="box-img-hover">
                                     <div class="type-lb">
                                         <p class="new">New</p>
                                     </div>
-                                    <img src="${fpr.thumbnail}" class="img-fluid" alt="Image">
+                                    <img src=${fpr.thumbnail}class="img-fluid" alt="Image">
                                     <div class="mask-icon">
                                         <ul>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
@@ -340,10 +340,7 @@
                             </div>
                         </div>
                     </c:forEach>
-                    <c:forEach items="${requestScope.featuredproduct}" var="fpr">
-                        <c:out value="${fpr.title}"/>
-                        <!-- Existing HTML structure -->
-                    </c:forEach>
+                  
                 </div>
             </div>
         </div>
@@ -488,6 +485,14 @@
             </div>
         </footer>
         <!-- End Footer  -->
+
+        <style>
+            nav.navbar .navbar-brand img.logo{
+                width: 250px;
+            }
+
+        </style>
+
 
         <!-- Start copyright  -->
         <div class="footer-copyright">

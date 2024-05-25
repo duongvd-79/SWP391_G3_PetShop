@@ -66,5 +66,6 @@ public class PostDAO extends DBContext {
         for (Post p1 : l) {
             System.out.println(p1.getTitle());
         }
+        
     }
 }
