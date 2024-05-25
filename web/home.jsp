@@ -309,7 +309,7 @@
                             <div class="button-group filter-button-group">
                                 <button class="active" data-filter="*">Tất cả</button>
                                 <button data-filter=".top-featured">Nổi bật</button>
-                                <button data-filter=".best-seller">Best seller</button>
+                                <button data-filter=".best-seller">Bán chạy</button>
                             </div>
                         </div>
                     </div>
@@ -339,6 +339,10 @@
                                 </div>
                             </div>
                         </div>
+                    </c:forEach>
+                    <c:forEach items="${requestScope.featuredproduct}" var="fpr">
+                        <c:out value="${fpr.title}"/>
+                        <!-- Existing HTML structure -->
                     </c:forEach>
                 </div>
             </div>

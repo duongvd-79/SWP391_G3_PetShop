@@ -47,6 +47,7 @@ public class HomeServlet extends HttpServlet {
         
         List<Product> allProduct = productDAO.getAll();
         List<Product> featuredProduct = productDAO.getFeatured();
+        
         List<Post> featuredPost = postDAO.getFeatured();
         
         request.setAttribute("featuredproduct", featuredProduct);
