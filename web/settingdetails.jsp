@@ -48,11 +48,9 @@
                             </div>
                             <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" value="${detail.getOrder()}"></div>
                             <div class="col-md-12 mt-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" value="${detail.getName()}"></div>
-                            <div class="col-md-4 mt-2"><label class="labels">Type ID</label><input type="text" name="value" class="form-control" value="${detail.getTypeId()}"></div>
-                            <div class="col-md-1 mt-2"></div>
                             <div class="col-md-6 mt-2">
                                 <label class="labels">Status</label><br>
-                                <div class="mt-2">
+                                <div class="my-2">
                                     <div class="form-check custom-radio form-check-inline">
 
                                         <input class="form-check-input" type="radio" name="status" value="Active" id="active"${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
@@ -82,10 +80,28 @@
                     </div>
                     <div id="popup1" class="overlay">
                         <div class="popup">
-                            <h2>Add New Setting</h2>
+                            <h2 class="ms-3 mb-3">Add New Setting</h2>
                             <a class="close" href="#">&times;</a>
-                            <div class="content">
-                                Thank to pop me out of that button, but now i'm done so you can close this window.
+                            <div class="content container-fluid">
+
+                                <form method="get" action="setting" class="row">
+                                    <input type="hidden" name="action" value="add">
+                                    <div class="col-md-7"><label class="labels">Group</label>
+                                        <select class="form-select" id="roles" name="type" >
+                                            <c:forEach items="${requestScope.types}" var="t">
+                                                <option value="${t}">${t}</option>
+                                            </c:forEach>                             
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
+                                    <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
+                                    <div class="col-md-12"><label class="labels">Description</label>
+                                        <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}">${detail.getDescription()}</textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Add</button></div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -166,7 +182,7 @@
             padding: 20px;
             background: #fff;
             border-radius: 5px;
-            width: 30%;
+            width: 50%;
             position: relative;
             transition: all 5s ease-in-out;
         }

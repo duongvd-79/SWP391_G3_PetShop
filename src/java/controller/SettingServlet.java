@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 import model.Setting;
 
@@ -80,8 +81,8 @@ public class SettingServlet extends HttpServlet {
         }
         
         //Lấy danh sách setting
-
         List<Setting> sList = sDAO.getAll();
+        
         //Lay type setting
         List<String> types = sDAO.getAllType();
         request.setAttribute("types", types);
@@ -111,7 +112,6 @@ public class SettingServlet extends HttpServlet {
         }
         //Lọc theo status
         if (action != null && status != null && !status.isEmpty() && action.equals("filter")) {
-
             request.setAttribute("status", status);
             sList = sDAO.getAllByStatus(sList, status);
         }
@@ -130,6 +130,29 @@ public class SettingServlet extends HttpServlet {
             
             sList = sDAO.getAll();
         }
+        
+        //Add setting
+        if (action != null && action.equals("add")) {
+            String typeName = request.getParameter("type");
+            int typeId = sDAO.getTypeId(typeName);
+            int order = Integer.parseInt(request.getParameter("order"));
+            String name = request.getParameter("name");
+            String desciption = request.getParameter("note");
+                sDAO.addNew(typeId, order, name, status, desciption);
+            
+            sList = sDAO.getAll();
+        }
+        
+        //sort 
+        if(sort!=null && sort.equals("type")){
+            Collections.sort(sList, (o1, o2) -> Integer.compare(o1.getTypeId(), o2.getTypeId()));
+        }
+        else if(sort!=null && sort.equals("order")){
+            Collections.sort(sList, (o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()));
+        }
+        else if(sort!=null && sort.equals("status")){
+            Collections.sort(sList, (o1, o2) -> o1.getStatus().compareTo(o2.getStatus()));
+        }
         //Phân trang
         int page = 0;
         try {
@@ -146,7 +169,7 @@ public class SettingServlet extends HttpServlet {
         request.setAttribute("pageNum", pageNum);
         request.setAttribute("page", page);
         sList = sDAO.getByPage(sList, page);
-
+        
         request.setAttribute("settingList", sList);
         request.getRequestDispatcher("settinglist.jsp").forward(request, response);
     }

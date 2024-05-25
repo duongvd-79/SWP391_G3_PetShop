@@ -26,46 +26,40 @@
                     <h3 class="text-right">System Settings</h3>
                 </div>
                 <div class="row d-flex align-items-center mb-3">
-                    <div class="col-md-5 function">
+                    <div class="col-md-6 function mb-3">
                         <div class="input-group d-flex ">
-                            <form style="width: 80%" class="d-flex" action="setting" method="get">
+                            <form style="width: 82.4%" class="d-flex" action="setting" method="get">
                                 <input type="search" name="search" class="form-control" placeholder="Type setting name to search" value="${requestScope.sName}">
                                 <span class="input-group-addon"><button class="btn search" type="submit"><img width="25" height="25" src="https://img.icons8.com/?size=100&id=7695&format=png&color=000000" alt=""></button></span>
                             </form>
 
                         </div>
                     </div>
-
-                    <div class="col-md-1 function"></div>
+                    <div class="col-md-6 function"></div>
                     <div class="col-md-3 function">
                         <select name="type" class="form-select" id="type" onchange="if (this.value)
                                     window.location.href = this.value">
-                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=${requestScope.status}">All type</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
                             <c:forEach items="${requestScope.types}" var="t">
-                                <option value="setting?page=1&search=${requestScope.sName}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
                             </c:forEach>                          
                         </select>
                     </div>
                     <div class="col-md-2 function">
                         <select class="form-select function" id="status" onchange="if (this.value)
                                     window.location.href = this.value">
-                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&type=${requestScope.type}">All Status</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${requestScope.type}">All Status</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
+                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
                         </select>
                     </div>
-
-                    <div class="col-md-2 function mt-4 mb-2">
-                            <select class="form-select function" id="sort" onchange="if (this.value)
-                                        window.location.href = this.value">
-                                <option value="setting?page=1&sort=id&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'id'.equals(requestScope.sort) ? 'selected' : ''}>Sort by ID</option>
-                                <option value="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'type'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Type</option>
-                                <option value="setting?page=1&sort=value&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'value'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Value</option>
-                                <option value="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'order'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Order</option>
-                                <option value="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}" ${'status'.equals(requestScope.sort) ? 'selected' : ''}>Sort by Status</option>
-                            </select>
+                    <div class="col-md-1 function">
+                        <div class="btn py-1 px-4 ms-2">
+                            <a value="" style="text-decoration: none;color: white;" href="setting" >Clear</a>
+                        </div>
                     </div>
+                    
                 </div>
                 <div class="container">
                     <div class="row">
@@ -74,10 +68,10 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Setting type</th>
+                                        <th class="d-flex justify-content-between align-items-center">Setting type <a class="d-flex align-items-center" href="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
                                         <th>Name</th>
-                                        <th>Order</th>
-                                        <th>Status</th>
+                                        <th class="d-flex justify-content-between align-items-center">Order <a class="d-flex align-items-center" href="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
+                                        <th class="stt">Status <a class="d-inline-flex align-items-center" href="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img class="sort-icon" height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -101,17 +95,17 @@
                             </table>
                         </div>
                     </div>
-                        
-                            <nav aria-label="setting list paging ">
-                                <ul class="pagination d-flex justify-content-end">
-                                    <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
 
-                                    <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
-                                        <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
-                                        </c:forEach>
-                                    <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
-                                </ul>
-                            </nav>
+                    <nav aria-label="setting list paging ">
+                        <ul class="pagination d-flex justify-content-end">
+                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
+
+                            <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
+                        </ul>
+                    </nav>
                 </div>
 
             </div>
@@ -186,6 +180,14 @@
             color: #fff;
             background-color: #B0B435;
             border-color: #204d74;
+        }
+        .stt{
+            position: relative;
+        }
+        .sort-icon{
+            position:absolute;
+            right:5%;
+            top:26%;
         }
 
     </style>

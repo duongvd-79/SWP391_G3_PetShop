@@ -23,7 +23,7 @@ public class SettingDAO extends DBContext {
     public List<Setting> getAll() {
         List<Setting> list = new ArrayList<>();
         try {
-            String strSelect = "SELECT s.id,type_id,s.name,`order`,"
+            String strSelect = "SELECT s.id ,type_id,s.name,`order`,"
                     + " status, description,t.name as type FROM setting as s join setting_type as t "
                     + "on type_id = t.id order by s.id";
             stm = connection.prepareStatement(strSelect);
@@ -180,20 +180,20 @@ public class SettingDAO extends DBContext {
             System.out.println(e);
         }
     }
-        
-            // update product category
-//    public void updateProductCategory(int id, Setting s) {
-//        try {
-//            String strSelect = "UPDATE product_category SET name = ?,status = ? WHERE id = ?";
-//            stm = connection.prepareStatement(strSelect);
-//            stm.setString(1, s.getName());
-//            stm.setString(2, s.getStatus());
-//            stm.setInt(3, id);
-//            stm.executeUpdate();
-//        } catch (SQLException e) {
-//            System.out.println(e);
-//        }
-//    }
+    //Add new setting
+    public void addNew(int typeId,int order,String name,String status, String description){
+        try {
+            String strSelect = "insert into setting(type_id,`order`,name,status,description) value (?,?,?,'Pending',?)";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1,typeId);
+            stm.setInt(2,order);
+            stm.setString(3,name);
+            stm.setString(4,description);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
     public static void main(String[] args) {
         SettingDAO s = new SettingDAO();
