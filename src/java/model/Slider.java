@@ -9,6 +9,7 @@ package model;
  * @author duongvu
  */
 public class Slider {
+
     /*
     id INT PRIMARY KEY,
     title VARCHAR(255),
@@ -16,7 +17,7 @@ public class Slider {
     back_link TEXT,
     status VARCHAR(50),
     description TEXT
-    */
+     */
     int id;
     String title, image, backLink, status, description;
 
@@ -79,5 +80,5 @@ public class Slider {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

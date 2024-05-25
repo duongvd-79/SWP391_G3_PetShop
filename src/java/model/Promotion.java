@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author duongvu
  */
-public class Sale {
+public class Promotion {
     /*
     id INT PRIMARY KEY,
     product_id INT,
@@ -22,10 +22,10 @@ public class Sale {
     double salePrice;
     Date startDate, endDate;
 
-    public Sale() {
+    public Promotion() {
     }
 
-    public Sale(int id, int productId, double salePrice, Date startDate, Date endDate) {
+    public Promotion(int id, int productId, double salePrice, Date startDate, Date endDate) {
         this.id = id;
         this.productId = productId;
         this.salePrice = salePrice;

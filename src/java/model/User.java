@@ -23,33 +23,51 @@ public class User {
     last_log DATETIME,
     pfp TEXT,
     */
-    String id, email, password, name, status, phone, pfp;
-    int roleId;
+    int td, createBy, roleId;
+    String email, password, name, status, phone, pfp;
     boolean gender;
-    Date lastLog;
+    Date lastLog, createDate;
 
     public User() {
     }
 
-    public User(String id, String email, String password, String name, String status, String phone, String pfp, int roleId, boolean gender, Date lastLog) {
-        this.id = id;
+    public User(int td, int createBy, int roleId, String email, String password, String name, String status, String phone, String pfp, boolean gender, Date lastLog, Date createDate) {
+        this.td = td;
+        this.createBy = createBy;
+        this.roleId = roleId;
         this.email = email;
         this.password = password;
         this.name = name;
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
-        this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
+        this.createDate = createDate;
     }
 
-    public String getId() {
-        return id;
+    public int getTd() {
+        return td;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setTd(int td) {
+        this.td = td;
+    }
+
+    public int getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(int createBy) {
+        this.createBy = createBy;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
     public String getEmail() {
@@ -100,14 +118,6 @@ public class User {
         this.pfp = pfp;
     }
 
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
     public boolean isGender() {
         return gender;
     }
@@ -123,5 +133,13 @@ public class User {
     public void setLastLog(Date lastLog) {
         this.lastLog = lastLog;
     }
-    
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
 }

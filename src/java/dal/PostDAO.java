@@ -11,7 +11,7 @@ public class PostDAO extends DBContext {
 
     private PreparedStatement stm;
     private ResultSet rs;
-    private List<Post> postList = new ArrayList<>();
+    private List<Post> postList;
 
     private static Post setPost(ResultSet rs) {
         Post p = new Post();
@@ -33,6 +33,7 @@ public class PostDAO extends DBContext {
     public List<Post> getAll() {
         String sql = "SELECT * FROM post";
         try {
+            postList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -48,6 +49,7 @@ public class PostDAO extends DBContext {
     public List<Post> getFeatured() {
         String sql = "SELECT * FROM post WHERE is_featured = 1 LIMIT 5";
         try {
+            postList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {

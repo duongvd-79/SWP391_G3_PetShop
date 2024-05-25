@@ -19,13 +19,14 @@ public class ProductDAO extends DBContext {
             p.setId(rs.getInt("id"));
             p.setQuantity(rs.getInt("quantity"));
             p.setTitle(rs.getString("title"));
+            p.setDescription(rs.getString("description"));
             p.setStatus(rs.getString("status"));
             p.setThumbnail(rs.getString("thumbnail"));
-            p.setCategoryId(rs.getString("category_id"));
+            p.setCategoryId(rs.getInt("category_id"));
             p.setImportPrice(rs.getDouble("import_price"));
             p.setListPrice(rs.getDouble("list_price"));
             p.setCreatedDate(rs.getDate("created_date"));
-            p.setFeatured(rs.getBoolean("is_featured"));
+            p.setIsFeatured(rs.getBoolean("is_featured"));
         } catch (SQLException e) {
         }
         return p;
