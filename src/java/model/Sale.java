@@ -11,13 +11,14 @@ import java.util.Date;
  * @author duongvu
  */
 public class Sale {
+
     /*
     id INT PRIMARY KEY,
     product_id INT,
     sale_price DECIMAL(10, 2),
     start_date DATETIME,
     end_date DATETIME,
-    */
+     */
     int id, productId;
     double salePrice;
     Date startDate, endDate;

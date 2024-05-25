@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class Order {
+
     /*
     id INT PRIMARY KEY,
     customer_id VARCHAR(10),
@@ -19,7 +20,7 @@ public class Order {
     is_delivered BOOLEAN,
     delivered_date DATETIME,
     total DECIMAL(10, 2),
-    */
+     */
     int id;
     String customerId, status;
     double total;

@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class User {
+
     /*
     id VARCHAR(10) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -24,14 +25,14 @@ public class User {
     pfp TEXT,
     */
     String email, password, name, status, phone, pfp;
-    int roleId, id, update_by;
+    int roleId, id, updateBy;
     boolean gender;
-    Date lastLog,updated_datey;
+    Date lastLog, updateDate;
 
     public User() {
     }
 
-    public User(int id, String email, String password, String name, String status, String phone, String pfp, int update_by, int roleId, boolean gender, Date lastLog, Date updated_datey) {
+    public User(int id, String email, String password, String name, String status, String phone, String pfp, int updateBy, int roleId, boolean gender, Date lastLog, Date updateDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -39,27 +40,27 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
-        this.update_by = update_by;
+        this.updateBy = updateBy;
         this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
-        this.updated_datey = updated_datey;
+        this.updateDate = updateDate;
     }
 
-    public int getUpdate_by() {
-        return update_by;
+    public int getUpdateBy() {
+        return updateBy;
     }
 
-    public void setUpdate_by(int update_by) {
-        this.update_by = update_by;
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
     }
 
-    public Date getUpdated_datey() {
-        return updated_datey;
+    public Date getUpdatedDate() {
+        return updateDate;
     }
 
-    public void setUpdated_datey(Date updated_datey) {
-        this.updated_datey = updated_datey;
+    public void setUpdatedDate(Date updatedDate) {
+        this.updateDate = updatedDate;
     }
 
     public int getId() {
@@ -141,5 +142,13 @@ public class User {
     public void setLastLog(Date lastLog) {
         this.lastLog = lastLog;
     }
-    
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
 }

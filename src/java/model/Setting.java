@@ -9,6 +9,7 @@ package model;
  * @author duongvu
  */
 public class Setting {
+
     /*
     id INT PRIMARY KEY,
     name VARCHAR(255),
@@ -17,22 +18,14 @@ public class Setting {
     order INT,
     status VARCHAR(50),
     description TEXT,
-    */
-    private int id, typeId, order,value;
-    private String name, description,type,status;
+     */
+    private int id, typeId, order;
+    private String name, description, type, status;
 
     public Setting() {
     }
 
-    public Setting(int id, int typeId, int order, String name, String status, String description) {
-        this.id = id;
-        this.typeId = typeId;
-        this.order = order;
-        this.name = name;
-        this.status = status;
-        this.description = description;
-    }
-    public Setting(int id, int typeId,String type, int order, String name, String status, String description) {
+    public Setting(int id, int typeId, String type, int order, String name, String status, String description) {
         this.id = id;
         this.typeId = typeId;
         this.type = type;
@@ -57,7 +50,6 @@ public class Setting {
     public void setTypeId(int typeId) {
         this.typeId = typeId;
     }
-
 
     public String getType() {
         return type;
@@ -98,5 +90,5 @@ public class Setting {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

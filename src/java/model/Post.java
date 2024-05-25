@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class Post {
+
     /*
      id INT PRIMARY KEY,
     title VARCHAR(255),
@@ -21,7 +22,7 @@ public class Post {
     created_date DATETIME,
     created_by VARCHAR(10),
     category_id VARCHAR(10),
-    */
+     */
     int id, categoryId;
     String title, thumbnail, detail, status, createdBy;
     boolean isFeatured;
@@ -113,5 +114,5 @@ public class Post {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-    
+
 }

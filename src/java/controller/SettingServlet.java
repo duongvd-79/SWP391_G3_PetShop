@@ -123,9 +123,8 @@ public class SettingServlet extends HttpServlet {
             int typeId = sDAO.getTypeId(typeName);
             int order = Integer.parseInt(request.getParameter("order"));
             String name = request.getParameter("name");
-//          String stt = request.getParameter("status");
             String desciption = request.getParameter("note");
-            Setting changeSetting = new Setting(id, typeId, order, name, status, desciption);
+            Setting changeSetting = new Setting(id, typeId, type, order, name, status, desciption);
                 sDAO.updateSetting(id, changeSetting);
             
             sList = sDAO.getAll();
