@@ -23,15 +23,15 @@ public class User {
     last_log DATETIME,
     pfp TEXT,
     */
-    String id, email, password, name, status, phone, pfp;
-    int roleId;
+    String email, password, name, status, phone, pfp;
+    int roleId, update_by, id;
     boolean gender;
-    Date lastLog;
+    Date lastLog,updated_date;
 
     public User() {
     }
 
-    public User(String id, String email, String password, String name, String status, String phone, String pfp, int roleId, boolean gender, Date lastLog) {
+    public User(int id, String email, String password, String name, String status, String phone, String pfp, int update_by, int roleId, boolean gender, Date lastLog, Date updated_date) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -39,16 +39,34 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
+        this.update_by = update_by;
         this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
+        this.updated_date = updated_date;
     }
 
-    public String getId() {
+    public int getUpdate_by() {
+        return update_by;
+    }
+
+    public void setUpdate_by(int update_by) {
+        this.update_by = update_by;
+    }
+
+    public Date getUpdated_date() {
+        return updated_date;
+    }
+
+    public void setUpdated_date(Date updated_date) {
+        this.updated_date = updated_date;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
