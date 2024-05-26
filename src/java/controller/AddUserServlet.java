@@ -13,19 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Setting;
 import model.User;
 
 /**
  *
- * @author Admin
+ * @author ACER
  */
-public class UserListServlet extends HttpServlet {
+public class AddUserServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -42,10 +38,10 @@ public class UserListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserListServlet</title>");  
+            out.println("<title>Servlet AddUserServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserListServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet AddUserServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,31 +58,24 @@ public class UserListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
+        UserDAO uDAO = new UserDAO();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
         
+        int roleid = Integer.parseInt(request.getParameter("roleid"));
+        
+        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")? true : false), roleid);
         try {
-            ArrayList<User> userList = userDAO.getAllUser();
-            ArrayList<Setting> roleList = userDAO.getAllRole();
-
-            // get all status currently have in useList
-            ArrayList<String> tempList = new ArrayList<>();
-            for (User u : userList) {
-                tempList.add(u.getStatus());
-            }
-
-            Set<String> setWithoutDuplicates = new HashSet<>(tempList);
-
-            ArrayList<String> statusList = new ArrayList<>(setWithoutDuplicates);
-
-            request.setAttribute("userList", userList);
-            request.setAttribute("roleList", roleList);
-            request.setAttribute("statusList", statusList);
-            request.getRequestDispatcher("UserList.jsp").forward(request, response);
-
+            uDAO.addNewUser(u);
         } catch (SQLException ex) {
-            Logger.getLogger(UserListServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    } 
+        request.getRequestDispatcher("userlist").forward(request, response);
+        
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.

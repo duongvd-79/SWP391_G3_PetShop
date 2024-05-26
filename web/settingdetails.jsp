@@ -53,7 +53,7 @@
                                 <div class="my-2">
                                     <div class="form-check custom-radio form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active"${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
+                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active "${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
                                         <label class="form-check-label" for="active">
                                             Active
                                         </label>
