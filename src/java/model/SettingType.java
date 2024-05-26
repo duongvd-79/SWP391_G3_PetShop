@@ -9,6 +9,7 @@ package model;
  * @author duongvu
  */
 public class SettingType {
+
     int id;
     String name;
 
@@ -35,5 +36,5 @@ public class SettingType {
     public void setName(String name) {
         this.name = name;
     }
-    
+
 }

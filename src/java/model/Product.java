@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class Product {
+
     /*
     id INT PRIMARY KEY,
     title VARCHAR(255),
@@ -23,8 +24,8 @@ public class Product {
     quantity INT,
     category_id VARCHAR(10),
     */
-    int id, quantity;
-    String title, status, thumbnail, categoryId;
+    int id, quantity, categoryId;
+    String title, status, thumbnail, description;
     double importPrice, listPrice;
     Date createdDate;
     boolean isFeatured;
@@ -32,17 +33,18 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int quantity, String title, String status, String thumbnail, String categoryId, double importPrice, double listPrice, Date createdDate, boolean featured) {
+    public Product(int id, int quantity, int categoryId, String title, String status, String thumbnail, String description, double importPrice, double listPrice, Date createdDate, boolean isFeatured) {
         this.id = id;
         this.quantity = quantity;
+        this.categoryId = categoryId;
         this.title = title;
         this.status = status;
         this.thumbnail = thumbnail;
-        this.categoryId = categoryId;
+        this.description = description;
         this.importPrice = importPrice;
         this.listPrice = listPrice;
         this.createdDate = createdDate;
-        this.isFeatured = featured;
+        this.isFeatured = isFeatured;
     }
 
     public int getId() {
@@ -59,6 +61,14 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getTitle() {
@@ -85,12 +95,12 @@ public class Product {
         this.thumbnail = thumbnail;
     }
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public double getImportPrice() {
@@ -117,12 +127,12 @@ public class Product {
         this.createdDate = createdDate;
     }
 
-    public boolean isFeatured() {
+    public boolean isIsFeatured() {
         return isFeatured;
     }
 
-    public void setFeatured(boolean featured) {
-        this.isFeatured = featured;
+    public void setIsFeatured(boolean isFeatured) {
+        this.isFeatured = isFeatured;
     }
 
 }

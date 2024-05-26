@@ -176,4 +176,13 @@ public class PostDAO extends DBContext {
         }
         return post;
     }
+
+    public static void main(String[] args) {
+        PostDAO p = new PostDAO();
+        List<Post> l = p.getFeatured();
+        for (Post p1 : l) {
+            System.out.println(p1.getTitle());
+        }
+        
+    }
 }

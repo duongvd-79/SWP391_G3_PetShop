@@ -11,6 +11,24 @@
     <servlet>
         <servlet-name>PostDetailServlet</servlet-name>
         <servlet-class>controller.PostDetailServlet</servlet-class>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <servlet-class>controller.ProductDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FilterUserServlet</servlet-name>
+        <servlet-class>controller.FilterUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <servlet-class>controller.SearchUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortUserServlet</servlet-name>
+        <servlet-class>controller.SortUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserListServlet</servlet-name>
+        <servlet-class>controller.UserListServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -31,5 +49,23 @@
     <servlet-mapping>
         <servlet-name>PostDetailServlet</servlet-name>
         <url-pattern>/postdetail</url-pattern>
+        <servlet-name>ProductDetailServlet</servlet-name>
+        <url-pattern>/productdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterUserServlet</servlet-name>
+        <url-pattern>/filteruser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchUserServlet</servlet-name>
+        <url-pattern>/searchuser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortUserServlet</servlet-name>
+        <url-pattern>/sortuser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserListServlet</servlet-name>
+        <url-pattern>/userlist</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -14,6 +14,8 @@
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- Icon CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <!-- Site CSS -->
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
@@ -51,18 +53,16 @@
                                 User user = (User) session.getAttribute("user");
                                 if (user != null) {
                                 %>
-                                <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                                <li><a href="#"><i class="fa fa-user s_color"></i> Tài khoản</a></li>
                                     <%}%>
-                                <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                                <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                         <div class="login-box">
                             <select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
-                                <option>Register Here</option>
-                                <option>Sign In</option>
+                                <option>Đăng ký</option>
+                                <option>Đăng nhập</option>
                             </select>
                         </div>
                         <div class="text-slid-box">
@@ -118,26 +118,29 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="navbar-menu">
                         <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                            <li class="nav-item active"><a class="nav-link" href="home">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="about">About Us</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="home">Trang chủ</a></li>
+                            <li class="nav-item"><a class="nav-link" href="about">Giới thiệu</a></li>
                             <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
                                 <ul class="dropdown-menu">
                                     <li><a href="shop.html">Sidebar Shop</a></li>
                                     <li><a href="shop-detail.html">Shop Detail</a></li>
-                                    <li><a href="cart.html">Cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="my-account.html">My Account</a></li>
-                                    <li><a href="wishlist.html">Wishlist</a></li>
+                                    <li><a href="cart.html">Giỏ hàng</a></li>
+                                    <li><a href="checkout.html">Thanh toán</a></li>
+                                    <li><a href="my-account.html">Tài khoản</a></li>
+                                    <li><a href="wishlist.html">Danh sách quan tâm</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="blog">Blog</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact-us">Contact Us</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact-us">Liên hệ với chúng tôi</a></li>
                         </ul>
                     </div>
                     <!-- /.navbar-collapse -->
 
                     <!-- Start Atribute Navigation -->
+                    <%
+                        if (user != null) {
+                    %>
                     <div class="attr-nav">
                         <ul>
                             <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
@@ -145,11 +148,12 @@
                                 <a href="#">
                                     <i class="fa fa-shopping-bag"></i>
                                     <span class="badge">3</span>
-                                    <p>My Cart</p>
+                                    <p>Giỏ hàng của tôi</p>
                                 </a>
                             </li>
                         </ul>
                     </div>
+                    <%}%>
                     <!-- End Atribute Navigation -->
                 </div>
                 <!-- Start Side Menu -->
@@ -173,8 +177,8 @@
                                 <p>1x - <span class="price">$40.00</span></p>
                             </li>
                             <li class="total">
-                                <a href="#" class="btn btn-default hvr-hover btn-cart">VIEW CART</a>
-                                <span class="float-right"><strong>Total</strong>: $180.00</span>
+                                <a href="#" class="btn btn-default hvr-hover btn-cart">XEM GIỎ HÀNG</a>
+                                <span class="float-right"><strong>Tổng</strong>: $180.00</span>
                             </li>
                         </ul>
                     </li>
@@ -205,9 +209,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
-                                <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p>
-                                <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                                <h1 class="m-b-20"><strong>Slider</strong></h1>
+                                <p class="m-b-40">Slider description</p>
+                                <p><a class="btn hvr-hover" href="#">Slider button</a></p>
                             </div>
                         </div>
                     </div>
@@ -217,9 +221,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
-                                <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p>
-                                <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                                <h1 class="m-b-20"><strong>Slider</strong></h1>
+                                <p class="m-b-40">Slider description</p>
+                                <p><a class="btn hvr-hover" href="#">Slider button</a></p>
                             </div>
                         </div>
                     </div>
@@ -229,9 +233,9 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <h1 class="m-b-20"><strong>Welcome To <br> Freshshop</strong></h1>
-                                <p class="m-b-40">See how your users experience your website in realtime or view <br> trends to see any changes in performance over time.</p>
-                                <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                                <h1 class="m-b-20"><strong>Slider</strong></h1>
+                                <p class="m-b-40">Slider description</p>
+                                <p><a class="btn hvr-hover" href="#">Slider button</a></p>
                             </div>
                         </div>
                     </div>
@@ -305,128 +309,38 @@
                             <div class="button-group filter-button-group">
                                 <button class="active" data-filter="*">Tất cả</button>
                                 <button data-filter=".top-featured">Nổi bật</button>
-                                <button data-filter=".best-seller">Best seller</button>
+                                <button data-filter=".best-seller">Bán chạy</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row special-list">
-                    <c:forEach items="${requestScope.featuredlist}" var="f">
+                    <c:forEach items="${featuredproduct}" var="fpr">
                         <div class="col-lg-3 col-md-6 special-grid top-featured">
                             <div class="products-single fix">
                                 <div class="box-img-hover">
                                     <div class="type-lb">
-                                        <p class="sale">Sale</p>
+                                        <p class="new">New</p>
                                     </div>
-                                    <img src="${f.thumbnail}" class="img-fluid" alt="Image">
+                                    <img src=${fpr.thumbnail}class="img-fluid" alt="Image">
                                     <div class="mask-icon">
                                         <ul>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                         </ul>
-                                        <a class="cart" href="#">Add to Cart</a>
+                                        <a class="cart" href="#">Thêm vào giỏ hàng</a>
                                     </div>
                                 </div>
                                 <div class="why-text">
-                                    <h4>${f.title}</h4>
-                                    <h5> ${f.listPrice}00 đ</h5>
+                                    <h4>${fpr.title}</h4>
+                                    <h5> ${fpr.listPrice}00 đ</h5>
                                 </div>
                             </div>
                         </div>
                     </c:forEach>
-                    <div class="col-lg-3 col-md-6 special-grid best-seller">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="sale">Sale</p>
-                                </div>
-                                <img src="images/img-pro-01.jpg" class="img-fluid" alt="Image">
-                                <div class="mask-icon">
-                                    <ul>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                    <a class="cart" href="#">Add to Cart</a>
-                                </div>
-                            </div>
-                            <div class="why-text">
-                                <h4>Lorem ipsum dolor sit amet</h4>
-                                <h5> $7.79</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 special-grid top-featured">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="new">Hot</p>
-                                </div>
-                                <img src="images/img-pro-02.jpg" class="img-fluid" alt="Image">
-                                <div class="mask-icon">
-                                    <ul>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                    <a class="cart" href="#">Add to Cart</a>
-                                </div>
-                            </div>
-                            <div class="why-text">
-                                <h4>Lorem ipsum dolor sit amet</h4>
-                                <h5> $9.79</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 special-grid top-featured">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="sale">Sale</p>
-                                </div>
-                                <img src="images/img-pro-03.jpg" class="img-fluid" alt="Image">
-                                <div class="mask-icon">
-                                    <ul>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                    <a class="cart" href="#">Add to Cart</a>
-                                </div>
-                            </div>
-                            <div class="why-text">
-                                <h4>Lorem ipsum dolor sit amet</h4>
-                                <h5> $10.79</h5>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 special-grid best-seller">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="sale">Sale</p>
-                                </div>
-                                <img src="images/img-pro-04.jpg" class="img-fluid" alt="Image">
-                                <div class="mask-icon">
-                                    <ul>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                        <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                    </ul>
-                                    <a class="cart" href="#">Add to Cart</a>
-                                </div>
-                            </div>
-                            <div class="why-text">
-                                <h4>Lorem ipsum dolor sit amet</h4>
-                                <h5> $15.79</h5>
-                            </div>
-                        </div>
-                    </div>
+                  
                 </div>
             </div>
         </div>
@@ -444,61 +358,26 @@
                     </div>
                 </div>
                 <div class="row">
-                    
-                    <div class="col-md-6 col-lg-4 col-xl-4">
-                        <div class="blog-box">
-                            <div class="blog-img">
-                                <img class="img-fluid" src="images/blog-img.jpg" alt="" />
-                            </div>
-                            <div class="blog-content">
-                                <div class="title-blog">
-                                    <h3>Fusce in augue non nisi fringilla</h3>
-                                    <p class="ellipsis-text">Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                    <c:forEach items="${requestScope.featuredpost}" var="fp">
+                        <div class="col-md-6 col-lg-4 col-xl-4">
+                            <div class="blog-box">
+                                <div class="blog-img">
+                                    <img class="img-fluid" src="${fp.thumbnail}" alt="" />
                                 </div>
-                                <ul class="option-blog">
-                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i></a></li>
-                                </ul>
+                                <div class="blog-content">
+                                    <div class="title-blog">
+                                        <h3>${fp.title}</h3>
+                                        <p class="ellipsis-text">${fp.detail}</p>
+                                    </div>
+                                    <ul class="option-blog">
+                                        <li><a href="#"><i class="far fa-heart"></i></a></li>
+                                        <li><a href="#"><i class="fas fa-eye"></i></a></li>
+                                        <li><a href="#"><i class="far fa-comments"></i></a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-4">
-                        <div class="blog-box">
-                            <div class="blog-img">
-                                <img class="img-fluid" src="images/blog-img-01.jpg" alt="" />
-                            </div>
-                            <div class="blog-content">
-                                <div class="title-blog">
-                                    <h3>Fusce in augue non nisi fringilla</h3>
-                                    <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
-                                </div>
-                                <ul class="option-blog">
-                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4 col-xl-4">
-                        <div class="blog-box">
-                            <div class="blog-img">
-                                <img class="img-fluid" src="images/blog-img-02.jpg" alt="" />
-                            </div>
-                            <div class="blog-content">
-                                <div class="title-blog">
-                                    <h3>Fusce in augue non nisi fringilla</h3>
-                                    <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed mollis. Praesent laoreet lacinia elit id lobortis.</p>
-                                </div>
-                                <ul class="option-blog">
-                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#"><i class="far fa-comments"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </div>
@@ -508,86 +387,16 @@
         <!-- Start Instagram Feed  -->
         <div class="instagram-box">
             <div class="main-instagram owl-carousel owl-theme">
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-01.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
+                <c:forEach items="${requestScope.allproduct}" var="apr">
+                    <div class="item">
+                        <div class="ins-inner-box">
+                            <img src="${apr.thumbnail}" alt="" />
+                            <div class="hov-in">
+                                <a href="#"><i class="fab fa-instagram"></i></a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-02.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-03.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-04.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-05.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-06.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-07.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-08.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-09.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="ins-inner-box">
-                        <img src="images/instagram-img-05.jpg" alt="" />
-                        <div class="hov-in">
-                            <a href="#"><i class="fab fa-instagram"></i></a>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
         </div>
         <!-- End Instagram Feed  -->
@@ -676,6 +485,14 @@
             </div>
         </footer>
         <!-- End Footer  -->
+
+        <style>
+            nav.navbar .navbar-brand img.logo{
+                width: 250px;
+            }
+
+        </style>
+
 
         <!-- Start copyright  -->
         <div class="footer-copyright">

@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class ProductFeedback {
+
     /*
     id INT PRIMARY KEY,
     product_id INT,
@@ -21,7 +22,7 @@ public class ProductFeedback {
     status VARCHAR(50),
     created_by INT,
     created_date DATETIME,
-    */
+     */
     int id, productId, star, createdBy;
     String userId, detail, image, status;
     Date createdDate;

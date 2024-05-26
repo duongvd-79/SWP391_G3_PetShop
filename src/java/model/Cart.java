@@ -9,12 +9,13 @@ package model;
  * @author duongvu
  */
 public class Cart {
+
     /*
     id INT PRIMARY KEY,
     user_id VARCHAR(10),
     product_id INT,
     quantity INT,
-    */
+     */
     int id, productId, quantity;
     String userId;
 

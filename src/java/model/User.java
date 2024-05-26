@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class User {
+
     /*
     id VARCHAR(10) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -23,15 +24,15 @@ public class User {
     last_log DATETIME,
     pfp TEXT,
     */
-    String id, email, password, name, status, phone, pfp;
-    int roleId;
+    String email, password, name, status, phone, pfp;
+    int roleId, id, updateBy;
     boolean gender;
-    Date lastLog;
+    Date lastLog, updateDate;
 
     public User() {
     }
 
-    public User(String id, String email, String password, String name, String status, String phone, String pfp, int roleId, boolean gender, Date lastLog) {
+    public User(int id, String email, String password, String name, String status, String phone, String pfp, int updateBy, int roleId, boolean gender, Date lastLog, Date updateDate) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -39,16 +40,34 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
+        this.updateBy = updateBy;
         this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
+        this.updateDate = updateDate;
     }
 
-    public String getId() {
+    public int getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Date getUpdatedDate() {
+        return updateDate;
+    }
+
+    public void setUpdatedDate(Date updatedDate) {
+        this.updateDate = updatedDate;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -123,5 +142,13 @@ public class User {
     public void setLastLog(Date lastLog) {
         this.lastLog = lastLog;
     }
-    
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
 }

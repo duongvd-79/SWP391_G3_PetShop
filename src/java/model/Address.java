@@ -9,13 +9,14 @@ package model;
  * @author duongvu
  */
 public class Address {
+
     /*
     id INT PRIMARY KEY,
     district VARCHAR(255),
     city VARCHAR(255),
     detail TEXT,
     is_default BOOLEAN
-    */
+     */
     int id;
     String district, city, detail;
     boolean isDefault;
