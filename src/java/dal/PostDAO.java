@@ -123,7 +123,7 @@ public class PostDAO extends DBContext {
         }
         return listp;
     }
-    // Post
+    // Update PostDao
     public Post getPostById(String postId) {
         Post post = null;
         String sql = "SELECT \n"
