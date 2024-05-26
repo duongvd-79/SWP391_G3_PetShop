@@ -156,7 +156,7 @@
                                     </div>
                                     <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
                                     <div class="mask-icon">
-                                        <a class="view" href="product?id=${apr.id}">Xem</a>
+                                        <a class="view" href="productdetail?id=${apr.id}">Xem</a>
                                         <%
                                             User user = (User) session.getAttribute("user");
                                             if (user != null) {

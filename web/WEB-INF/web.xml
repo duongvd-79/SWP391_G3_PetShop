@@ -11,6 +11,8 @@
     <servlet>
         <servlet-name>PostDetailServlet</servlet-name>
         <servlet-class>controller.PostDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>controller.ProductDetailServlet</servlet-class>
     </servlet>
@@ -30,14 +32,14 @@
         <servlet-name>UserListServlet</servlet-name>
         <servlet-class>controller.UserListServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>HomeServlet</servlet-name>
-        <url-pattern>/home</url-pattern>
-    </servlet-mapping>
     <servlet>
         <servlet-name>SettingServlet</servlet-name>
         <servlet-class>controller.SettingServlet</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SettingServlet</servlet-name>
         <url-pattern>/setting</url-pattern>
@@ -49,6 +51,8 @@
     <servlet-mapping>
         <servlet-name>PostDetailServlet</servlet-name>
         <url-pattern>/postdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
         <url-pattern>/productdetail</url-pattern>
     </servlet-mapping>

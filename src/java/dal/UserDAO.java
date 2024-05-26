@@ -147,7 +147,7 @@ public class UserDAO extends DBContext {
             String name = rs.getString("name");
             String status = rs.getString("status");
             String description = rs.getString("description");
-            Setting r = new Setting(id, type_id, order, name, status, description);
+            Setting r = new Setting(id, type_id, name, order, name, status, description);
             lst.add(r);
         }
         return lst;

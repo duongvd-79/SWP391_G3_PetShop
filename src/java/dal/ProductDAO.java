@@ -109,8 +109,6 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        for (Product pr : p.getRelatedProduct(6)) {
-            System.out.println(pr.getTitle());
-        }
+        System.out.println(p.getProductById(1).getTitle());
     }
 }

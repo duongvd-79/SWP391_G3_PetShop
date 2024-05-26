@@ -61,16 +61,15 @@ public class ProductDetailServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int id = 1;
         ProductDAO productDAO = new ProductDAO();
-        try {
+        String idRaw = request.getParameter("id");
+        if (idRaw != null) {
+            int id = Integer.parseInt(idRaw);
             Product p = productDAO.getProductById(id);
             List<Product> productList = productDAO.getRelatedProduct(id);
             request.setAttribute("product", p);
-            request.setAttribute("productList", productList);
+            request.setAttribute("relatedlist", productList);
             request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
-        } catch (SQLException ex) {
-            Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

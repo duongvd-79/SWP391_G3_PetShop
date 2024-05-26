@@ -142,11 +142,11 @@
                     </div>
                     <div class="col-xl-7 col-lg-7 col-md-6">
                         <div class="single-product-details">
-                            <h2>${product.title}</h2>
-                            <h5> <del>$ ${product.listPrice + 50}</del> $ ${product.listPrice}</h5>
+                            <h2>${requestScope.product.title}</h2>
+                            <h5> <del>$ ${requestScope.product.listPrice + 50}</del> $ ${requestScope.product.listPrice}</h5>
                             <p class="available-stock"><span> <a href="#">8 sold </a></span><p>
                             <h4>Short Description:</h4>
-                            <p>${product.description}</p>
+                            <p>${requestScope.product.description}</p>
                             <ul>
                                 <li>
                                     <div class="form-group quantity-box">
@@ -198,7 +198,7 @@
                 </div>
                 <div class="row special-list">
 
-                    <c:forEach items="${productList}" var="p">
+                    <c:forEach items="${relatedlist}" var="p">
                         <div class="col-lg-3 col-md-6 special-grid best-seller">
                             <div class="products-single fix">
                                 <div class="box-img-hover">

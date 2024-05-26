@@ -33,7 +33,7 @@ public class PostDAO extends DBContext {
     }
 
     public List<Post> getAll() {
-        List<Post> postList = new ArrayList<>();
+        postList = new ArrayList<>();
         String sql = "SELECT * FROM post";
         try {
             postList = new ArrayList<>();
@@ -49,7 +49,7 @@ public class PostDAO extends DBContext {
     }
 
     public List<Post> getFeatured() {
-        List<Post> postList = new ArrayList<>();
+        postList = new ArrayList<>();
         String sql = "SELECT * FROM post WHERE is_featured = 1 LIMIT 5";
         try {
             postList = new ArrayList<>();

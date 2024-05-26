@@ -33,18 +33,6 @@ public class Post {
     public Post() {
     }
 
-    public Post(int id, String title, String thumbnail, String detail, String status, String createdBy, int categoryId, boolean isFeatured, Date createdDate) {
-        this.id = id;
-        this.title = title;
-        this.thumbnail = thumbnail;
-        this.detail = detail;
-        this.status = status;
-        this.createdBy = createdBy;
-        this.categoryId = categoryId;
-        this.isFeatured = isFeatured;
-        this.createdDate = createdDate;
-    }
-
     public Post(int id, int categoryId, String title, String thumbnail, String detail, String status, String createdBy, boolean isFeatured, Date createdDate, Setting setting, User user) {
         this.id = id;
         this.categoryId = categoryId;
