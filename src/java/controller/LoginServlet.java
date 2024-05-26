@@ -1,6 +1,5 @@
 package controller;
 
-import dal.DBContext;
 import dal.UserDAO;
 
 import java.io.IOException;
@@ -43,11 +42,10 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = request.getParameter("name");
+        String name = request.getParameter("email");
         String pass = request.getParameter("pass");
         String remember = request.getParameter("remember");
 
-        DBContext dbContext = new DBContext();
         UserDAO d = new UserDAO();
         User a = d.login(name, MD5.getMD5(pass)); // Sử dụng phương thức mã hóa MD5 của bạn
 
