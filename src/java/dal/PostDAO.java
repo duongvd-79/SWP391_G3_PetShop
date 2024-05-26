@@ -70,7 +70,7 @@ public class PostDAO extends DBContext {
                 + "    post.thumbnail,\n"
                 + "    post.title,\n"
                 + "    post.detail,\n"
-                + "    post.featured,\n"
+                + "    post.is_featured,\n"
                 + "    post.created_date,\n"
                 + "    post.status,\n"
                 + "    \n"
@@ -103,7 +103,7 @@ public class PostDAO extends DBContext {
                 p.setDetail(rs.getString("detail"));
                 p.setStatus(rs.getString("status"));
                 p.setCreatedDate(rs.getDate("created_date"));
-                p.setIsFeatured(rs.getBoolean("featured"));
+                p.setIsFeatured(rs.getBoolean("is_featured"));
 
                 Setting s = new Setting();
                 s.setId(rs.getInt("setting_id"));
@@ -131,7 +131,7 @@ public class PostDAO extends DBContext {
                 + "post.thumbnail,\n"
                 + "post.title,\n"
                 + "post.detail,\n"
-                + "post.featured,\n"
+                + "post.is_featured,\n"
                 + "post.created_date,\n"
                 + "post.status,\n"
                 + "user.name AS user_name,\n"
@@ -157,7 +157,7 @@ public class PostDAO extends DBContext {
                     post.setDetail(rs.getString("detail"));
                     post.setStatus(rs.getString("status"));
                     post.setCreatedDate(rs.getDate("created_date"));
-                    post.setIsFeatured(rs.getBoolean("featured"));
+                    post.setIsFeatured(rs.getBoolean("is_featured"));
 
                     Setting s = new Setting();
                     s.setId(rs.getInt("setting_id"));
