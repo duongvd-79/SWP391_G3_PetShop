@@ -25,7 +25,7 @@ public class Product {
     category_id VARCHAR(10),
      */
     int id, quantity, categoryId;
-    String title, description, status, thumbnail;
+    String title, status, thumbnail, description;
     double importPrice, listPrice;
     Date createdDate;
     boolean isFeatured;
@@ -33,7 +33,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(int id, int quantity, int categoryId, String title, String description, String status, String thumbnail, double importPrice, double listPrice, Date createdDate, boolean isFeatured) {
+    public Product(int id, int quantity, int categoryId, String title, String status, String thumbnail, String description, double importPrice, double listPrice, Date createdDate, boolean isFeatured) {
         this.id = id;
         this.quantity = quantity;
         this.categoryId = categoryId;
@@ -41,6 +41,7 @@ public class Product {
         this.description = description;
         this.status = status;
         this.thumbnail = thumbnail;
+        this.description = description;
         this.importPrice = importPrice;
         this.listPrice = listPrice;
         this.createdDate = createdDate;

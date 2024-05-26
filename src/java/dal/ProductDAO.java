@@ -27,6 +27,7 @@ public class ProductDAO extends DBContext {
             p.setListPrice(rs.getDouble("list_price"));
             p.setCreatedDate(rs.getDate("created_date"));
             p.setIsFeatured(rs.getBoolean("is_featured"));
+            p.setDescription(rs.getString("description"));
         } catch (SQLException e) {
         }
         return p;
@@ -61,12 +62,54 @@ public class ProductDAO extends DBContext {
             return productList;
         } catch (SQLException e) {
         }
+        return productList;
+    }
+
+    public Product getProductById(int id) {
+        try {
+            String sql = "select * from product where id = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                Product p = setProduct(rs);
+                return p;
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public List<Product> getRelatedProduct(int id) {
+        try {
+            String sql = "SELECT product.category_id FROM product WHERE product.id = ?";
+            int cateID = 1;
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                cateID = rs.getInt("category_id"); // Thay đổi từ "cateID" thành "category_id"
+            }
+
+            String sql1 = "SELECT * FROM product WHERE product.category_id = ? AND id <> ? LIMIT 4;";
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql1); // Sử dụng sql1 thay vì sql
+            stm.setInt(1, cateID);
+            stm.setInt(2, id);
+            ResultSet rs1 = stm.executeQuery();
+            while (rs1.next()) {
+                Product p = setProduct(rs1);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+        }
         return null;
     }
 
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
-        for (Product pr : p.getFeatured()) {
+        for (Product pr : p.getRelatedProduct(6)) {
             System.out.println(pr.getTitle());
         }
     }

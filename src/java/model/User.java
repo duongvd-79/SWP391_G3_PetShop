@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class User {
+
     /*
     id VARCHAR(10) PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -22,52 +23,52 @@ public class User {
     phone VARCHAR(20),
     last_log DATETIME,
     pfp TEXT,
-    */
-    int td, createBy, roleId;
+     */
     String email, password, name, status, phone, pfp;
+    int roleId, id, updateBy;
     boolean gender;
-    Date lastLog, createDate;
+    Date lastLog, updateDate;
 
     public User() {
     }
 
-    public User(int td, int createBy, int roleId, String email, String password, String name, String status, String phone, String pfp, boolean gender, Date lastLog, Date createDate) {
-        this.td = td;
-        this.createBy = createBy;
-        this.roleId = roleId;
+    public User(int id, String email, String password, String name, String status, String phone, String pfp, int updateBy, int roleId, boolean gender, Date lastLog, Date updateDate) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.name = name;
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
+        this.updateBy = updateBy;
+        this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
-        this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 
-    public int getTd() {
-        return td;
+    public int getUpdateBy() {
+        return updateBy;
     }
 
-    public void setTd(int td) {
-        this.td = td;
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
     }
 
-    public int getCreateBy() {
-        return createBy;
+    public Date getUpdatedDate() {
+        return updateDate;
     }
 
-    public void setCreateBy(int createBy) {
-        this.createBy = createBy;
+    public void setUpdatedDate(Date updatedDate) {
+        this.updateDate = updatedDate;
     }
 
-    public int getRoleId() {
-        return roleId;
+    public int getId() {
+        return id;
     }
 
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -134,12 +135,12 @@ public class User {
         this.lastLog = lastLog;
     }
 
-    public Date getCreateDate() {
-        return createDate;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
 }

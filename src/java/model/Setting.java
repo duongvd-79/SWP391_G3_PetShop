@@ -20,17 +20,18 @@ public class Setting {
     description TEXT,
      */
     private int id, typeId, order;
-    private String name, type, status, description;
+
+    private String name, description, type, status;
 
     public Setting() {
     }
 
-    public Setting(int id, int typeId, int order, String name, String type, String status, String description) {
+    public Setting(int id, int typeId, String type, int order, String name, String status, String description) {
         this.id = id;
         this.typeId = typeId;
         this.order = order;
-        this.name = name;
         this.type = type;
+        this.name = name;
         this.status = status;
         this.description = description;
     }
@@ -51,6 +52,14 @@ public class Setting {
         this.typeId = typeId;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public int getOrder() {
         return order;
     }
@@ -65,14 +74,6 @@ public class Setting {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getStatus() {

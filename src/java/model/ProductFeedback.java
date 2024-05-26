@@ -25,17 +25,17 @@ public class ProductFeedback {
      */
     int id, productId, userId, star, createdBy;
     String detail, image, status;
+
     Date createdDate;
 
     public ProductFeedback() {
     }
 
-    public ProductFeedback(int id, int productId, int userId, int star, int createdBy, String detail, String image, String status, Date createdDate) {
+    public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
         this.star = star;
-        this.createdBy = createdBy;
         this.detail = detail;
         this.image = image;
         this.status = status;

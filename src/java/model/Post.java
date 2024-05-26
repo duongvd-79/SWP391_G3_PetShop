@@ -27,6 +27,8 @@ public class Post {
     String title, thumbnail, detail, status, createdBy;
     boolean isFeatured;
     Date createdDate;
+    Setting setting;
+    User user;
 
     public Post() {
     }
@@ -41,6 +43,36 @@ public class Post {
         this.categoryId = categoryId;
         this.isFeatured = isFeatured;
         this.createdDate = createdDate;
+    }
+
+    public Post(int id, int categoryId, String title, String thumbnail, String detail, String status, String createdBy, boolean isFeatured, Date createdDate, Setting setting, User user) {
+        this.id = id;
+        this.categoryId = categoryId;
+        this.title = title;
+        this.thumbnail = thumbnail;
+        this.detail = detail;
+        this.status = status;
+        this.createdBy = createdBy;
+        this.isFeatured = isFeatured;
+        this.createdDate = createdDate;
+        this.setting = setting;
+        this.user = user;
+    }
+
+    public Setting getSetting() {
+        return setting;
+    }
+
+    public void setSetting(Setting setting) {
+        this.setting = setting;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
