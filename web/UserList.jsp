@@ -114,7 +114,7 @@
                                             <td>${u.roleId}</td>
                                             <td>${u.status}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
-                                                    <div class="me-4"><a href=""><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                    <div class="me-4"><a href="edituser?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                     <div class="pe-2 btn py-1" style="line-height: 25px;"><a style="text-decoration: none;color: white;" href="#" >Active</a></div>
 
                                                 </div>
@@ -226,5 +226,6 @@
         .gender-dropdown:focus {
             outline: none;
         }
+        
     </style>
 </html>

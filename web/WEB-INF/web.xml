@@ -33,6 +33,18 @@
         <servlet-class>controller.UserListServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>EditUserServlet</servlet-name>
+        <servlet-class>controller.EditUserServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddUserServlet</servlet-name>
+        <servlet-class>controller.AddUserServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>SettingServlet</servlet-name>
         <servlet-class>controller.SettingServlet</servlet-class>
     </servlet>
@@ -72,4 +84,14 @@
         <servlet-name>UserListServlet</servlet-name>
         <url-pattern>/userlist</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditUserServlet</servlet-name>
+        <url-pattern>/edituser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddUserServlet</servlet-name>
+        <url-pattern>/adduser</url-pattern>
+    </servlet-mapping>
 </web-app>
+
+
