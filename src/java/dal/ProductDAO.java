@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Product;
+import model.ProductFeedback;
 
 public class ProductDAO extends DBContext {
 
@@ -107,8 +108,11 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) {
-        ProductDAO p = new ProductDAO();
-        System.out.println(p.getProductById(1).getTitle());
+    public static void main(String[] args) throws SQLException {
+        FeedbackDAO p = new FeedbackDAO();
+        ArrayList<ProductFeedback> f = p.getNewFeedback();
+        for(ProductFeedback i : f){
+            System.out.println(i.getName());
+        }
     }
 }
