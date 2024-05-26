@@ -23,14 +23,30 @@ public class ProductFeedback {
     created_by INT,
     created_date DATETIME,
      */
-    int id, productId, userId, star, createdBy;
+    int id, productId, userId, star;
     String detail, image, status;
 
     Date createdDate;
 
+    String name, pfp;
     public ProductFeedback() {
     }
 
+    public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate, String name, String pfp) {
+        this.id = id;
+        this.productId = productId;
+        this.userId = userId;
+        this.star = star;
+        this.detail = detail;
+        this.image = image;
+        this.status = status;
+        this.createdDate = createdDate;
+        this.name = name;
+        this.pfp = pfp;
+    }
+
+    
+    
     public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate) {
         this.id = id;
         this.productId = productId;
@@ -42,6 +58,23 @@ public class ProductFeedback {
         this.createdDate = createdDate;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPfp() {
+        return pfp;
+    }
+
+    public void setPfp(String pfp) {
+        this.pfp = pfp;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -74,13 +107,6 @@ public class ProductFeedback {
         this.star = star;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
 
     public String getDetail() {
         return detail;

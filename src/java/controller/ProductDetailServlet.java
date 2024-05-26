@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,10 +13,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
+import model.ProductFeedback;
 
 /**
  *
@@ -62,15 +65,23 @@ public class ProductDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+
         String idRaw = request.getParameter("id");
-        if (idRaw != null) {
+        try {
             int id = Integer.parseInt(idRaw);
             Product p = productDAO.getProductById(id);
+
+            ArrayList<ProductFeedback> feedbackList = feedbackDAO.getNewFeedback();
             List<Product> productList = productDAO.getRelatedProduct(id);
+            request.setAttribute("feedbackList", feedbackList);
             request.setAttribute("product", p);
             request.setAttribute("relatedlist", productList);
             request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
