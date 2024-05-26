@@ -50,7 +50,7 @@ public class ProductDAO extends DBContext {
 
     public List<Product> getFeatured() {
         productList.clear();
-        String sql = "SELECT * FROM product WHERE featured = 1 LIMIT 5";
+        String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 5";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();

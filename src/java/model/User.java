@@ -31,6 +31,18 @@ public class User {
     public User() {
     }
 
+    public User(String email,String password, String name, String status, String phone, String pfp, boolean gender,int roleId) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.status = status;
+        this.phone = phone;
+        this.pfp = pfp;
+        this.id = id;
+        this.gender = gender;
+        this.roleId = roleId;
+    }
+    
     public User(int id, String email, String password, String name, String status, String phone, String pfp, int update_by, int roleId, boolean gender, Date lastLog, Date updated_datey) {
         this.id = id;
         this.email = email;
@@ -126,8 +138,9 @@ public class User {
         this.roleId = roleId;
     }
 
-    public boolean isGender() {
-        return gender;
+    public String getGender() {
+        if(gender) return "Male";
+        return "Female";
     }
 
     public void setGender(boolean gender) {

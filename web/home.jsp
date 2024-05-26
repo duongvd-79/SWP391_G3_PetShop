@@ -323,7 +323,7 @@
                                     <div class="type-lb">
                                         <p class="new">New</p>
                                     </div>
-                                    <img src=${fpr.thumbnail}class="img-fluid" alt="Image">
+                                    <img src=${fpr.thumbnail} class="img-fluid" alt="Image">
                                     <div class="mask-icon">
                                         <ul>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>

@@ -227,5 +227,42 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
+    
+    public void updateUser(int roleId,String status,int id){
+        try {
+            String sql = "UPDATE user SET role_id = ?,status = ? WHERE id = ?";
+            PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, roleId);
+            stm.setString(2, status);
+            stm.setInt(3,id );
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
+    public void addNewUser(User u) throws SQLException{
+        String sql = "insert into user(email,password,name,gender,status,role_id,phone) values (?,MD5(?),?,?,?,?,?)";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setString(1, u.getEmail());
+        sta.setString(2, u.getPassword());
+        sta.setString(3, u.getName());
+        sta.setBoolean(4, (u.getGender().equals("Male"))? true : false);
+        sta.setString(5, u.getStatus());
+        sta.setInt(6, u.getRoleId());
+        sta.setString(7, u.getPhone());
+        sta.executeUpdate();
+    }
+   
+    public static void main(String[] args) throws SQLException {
+        UserDAO u = new UserDAO();
+        for(User s : u.getAllUser()){
+            System.out.println(s.getId() + s.getPfp());
+        }
+        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+        
+    }
 
 }
