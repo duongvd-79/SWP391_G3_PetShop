@@ -20,17 +20,8 @@
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
                     <li class="nav-item active"><a class="nav-link" href="home">Trang chủ</a></li>
                     <li class="nav-item"><a class="nav-link" href="about">Giới thiệu</a></li>
-                    <li class="dropdown">
-                        <a href="" class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">SHOP <i class="bi bi-caret-down-fill"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="shop.html">Sidebar Shop</a></li>
-                            <li><a href="shop-detail.html">Shop Detail</a></li>
-                            <li><a href="cart.html">Giỏ hàng</a></li>
-                            <li><a href="checkout.html">Thanh toán</a></li>
-                            <li><a href="my-account.html">Tài khoản</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="blog">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productlist">SHOP</a></li>
+                    <li class="nav-item"><a class="nav-link" href="postlist">Blog</a></li>
                     <li class="dropdown">
                         <a href="" class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">Tài khoản <i class="bi bi-caret-down-fill"></i></a>
                         <ul class="dropdown-menu">
