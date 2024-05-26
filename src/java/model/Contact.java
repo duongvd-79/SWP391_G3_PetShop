@@ -9,6 +9,7 @@ package model;
  * @author duongvu
  */
 public class Contact {
+
     int id;
     String icon, link;
 
@@ -44,5 +45,5 @@ public class Contact {
     public void setLink(String link) {
         this.link = link;
     }
-    
+
 }

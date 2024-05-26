@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class Post {
+
     /*
      id INT PRIMARY KEY,
     title VARCHAR(255),
@@ -21,25 +22,45 @@ public class Post {
     created_date DATETIME,
     created_by VARCHAR(10),
     category_id VARCHAR(10),
-    */
+     */
     int id, categoryId;
     String title, thumbnail, detail, status, createdBy;
     boolean isFeatured;
     Date createdDate;
+    Setting setting;
+    User user;
 
     public Post() {
     }
 
-    public Post(int id, String title, String thumbnail, String detail, String status, String createdBy, int categoryId, boolean isFeatured, Date createdDate) {
+    public Post(int id, int categoryId, String title, String thumbnail, String detail, String status, String createdBy, boolean isFeatured, Date createdDate, Setting setting, User user) {
         this.id = id;
+        this.categoryId = categoryId;
         this.title = title;
         this.thumbnail = thumbnail;
         this.detail = detail;
         this.status = status;
         this.createdBy = createdBy;
-        this.categoryId = categoryId;
         this.isFeatured = isFeatured;
         this.createdDate = createdDate;
+        this.setting = setting;
+        this.user = user;
+    }
+
+    public Setting getSetting() {
+        return setting;
+    }
+
+    public void setSetting(Setting setting) {
+        this.setting = setting;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {
@@ -113,5 +134,5 @@ public class Post {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
-    
+
 }

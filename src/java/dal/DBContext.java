@@ -20,8 +20,8 @@ public class DBContext {
         }
     }
 
-    public static void main(String[] args) {
-        DBContext d = new DBContext();
-        System.out.println(d.connection);
-    }
+//    public static void main(String[] args) {
+//        DBContext d = new DBContext();
+//        System.out.println(d.connection);
+//    }
 }
