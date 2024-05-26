@@ -62,7 +62,7 @@ public class PostDAO extends DBContext {
         Post p = list.getPostById("2");
         System.out.println(p);
     }
-
+    //sưa post dao
     public ArrayList<Post> getAllPosts() {
         ArrayList<Post> listp = new ArrayList<>();
         String sql = "SELECT \n"
