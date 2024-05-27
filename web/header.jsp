@@ -18,26 +18,17 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="navbar-menu">
                 <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item active"><a class="nav-link" href="home">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link" href="about">Giới thiệu</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="productlist">Product</a></li>
+                    <li class="nav-item"><a class="nav-link" href="bloglist">Blog</a></li>
                     <li class="dropdown">
-                        <a href="" class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">SHOP <i class="bi bi-caret-down-fill"></i></a>
+                        <a href="" class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">Account <i class="bi bi-caret-down-fill"></i></a>
                         <ul class="dropdown-menu">
-                            <li><a href="shop.html">Sidebar Shop</a></li>
-                            <li><a href="shop-detail.html">Shop Detail</a></li>
-                            <li><a href="cart.html">Giỏ hàng</a></li>
-                            <li><a href="checkout.html">Thanh toán</a></li>
-                            <li><a href="my-account.html">Tài khoản</a></li>
+                            <li><a href="login">Login</a></li>
+                            <li><a href="register">Register</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="blog">Blog</a></li>
-                    <li class="dropdown">
-                        <a href="" class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">Tài khoản <i class="bi bi-caret-down-fill"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="login">Đăng nhập</a></li>
-                            <li><a href="register">Đăng ký</a></li>
-                    </li>
-                </ul>
             </div>
             <!-- /.navbar-collapse -->
 
@@ -53,7 +44,7 @@
                         <a href="#">
                             <i class="fa fa-shopping-bag"></i>
                             <span class="badge">3</span>
-                            <p>Giỏ hàng của tôi</p>
+                            <p>My Cart</p>
                         </a>
                     </li>
                 </ul>
@@ -61,34 +52,6 @@
             <%}%>
             <!-- End Atribute Navigation -->
         </div>
-        <!-- Start Side Menu -->
-        <div class="side">
-            <a href="#" class="close-side"><i class="fa fa-times"></i></a>
-            <li class="cart-box">
-                <ul class="cart-list">
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-01.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Delica omtantur </a></h6>
-                        <p>1x - <span class="price">$80.00</span></p>
-                    </li>
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-02.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Omnes ocurreret</a></h6>
-                        <p>1x - <span class="price">$60.00</span></p>
-                    </li>
-                    <li>
-                        <a href="#" class="photo"><img src="images/img-pro-03.jpg" class="cart-thumb" alt="" /></a>
-                        <h6><a href="#">Agam facilisis</a></h6>
-                        <p>1x - <span class="price">$40.00</span></p>
-                    </li>
-                    <li class="total">
-                        <a href="#" class="btn btn-default hvr-hover btn-cart">XEM GIỎ HÀNG</a>
-                        <span class="float-right"><strong>Tổng</strong>: $180.00</span>
-                    </li>
-                </ul>
-            </li>
-        </div>
-        <!-- End Side Menu -->
     </nav>
     <!-- End Navigation -->
 </header>
