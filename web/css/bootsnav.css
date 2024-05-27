@@ -1,4 +1,13 @@
 
+
+@media (min-width: 480px) and (max-width: 640px) {
+    nav.bootsnav.navbar-full ul.nav{
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+}
+
+
 /* MEGAMENU STYLE
 =================================*/
 nav.bootsnav .dropdown.megamenu-fw {
@@ -72,6 +81,7 @@ nav.navbar.bootsnav ul.nav .dropdown-menu .dropdown-menu{
 nav.navbar.bootsnav ul.nav ul.dropdown-menu > li > a{
     white-space:normal;
 }
+
 
 
 ul.menu-col{
@@ -1273,7 +1283,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
     /* Tabs
     =================================*/
     nav.navbar.bootsnav .megamenu-content.tabbed{
-        padding-left: 0 !mportant;
+        padding-left: 0 !important;
     }
 
     nav.navbar.bootsnav .tabbed > li{
@@ -1453,6 +1463,7 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         border-top: solid 1px #fff;
     }
 
+
     li.close-full-menu{
         padding-top: 15px !important;
         padding-bottom: 15px !important;
@@ -1465,4 +1476,5 @@ nav.navbar.bootsnav ul.dropdown-menu.megamenu-content .content ul.menu-col li a:
         padding-bottom: 30px;
     }
 }
+
 

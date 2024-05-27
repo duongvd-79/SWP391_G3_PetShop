@@ -30,66 +30,121 @@
             <div class="row">
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-2 py-4">
-                        <img class="rounded-circle mt-5" width="170px" height="170px" src="https://images.unsplash.com/photo-1715833027976-7183e02993da?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                        <span class="font-weight-bold mt-3">Vũ Tuấn Hoàng</span>
-                        <span class="text-black-10 mt-2">hoangdz512@mail.com</span>
+                        <c:if test="${empty requestScope.u.getPfp()}">
+                            <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
+                        </c:if>
+                        <c:if test="${not empty requestScope.u.getPfp()}">
+                            <c:set var="pfp" scope="request" value="${requestScope.u.getPfp()}"></c:set>
+                        </c:if>
+                        <img class="rounded-circle mt-5" width="170px" height="170px" src="${requestScope.pfp}">
+                        <span class="font-weight-bold mt-3"></span>
+                        <span class="h5 text-black-20 mt-2">${requestScope.u.getEmail()}</span>
                     </div>
                 </div>
                 <div class="col-md-8 border-right">
                     <div class="p-2 py-5">
 
                         <div class="row mt-3">
-                            <div class="col-md-12"><label class="labels">Name</label><input type="text" class="form-control" placeholder="Full Name" value=""></div>
-                            <div class="col-md-12"><label class="labels">Phone Number</label><input type="text" class="form-control" placeholder="" value=""></div>
-                            <div class="col-md-12"><label class="labels">Address</label><input type="text" class="form-control" placeholder="" value=""></div>
-                            <div class="col-md-12">
+
+                            <div class="col-md-12 mb-2"><label class="labels">Name</label><input type="text" class="form-control" value="${requestScope.u.getName()}" readonly=""></div>
+                            <div class="col-md-12 mb-2"><label class="labels">Phone Number</label><input type="text" class="form-control" value="${requestScope.u.getPhone()}" readonly=""></div>
+                            <div class="col-md-12 mb-2"><label class="labels">Address</label><input type="text" class="form-control" placeholder="" value="" readonly=""></div>
+                            <div class="col-md-12 mb-2">
                                 <label class="labels">Gender</label><br>
                                 <div class="mt-2">
                                     <div class="form-check custom-radio form-check-inline">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="male" disabled>
+                                        <input class="form-check-input" type="radio"  id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                         <label class="form-check-label" for="male">
                                             Male
                                         </label>
                                     </div>
                                     <div class="form-check custom-radio form-check-inline">
-                                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="female" checked disabled>
+                                        <input class="form-check-input" type="radio" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                         <label class="form-check-label" for="female">
                                             Female
                                         </label>
                                     </div>
 
                                 </div>
+
                             </div>
-                            <div class="col-md-7"><label class="labels">Role</label>
-                                <select class="form-select" id="roles">
-                                    <option value="volvo">Role 1</option>
-                                    <option value="saab">Role 2</option>
-                                    <option value="opel">Role 3</option>
-                                    <option value="audi">Role 4</option>
-                                    <option value="audi">Role 5</option>
-                                </select>
-                            </div>
-                            <div class="col-md-5"><label class="labels">Status</label>
-                                <select class="form-select" id="status">
-                                    <option value="volvo">Pending</option>
-                                    <option value="saab">Active</option>
-                                    <option value="opel">Blocked</option>
-                                </select>
-                            </div>
+                            <form class="row" action="edituser" method="get">
+                                <input name="action" value="update" hidden>
+                                <input name="id" value="${u.getId()}" hidden>
+                                <div class="col-md-7"><label class="labels">Role</label>
+                                    <select class="form-select" id="roles" name="roleid">
+                                        <c:forEach items="${requestScope.sList}" var="s">
+                                            <option value="${s.getId()}" ${(requestScope.u.getRoleId() == requestScope.s.getId()) ? 'selected' : ''}>${s.getName()}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="col-md-5"><label class="labels">Status</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
+                                        <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
+                                    </select>
+                                </div>
+
+
+                                <div class="d-flex justify-content-center align-items-center mt-3">
+                                    <div class="mt-3 me-3 text-center d-flex align-items-center"><button class="btn btn-primary set-button" type="button submit">Save Profile</button></div>
+                                    <div class="mt-3 ms-3 d-flex justify-content-between align-items-center">
+                                        <a  href="#popup1" class="btn btn-primary set-button d-flex align-items-center justify-content-center " type="button">Add New</a>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="d-flex justify-content-center">
-                            <div class="me-5 mt-5 text-center d-inline-block"><button class="btn btn-primary profile-button" type="button">Save Profile</button></div>
-                            <div class="mt-5 text-center d-inline-block"><button class="btn btn-primary profile-button" type="button">Add New User</button></div>
-                        </div>
+
+
+
                     </div>
                 </div>
-                <!--                <div class="col-md-4">
-                                    <div class="p-3 py-5">
-                                        <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
-                                        <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
-                                        <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+            </div>
+            <div id="popup1" class="overlay">
+                <div class="popup">
+                    <h2 class="ms-3 mb-3">Add New Setting</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content container-fluid">
+
+                        <form method="get" action="adduser" class="row">
+                            <input type="hidden" name="action" value="add">
+                            <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
+                            <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="text" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
+                            <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
+                            <div class="col-md-5"><label class="labels">Role</label>
+                                <select class="form-select" id="roles" name="roleid">
+                                    <c:forEach items="${requestScope.sList}" var="s">
+                                        <option value="${s.getId()}">${s.getName()}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-2"><label class="labels">Phone</label><input type="text" pattern="^[0-9]{10}$" title="Phone must contain 10 number" name="phone" class="form-control" placeholder="" value="" required></div>
+                            <div class="col-md-12 mb-2">
+                                <label class="labels">Gender</label><br>
+                                <div class="mt-2">
+                                    <div class="form-check custom-radio form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                        <label class="form-check-label" for="male">
+                                            Male
+                                        </label>
                                     </div>
-                                </div>-->
+                                    <div class="form-check custom-radio form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="female" >
+                                        <label class="form-check-label" for="female">
+                                            Female
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Add</button></div>
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
@@ -107,7 +162,7 @@
             border-color: #BBBF52
         }
 
-        .profile-button {
+        .set-button {
             background: #BBBF52;
             box-shadow: none;
             border: none;
@@ -118,15 +173,15 @@
 
         }
 
-        .profile-button:hover {
+        .set-button:hover {
             background: #B0B435
         }
-        .profile-button:focus {
+        .set-button:focus {
             background: #BBBF52;
             box-shadow: none
         }
 
-        .profile-button:active {
+        .set-button:active {
             background: #BBBF52;
             box-shadow: none
         }
@@ -145,6 +200,52 @@
         }
         .custom-radio .form-check-input[disabled] {
             opacity: 1
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 50%;
+            position: relative;
+            transition: all 5s ease-in-out;
+        }
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup .close:hover {
+            color: #06D85F;
+        }
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+        .add{
+            width: 50px;
+            border-radius: 99px;
         }
 
 
