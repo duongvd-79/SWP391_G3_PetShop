@@ -63,7 +63,7 @@ public class PostDAO extends DBContext {
         System.out.println(p);
     }
     //sưa postdao
-    public ArrayList<Post> getAllPosts() {
+    public ArrayList<Post> getAllPosts(String search) {
         ArrayList<Post> listp = new ArrayList<>();
         String sql = "SELECT \n"
                 + "    post.id ,\n"
@@ -92,9 +92,11 @@ public class PostDAO extends DBContext {
                 + "JOIN \n"
                 + "    user  ON post.created_by = user.id\n"
                 + "JOIN \n"
-                + "    setting ON post.category_id = setting.id";
-        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
-
+                + "    setting ON post.category_id = setting.id"
+                + " where post.title like ?";
+        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql);) {
+            ps.setString(1, "%"+search+"%");
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Post p = new Post();
                 p.setId(rs.getInt("id"));

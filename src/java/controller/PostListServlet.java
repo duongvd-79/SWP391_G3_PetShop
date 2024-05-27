@@ -31,10 +31,7 @@ public class PostListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PostDAO dao = new PostDAO();
-        ArrayList<Post> listp = dao.getAllPosts();
-        request.setAttribute("listp", listp);
-        request.getRequestDispatcher("PostList.jsp").forward(request, response);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -49,7 +46,12 @@ public class PostListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PostDAO dao = new PostDAO();
+        String search = request.getParameter("search");
+        search = search == null ? "" : search;
+        ArrayList<Post> listp = dao.getAllPosts(search);
+        request.setAttribute("listp", listp);
+        request.getRequestDispatcher("PostList.jsp").forward(request, response);
     }
 
     /**

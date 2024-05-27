@@ -131,7 +131,7 @@
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="blog">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link" href="postlist">Blog</a></li>
                             <li class="nav-item"><a class="nav-link" href="contact-us">Contact Us</a></li>
                         </ul>
                     </div>
