@@ -1,3 +1,4 @@
+
 /* only small desktops */
 /* tablets */
 /* only small tablets */
@@ -202,6 +203,16 @@
     }
     .offer-box-products{
         margin-bottom: 30px;
+
+/* only small desktops */
+/* tablets */
+/* only small tablets */
+ @media only screen and (min-width: 992px) and (max-width: 1199px) {
+     nav.navbar.bootsnav ul.nav > li > a{
+         padding-top: 10px;
+		 padding-bottom: 10px;
+		 padding-left: 10px;
+		 padding-right: 30px;
     }
 }
 @media only screen and (min-width: 280px) and (max-width: 599px) {
@@ -329,3 +340,4 @@
         display: none;
     }
 }
+
