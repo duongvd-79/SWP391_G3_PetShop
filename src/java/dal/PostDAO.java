@@ -69,16 +69,15 @@ public class PostDAO extends DBContext {
         Post p = list.getPostById("2");
         System.out.println(p);
     }
-
-    //sưa post dao
-    public ArrayList<Post> getAllPosts() {
+    //sưa postdao
+    public ArrayList<Post> getAllPosts(String search) {
         ArrayList<Post> listp = new ArrayList<>();
         String sql = "SELECT \n"
                 + "    post.id ,\n"
                 + "    post.thumbnail,\n"
                 + "    post.title,\n"
                 + "    post.detail,\n"
-                + "    post.featured,\n"
+                + "    post.is_featured,\n"
                 + "    post.created_date,\n"
                 + "    post.status,\n"
                 + "    \n"
@@ -100,12 +99,20 @@ public class PostDAO extends DBContext {
                 + "JOIN \n"
                 + "    user  ON post.created_by = user.id\n"
                 + "JOIN \n"
-                + "    setting ON post.category_id = setting.id";
-        try {
-            stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
+                + "    setting ON post.category_id = setting.id"
+                + " where post.title like ?";
+        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql);) {
+            ps.setString(1, "%"+search+"%");
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Post p = setPost(rs);
+                Post p = new Post();
+                p.setId(rs.getInt("id"));
+                p.setTitle(rs.getString("title"));
+                p.setThumbnail(rs.getString("thumbnail"));
+                p.setDetail(rs.getString("detail"));
+                p.setStatus(rs.getString("status"));
+                p.setCreatedDate(rs.getDate("created_date"));
+                p.setIsFeatured(rs.getBoolean("is_featured"));
 
                 Setting s = new Setting();
                 s.setId(rs.getInt("setting_id"));
@@ -125,8 +132,7 @@ public class PostDAO extends DBContext {
         }
         return listp;
     }
-
-    // Post
+    // Update PostDao
     public Post getPostById(String postId) {
         Post post = null;
         String sql = "SELECT \n"
@@ -134,7 +140,7 @@ public class PostDAO extends DBContext {
                 + "post.thumbnail,\n"
                 + "post.title,\n"
                 + "post.detail,\n"
-                + "post.featured,\n"
+                + "post.is_featured,\n"
                 + "post.created_date,\n"
                 + "post.status,\n"
                 + "user.name AS user_name,\n"
@@ -149,24 +155,30 @@ public class PostDAO extends DBContext {
                 + "JOIN \n"
                 + "setting ON post.category_id = setting.id\n"
                 + "WHERE post.id = ?";
-        try {
-            stm = connection.prepareStatement(sql);
-            rs = stm.executeQuery();
-            stm.setString(1, postId);
-            ResultSet rs1 = stm.executeQuery();
-            if (rs.next()) {
-                post = setPost(rs1);
+        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, postId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    post = new Post();  // Initialize the post object here
+                    post.setId(rs.getInt("id"));
+                    post.setTitle(rs.getString("title"));
+                    post.setThumbnail(rs.getString("thumbnail"));
+                    post.setDetail(rs.getString("detail"));
+                    post.setStatus(rs.getString("status"));
+                    post.setCreatedDate(rs.getDate("created_date"));
+                    post.setIsFeatured(rs.getBoolean("is_featured"));
 
-                Setting s = new Setting();
-                s.setId(rs.getInt("setting_id"));
-                s.setStatus(rs.getString("setting_status"));
-                s.setName(rs.getString("setting_name"));
-                s.setOrder(rs.getInt("setting_order"));
-                post.setSetting(s);
+                    Setting s = new Setting();
+                    s.setId(rs.getInt("setting_id"));
+                    s.setStatus(rs.getString("setting_status"));
+                    s.setName(rs.getString("setting_name"));
+                    s.setOrder(rs.getInt("setting_order"));
+                    post.setSetting(s);
 
-                User u = new User();
-                u.setName(rs.getString("user_name"));
-                post.setUser(u);
+                    User u = new User();
+                    u.setName(rs.getString("user_name"));
+                    post.setUser(u);
+                }
             }
 
         } catch (SQLException e) {
