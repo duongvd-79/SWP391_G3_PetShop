@@ -1,22 +1,29 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
-import dal.PostDAO;
-import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import model.Post;
-import model.Product;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Setting;
+import model.User;
 
 /**
  *
- * @author duongvu
+ * @author ACER
  */
-public class HomeServlet extends HttpServlet {
+public class EditUserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +42,10 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");
+            out.println("<title>Servlet EditUserServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditUserServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,18 +63,34 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ProductDAO productDAO = new ProductDAO();
-        PostDAO postDAO = new PostDAO();
 
-        List<Product> allProduct = productDAO.getAll();
-        List<Product> featuredProduct = productDAO.getFeatured();
+        UserDAO uDAO = new UserDAO();
 
-        List<Post> featuredPost = postDAO.getFeatured();
+        String action = request.getParameter("action");
+        if (action != null && action.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String status = request.getParameter("status");
+            int roleid = Integer.parseInt(request.getParameter("roleid"));
+            uDAO.updateUser(roleid, status, id);
+            request.getRequestDispatcher("userlist").forward(request, response);
+        }
 
-        request.setAttribute("featuredproduct", featuredProduct);
-        request.setAttribute("allproduct", allProduct);
-        request.setAttribute("featuredpost", featuredPost);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        List<Setting> sList;
+        List<User> uList=new ArrayList<>();
+        try {
+            uList = uDAO.getAllUser();
+            sList = uDAO.getAllRole();
+            request.setAttribute("sList", sList);
+        } catch (SQLException ex) {
+        }
+        User u = null;
+        int id = Integer.parseInt(request.getParameter("id"));
+        for (User user : uList) {
+            if(user.getId()==id)
+                u=user;
+        }
+        request.setAttribute("u", u);
+        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
     }
 
     /**

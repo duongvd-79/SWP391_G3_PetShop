@@ -1,58 +1,65 @@
 package dal;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Post;
-import model.PostCategory;
 import model.Setting;
 import model.User;
 
 public class PostDAO extends DBContext {
 
-    private static Post setPost(ResultSet rs) throws SQLException {
+    private PreparedStatement stm;
+    private ResultSet rs;
+    private List<Post> postList;
+
+    private static Post setPost(ResultSet rs) {
         Post p = new Post();
-        p.setId(rs.getInt("id"));
-        p.setTitle(rs.getString("title"));
-        p.setThumbnail(rs.getString("thumbnail"));
-        p.setDetail(rs.getString("detail"));
-        p.setStatus(rs.getString("status"));
-        p.setCreatedBy(rs.getString("created_by"));
-        p.setCategoryId(rs.getInt("category_id"));
-        p.setIsFeatured(rs.getBoolean("is_featured"));
-        p.setCreatedDate(rs.getDate("created_date"));
+        try {
+            p.setId(rs.getInt("id"));
+            p.setTitle(rs.getString("title"));
+            p.setThumbnail(rs.getString("thumbnail"));
+            p.setDetail(rs.getString("detail"));
+            p.setStatus(rs.getString("status"));
+            p.setCreatedBy(rs.getString("created_by"));
+            p.setCategoryId(rs.getInt("category_id"));
+            p.setIsFeatured(rs.getBoolean("is_featured"));
+            p.setCreatedDate(rs.getDate("created_date"));
+        } catch (SQLException e) {
+        }
         return p;
     }
 
     public List<Post> getAll() {
-        List<Post> postList = new ArrayList<>();
+        postList = new ArrayList<>();
         String sql = "SELECT * FROM post";
-        try (Connection conn = connection; PreparedStatement stm = conn.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
-
+        try {
+            postList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
             while (rs.next()) {
                 Post p = setPost(rs);
                 postList.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // or use a logger
         }
         return postList;
     }
 
     public List<Post> getFeatured() {
-        List<Post> postList = new ArrayList<>();
+        postList = new ArrayList<>();
         String sql = "SELECT * FROM post WHERE is_featured = 1 LIMIT 5";
-        try (Connection conn = connection; PreparedStatement stm = conn.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
-
+        try {
+            postList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
             while (rs.next()) {
                 Post p = setPost(rs);
                 postList.add(p);
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // or use a logger
         }
         return postList;
     }
@@ -173,9 +180,11 @@ public class PostDAO extends DBContext {
                     post.setUser(u);
                 }
             }
+
         } catch (SQLException e) {
             e.printStackTrace(); // or use a logger
         }
         return post;
     }
+
 }

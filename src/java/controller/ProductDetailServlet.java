@@ -1,22 +1,30 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
-import dal.PostDAO;
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import model.Post;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Product;
+import model.ProductFeedback;
 
 /**
  *
- * @author duongvu
+ * @author Admin
  */
-public class HomeServlet extends HttpServlet {
+public class ProductDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,10 +43,10 @@ public class HomeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet HomeServlet</title>");
+            out.println("<title>Servlet ProductDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet HomeServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ProductDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,17 +65,23 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
-        PostDAO postDAO = new PostDAO();
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
 
-        List<Product> allProduct = productDAO.getAll();
-        List<Product> featuredProduct = productDAO.getFeatured();
+        String idRaw = request.getParameter("id");
+        try {
+            int id = Integer.parseInt(idRaw);
+            Product p = productDAO.getProductById(id);
 
-        List<Post> featuredPost = postDAO.getFeatured();
+            ArrayList<ProductFeedback> feedbackList = feedbackDAO.getNewFeedback();
+            List<Product> productList = productDAO.getRelatedProduct(id);
+            request.setAttribute("feedbackList", feedbackList);
+            request.setAttribute("product", p);
+            request.setAttribute("relatedlist", productList);
+            request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-        request.setAttribute("featuredproduct", featuredProduct);
-        request.setAttribute("allproduct", allProduct);
-        request.setAttribute("featuredpost", featuredPost);
-        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**

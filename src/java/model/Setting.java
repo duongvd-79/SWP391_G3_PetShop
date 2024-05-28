@@ -9,6 +9,7 @@ package model;
  * @author duongvu
  */
 public class Setting {
+
     /*
     id INT PRIMARY KEY,
     name VARCHAR(255),
@@ -17,29 +18,20 @@ public class Setting {
     order INT,
     status VARCHAR(50),
     description TEXT,
-    */
-    private int id, settingTypeId, order,value;
-    private String name, description,type,status;
+     */
+    private int id, typeId, order;
+
+    private String name, description, type, status;
 
     public Setting() {
     }
 
-    public Setting(int id, int settingTypeId, int order, String name, int value, String status, String description) {
+    public Setting(int id, int typeId, String type, int order, String name, String status, String description) {
         this.id = id;
-        this.settingTypeId = settingTypeId;
+        this.typeId = typeId;
         this.order = order;
-        this.name = name;
-        this.value = value;
-        this.status = status;
-        this.description = description;
-    }
-    public Setting(int id, int settingTypeId,String type, int order, String name, int value, String status, String description) {
-        this.id = id;
-        this.settingTypeId = settingTypeId;
         this.type = type;
-        this.order = order;
         this.name = name;
-        this.value = value;
         this.status = status;
         this.description = description;
     }
@@ -52,12 +44,12 @@ public class Setting {
         this.id = id;
     }
 
-    public int getSettingTypeId() {
-        return settingTypeId;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setSettingTypeId(int settingTypeId) {
-        this.settingTypeId = settingTypeId;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public String getType() {
@@ -84,14 +76,6 @@ public class Setting {
         this.name = name;
     }
 
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -107,5 +91,5 @@ public class Setting {
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

@@ -11,6 +11,7 @@ import java.util.Date;
  * @author duongvu
  */
 public class ProductFeedback {
+
     /*
     id INT PRIMARY KEY,
     product_id INT,
@@ -21,26 +22,59 @@ public class ProductFeedback {
     status VARCHAR(50),
     created_by INT,
     created_date DATETIME,
-    */
-    int id, productId, star, createdBy;
-    String userId, detail, image, status;
+     */
+    int id, productId, userId, star;
+    String detail, image, status;
+
     Date createdDate;
 
+    String name, pfp;
     public ProductFeedback() {
     }
 
-    public ProductFeedback(int id, int productId, int star, int createdBy, String userId, String detail, String image, String status, Date createdDate) {
+    public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate, String name, String pfp) {
         this.id = id;
         this.productId = productId;
-        this.star = star;
-        this.createdBy = createdBy;
         this.userId = userId;
+        this.star = star;
+        this.detail = detail;
+        this.image = image;
+        this.status = status;
+        this.createdDate = createdDate;
+        this.name = name;
+        this.pfp = pfp;
+    }
+
+    
+    
+    public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate) {
+        this.id = id;
+        this.productId = productId;
+        this.userId = userId;
+        this.star = star;
         this.detail = detail;
         this.image = image;
         this.status = status;
         this.createdDate = createdDate;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPfp() {
+        return pfp;
+    }
+
+    public void setPfp(String pfp) {
+        this.pfp = pfp;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -57,6 +91,14 @@ public class ProductFeedback {
         this.productId = productId;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     public int getStar() {
         return star;
     }
@@ -65,21 +107,6 @@ public class ProductFeedback {
         this.star = star;
     }
 
-    public int getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(int createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getDetail() {
         return detail;
