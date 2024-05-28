@@ -93,6 +93,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="special-menu text-center">
@@ -106,7 +107,7 @@
                 </div>
 
                 <div class="row special-list">
-                    <c:forEach items="${requestScope.allproduct}" var="apr">
+                    <c:forEach items="${requestScope.allproduct}" var="apr" begin="0" end="7">
                         <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                             <div class="products-single fix">
                                 <div class="box-img-hover">
@@ -143,6 +144,11 @@
                         </div>
                     </c:forEach>
                 </div>
+            <c:forEach items="${requestScope.allproduct}" varStatus="status">
+                <c:if test="${(status.count==8)}">
+                    <a href="productlist">See more...</a>
+                </c:if>
+            </c:forEach>
             </div>
         </div>
         <!-- End Products  -->
@@ -161,7 +167,7 @@
                 <div class="row">
                     <c:forEach items="${requestScope.featuredpost}" var="fp">
                         <div class="col-md-6 col-lg-4 col-xl-4" title="${fp.title}"
-                             onclick="window.location.href = 'post?id=${fp.id}'" style="cursor: pointer">
+                             onclick="window.location.href = 'blogdetail?id=${fp.id}'" style="cursor: pointer">
                             <div class="blog-box">
                                 <div class="blog-img">
                                     <img class="img-fluid" src="${fp.thumbnail}" alt="" />
