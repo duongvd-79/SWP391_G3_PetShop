@@ -102,7 +102,7 @@
             </div>
             <div id="popup1" class="overlay">
                 <div class="popup">
-                    <h2 class="ms-3 mb-3">Add New Setting</h2>
+                    <h2 class="ms-3 mb-3">Add New User</h2>
                     <a class="close" href="#">&times;</a>
                     <div class="content container-fluid">
 

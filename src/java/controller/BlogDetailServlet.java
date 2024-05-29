@@ -11,14 +11,13 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import model.Post;
 
 /**
  *
  * @author Acer
  */
-public class PostListServlet extends HttpServlet {
+public class BlogDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,10 +30,11 @@ public class PostListServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PostDAO dao = new PostDAO();
-        ArrayList<Post> listp = dao.getAllPosts();
-        request.setAttribute("listp", listp);
-        request.getRequestDispatcher("PostList.jsp").forward(request, response);
+         String pid = request.getParameter("pid");
+         PostDAO dao = new PostDAO();
+         Post pdetail = dao.getPostById(pid);
+         request.setAttribute("postdetail", pdetail);
+         request.getRequestDispatcher("blogdetail.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

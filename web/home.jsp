@@ -60,7 +60,7 @@
             <!-- Start Slider -->
             <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
-                <c:forEach items="${requestScope.allproduct}" var="apr">
+                <c:forEach items="${requestScope.featuredproduct}" var="apr">
                     <li class="text-center">
                         <img src="${apr.thumbnail}" alt="">
                         <div class="container">
@@ -68,7 +68,7 @@
                                 <div class="col-md-12">
                                     <h1 class="m-b-20"><strong>Slider</strong></h1>
                                     <p class="m-b-40">Slider description</p>
-                                    <p><a class="btn hvr-hover" href="#">Slider button</a></p>
+                                    <p><a class="btn hvr-hover" href="productdetail?id=${apr.id}">Slider button</a></p>
                                 </div>
                             </div>
                         </div>
@@ -82,65 +82,32 @@
         </div>
         <!-- End Slider -->
 
-        <!-- Start Categories  -->
-        <div class="categories-shop">
-            <div class="container">
-                <div class="row">
-                    <c:forEach items="${requestScope.featuredproduct}" var="fpr">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                            <div class="shop-cat-box">
-                                <img class="img-fluid" src="${fpr.thumbnail}" alt="" />
-                                <a class="btn hvr-hover" href="#">${fpr.title}</a>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-        </div>
-        <!-- End Categories -->
-
-        <div class="box-add-products">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="offer-box-products">
-                            <img class="img-fluid" src="images/add-img-01.jpg" alt="" />
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="offer-box-products">
-                            <img class="img-fluid" src="images/add-img-02.jpg" alt="" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Start Products  -->
         <div class="products-box">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-all text-center">
-                            <h1>Sản phẩm</h1>
-                            <p>Khám phá các sản phẩm trên Pet Shop.</p>
+                            <h1>Products</h1>
+                            <p>Explore products on Pet Shop.</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="special-menu text-center">
                             <div class="button-group filter-button-group">
-                                <button class="active" data-filter="*">Tất cả</button>
-                                <button data-filter=".top-featured">Nổi bật</button>
-                                <button data-filter=".best-seller">Mới</button>
+                                <button class="active" data-filter="*">All</button>
+                                <button data-filter=".top-featured">Featured</button>
+                                <button data-filter=".best-seller">New</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row special-list">
-                    <c:forEach items="${requestScope.allproduct}" var="apr">
+                    <c:forEach items="${requestScope.allproduct}" var="apr" begin="0" end="7">
                         <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                             <div class="products-single fix">
                                 <div class="box-img-hover">
@@ -156,12 +123,12 @@
                                     </div>
                                     <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
                                     <div class="mask-icon">
-                                        <a class="view" href="productdetail?id=${apr.id}">Xem</a>
+                                        <a class="view" href="productdetail?id=${apr.id}">View</a>
                                         <%
                                             User user = (User) session.getAttribute("user");
                                             if (user != null) {
                                         %>
-                                        <a class="cart" href="#">Thêm vào giỏ hàng</a>
+                                        <a class="cart" href="#">Add to Cart</a>
                                         <%}%>
                                     </div>
                                 </div>
@@ -177,6 +144,11 @@
                         </div>
                     </c:forEach>
                 </div>
+            <c:forEach items="${requestScope.allproduct}" varStatus="status">
+                <c:if test="${(status.count==8)}">
+                    <a href="productlist">See more...</a>
+                </c:if>
+            </c:forEach>
             </div>
         </div>
         <!-- End Products  -->
@@ -187,15 +159,15 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-all text-center">
-                            <h1>Bài đăng hot</h1>
-                            <p>Khám phá những bài đăng có lượt truy cập nhiều nhất.</p>
+                            <h1>Hot Blog</h1>
+                            <p>Discover the most visited blogs.</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <c:forEach items="${requestScope.featuredpost}" var="fp">
                         <div class="col-md-6 col-lg-4 col-xl-4" title="${fp.title}"
-                             onclick="window.location.href = 'post?id=${fp.id}'" style="cursor: pointer">
+                             onclick="window.location.href = 'blogdetail?id=${fp.id}'" style="cursor: pointer">
                             <div class="blog-box">
                                 <div class="blog-img">
                                     <img class="img-fluid" src="${fp.thumbnail}" alt="" />
