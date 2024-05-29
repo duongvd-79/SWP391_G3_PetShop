@@ -72,26 +72,27 @@ public class EditUserServlet extends HttpServlet {
             String status = request.getParameter("status");
             int roleid = Integer.parseInt(request.getParameter("roleid"));
             uDAO.updateUser(roleid, status, id);
-            request.getRequestDispatcher("userlist").forward(request, response);
-        }
+            response.sendRedirect("userlist");
+        } else {
 
-        List<Setting> sList;
-        List<User> uList = new ArrayList<>();
-        try {
-            uList = uDAO.getAllUser();
-            sList = uDAO.getAllRole();
-            request.setAttribute("sList", sList);
-        } catch (SQLException ex) {
-        }
-        User u = null;
-        int id = Integer.parseInt(request.getParameter("id"));
-        for (User user : uList) {
-            if (user.getId() == id) {
-                u = user;
+            List<Setting> sList;
+            List<User> uList = new ArrayList<>();
+            try {
+                uList = uDAO.getAllUser();
+                sList = uDAO.getAllRole();
+                request.setAttribute("sList", sList);
+            } catch (SQLException ex) {
             }
+            User u = null;
+            int id = Integer.parseInt(request.getParameter("id"));
+            for (User user : uList) {
+                if (user.getId() == id) {
+                    u = user;
+                }
+            }
+            request.setAttribute("u", u);
+            request.getRequestDispatcher("usersetting.jsp").forward(request, response);
         }
-        request.setAttribute("u", u);
-        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
     }
 
     /**
