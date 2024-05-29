@@ -76,7 +76,7 @@ public class EditUserServlet extends HttpServlet {
         }
         else{
         List<Setting> sList;
-        List<User> uList=new ArrayList<>();
+        List<User> uList = new ArrayList<>();
         try {
             uList = uDAO.getAllUser();
             sList = uDAO.getAllRole();
@@ -86,8 +86,9 @@ public class EditUserServlet extends HttpServlet {
         User u = null;
         int id = Integer.parseInt(request.getParameter("id"));
         for (User user : uList) {
-            if(user.getId()==id)
-                u=user;
+            if (user.getId() == id) {
+                u = user;
+            }
         }
         request.setAttribute("u", u);
         request.getRequestDispatcher("usersetting.jsp").forward(request, response);
