@@ -64,7 +64,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDAO uDAO = new UserDAO();
+       UserDAO uDAO = new UserDAO();
 
         String action = request.getParameter("action");
         if (action != null && action.equals("update")) {
