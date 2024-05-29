@@ -4,7 +4,7 @@
 <!-- Start Main Top -->
 <header class="main-header">
     <!-- Start Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+    <nav class="shadow navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
         <div class="container">
             <!-- Start Header Navigation -->
             <div class="navbar-header">
@@ -81,6 +81,7 @@
         </div>
         <!-- End Side Menu -->
     </nav>
+            
     <!-- End Navigation -->
 </header>
 <!-- End Main Top -->

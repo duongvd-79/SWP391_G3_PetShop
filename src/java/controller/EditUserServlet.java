@@ -72,9 +72,9 @@ public class EditUserServlet extends HttpServlet {
             String status = request.getParameter("status");
             int roleid = Integer.parseInt(request.getParameter("roleid"));
             uDAO.updateUser(roleid, status, id);
-            request.getRequestDispatcher("userlist").forward(request, response);
+            response.sendRedirect("userlist");
         }
-
+        else{
         List<Setting> sList;
         List<User> uList=new ArrayList<>();
         try {
@@ -91,6 +91,7 @@ public class EditUserServlet extends HttpServlet {
         }
         request.setAttribute("u", u);
         request.getRequestDispatcher("usersetting.jsp").forward(request, response);
+        }
     }
 
     /**

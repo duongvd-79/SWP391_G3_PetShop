@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
     </head>
+    
     <body>
         <c:set value="${requestScope.detail}" var="detail"/>
         <div class="container rounded bg-white mt-5 mb-5 shadow-sm">
@@ -53,14 +54,14 @@
                                 <div class="my-2">
                                     <div class="form-check custom-radio form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active "${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''} >
+                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active" ${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''}>
                                         <label class="form-check-label" for="active">
                                             Active
                                         </label>
                                     </div>
                                     <div class="form-check custom-radio form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive"${"Active".equals(requestScope.detail.getStatus()) ? '':'checked'}>
+                                        <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive" ${"Active".equals(requestScope.detail.getStatus()) ? '':'checked'}>
                                         <label class="form-check-label" for="inactive">
                                             Inactive
                                         </label>
