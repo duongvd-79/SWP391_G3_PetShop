@@ -4,6 +4,8 @@
  */
 package controller;
 
+
+import helper.SendMail;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -67,6 +69,8 @@ public class AddUserServlet extends HttpServlet {
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
 
+        SendMail.sendMail(email,"Your account has been create by this email.","Your password: "+password);
+        
         int roleid = Integer.parseInt(request.getParameter("roleid"));
 
         User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male") ? true : false), roleid);

@@ -51,6 +51,7 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getFeatured() {
+        productList.clear();
         String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 5";
         try {
             productList = new ArrayList<>();
@@ -109,10 +110,9 @@ public class ProductDAO extends DBContext {
     }
 
     public static void main(String[] args) throws SQLException {
-        FeedbackDAO p = new FeedbackDAO();
-        ArrayList<ProductFeedback> f = p.getNewFeedback();
-        for(ProductFeedback i : f){
-            System.out.println(i.getName());
+        ProductDAO p = new ProductDAO();
+        for(Product pr : p.getFeatured()){
+            System.out.println(pr.getThumbnail());
         }
     }
 }

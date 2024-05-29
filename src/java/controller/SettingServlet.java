@@ -71,10 +71,10 @@ public class SettingServlet extends HttpServlet {
         //active hoặc inactive
         try {
             int id = Integer.parseInt(request.getParameter("id"));
-            String stat = request.getParameter("status");
+            String stat = request.getParameter("cstatus");
             if(stat!=null && stat.equals("Active"))
                 sDAO.active(id);
-            else
+            else if(stat!=null && (stat.equals("Inactive") || stat.equals("Pending")))
                 sDAO.inactive(id);
         } catch (NumberFormatException e) {
         }
@@ -87,7 +87,7 @@ public class SettingServlet extends HttpServlet {
         request.setAttribute("types", types);
 
         String action = request.getParameter("action");
-        //Điều hướng setting detaisl
+        //Điều hướng setting detail
         if (action != null && action.equals("edit")) {
             int id = Integer.parseInt(request.getParameter("id"));
             Setting s = sDAO.getById(id);

@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Setting List</title>
     </head>
+    
     <body>
         <div class="container-fluid rounded bg-white mt-5 mb-5 shadow-sm">
             <div class="row">
@@ -85,7 +86,7 @@
                                             <td>${s.getStatus()}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
                                                     <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                    <div class="btn py-1" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&status=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
+                                                    <div class="btn py-1" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
                                                 </div>
                                             </td>
                                         </tr>

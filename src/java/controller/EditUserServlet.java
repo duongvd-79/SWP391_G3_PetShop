@@ -64,7 +64,7 @@ public class EditUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        UserDAO uDAO = new UserDAO();
+       UserDAO uDAO = new UserDAO();
 
         String action = request.getParameter("action");
         if (action != null && action.equals("update")) {
@@ -73,25 +73,25 @@ public class EditUserServlet extends HttpServlet {
             int roleid = Integer.parseInt(request.getParameter("roleid"));
             uDAO.updateUser(roleid, status, id);
             response.sendRedirect("userlist");
-        } else {
-
-            List<Setting> sList;
-            List<User> uList = new ArrayList<>();
-            try {
-                uList = uDAO.getAllUser();
-                sList = uDAO.getAllRole();
-                request.setAttribute("sList", sList);
-            } catch (SQLException ex) {
+        }
+        else{
+        List<Setting> sList;
+        List<User> uList = new ArrayList<>();
+        try {
+            uList = uDAO.getAllUser();
+            sList = uDAO.getAllRole();
+            request.setAttribute("sList", sList);
+        } catch (SQLException ex) {
+        }
+        User u = null;
+        int id = Integer.parseInt(request.getParameter("id"));
+        for (User user : uList) {
+            if (user.getId() == id) {
+                u = user;
             }
-            User u = null;
-            int id = Integer.parseInt(request.getParameter("id"));
-            for (User user : uList) {
-                if (user.getId() == id) {
-                    u = user;
-                }
-            }
-            request.setAttribute("u", u);
-            request.getRequestDispatcher("usersetting.jsp").forward(request, response);
+        }
+        request.setAttribute("u", u);
+        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
         }
     }
 
