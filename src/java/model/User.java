@@ -140,8 +140,8 @@ public class User {
     }
 
     public String getGender() {
-        if(gender) return "Male";
-        return "Female";
+        if(gender) return "Female";
+        return "Male";
     }
 
     public void setGender(boolean gender) {
