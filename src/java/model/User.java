@@ -39,7 +39,6 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
-        this.id = id;
         this.gender = gender;
         this.roleId = roleId;
     }
@@ -140,8 +139,8 @@ public class User {
     }
 
     public String getGender() {
-        if(gender) return "Female";
-        return "Male";
+        if(gender) return "Male";
+        return "Female";
     }
 
     public void setGender(boolean gender) {

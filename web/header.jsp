@@ -77,27 +77,56 @@
             </div>
 
             <!-- Register Popup -->
-            <div id="registerpopup" class="overlay">
-                <div class="popup">
+            <div id="registerpopup" class="overlay container-fluid">
+                <div class="popup2">
                     <div class="form-block">
                         <div class="mb-4">
-                            <h3>Register</h3>
+                            <h3><strong>Register</strong></h3>
                             <a class="close" href="#">&times;</a>
                         </div>
                         <form action="register" method="post">
                             <div class="form-group first">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
+                                <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email">
                             </div>
                             <div class="form-group last mb-4">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password">
+                                <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
+                            </div>
+                            <div class="form-group last mb-4">
+                                <label for="fullname">Full Name</label>
+                                <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname">
+                            </div>
+                            <div class="form-group last mb-4">
+                                <label for="phone">Phone</label>
+                                <input type="text" class="form-control" pattern="^[0-9]{10}$" title="Phone must contain 10 number" id="phone" name="phone" placeholder="Phone number" required="">
+                            </div>
+                            <div class="row">
+                            <div class="col-4 form-group last mb-4">
+                                <input class="" type="radio" name="gender" id="male" checked >
+                                <label class="" for="male">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="col-4 form-group last mb-4">
+                                <input class="" type="radio" name="gender" id="female" >
+                                <label class="" for="female">
+                                    Female
+                                </label>
+                            </div>
+                            </div>
+                            <div class="form-group last mb-4">
+                                <div>
+                                <label for="fullname">Address</label>
+                                <input type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
+                                </div>
                             </div>
                             <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
                             <div class="social-login text-center mt-2">
                                 <span>Already had an account? </span>
-                                <a href="#loginpopup"><strong>Sign Up</strong></a>
+                                <a href="#loginpopup"><strong>Sign In</strong></a>
                             </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -144,7 +173,7 @@
         opacity: 1;
     }
 
-    .popup {
+    .popup,.popup2{
         margin: 150px auto;
         padding: 30px 40px;
         background: #fff;
@@ -152,6 +181,9 @@
         width: 30%;
         position: relative;
         transition: all 5s ease-in-out;
+    }
+    .popup2{
+        margin: 75px auto;
     }
     .popup .close {
         position: absolute;

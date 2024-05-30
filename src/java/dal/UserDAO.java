@@ -254,13 +254,23 @@ public class UserDAO extends DBContext {
         sta.setString(7, u.getPhone());
         sta.executeUpdate();
     }
+    public int getLastId() throws SQLException{
+        String sql = "SELECT * from user ORDER BY id DESC LIMIT 1";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        ResultSet rs = sta.executeQuery();
+        int id=0;
+        while (rs.next()) {
+            id = rs.getInt("id");
+        }
+        return id;
+    }
    
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
         for(User s : u.getAllUser()){
-            System.out.println(s.getId() + s.getPfp());
+//            System.out.println(s.getId() + s.getPfp());
         }
-        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+        System.out.println(u.getLastId());
         
     }
 
