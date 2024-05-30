@@ -254,13 +254,43 @@ public class UserDAO extends DBContext {
         sta.setString(7, u.getPhone());
         sta.executeUpdate();
     }
-   
+    
+    public User login(String email, String password) {
+        String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            stm.setString(1, email);
+            stm.setString(2, password);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                User user = new User();
+                user.setId(rs.getInt("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setName(rs.getString("name"));
+                user.setStatus(rs.getString("status"));
+                user.setPhone(rs.getString("phone"));
+                user.setPfp(rs.getString("pfp"));
+                user.setRoleId(rs.getInt("role_id"));
+                user.setUpdateBy(rs.getInt("update_by"));
+                user.setGender(rs.getBoolean("gender"));
+                user.setLastLog(rs.getDate("last_log"));
+                user.setUpdateDate(rs.getDate("update_date"));
+                return user;
+            }
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+    
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
-        for(User s : u.getAllUser()){
-            System.out.println(s.getId() + s.getPfp());
-        }
-        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+//        for(User s : u.getAllUser()){
+//            System.out.println(s.getId() + s.getPfp());
+//        }
+//        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+        User user = u.login("sale@gmail.com", "827ccb0eea8a706c4c34a16891f84e7b");
+        System.out.println(user.getName());
         
     }
 
