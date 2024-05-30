@@ -43,13 +43,7 @@
     </head>
 
     <body>
-        <!-- Start Main Top -->
-
-        <!-- End Main Top -->
-
-        <!-- Start Main Top -->
-        <jsp:include page="header.jsp"/>
-        <!-- End Top Search -->
+        <jsp:include page="header.jsp"></jsp:include>
         <!-- Start All Title Box -->
         <div class="all-title-box">
             <div class="container">
@@ -76,8 +70,8 @@
                     <div class="col-xl-7 col-lg-7 col-md-6">
                         <div class="single-product-details">
                             <h2>${requestScope.product.title}</h2>
-                            <h5> <del>$ ${requestScope.product.listPrice + 50}</del> $ ${requestScope.product.listPrice}</h5>
-                            <p class="available-stock"><span> <a href="#">8 sold </a></span><p>
+                            <h5><del>${requestScope.product.listPrice + 100}00 đ </del>${requestScope.product.listPrice}00 đ</h5>
+                            <p class="available-stock"><span> <a href="#">8 sold</a></span><p>
                             <h4>Short Description:</h4>
                             <p>${requestScope.product.description}</p>
                             <ul>
@@ -93,7 +87,6 @@
                                 <div class="cart-and-bay-btn">
                                     <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
                                     <a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
-                                    <a class="btn hvr-hover" data-fancybox-close="" href="#">Add to wishlist</a>
                                 </div>
                             </div>
                         </div>
@@ -106,21 +99,30 @@
                             <h2>Product Reviews</h2>
                         </div>
                         <div class="card-body">
-                            <c:forEach items="${feedbackList}" var="f">
-                                <div class="media mb-3">
-                                    <div class="mr-2"> 
-                                        <img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
-                                    </div>
-                                    <div class="media-body">
-                                        <p>${f.detail}</p>
-                                        <small class="text-muted">Posted by ${f.name} on ${f.createdDate}</small>
-                                    </div>
-                                </div>
-                            </c:forEach>
+                            <c:set var="fl" value="${requestScope.feedbackList}"/>
+                            <c:choose>
+                                <c:when test="${not empty fl}">
+                                    <c:forEach items="${fl}" var="f">
+                                        <div class="media mb-3">
+                                            <div class="mr-2"> 
+                                                <img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
+                                            </div>
+                                            <div class="media-body">
+                                                <p>${f.detail}</p>
+                                                <small class="text-muted">Posted by ${f.name} on ${f.createdDate}</small>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <p>No reviews yet!</p>
+                                </c:otherwise>
+                            </c:choose>
 
                             <hr>
-
-                            <a href="#" class="btn hvr-hover">See more</a>
+                            <c:if test="${not empty fl}">
+                                <a href="#" class="btn hvr-hover">See more</a>
+                            </c:if>
                             <a href="#" class="btn hvr-hover">Leave a Review</a>
                         </div>
                     </div>
@@ -142,15 +144,13 @@
                                     <div class="mask-icon">
                                         <ul>
                                             <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                         </ul>
                                         <a class="cart" href="#">Add to Cart</a>
                                     </div>
                                 </div>
                                 <div class="why-text">
                                     <h4>${p.title}</h4>
-                                    <h5>$ ${p.listPrice}</h5>
+                                    <h5>${p.listPrice}00 đ</h5>
                                 </div>
                             </div>
                         </div>

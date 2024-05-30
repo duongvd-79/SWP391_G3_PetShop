@@ -58,30 +58,6 @@ public class User {
         this.updateDate = updateDate;
     }
 
-    public int getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(int updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Date getUpdatedDate() {
-        return updateDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updateDate = updatedDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -138,9 +114,24 @@ public class User {
         this.roleId = roleId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(int updateBy) {
+        this.updateBy = updateBy;
+    }
+
     public String getGender() {
-        if(gender) return "Male";
-        return "Female";
+        return gender ? "Male" : "Female";
     }
 
     public void setGender(boolean gender) {
