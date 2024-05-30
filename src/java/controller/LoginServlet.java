@@ -55,7 +55,14 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String logoutRequest = request.getParameter("logout");
+        if (logoutRequest == null) {
+            response.sendRedirect("home#loginpopup");
+        } else {
+            HttpSession session = request.getSession(false);
+            session.invalidate();
+            response.sendRedirect("home");
+        }
     } 
 
     /** 

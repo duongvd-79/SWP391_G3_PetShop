@@ -30,10 +30,10 @@ public class BlogDetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String pid = request.getParameter("pid");
+         String id = request.getParameter("id");
          PostDAO dao = new PostDAO();
-         Post pdetail = dao.getPostById(pid);
-         request.setAttribute("postdetail", pdetail);
+         Post blog = dao.getPostById(id);
+         request.setAttribute("postdetail", blog);
          request.getRequestDispatcher("blogdetail.jsp").forward(request, response);
     }
 

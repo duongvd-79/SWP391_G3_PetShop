@@ -1,7 +1,6 @@
-
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.User"%>
 <!DOCTYPE html>
 <html lang="en">
     <!-- Basic -->
@@ -142,10 +141,13 @@
                                     </div>
                                     <img src=${p.thumbnail} class="img-fluid" alt="Image">
                                     <div class="mask-icon">
-                                        <ul>
-                                            <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                        </ul>
+                                        <a class="view" href="productdetail?id=${p.id}">View</a>
+                                        <%
+                                            User user = (User) session.getAttribute("user");
+                                            if (user != null) {
+                                        %>
                                         <a class="cart" href="#">Add to Cart</a>
+                                        <%}%>
                                     </div>
                                 </div>
                                 <div class="why-text">
