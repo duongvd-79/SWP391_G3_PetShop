@@ -247,7 +247,5 @@
             width: 50px;
             border-radius: 99px;
         }
-
-
     </style>
 </html>

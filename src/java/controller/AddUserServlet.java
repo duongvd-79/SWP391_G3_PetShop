@@ -73,7 +73,7 @@ public class AddUserServlet extends HttpServlet {
         
         int roleid = Integer.parseInt(request.getParameter("roleid"));
 
-        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male") ? true : false), roleid);
+        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), roleid);
         try {
             uDAO.addNewUser(u);
         } catch (SQLException ex) {
