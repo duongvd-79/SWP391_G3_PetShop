@@ -14,7 +14,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.User;
@@ -77,16 +80,29 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         UserDAO uDAO = new UserDAO();
+        List<User> uList=new ArrayList<>();
+        try {
+            uList = uDAO.getAllUser();
+        } catch (SQLException ex) {
+        }
         AddressDAO aDAO = new AddressDAO();
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        String cfpassword = request.getParameter("cfpassword");
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
         String address = request.getParameter("address");
-
+        boolean dup = false;
         User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), 5);
+        for(User user : uList){
+            if(user.getEmail().equals(email))
+            dup = true;
+        }
+        
+        if(password.equals(cfpassword)){
         try {
             uDAO.addNewUser(u);
             aDAO.addNew(address);
@@ -96,6 +112,18 @@ public class RegisterServlet extends HttpServlet {
         }
         SendMail.sendMail(email, "Click the link to verify your account", "http://localhost:9998/SWP391_G3_PetShop/home#loginpopup");
         response.sendRedirect("home#loginpopup");
+        }
+        else if(dup){
+            session.setAttribute("alert", "Email had been taken.");
+            session.setAttribute("newuser", u);
+            response.sendRedirect("home#registerpopup");
+        }
+        else {
+            session.setAttribute("newuser", u);
+            session.setAttribute("alert", "Password not match.");
+            response.sendRedirect("home#registerpopup");
+        }
+    
     }
 
     /**
