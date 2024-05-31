@@ -72,7 +72,7 @@ public class ProductDetailServlet extends HttpServlet {
             int id = Integer.parseInt(idRaw);
             Product p = productDAO.getProductById(id);
 
-            ArrayList<ProductFeedback> feedbackList = feedbackDAO.getNewFeedback();
+            ArrayList<ProductFeedback> feedbackList = feedbackDAO.getNewFeedback(id);
             List<Product> productList = productDAO.getRelatedProduct(id);
             request.setAttribute("feedbackList", feedbackList);
             request.setAttribute("product", p);
