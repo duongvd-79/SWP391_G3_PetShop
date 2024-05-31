@@ -20,12 +20,13 @@ import model.User;
 
 public class FeedbackDAO extends DBContext {
 
-    public ArrayList<ProductFeedback> getNewFeedback() throws SQLException {
+    public ArrayList<ProductFeedback> getNewFeedback(int newid) throws SQLException {
         String sql = "SELECT   p.id, p.product_id, p.user_id, u.name, u.pfp, p.detail, p.star, p.image, p.status, p.created_date\n"
-                + "FROM product_feedback p join user u on p.user_id = u.id\n"
+                + "FROM product_feedback p join user u on p.user_id = u.id\n where p.product_id = ? "
                 + "ORDER BY created_date desc\n"
                 + "limit 3;";
         PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1,newid );
         ResultSet rs = sta.executeQuery();
         ArrayList<ProductFeedback> lst = new ArrayList<>();
         while (rs.next()) {
