@@ -73,8 +73,7 @@ public class ProductDAO extends DBContext {
             stm.setInt(1, id);
             rs = stm.executeQuery();
             if (rs.next()) {
-                Product p = setProduct(rs);
-                return p;
+                return setProduct(rs);
             }
         } catch (SQLException e) {
         }

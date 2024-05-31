@@ -54,16 +54,16 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String logoutRequest = request.getParameter("logout");
-        if (logoutRequest == null) {
+        HttpSession session = request.getSession(false);
+        if (session == null || logoutRequest == null) {
             response.sendRedirect("home#loginpopup");
         } else {
-            HttpSession session = request.getSession(false);
             session.invalidate();
             response.sendRedirect("home");
         }
-    } 
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -86,6 +86,10 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             response.sendRedirect("home");
+        } else {
+            String error = "Wrong email or password!";
+            request.setAttribute("error", error);
+            request.getRequestDispatcher("home#loginpopup").forward(request, response);
         }
     }
 
