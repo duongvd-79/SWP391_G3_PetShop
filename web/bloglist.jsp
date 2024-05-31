@@ -7,13 +7,15 @@
         <meta content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>PetShop Home Page</title>
+        <title>PetShop Blog List</title>
 
         <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- Icon CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <!-- Site CSS -->
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
@@ -26,14 +28,6 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 100%; /* Adjust this value to limit the width as needed */
-            }
-        </style>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 20px;
-                background-color: #f4f4f4;
             }
             .search-container {
                 max-width: 600px;
@@ -69,12 +63,13 @@
             .search-box button:hover {
                 background-color: #218838;
             }
+            .blog-content {
+                padding: 20px;
+            }
         </style>
     </head>
     <body>
-
         <jsp:include page="header.jsp"></jsp:include>
-
             <!-- Start Top Search -->
             <div class="top-search">
                 <div class="container">
@@ -85,9 +80,8 @@
                     </div>
                 </div>
             </div>
-
-
             <!-- End Top Search -->
+
             <div class="latest-blog">
                 <div class="container">
                     <div class="row">
@@ -149,17 +143,17 @@
                                     </div>
                                     <div class="blog-content">
                                         <div class="title-blog">
-                                            <a href="blogdetail?pid=` + post.id + `" title="` + post.title + `" class="image-resize ratiobox">
+                                            <a href="blogdetail?id=` + post.id + `" title="` + post.title + `" class="image-resize ratiobox">
                                                 <p class="ellipsis-text" style="font-weight: bold">` + post.title + `</p>
                                             </a>
                                         </div>
                                         <div class="mr-3 d-flex align-items-center">
-                                            <p class="mb-0"><i class="fa fa-user"></i> ` + post.user + `</p>
+                                            <p class="mb-0"><i class="bi bi-person-circle"></i> ` + post.user + `</p>
                                         </div>
                                         <div class="d-flex align-items-center">
-                                            <p class="mb-0"><i class="fa fa-calendar"></i> ` + post.createdDate + `</p>
+                                            <p class="mb-0"><i class="bi bi-calendar-week"></i> ` + post.createdDate + `</p>
                                         </div>
-                                        <a href="blogdetail?pid=` + post.id + `" class="btn btn-secondary">Đọc tiếp</a>
+                                        <a href="blogdetail?id=` + post.id + `" class="btn btn-secondary">Đọc tiếp</a>
                                     </div>
                                 </div>
                             `;
@@ -218,9 +212,7 @@
                     renderPagination();
                 });
         </script>
-
         <jsp:include page="footer.jsp"></jsp:include>
-
         <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
 
         <!-- ALL JS FILES -->

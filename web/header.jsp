@@ -34,8 +34,15 @@
                         </ul>
                     </li>
                     <%} else {%>
-                    <li class="nav-item"><a class="nav-link" href="userprofile">User Profile</a></li>
-                        <%}%>
+                    <!--<li class="nav-item"><a class="nav-link" href="userprofile">${user.name}</a></li>-->
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle arrow bi bi-caret-down-fill" data-toggle="dropdown">${user.name}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link" href="userprofile">User Profile</a></li>
+                            <li><a class="text-danger" href="login?logout=true">Logout</a></li>
+                        </ul>
+                    </li>
+                    <%}%>
             </div>
             <!-- /.navbar-collapse -->
 
@@ -106,23 +113,23 @@
                                 <input type="text" class="form-control" pattern="^[0-9]{10}$" title="Phone must contain 10 number" id="phone" name="phone" placeholder="Phone number" required="" value="${newuser.getPhone()}">
                             </div>
                             <div class="row">
-                            <div class="col-4 form-group last mb-2">
-                                <input class="" type="radio" name="gender" id="male" checked >
-                                <label class="" for="male">
-                                    Male
-                                </label>
+                                <div class="col-4 form-group mt-2 mb-1">
+                                    <input type="radio" name="gender" id="male" checked >
+                                    <label for="male">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="col-4 form-group mt-2 mb-1">
+                                    <input type="radio" name="gender" id="female" >
+                                    <label for="female">
+                                        Female
+                                    </label>
+                                </div>
                             </div>
-                            <div class="col-4 form-group last mb-2">
-                                <input class="" type="radio" name="gender" id="female" >
-                                <label class="" for="female">
-                                    Female
-                                </label>
-                            </div>
-                            </div>
-                            <div class="form-group last mb-3">
+                            <div class="form-group last mb-2">
                                 <div>
-                                <label for="fullname">Address</label>
-                                <input type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
+                                    <label for="fullname">Address</label>
+                                    <input type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
                                 </div>
                             </div>
                             <span class="text-danger">${sessionScope.alert}<span>
@@ -131,19 +138,19 @@
                                 <span>Already had an account? </span>
                                 <a href="#loginpopup"><strong>Sign In</strong></a>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>
             </div>
             <%}%>
+
             <!-- Start Atribute Navigation -->
             <%
                 if (user != null) {
             %>
             <div class="attr-nav">
                 <ul>
-                    <li class="search"><a href="#"><i class="bi bi-search"></i></a></li>
                     <li class="side-menu">
                         <a href="#">
                             <i class="bi bi-basket3"></i>
@@ -177,7 +184,6 @@
         visibility: visible;
         opacity: 1;
     }
-
     .popup,.popup2{
         margin: 150px auto;
         padding: 30px 40px;
@@ -188,9 +194,9 @@
         transition: all 5s ease-in-out;
     }
     .popup2{
-        margin: 75px auto;
+        margin: 2vh auto;
     }
-    .popup .close {
+    .close {
         position: absolute;
         top: 20px;
         right: 30px;
