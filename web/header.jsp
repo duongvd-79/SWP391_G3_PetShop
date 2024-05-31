@@ -59,7 +59,7 @@
                         </div>
                         <form action="login" method="post">
                             <div class="form-group first">
-                                <p>${requestScope.error}</p>
+                                <p class="text-danger">${sessionScope.error}</p>
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email">
                             </div>

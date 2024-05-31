@@ -88,8 +88,10 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("home");
         } else {
             String error = "Wrong email or password!";
-            request.setAttribute("error", error);
-            request.getRequestDispatcher("home#loginpopup").forward(request, response);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("error", error);
+            //request.getRequestDispatcher("home#loginpopup").forward(request, response);
+            response.sendRedirect("home#loginpopup");
         }
     }
 
