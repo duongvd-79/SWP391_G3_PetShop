@@ -19,7 +19,7 @@
             <div class="row">
                 <nav class="mt-4 ps-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class=" h5 breadcrumb">
-                        <li class="breadcrumb-item"><a class="root" href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a class="root" href="home">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">System Settings</li>
                     </ol>
                 </nav>

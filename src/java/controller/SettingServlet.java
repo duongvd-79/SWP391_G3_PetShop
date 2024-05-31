@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
 import model.Setting;
@@ -62,7 +63,7 @@ public class SettingServlet extends HttpServlet {
         
         //Lấy danh sách setting
         SettingDAO sDAO = new SettingDAO();
-
+        HttpSession session = request.getSession();
         String sort = request.getParameter("sort");
         request.setAttribute("sort", sort);
         
@@ -92,6 +93,7 @@ public class SettingServlet extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"));
             Setting s = sDAO.getById(id);
             request.setAttribute("detail", s);
+            session.setAttribute("detail", s);
             request.getRequestDispatcher("settingdetails.jsp").forward(request, response);
         }
         String type = request.getParameter("type");

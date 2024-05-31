@@ -98,16 +98,14 @@
                     <div class="col-lg-12">
                         <div class="special-menu text-center">
                             <div class="button-group filter-button-group">
-                                <button class="active" data-filter="*">All</button>
                                 <button data-filter=".top-featured">Featured</button>
-                                <button data-filter=".best-seller">New</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row special-list">
-                    <c:forEach items="${requestScope.allproduct}" var="apr" begin="0" end="7">
+                    <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
                         <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                             <div class="products-single fix">
                                 <div class="box-img-hover">

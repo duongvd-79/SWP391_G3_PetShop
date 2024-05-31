@@ -18,7 +18,7 @@
             <div class="row">
                 <nav class="mt-4 ps-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class=" h5 breadcrumb">
-                        <li class="breadcrumb-item"><a class="root" href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a class="root" href="home">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Users List</li>
                     </ol>
                 </nav>
@@ -42,7 +42,7 @@
                             <label>Sort User By: </label>
                             <select name="type" class="form-select" id="type" onchange="if (this.value)
                                         window.location.href = this.value">
-                                <option value="userlist">All Users</option>
+                                        <option>All Users</option>
                                 <option value="sortuser?order_by=id"}>User ID</option>
                                 <option value="sortuser?order_by=name"}>FullName</option>
                                 <option value="sortuser?order_by=gender"}>Gender</option>
@@ -53,15 +53,6 @@
                             </select>
 
                         </div>
-                        <!--                        <div class="col-md-2 function">
-                                                    <select class="form-select function" id="status" onchange="if (this.value)
-                                                                window.location.href = this.value">
-                                                        <option value="">Unsorted Users</option>
-                                                        <option value=""}>Pending</option>
-                                                        <option value="admin?action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
-                                                    </select>
-                        
-                                                </div>-->
 
                     </form>
 
@@ -79,7 +70,8 @@
                                         <th>
                                             <select class="gender-dropdown" onchange="if (this.value)
                                                         window.location.href = this.value">
-                                                <option value="userlist" selected>Gender:</option>
+                                                <option>Gender:</option>
+                                                <option value="userlist">All User</option>
                                                 <option value="filteruser?gender=male">Male</option>
                                                 <option value="filteruser?gender=female">Female</option>
                                             </select>
@@ -88,14 +80,16 @@
                                         <th>Mobile</th>
                                         <th> <select class="gender-dropdown" onchange="if (this.value)
                                                     window.location.href = this.value">
-                                                <option value="userlist" selected>Role</option>
+                                                        <option selected>Role</option>
+                                                <option value="userlist">All Role</option>
                                                 <c:forEach items="${roleList}" var="r">
                                                     <option value="filteruser?role=${r.id}" >${r.name}</option>
                                                 </c:forEach>
                                             </select></th>
                                         <th> <select class="gender-dropdown" onchange="if (this.value)
                                                     window.location.href = this.value">
-                                                <option value="userlist" selected>Status</option>
+                                                <option>Status</option>
+                                                <option value="userlist">All Status</option>
                                                 <c:forEach items="${statusList}" var="s">
                                                     <option value="filteruser?status=${s}" >${s}</option>
                                                 </c:forEach>
@@ -128,17 +122,6 @@
 
                     <div class="text-left text-danger">${msg}</div>
 
-
-
-                    <nav aria-label="setting list paging ">
-                        <ul class="pagination d-flex justify-content-end">
-                            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item"><a class="page-link" href="#!">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
                 </div>
 
             </div>

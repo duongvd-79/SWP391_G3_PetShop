@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-group last mb-2">
                                 <label for="fullname">Full Name</label>
-                                <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getEmail()}">
+                                <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getName()}">
                             </div>
                             <div class="form-group last mb-2">
                                 <label for="phone">Phone</label>

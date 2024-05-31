@@ -18,8 +18,8 @@
             <div class="row">
                 <nav class="mt-4 ps-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                     <ol class=" h5 breadcrumb">
-                        <li class="breadcrumb-item"><a class="root" href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a class="root" href="#">User List</a></li>
+                        <li class="breadcrumb-item"><a class="root" href="home">Home</a></li>
+                        <li class="breadcrumb-item"><a class="root" href="userlist">User List</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Profile Settings</li>
                     </ol>
                 </nav>
@@ -109,7 +109,7 @@
                         <form method="get" action="adduser" class="row">
                             <input type="hidden" name="action" value="add">
                             <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
-                            <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="text" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
+                            <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
                             <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
                             <div class="col-md-5"><label class="labels">Role</label>
                                 <select class="form-select" id="roles" name="roleid">

@@ -102,7 +102,7 @@ public class RegisterServlet extends HttpServlet {
             dup = true;
         }
         
-        if(password.equals(cfpassword)){
+        if(password.equals(cfpassword) && !dup){
         try {
             uDAO.addNewUser(u);
             aDAO.addNew(address);
@@ -110,7 +110,6 @@ public class RegisterServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        SendMail.sendMail(email, "Click the link to verify your account", "http://localhost:9998/SWP391_G3_PetShop/home#loginpopup");
         response.sendRedirect("home#loginpopup");
         }
         else if(dup){

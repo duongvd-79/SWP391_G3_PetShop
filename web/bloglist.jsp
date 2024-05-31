@@ -123,7 +123,7 @@
             </c:forEach>
                     ];
 
-                    const postsPerPage = 6; // Number of posts per page
+                    const postsPerPage = 3; // Number of posts per page
                     let currentPage = 1;
 
                     function renderPosts(page) {
