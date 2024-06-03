@@ -5,6 +5,7 @@
 package controller;
 
 import dal.PostDAO;
+import dal.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,7 +13,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 import model.Post;
+import model.Setting;
 
 /**
  *
@@ -47,13 +50,19 @@ public class PostListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PostDAO dao = new PostDAO();
-        String search = request.getParameter("search");
-        search = search == null ? "" : search;
-        ArrayList<Post> listp = dao.getAllPosts(search);
-        request.setAttribute("listp", listp);
-        request.getRequestDispatcher("PostList.jsp").forward(request, response);
-    }
+    PostDAO dao = new PostDAO();
+    SettingDAO dao1 = new SettingDAO();
+    String search = request.getParameter("search");
+    String categoryId = request.getParameter("categoryID");
+    search = search == null ? "" : search;
+    categoryId = categoryId == null ? "" : categoryId;
+    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+    List<Setting> listS = dao1.getPostCategory();
+    request.setAttribute("listp", listp);
+    request.setAttribute("listC", listS);
+    request.getRequestDispatcher("bloglist.jsp").forward(request, response);
+}
+
 
     /**
      * Handles the HTTP <code>POST</code> method.

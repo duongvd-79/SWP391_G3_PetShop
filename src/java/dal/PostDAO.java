@@ -69,8 +69,8 @@ public class PostDAO extends DBContext {
         Post p = list.getPostById("2");
         System.out.println(p);
     }
-    //sưa postdao
-    public ArrayList<Post> getAllPosts(String search) {
+
+    public ArrayList<Post> getAllPosts(String search, String cateID) {
         ArrayList<Post> listp = new ArrayList<>();
         String sql = "SELECT \n"
                 + "    post.id ,\n"
@@ -101,9 +101,16 @@ public class PostDAO extends DBContext {
                 + "JOIN \n"
                 + "    setting ON post.category_id = setting.id"
                 + " where post.title like ?";
-        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql);) {
-            ps.setString(1, "%"+search+"%");
-            ResultSet rs = ps.executeQuery();
+        try {
+            if (!cateID.equals("")) {
+                sql = sql + "and setting.id = ?";
+            }
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + search + "%");
+            if (!cateID.equals("")) {
+                stm.setString(2, cateID);
+            }
+            rs = stm.executeQuery();
             while (rs.next()) {
                 Post p = new Post();
                 p.setId(rs.getInt("id"));
@@ -132,7 +139,7 @@ public class PostDAO extends DBContext {
         }
         return listp;
     }
-    // Update PostDao
+
     public Post getPostById(String postId) {
         Post post = null;
         String sql = "SELECT \n"
@@ -155,34 +162,34 @@ public class PostDAO extends DBContext {
                 + "JOIN \n"
                 + "setting ON post.category_id = setting.id\n"
                 + "WHERE post.id = ?";
-        try (Connection conn = connection; PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, postId);
-            try (ResultSet rs = ps.executeQuery()) {
-                if (rs.next()) {
-                    post = new Post();  // Initialize the post object here
-                    post.setId(rs.getInt("id"));
-                    post.setTitle(rs.getString("title"));
-                    post.setThumbnail(rs.getString("thumbnail"));
-                    post.setDetail(rs.getString("detail"));
-                    post.setStatus(rs.getString("status"));
-                    post.setCreatedDate(rs.getDate("created_date"));
-                    post.setIsFeatured(rs.getBoolean("is_featured"));
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, postId);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                post = new Post();  // Initialize the post object here
+                post.setId(rs.getInt("id"));
+                post.setTitle(rs.getString("title"));
+                post.setThumbnail(rs.getString("thumbnail"));
+                post.setDetail(rs.getString("detail"));
+                post.setStatus(rs.getString("status"));
+                post.setCreatedDate(rs.getDate("created_date"));
+                post.setIsFeatured(rs.getBoolean("is_featured"));
 
-                    Setting s = new Setting();
-                    s.setId(rs.getInt("setting_id"));
-                    s.setStatus(rs.getString("setting_status"));
-                    s.setName(rs.getString("setting_name"));
-                    s.setOrder(rs.getInt("setting_order"));
-                    post.setSetting(s);
+                Setting s = new Setting();
+                s.setId(rs.getInt("setting_id"));
+                s.setStatus(rs.getString("setting_status"));
+                s.setName(rs.getString("setting_name"));
+                s.setOrder(rs.getInt("setting_order"));
+                post.setSetting(s);
 
-                    User u = new User();
-                    u.setName(rs.getString("user_name"));
-                    post.setUser(u);
-                }
+                User u = new User();
+                u.setName(rs.getString("user_name"));
+                post.setUser(u);
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // or use a logger
+            e.printStackTrace();
         }
         return post;
     }
