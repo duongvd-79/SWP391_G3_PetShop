@@ -156,20 +156,21 @@ public class SettingServlet extends HttpServlet {
         }
         //Phân trang
         int page = 0;
+        int rows = 4;
         try {
             page = Integer.parseInt(request.getParameter("page"));
         } catch (NumberFormatException e) {
             page = 1;
         }
         int pageNum = 0;
-        if (sList.size() % 3 == 0) {
-            pageNum = sList.size() / 3;
+        if (sList.size() % rows == 0) {
+            pageNum = sList.size() / rows;
         } else {
-            pageNum = sList.size() / 3 + 1;
+            pageNum = sList.size() / rows + 1;
         }
         request.setAttribute("pageNum", pageNum);
         request.setAttribute("page", page);
-        sList = sDAO.getByPage(sList, page);
+        sList = sDAO.getByPage(sList, page, rows);
         
         request.setAttribute("settingList", sList);
         request.getRequestDispatcher("settinglist.jsp").forward(request, response);

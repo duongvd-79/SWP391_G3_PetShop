@@ -36,96 +36,145 @@
                         </div>
                     </div>
 
-                    <div class="col-md-1 function"></div
-                    <form>
-                        <div class="col-md-3 function">
-                            <label>Sort User By: </label>
-                            <select name="type" class="form-select" id="type" onchange="if (this.value)
-                                        window.location.href = this.value">
-                                        <option>All Users</option>
-                                <option value="sortuser?order_by=id"}>User ID</option>
-                                <option value="sortuser?order_by=name"}>FullName</option>
-                                <option value="sortuser?order_by=gender"}>Gender</option>
-                                <option value="sortuser?order_by=email"}>Email</option>
-                                <option value="sortuser?order_by=phone"}>Mobile</option>
-                                <option value="sortuser?order_by=role_id"}>Role ID</option>
-                                <option value="sortuser?order_by=status"}>Status</option>
-                            </select>
-
-                        </div>
-
-                    </form>
 
 
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Fullname</th>
+                    <div class="col-md-3 function mb-3">
+                        <label>Sort User By: </label>
+                        <select name="type" class="form-select" id="type" onchange="if (this.value)
+                                    window.location.href = this.value">
+                            <option>All Users</option>
+                            <option value="sortuser?order_by=id"}>User ID</option>
+                            <option value="sortuser?order_by=name"}>FullName</option>
+                            <option value="sortuser?order_by=gender"}>Gender</option>
+                            <option value="sortuser?order_by=email"}>Email</option>
+                            <option value="sortuser?order_by=phone"}>Mobile</option>
+                            <option value="sortuser?order_by=role_id"}>Role ID</option>
+                            <option value="sortuser?order_by=status"}>Status</option>
+                        </select>
 
-                                        <th>
-                                            <select class="gender-dropdown" onchange="if (this.value)
-                                                        window.location.href = this.value">
-                                                <option>Gender:</option>
-                                                <option value="userlist">All User</option>
-                                                <option value="filteruser?gender=male">Male</option>
-                                                <option value="filteruser?gender=female">Female</option>
-                                            </select>
-                                        </th>
-                                        <th>Email</th>
-                                        <th>Mobile</th>
-                                        <th> <select class="gender-dropdown" onchange="if (this.value)
-                                                    window.location.href = this.value">
-                                                        <option selected>Role</option>
-                                                <option value="userlist">All Role</option>
-                                                <c:forEach items="${roleList}" var="r">
-                                                    <option value="filteruser?role=${r.id}" >${r.name}</option>
-                                                </c:forEach>
-                                            </select></th>
-                                        <th> <select class="gender-dropdown" onchange="if (this.value)
-                                                    window.location.href = this.value">
-                                                <option>Status</option>
-                                                <option value="userlist">All Status</option>
-                                                <c:forEach items="${statusList}" var="s">
-                                                    <option value="filteruser?status=${s}" >${s}</option>
-                                                </c:forEach>
-                                            </select></th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach items="${userList}" var="u">
-                                        <tr>
-                                            <td>${u.id}</td>
-                                            <td>${u.name}</td>
-                                            <td>${u.gender}</td>
-                                            <td>${u.email}</td>
-                                            <td>${u.phone}</td>
-                                            <td>${u.roleId}</td>
-                                            <td>${u.status}</td>
-                                            <td>
-                                                <div class="d-flex justify-content-evenly align-items-center py-2">
-                                                    <div class="me-4"><a href="edituser?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
-
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
 
-                    <div class="text-left text-danger">${msg}</div>
+                    <div class="col-md-4 d-flex justify-content-end align-items-center">
+                        <a  href="#popup1" class="btn btn-primary set-button d-flex align-items-center justify-content-center " type="button">Add New</a>
+                    </div>
+
+
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Fullname</th>
+
+                                            <th>
+                                                <select class="gender-dropdown" onchange="if (this.value)
+                                                            window.location.href = this.value">
+                                                    <option>Gender:</option>
+                                                    <option value="userlist">All User</option>
+                                                    <option value="filteruser?gender=male">Male</option>
+                                                    <option value="filteruser?gender=female">Female</option>
+                                                </select>
+                                            </th>
+                                            <th>Email</th>
+                                            <th>Mobile</th>
+                                            <th> <select class="gender-dropdown" onchange="if (this.value)
+                                                        window.location.href = this.value">
+                                                    <option selected>Role</option>
+                                                    <option value="userlist">All Role</option>
+                                                    <c:forEach items="${roleList}" var="r">
+                                                        <option value="filteruser?role=${r.id}" >${r.name}</option>
+                                                    </c:forEach>
+                                                </select></th>
+                                            <th> <select class="gender-dropdown" onchange="if (this.value)
+                                                        window.location.href = this.value">
+                                                    <option>Status</option>
+                                                    <option value="userlist">All Status</option>
+                                                    <c:forEach items="${statusList}" var="s">
+                                                        <option value="filteruser?status=${s}" >${s}</option>
+                                                    </c:forEach>
+                                                </select></th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <c:forEach items="${userList}" var="u">
+                                            <tr>
+                                                <td>${u.id}</td>
+                                                <td>${u.name}</td>
+                                                <td>${u.gender}</td>
+                                                <td>${u.email}</td>
+                                                <td>${u.phone}</td>
+                                                <td>${u.roleId}</td>
+                                                <td>${u.status}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-evenly align-items-center py-2">
+                                                        <div class="me-4"><a href="edituser?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="text-left text-danger">${msg}</div>
+
+                    </div>
 
                 </div>
 
             </div>
+            <div id="popup1" class="overlay">
+                <div class="popup">
+                    <h2 class="ms-3 mb-3">Add New User</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content container-fluid">
 
+                        <form method="post" action="adduser" class="row">
+                            <input type="hidden" name="action" value="add">
+                            <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
+                            <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
+                            <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
+                            <div class="col-md-5"><label class="labels">Role</label>
+                                <select class="form-select" id="roles" name="roleid">
+                                    <c:forEach items="${roleList}" var="r">
+                                        <option value="${r.id}">${r.name}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-2"><label class="labels">Phone</label><input type="text" pattern="^[0-9]{10}$" title="Phone must contain 10 number" name="phone" class="form-control" placeholder="" value="" required></div>
+                            <div class="col-md-12 mb-2">
+                                <label class="labels">Gender</label><br>
+                                <div class="mt-2">
+                                    <div class="form-check custom-radio form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                        <label class="form-check-label" for="male">
+                                            Male
+                                        </label>
+                                    </div>
+                                    <div class="form-check custom-radio form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="female" >
+                                        <label class="form-check-label" for="female">
+                                            Female
+                                        </label>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Add</button></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
     <style>
@@ -208,6 +257,77 @@
         .gender-dropdown:focus {
             outline: none;
         }
-        
+        .overlay {
+            position: absolute;
+            z-index: 999;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 50%;
+            position: relative;
+            transition: all 5s ease-in-out;
+        }
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup .close:hover {
+            color: #06D85F;
+        }
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+        .btn {
+            padding: 0 10px;
+            background: #BBBF52;
+            color: #fff;
+        }
+        .set-button {
+            background: #BBBF52;
+            box-shadow: none;
+            border: none;
+            font-size: 18px;
+            width: 150px;
+            height:50px;
+            text-align: center;
+
+        }
+
+        .set-button:hover {
+            background: #B0B435
+        }
+        .set-button:focus {
+            background: #BBBF52;
+            box-shadow: none
+        }
+
+        .set-button:active {
+            background: #BBBF52;
+            box-shadow: none
+        }
+
     </style>
 </html>

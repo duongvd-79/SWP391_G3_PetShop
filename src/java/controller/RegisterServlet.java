@@ -4,10 +4,10 @@
  */
 package controller;
 
-
 import dal.AddressDAO;
 import helper.SendMail;
 import dal.UserDAO;
+import helper.KeyGenerator;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -67,7 +67,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
     }
 
     /**
@@ -83,7 +83,7 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         UserDAO uDAO = new UserDAO();
-        List<User> uList=new ArrayList<>();
+        List<User> uList = new ArrayList<>();
         try {
             uList = uDAO.getAllUser();
         } catch (SQLException ex) {
@@ -101,34 +101,33 @@ public class RegisterServlet extends HttpServlet {
         boolean dup = false;
         Address a = new Address(0, district, city, address, true);
         User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), 5);
-        for(User user : uList){
-            if(user.getEmail().equals(email))
-            dup = true;
+        for (User user : uList) {
+            if (user.getEmail().equals(email)) {
+                dup = true;
+            }
         }
-        
-        if(password.equals(cfpassword) && !dup){
-        try {
-            uDAO.addNewUser(u);
-            aDAO.addNew(city,district,address);
-            aDAO.addNewUserAddress();
-        } catch (SQLException ex) {
-            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        response.sendRedirect("home#loginpopup");
-        }
-        else if(dup){
+
+        if (dup) {
             session.setAttribute("alert", "Email had been taken.");
             session.setAttribute("address", a);
             session.setAttribute("newuser", u);
             response.sendRedirect("home#registerpopup");
-        }
-        else {
+        } else if (!password.equals(cfpassword)) {
             session.setAttribute("newuser", u);
             session.setAttribute("address", a);
             session.setAttribute("alert", "Password not match.");
             response.sendRedirect("home#registerpopup");
+        } else {
+            session.removeAttribute("alert");
+            session.setAttribute("newuser", u);
+            session.setAttribute("address", a);
+            String key= KeyGenerator.getKey();
+            session.setAttribute("key", key);
+            session.setMaxInactiveInterval(180);
+            SendMail.sendMail(email,"Email verificaton","Click this link to finish you registration:\n"+"http://localhost:9998/SWP391_G3_PetShop/emailverify?key="+key+"\n This link will expired in 3 minutes." );
+            response.sendRedirect("home#verifypopup");
         }
-    
+
     }
 
     /**

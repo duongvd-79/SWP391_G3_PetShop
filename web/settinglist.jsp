@@ -13,7 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Setting List</title>
     </head>
-    
+
     <body>
         <div class="container-fluid rounded bg-white mt-5 mb-5 shadow-sm">
             <div class="row">
@@ -60,7 +60,12 @@
                             <a value="" style="text-decoration: none;color: white;" href="setting" >Clear</a>
                         </div>
                     </div>
-                    
+                    <div class="col-md-6 d-flex justify-content-end">
+                        <div class="btn py-1 px-4 ms-2">
+                            <a  href="#popup1" style="text-decoration: none;color: white;" type="button">Add New</a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="container">
                     <div class="row">
@@ -109,6 +114,33 @@
                     </nav>
                 </div>
 
+            </div>
+            <div id="popup1" class="overlay">
+                <div class="popup">
+                    <h2 class="ms-3 mb-3">Add New Setting</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content container-fluid">
+
+                        <form method="get" action="setting" class="row">
+                            <input type="hidden" name="action" value="add">
+                            <div class="col-md-7"><label class="labels">Group</label>
+                                <select class="form-select" id="roles" name="type" >
+                                    <c:forEach items="${requestScope.types}" var="t">
+                                        <option value="${t}">${t}</option>
+                                    </c:forEach>                             
+                                </select>
+                            </div>
+                            <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
+                            <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
+                            <div class="col-md-12"><label class="labels">Description</label>
+                                <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}">${detail.getDescription()}</textarea>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Add</button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -171,10 +203,8 @@
         }
         .btn {
             padding: 0 10px;
-
             background: #BBBF52;
             color: #fff;
-
         }
 
         .btn:hover {
@@ -190,6 +220,50 @@
             right:5%;
             top:26%;
         }
+        .overlay {
+            position: absolute;
+            z-index: 999;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            width: 50%;
+            position: relative;
+            transition: all 5s ease-in-out;
+        }
+        .popup .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+        }
+        .popup .close:hover {
+            color: #06D85F;
+        }
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
 
     </style>
 </html>
