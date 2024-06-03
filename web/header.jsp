@@ -137,7 +137,7 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm">
+                                        <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" >
                                             <option value="${address.getDistrict()}" selected>District</option>
                                         </select>
                                     </div>
@@ -155,6 +155,16 @@
                                     </div>
                                     </div>
                                     </div>
+                            <%-- verify email popup --%>
+                            <div id="verifypopup" class="overlay">
+                        <div class="popup">
+                            <h2 class="ms-3 mb-3">Announce</h2>
+                            <a class="close" href="#">&times;</a>
+                            <div class="content container-fluid">
+                                <h3>Check your register email for verification!</h3>
+                            </div>
+                        </div>
+                    </div>
                                     <%}%>
 
                                     <!-- Start Atribute Navigation -->
