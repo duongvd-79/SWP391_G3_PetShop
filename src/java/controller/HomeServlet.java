@@ -62,11 +62,13 @@ public class HomeServlet extends HttpServlet {
         List<Product> allProduct = productDAO.getAll();
         List<Product> featuredProduct = productDAO.getFeatured();
 
-        List<Post> featuredPost = postDAO.getFeatured();
+        List<Post> featuredBlog = postDAO.getFeatured();
+        List<Post> latestBlog = postDAO.getLatest();
 
         request.setAttribute("featuredproduct", featuredProduct);
         request.setAttribute("allproduct", allProduct);
-        request.setAttribute("featuredpost", featuredPost);
+        request.setAttribute("featuredblog", featuredBlog);
+        request.setAttribute("latestblog", latestBlog);
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 

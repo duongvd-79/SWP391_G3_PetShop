@@ -64,6 +64,22 @@ public class PostDAO extends DBContext {
         return postList;
     }
 
+    public List<Post> getLatest() {
+        postList = new ArrayList<>();
+        String sql = "SELECT * FROM post ORDER BY created_date DESC LIMIT 3";
+        try {
+            postList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Post p = setPost(rs);
+                postList.add(p);
+            }
+        } catch (SQLException e) {
+        }
+        return postList;
+    }
+
     public static void main(String[] args) {
         PostDAO list = new PostDAO();
         Post p = list.getPostById("2");

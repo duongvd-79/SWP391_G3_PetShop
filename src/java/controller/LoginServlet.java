@@ -90,6 +90,7 @@ public class LoginServlet extends HttpServlet {
             String error = "Wrong email or password!";
             HttpSession session = request.getSession(true);
             session.setAttribute("error", error);
+            session.setAttribute("username", email);
             //request.getRequestDispatcher("home#loginpopup").forward(request, response);
             response.sendRedirect("home#loginpopup");
         }
