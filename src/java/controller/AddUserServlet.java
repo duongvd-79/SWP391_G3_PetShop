@@ -4,7 +4,6 @@
  */
 package controller;
 
-
 import helper.SendMail;
 import dal.UserDAO;
 import java.io.IOException;
@@ -13,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,24 +62,6 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDAO uDAO = new UserDAO();
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String name = request.getParameter("name");
-        String phone = request.getParameter("phone");
-        String gender = request.getParameter("gender");
-
-        SendMail.sendMail(email,"Your account has been create by this email.","Your password: "+password);
-        
-        int roleid = Integer.parseInt(request.getParameter("roleid"));
-
-        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), roleid);
-        try {
-            uDAO.addNewUser(u);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        request.getRequestDispatcher("userlist").forward(request, response);
     }
 
     /**
@@ -93,7 +75,33 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        UserDAO uDAO = new UserDAO();
+        HttpSession session = request.getSession();
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String gender = request.getParameter("gender");
+        int roleid = Integer.parseInt(request.getParameter("roleid"));
+        boolean dup = false;
+        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), roleid);
+
+        try {
+            for (User user : uDAO.getAllUser()) {
+                if (user.getEmail().equals(email)) {
+                    dup = true;
+                }
+            }
+            if(dup){
+               session.setAttribute("msg", "The email had been taken");
+               response.sendRedirect("userlist");
+            }
+            uDAO.addNewUser(u);
+            SendMail.sendMail(email, "Your account has been create by this email.", "Your password: " + password);
+            response.sendRedirect("userlist");
+        } catch (SQLException ex) {
+            Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

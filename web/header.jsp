@@ -89,12 +89,12 @@
             <div id="registerpopup" class="overlay container-fluid">
                 <div class="popup2">
                     <div class="form-block">
-                        <div class="mb-4">
+                        <div class="mb-1">
                             <h3><strong>Register</strong></h3>
                             <a class="close" href="#">&times;</a>
                         </div>
                         <form action="register" method="post">
-                            <div class="form-group first">
+                            <div class="form-group first mb-2">
                                 <label for="email">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
                             </div>
@@ -110,110 +110,155 @@
                                 <label for="fullname">Full Name</label>
                                 <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getName()}">
                             </div>
-                            <div class="form-group last mb-2">
+                            <div class="form-group last mb-1">
                                 <label for="phone">Phone</label>
                                 <input type="text" class="form-control" pattern="^[0-9]{10}$" title="Phone must contain 10 number" id="phone" name="phone" placeholder="Phone number" required="" value="${newuser.getPhone()}">
                             </div>
                             <div class="row">
-                                <div class="col-4 form-group mt-2 mb-1">
+                                <div class="col-3 form-group mt-2 mb-0">
                                     <input type="radio" name="gender" id="male" checked >
                                     <label for="male">
                                         Male
                                     </label>
                                 </div>
-                                <div class="col-4 form-group mt-2 mb-1">
+                                <div class="col-3 form-group mt-2 mb-0">
                                     <input type="radio" name="gender" id="female" >
                                     <label for="female">
                                         Female
                                     </label>
                                 </div>
                             </div>
-                            <div class="form-group last mb-2">
-                                <div>
-                                    <label for="fullname">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
+                            <div class="form-group last mb-3">
+                                <label for="fullname">Address</label>
+                                <div class="d-flex justify-content-start">
+                                    <div class="mr-3">
+                                        <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm">
+                                            <option value="${address.getCity()}" selected>City</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm">
+                                            <option value="${address.getDistrict()}" selected>District</option>
+                                        </select>
+                                    </div>
                                 </div>
+                                <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
                             </div>
                             <span class="text-danger">${sessionScope.alert}<span>
-                            <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
-                            <div class="social-login text-center mt-2">
-                                <span>Already had an account? </span>
-                                <a href="#loginpopup"><strong>Sign In</strong></a>
-                            </div>
+                                    <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
+                                    <div class="social-login text-center mt-2">
+                                        <span>Already had an account? </span>
+                                        <a href="#loginpopup"><strong>Sign In</strong></a>
+                                    </div>
 
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <%}%>
+                                    </form>
+                                    </div>
+                                    </div>
+                                    </div>
+                                    <%}%>
 
-            <!-- Start Atribute Navigation -->
-            <%
-                if (user != null) {
-            %>
-            <div class="attr-nav">
-                <ul>
-                    <li class="side-menu">
-                        <a href="#">
-                            <i class="bi bi-basket3"></i>
-                            <span class="badge">${requestScope.cart.size()}</span>
-                            <p>My Cart</p>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <%}%>
-            <!-- End Atribute Navigation -->
-        </div>
-    </nav>
+                                    <!-- Start Atribute Navigation -->
+                                    <%
+                                        if (user != null) {
+                                    %>
+                                    <div class="attr-nav">
+                                        <ul>
+                                            <li class="side-menu">
+                                                <a href="#">
+                                                    <i class="bi bi-basket3"></i>
+                                                    <span class="badge">${requestScope.cart.size()}</span>
+                                                    <p>My Cart</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <%}%>
+                                    <!-- End Atribute Navigation -->
+                                    </div>
+                                    </nav>
 
-    <!-- End Navigation -->
-</header>
-<!-- End Main Top -->
-<style>
-    .overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        transition: opacity 500ms;
-        visibility: hidden;
-        opacity: 0;
-    }
-    .overlay:target {
-        visibility: visible;
-        opacity: 1;
-    }
-    .popup,.popup2{
-        margin: 150px auto;
-        padding: 30px 40px;
-        background: #fff;
-        border-radius: 5px;
-        width: 30%;
-        position: relative;
-        transition: all 5s ease-in-out;
-    }
-    .popup2{
-        margin: 2vh auto;
-    }
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        transition: all 200ms;
-        font-size: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        color: #333;
-    }
-    .popup .close:hover {
-        color: #06D85F;
-    }
-    .popup .content {
-        max-height: 30%;
-        overflow: auto;
-    }
+                                    <!-- End Navigation -->
+                                    </header>
+                                    <!-- End Main Top -->
+                                    <!-- dữ liệu địa chỉ -->
+                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+                                    <script>
+                                        var cities = document.getElementById("city");
+                                        var districts = document.getElementById("district");
 
-</style>
+                                        var Parameter = {
+                                            url: "js/data.json",
+                                            method: "GET",
+                                            responseType: "application/json",
+                                        };
+
+                                        var promise = axios(Parameter);
+                                        promise.then(function (result) {
+                                            renderCity(result.data);
+                                        });
+
+                                        function renderCity(data) {
+                                            for (const city of data) {
+                                                cities.options[cities.options.length] = new Option(city.Name);
+                                            }
+
+                                            cities.onchange = function () {
+                                                districts.length = 1;
+
+                                                if (this.value !== "") {
+                                                    const selectedCity = data.find(city => city.Name === this.value);
+
+                                                    for (const district of selectedCity.Districts) {
+                                                        districts.options[districts.options.length] = new Option(district.Name);
+                                                    }
+                                                }
+                                            };
+                                        }
+                                    </script>
+                                    <style>
+                                        .overlay {
+                                            position: fixed;
+                                            top: 0;
+                                            bottom: 0;
+                                            left: 0;
+                                            right: 0;
+                                            background: rgba(0, 0, 0, 0.7);
+                                            transition: opacity 500ms;
+                                            visibility: hidden;
+                                            opacity: 0;
+                                        }
+                                        .overlay:target {
+                                            visibility: visible;
+                                            opacity: 1;
+                                        }
+                                        .popup,.popup2{
+                                            margin: 150px auto;
+                                            padding: 30px 40px;
+                                            background: #fff;
+                                            border-radius: 5px;
+                                            width: 40%;
+                                            position: relative;
+                                            transition: all 5s ease-in-out;
+                                        }
+                                        .popup2{
+                                            margin: 2vh auto;
+                                        }
+                                        .close {
+                                            position: absolute;
+                                            top: 20px;
+                                            right: 30px;
+                                            transition: all 200ms;
+                                            font-size: 30px;
+                                            font-weight: bold;
+                                            text-decoration: none;
+                                            color: #333;
+                                        }
+                                        .popup .close:hover {
+                                            color: #06D85F;
+                                        }
+                                        .popup .content {
+                                            max-height: 30%;
+                                            overflow: auto;
+                                        }
+
+                                    </style>

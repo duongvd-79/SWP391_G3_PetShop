@@ -15,11 +15,13 @@ import java.sql.SQLException;
 public class AddressDAO extends DBContext{
     PreparedStatement stm;
     ResultSet rs;
-    public void addNew(String detail) throws SQLException {
+    public void addNew(String city,String district,String detail) throws SQLException {
         try {
-            String strSelect = "insert into address(detail,is_default) values (?,1) ";
+            String strSelect = "insert into address(detail,city,district,is_default) values (?,?,?,1) ";
             stm = connection.prepareStatement(strSelect);
             stm.setString(1, detail);
+            stm.setString(2, city);
+            stm.setString(3, district);
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);

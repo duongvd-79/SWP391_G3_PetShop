@@ -106,7 +106,7 @@
                     <a class="close" href="#">&times;</a>
                     <div class="content container-fluid">
 
-                        <form method="get" action="adduser" class="row">
+                        <form method="post" action="adduser" class="row">
                             <input type="hidden" name="action" value="add">
                             <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
                             <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>

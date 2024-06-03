@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Address;
 import model.User;
 
 /**
@@ -94,8 +95,11 @@ public class RegisterServlet extends HttpServlet {
         String name = request.getParameter("name");
         String phone = request.getParameter("phone");
         String gender = request.getParameter("gender");
+        String city = request.getParameter("city");
+        String district = request.getParameter("district");
         String address = request.getParameter("address");
         boolean dup = false;
+        Address a = new Address(0, district, city, address, true);
         User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), 5);
         for(User user : uList){
             if(user.getEmail().equals(email))
@@ -105,7 +109,7 @@ public class RegisterServlet extends HttpServlet {
         if(password.equals(cfpassword) && !dup){
         try {
             uDAO.addNewUser(u);
-            aDAO.addNew(address);
+            aDAO.addNew(city,district,address);
             aDAO.addNewUserAddress();
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -114,11 +118,13 @@ public class RegisterServlet extends HttpServlet {
         }
         else if(dup){
             session.setAttribute("alert", "Email had been taken.");
+            session.setAttribute("address", a);
             session.setAttribute("newuser", u);
             response.sendRedirect("home#registerpopup");
         }
         else {
             session.setAttribute("newuser", u);
+            session.setAttribute("address", a);
             session.setAttribute("alert", "Password not match.");
             response.sendRedirect("home#registerpopup");
         }
