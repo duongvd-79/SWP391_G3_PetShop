@@ -114,9 +114,9 @@ public class SettingDAO extends DBContext {
     }
 
     //Lấy theo phân trang
-    public List<Setting> getByPage(List<Setting> list, int page) {
+    public List<Setting> getByPage(List<Setting> list, int page, int rows) {
         List<Setting> outputlist = new ArrayList<>();
-        for (int i = (page - 1) * 3; i <= (page - 1) * 3 + 2; i++) {
+        for (int i = (page - 1) * rows; i <= (page - 1) * rows + rows - 1; i++) {
             if (i >= list.size()) {
                 return outputlist;
             }
