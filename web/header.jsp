@@ -67,11 +67,11 @@
                                 <input type="password" class="form-control" id="password" name="password">
                             </div>
                             <div class="d-flex mb-4 align-items-center">
-<!--                                <label class="control control--checkbox mb-0">
-                                    <span class="caption">Remember me</span>
-                                    <input type="checkbox">
-                                    <div class="control__indicator"></div>
-                                </label>-->
+                                <!--                                <label class="control control--checkbox mb-0">
+                                                                    <span class="caption">Remember me</span>
+                                                                    <input type="checkbox">
+                                                                    <div class="control__indicator"></div>
+                                                                </label>-->
                                 <!--Reset password-->
                                 <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password?</a></span>
                             </div>
@@ -154,16 +154,16 @@
                                     </div>
                                     </div>
                                     </div>
-                            <%-- verify email popup --%>
-                            <div id="verifypopup" class="overlay">
-                        <div class="popup">
-                            <h2 class="ms-3 mb-3">Announce</h2>
-                            <a class="close" href="#">&times;</a>
-                            <div class="content container-fluid">
-                                <h3>Check your register email for verification!</h3>
-                            </div>
-                        </div>
-                    </div>
+                                    <%-- verify email popup --%>
+                                    <div id="verifypopup" class="overlay">
+                                        <div class="popup">
+                                            <h2 class="ms-3 mb-3">Announce</h2>
+                                            <a class="close" href="#">&times;</a>
+                                            <div class="content container-fluid">
+                                                <h3>Check your register email for verification!</h3>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <%}%>
 
             <%
@@ -268,78 +268,152 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <button class="btn btn-primary" id="save-button" type="submit" disabled>Save Profile</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <%}%>
-        </div>
-    </nav>
 
-    <!-- End Navigation -->
-</header>
-<!-- End Main Top -->
-<style>
-    .overlay {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        transition: opacity 500ms;
-        visibility: hidden;
-        opacity: 0;
-    }
-    .overlay:target {
-        visibility: visible;
-        opacity: 1;
-    }
-    .popup,.popup2{
-        margin: 150px auto;
-        padding: 30px 40px;
-        background: #fff;
-        border-radius: 5px;
-        width: 30%;
-        min-width: 400px;
-        position: relative;
-        transition: all 5s ease-in-out;
-    }
-    .popup2{
-        margin: 2vh auto;
-    }
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        transition: all 200ms;
-        font-size: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        color: #333;
-    }
-    .popup .close:hover {
-        color: #06D85F;
-    }
-    .popup .content {
-        max-height: 30%;
-        overflow: auto;
-    }
-    input[type="file"] {
-        display: none;
-    }
+                                    <!-- User Profile -->
+                                    <div id="profilepopup" class="overlay container-fluid">
+                                        <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
+                                            <form action="userprofile" method="get">
+                                                <div class="row">
+                                                    <div class="col-md-4 border-right">
+                                                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                            <img class="rounded-circle mt-5" width="150px" src="images/userpfp/default.png">
+                                                            <input id="file-upload" type="file" name="profilepfp" accept="image/*">
+                                                            <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
+                                                            <span id="file-name"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8 border-right">
+                                                        <div class="p-3 pt-5 pb-3">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <h2 class="text-right"><strong>User Profile</strong></h2>
+                                                                <a class="close" href="#">&times;</a>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-12 col-lg-6 border-left border-right">
+                                                                    <div class="mb-2">
+                                                                        <h3><strong>Information</strong></h3>
+                                                                    </div>
+                                                                    <div class="row mt-2">
+                                                                        <div class="col-md-12">
+                                                                            <label class="labels">Name</label>
+                                                                            <input type="text" class="form-control" id="pfname" placeholder="Enter Name" value="${user.name}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-12">
+                                                                            <label class="labels">Email</label>
+                                                                            <input type="text" class="form-control" value="${user.email}" disabled readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-2">
+                                                                            <label class="labels">Gender</label>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <input type="radio" name="profilegender" id="pfmale" ${user.gender ? "checked" : ""}>
+                                                                            <label class="form-check-label">Male</label>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            <input type="radio" name="profilegender" id="pffemale" ${!user.gender ? "checked" : ""}>
+                                                                            <label class="labels">Female</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12 col-lg-6 border-left border-right">
+                                                                    <div class="mb-2">
+                                                                        <h3><strong>Contact</strong></h3>
+                                                                    </div>
+                                                                    <div class="row mt-1">
+                                                                        <div class="col-md-6">
+                                                                            <label class="labels">City</label>
+                                                                            <input type="text" class="form-control" placeholder="Enter City" value="" required>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <label class="labels">District</label>
+                                                                            <input type="text" class="form-control" placeholder="Enter District" value="" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-12">
+                                                                            <label class="labels">Detailed Address</label>
+                                                                            <input type="text" class="form-control" placeholder="Enter address" value="" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mt-3">
+                                                                        <div class="col-md-3">
+                                                                            <label class="labels">Phone</label>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <input type="text" class="form-control" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${user.phone}" required>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 text-center">
+                                                    <button class="btn btn-primary" id="save-button" type="submit" disabled>Save Profile</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                    </div>
+                                    </nav>
 
-    .custom-file-upload {
-        border: 1px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-    }
+                                    <!-- End Navigation -->
+                                    </header>
+                                    <!-- End Main Top -->
+                                    <style>
+                                        .overlay {
+                                            position: fixed;
+                                            top: 0;
+                                            bottom: 0;
+                                            left: 0;
+                                            right: 0;
+                                            background: rgba(0, 0, 0, 0.7);
+                                            transition: opacity 500ms;
+                                            visibility: hidden;
+                                            opacity: 0;
+                                        }
+                                        .overlay:target {
+                                            visibility: visible;
+                                            opacity: 1;
+                                        }
+                                        .popup,.popup2{
+                                            margin: 150px auto;
+                                            padding: 30px 40px;
+                                            background: #fff;
+                                            border-radius: 5px;
+                                            width: 30%;
+                                            min-width: 400px;
+                                            position: relative;
+                                            transition: all 5s ease-in-out;
+                                        }
+                                        .popup2{
+                                            margin: 2vh auto;
+                                        }
+                                        .close {
+                                            position: absolute;
+                                            top: 20px;
+                                            right: 30px;
+                                            transition: all 200ms;
+                                            font-size: 30px;
+                                            font-weight: bold;
+                                            text-decoration: none;
+                                            color: #333;
+                                        }
+                                        .popup .close:hover {
+                                            color: #06D85F;
+                                        }
+                                        .popup .content {
+                                            max-height: 30%;
+                                            overflow: auto;
+                                        }
+                                        input[type="file"] {
+                                            display: none;
+                                        }
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
