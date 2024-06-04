@@ -248,7 +248,7 @@ public class UserDAO extends DBContext {
         sta.setString(1, u.getEmail());
         sta.setString(2, u.getPassword());
         sta.setString(3, u.getName());
-        sta.setBoolean(4, (u.getGender().equals("Male"))? true : false);
+        sta.setBoolean(4, (u.getGender().equals("Male")));
         sta.setString(5, u.getStatus());
         sta.setInt(6, u.getRoleId());
         sta.setString(7, u.getPhone());
@@ -293,7 +293,22 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    
+
+    public void updateUserProfile(User user) {
+            String sql = "UPDATE user SET name = ?, gender = ?, phone = ?, pfp = ? WHERE id = ?";
+        try {
+            PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, user.getName());
+            stm.setBoolean(2, user.getGender().equals("Male"));
+            stm.setString(3, user.getPhone());
+            stm.setString(4, user.getPfp());
+            stm.setInt(5, user.getId());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
 //        for(User s : u.getAllUser()){

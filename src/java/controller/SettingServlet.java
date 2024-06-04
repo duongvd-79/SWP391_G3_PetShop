@@ -102,7 +102,7 @@ public class SettingServlet extends HttpServlet {
         //Nếu có search
         if (sName != null) {
             request.setAttribute("sName", sName);
-            sList = sDAO.getAllByName(sName);
+            sList = sDAO.getAllByName(sName.trim());
         }
 
         //Lọc theo type

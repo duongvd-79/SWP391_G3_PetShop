@@ -3,6 +3,7 @@
 
 package controller;
 
+import dal.AddressDAO;
 import dal.UserDAO;
 import helper.MD5;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Address;
 import model.User;
 
 /**
@@ -76,6 +78,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
+        AddressDAO addressDAO = new AddressDAO();
         
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -84,7 +87,9 @@ public class LoginServlet extends HttpServlet {
         
         if (user != null) {
             HttpSession session = request.getSession(true);
+            Address address = addressDAO.getAddress(user.getId());
             session.setAttribute("user", user);
+            //session.setAttribute("address", address);
             response.sendRedirect("home");
         } else {
             String error = "Wrong email or password!";

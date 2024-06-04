@@ -56,6 +56,10 @@
         <servlet-name>EmailVerifyServlet</servlet-name>
         <servlet-class>controller.EmailVerifyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <servlet-class>controller.UserProfileServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -111,5 +115,9 @@
     <servlet-mapping>
         <servlet-name>EmailVerifyServlet</servlet-name>
         <url-pattern>/emailverify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProfileServlet</servlet-name>
+        <url-pattern>/userprofile</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -100,7 +100,7 @@ public class RegisterServlet extends HttpServlet {
         String address = request.getParameter("address");
         boolean dup = false;
         Address a = new Address(0, district, city, address, true);
-        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), 5);
+        User u = new User(email, password, name, "Pending", phone, null, (gender.equals("Male")), 5);
         for (User user : uList) {
             if (user.getEmail().equals(email)) {
                 dup = true;
@@ -124,7 +124,7 @@ public class RegisterServlet extends HttpServlet {
             String key= KeyGenerator.getKey();
             session.setAttribute("key", key);
             session.setMaxInactiveInterval(180);
-            SendMail.sendMail(email,"Email verificaton","Click this link to finish you registration:\n"+"http://localhost:9998/SWP391_G3_PetShop/emailverify?key="+key+"\n This link will expired in 3 minutes." );
+            SendMail.sendMail(email,"Email verificaton","Click this link to finish you registration:\n"+"http://localhost:9090/SWP391_G3_PetShop/emailverify?key="+key+"\n This link will expired in 3 minutes." );
             response.sendRedirect("home#verifypopup");
         }
 

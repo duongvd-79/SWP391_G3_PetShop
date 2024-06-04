@@ -132,12 +132,12 @@
                                 <div class="d-flex justify-content-start">
                                     <div class="mr-3">
                                         <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm">
-                                            <option value="${address.getCity()}" selected>City</option>
+                                            <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
                                         </select>
                                     </div>
                                     <div>
                                         <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" >
-                                            <option value="${address.getDistrict()}" selected>District</option>
+                                            <option  selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -186,11 +186,11 @@
             <!-- User Profile -->
             <div id="profilepopup" class="overlay container-fluid">
                 <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
-                    <form action="userprofile" method="get">
+                    <form action="userprofile" method="post" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-md-4 border-right">
                                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                    <img class="rounded-circle mt-5" width="150px" src="images/userpfp/default.png">
+                                    <img class="rounded-circle mt-5" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}">
                                     <input id="file-upload" type="file" name="profilepfp" accept="image/*">
                                     <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
                                     <span id="file-name"></span>
@@ -210,13 +210,13 @@
                                             <div class="row mt-2">
                                                 <div class="col-md-12">
                                                     <label class="labels">Name</label>
-                                                    <input type="text" class="form-control" id="pfname" placeholder="Enter Name" value="${user.name}" required>
+                                                    <input type="text" class="form-control" name="pfname" id="pfname" placeholder="Enter Name" value="${sessionScope.user.name}" required>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-12">
                                                     <label class="labels">Email</label>
-                                                    <input type="text" class="form-control" value="${user.email}" disabled readonly>
+                                                    <input type="text" class="form-control" value="${sessionScope.user.email}" disabled readonly>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -224,12 +224,12 @@
                                                     <label class="labels">Gender</label>
                                                 </div>
                                                 <div class="col-md-3">
-                                                    <input type="radio" name="profilegender" id="pfmale" ${user.gender ? "checked" : ""}>
+                                                    <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender ? "checked" : ""}>
                                                     <label class="form-check-label">Male</label>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <input type="radio" name="profilegender" id="pffemale" ${!user.gender ? "checked" : ""}>
-                                                    <label class="labels">Female</label>
+                                                    <input type="radio" name="pfgender" id="pffemale" value="Female" ${!sessionScope.user.gender ? "checked" : ""}>
+                                                    <label class="form-check-label">Female</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,17 +240,22 @@
                                             <div class="row mt-1">
                                                 <div class="col-md-6">
                                                     <label class="labels">City</label>
-                                                    <input type="text" class="form-control" placeholder="Enter City" value="" required>
+                                                    <select class="form-select form-select-sm mb-3 p-2" name="pfcity" id="pfcity" aria-label=".form-select-sm">
+                                                        <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
+                                                    </select>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="labels">District</label>
-                                                    <input type="text" class="form-control" placeholder="Enter District" value="" required>
+                                                    <br>
+                                                    <select class="form-select form-select-sm mb-3 p-2" name="pfdistrict" id="pfdistrict" aria-label=".form-select-sm" >
+                                                        <option  selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
                                                 <div class="col-md-12">
                                                     <label class="labels">Detailed Address</label>
-                                                    <input type="text" class="form-control" placeholder="Enter address" value="" required>
+                                                    <input type="text" class="form-control" name="pfdetailaddress" placeholder="Enter address" value="" >
                                                 </div>
                                             </div>
                                             <div class="row mt-3">
@@ -258,7 +263,7 @@
                                                     <label class="labels">Phone</label>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <input type="text" class="form-control" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${user.phone}" required>
+                                                    <input type="text" class="form-control" name="pfphone" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${sessionScope.user.phone}" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -337,20 +342,100 @@
     }
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
 <script>
-    document.getElementById('file-upload').addEventListener('change', function() {
-    var fileName = this.files[0].name;
-    document.getElementById('file-name').textContent = fileName;
-});
+    var cities = document.getElementById("pfcity");
+    var districts = document.getElementById("pfdistrict");
+
+    var Parameter = {
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const city of data) {
+            cities.options[cities.options.length] = new Option(city.Name);
+        }
+
+        cities.onchange = function () {
+            districts.length = 1;
+
+            if (this.value !== "") {
+                const selectedCity = data.find(city => city.Name === this.value);
+
+                for (const district of selectedCity.Districts) {
+                    districts.options[districts.options.length] = new Option(district.Name);
+                }
+            }
+        };
+    }
+</script>
+<script>
+    var cities2 = document.getElementById("city");
+    var districts2 = document.getElementById("district");
+
+    var Parameter2 = {
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise2 = axios(Parameter2);
+    promise2.then(function (result2) {
+        renderCity2(result2.data);
+    });
+
+    function renderCity2(data) {
+        for (const city of data) {
+            cities2.options[cities2.options.length] = new Option(city.Name);
+        }
+
+        cities2.onchange = function () {
+            districts2.length = 1;
+
+            if (this.value !== "") {
+                const selectedCity = data.find(city => city.Name === this.value);
+
+                for (const district of selectedCity.Districts) {
+                    districts2.options[districts2.options.length] = new Option(district.Name);
+                }
+            }
+        };
+    }
+</script>
+<script>
+    var file = document.getElementById('file-upload');
+    var previewImage = document.getElementById('preview-img');
+    
+    file.addEventListener('change', function() {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
+    });
+    file.addEventListener('change', (e) => {
+        var reader = new FileReader();
+
+        reader.onload = (event) => {
+        previewImage.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    });
         document.addEventListener('DOMContentLoaded', function() {
             var name = document.getElementById('pfname');
             var phone = document.getElementById('pfphone');
             var saveButton = document.getElementById('save-button');
-            var originalName = '${user.name}';
-            var originalPhone = '${user.phone}';
+            var originalName = '${sessionScope.user.name}';
+            var originalPhone = '${sessionScope.user.phone}';
 
             function toggleButton() {
-                if (name.value !== originalName || phone.value !== originalPhone) {
+                if (name.value !== originalName || phone.value !== originalPhone
+                        || file.value !== "") {
                     saveButton.disabled = false;
                 } else {
                     saveButton.disabled = true;
@@ -359,5 +444,6 @@
             
             name.addEventListener('input', toggleButton);
             phone.addEventListener('input', toggleButton);
+            file.addEventListener('change', toggleButton);
         });
 </script>
