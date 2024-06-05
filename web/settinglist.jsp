@@ -147,7 +147,8 @@
     </body>
     <style>
         body {
-            background: #EEEEEE
+            background: #EEEEEE;
+            font-family: 'Dosis', sans-serif;
         }
         .root{
             color: black;

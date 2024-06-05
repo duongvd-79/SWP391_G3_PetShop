@@ -113,7 +113,8 @@
     <style>
 
         body {
-            background: #EEEEEE
+            background: #EEEEEE;
+            font-family: 'Dosis', sans-serif;
         }
 
         .form-control:focus {
