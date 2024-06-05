@@ -2,6 +2,7 @@ package controller;
 
 import dal.PostDAO;
 import dal.ProductDAO;
+import dal.SliderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import model.Post;
 import model.Product;
+import model.Slider;
 
 /**
  *
@@ -58,17 +60,24 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
         PostDAO postDAO = new PostDAO();
+        SliderDAO sliderDAO = new SliderDAO();
 
         List<Product> allProduct = productDAO.getAll();
         List<Product> featuredProduct = productDAO.getFeatured();
 
         List<Post> featuredBlog = postDAO.getFeatured();
         List<Post> latestBlog = postDAO.getLatest();
+        
+        List<Slider> sliderList = sliderDAO.getActive();
 
         request.setAttribute("featuredproduct", featuredProduct);
         request.setAttribute("allproduct", allProduct);
+        
         request.setAttribute("featuredblog", featuredBlog);
         request.setAttribute("latestblog", latestBlog);
+        
+        request.setAttribute("slider", sliderList);
+        
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 

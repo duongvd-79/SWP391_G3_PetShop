@@ -80,7 +80,7 @@ public class LoginServlet extends HttpServlet {
         UserDAO userDAO = new UserDAO();
         AddressDAO addressDAO = new AddressDAO();
         
-        String email = request.getParameter("email");
+        String email = request.getParameter("email").trim();
         String password = request.getParameter("password");
         
         User user = userDAO.login(email, MD5.getMD5(password));

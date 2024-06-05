@@ -60,7 +60,7 @@
                 padding-left: 10px;
             }
             .latest-blog-content h3 a {
-                font-size: 14px;
+                font-size: 20px;
             }
         </style>
     </head>
@@ -81,17 +81,21 @@
             <!-- End Top Search -->
 
             <!-- Start Slider -->
+            <div class="container-fluid row form-control mb-2">
+                <div class="col-12">
+                    <input type="search" placeholder="Search" style="width: 100%">
+                </div>
+            </div>
             <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
-                <c:forEach items="${requestScope.featuredproduct}" var="apr">
+                <c:forEach items="${requestScope.slider}" var="sl">
                     <li class="text-center">
-                        <img src="${apr.thumbnail}" alt="">
+                        <img src="${sl.image}" alt="">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>Slider</strong></h1>
-                                    <p class="m-b-40">Slider description</p>
-                                    <p><a class="btn hvr-hover" href="productdetail?id=${apr.id}">Slider button</a></p>
+                                    <h1 class="m-b-20"><strong>${sl.title}</strong></h1>
+                                    <p><a class="btn hvr-hover" href="${sl.backLink}">${sl.backLink.contains("product") ? "To Product Details" : "To Blog Details"}</a></p>
                                 </div>
                             </div>
                         </div>
@@ -105,14 +109,14 @@
         </div>
         <!-- End Slider -->
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="container-fluid col-sm-3">
                     <!-- Sidebar  -->
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12 text-center">
-                                <h3 style="font-weight: 700; font-size: 24px; margin: 20px 0px;">Latest blog</h3>
+                            <div class="col-12 text-center mt-5">
+                                <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Latest blog</h3>
                             </div>
                         </div>
                         <div class="row border-top pt-3">
@@ -136,9 +140,9 @@
                         </div>
                     </div>
                 </div>
-                
 
-                <div class="col-sm-9">
+
+                <div class="col-sm-9 border-left">
                     <!-- Start Products  -->
                     <div class="products-box">
                         <div class="container">

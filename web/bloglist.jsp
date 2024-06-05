@@ -93,7 +93,7 @@
                         </div>
                         <div class="col-lg-12">
                             <div class="title-all text-center">
-                                <h1>All posts</h1>
+                                <h1>All Blogs</h1>
                             </div>
                         </div>
                     </div>

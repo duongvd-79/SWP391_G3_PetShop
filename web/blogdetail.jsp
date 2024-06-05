@@ -53,16 +53,16 @@
                                 <img class="blog-image-feature" src="${postdetail.thumbnail}" alt="${postdetail.title}">
                             </div>
                             <div class="blog-meta d-flex justify-content-center">
-                                <p class="blog-date">
+                                <p class="blog-date" style="font-size: 24px">
                                     <i class="bi bi-calendar-week"></i> ${postdetail.createdDate}
                                 </p>
                                 &ensp;
-                                <p class="blog-author">
+                                <p class="blog-author" style="font-size: 24px">
                                     <i class="bi bi-person-circle"></i> ${postdetail.user.name}
                                 </p>
                             </div>
                             <div class="blog-content" id="detail-blog">
-                                <div class="container" style="text-align: start">
+                                <div class="container" style="text-align: start; font-size: 24px">
                                     ${postdetail.detail}
                                 </div>
                             </div>

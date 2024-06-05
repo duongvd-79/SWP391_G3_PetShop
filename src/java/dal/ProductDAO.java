@@ -28,7 +28,6 @@ public class ProductDAO extends DBContext {
             p.setListPrice(rs.getDouble("list_price"));
             p.setCreatedDate(rs.getDate("created_date"));
             p.setIsFeatured(rs.getBoolean("is_featured"));
-            p.setDescription(rs.getString("description"));
         } catch (SQLException e) {
         }
         return p;
@@ -51,7 +50,7 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getFeatured() {
-        String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 5";
+        String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 8";
         try {
             productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
