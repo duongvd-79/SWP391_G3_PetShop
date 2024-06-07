@@ -11,77 +11,124 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
         <title>Setting List</title>
     </head>
 
     <body>
-        <div class="container-fluid rounded bg-white mt-5 mb-5 shadow-sm">
-            <div class="row">
-                <nav class="mt-4 ps-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                    <ol class=" h5 breadcrumb">
-                        <li class="breadcrumb-item"><a class="root" href="home">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">System Settings</li>
-                    </ol>
+        <div class="container-fluid position-relative bg-white d-flex p-0">
+            <!-- Sidebar Start -->
+            <div class="sidebar pe-4 pb-3">
+                <nav class="navbar">
+                    <a href="#" class="navbar-brand mx-4 mb-3">
+                        <h1 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h1>
+                    </a>
+                    <div class="d-flex align-items-center ms-4 mb-4">
+
+                    </div>
+                    <div class="navbar-nav w-100">
+                        <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                        <a href="setting" class="nav-item nav-link active h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
+                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                    </div>
                 </nav>
-                <div class="mb-3 ps-5" >
-                    <h3 class="text-right">System Settings</h3>
-                </div>
-                <div class="row d-flex align-items-center mb-3">
-                    <div class="col-md-6 function mb-3">
-                        <div class="input-group d-flex ">
-                            <form style="width: 82.4%" class="d-flex" action="setting" method="get">
-                                <input type="search" name="search" class="form-control" placeholder="Type setting name to search" value="${requestScope.sName}">
-                                <span class="input-group-addon"><button class="btn search" type="submit"><img width="25" height="25" src="https://img.icons8.com/?size=100&id=7695&format=png&color=000000" alt=""></button></span>
-                            </form>
+            </div>
+            <!-- Sidebar End -->
 
-                        </div>
-                    </div>
-                    <div class="col-md-6 function"></div>
-                    <div class="col-md-3 function">
-                        <select name="type" class="form-select" id="type" onchange="if (this.value)
-                                    window.location.href = this.value">
-                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
-                            <c:forEach items="${requestScope.types}" var="t">
-                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
-                            </c:forEach>                          
-                        </select>
-                    </div>
-                    <div class="col-md-2 function">
-                        <select class="form-select function" id="status" onchange="if (this.value)
-                                    window.location.href = this.value">
-                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${requestScope.type}">All Status</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
-                            <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
-                        </select>
-                    </div>
-                    <div class="col-md-1 function">
-                        <div class="btn py-1 px-4 ms-2">
-                            <a value="" style="text-decoration: none;color: white;" href="setting" >Clear</a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 d-flex justify-content-end">
-                        <div class="btn py-1 px-4 ms-2">
-                            <a  href="#popup1" style="text-decoration: none;color: white;" type="button">Add New</a>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="container">
+            <!-- Content Start -->
+            <div class="content">
+                <!-- Navbar Start -->
+                <nav style="background-color: #F3F6F9;z-index: 2;" class="navbar navbar-expand sticky-top px-4 py-0">
+                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
+                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                    </a>
+                    <a href="#" class="sidebar-toggler flex-shrink-0">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <form class="d-none d-md-flex ms-4" action="setting" method="get">
+                        <input class="form-control border-0" type="search" placeholder="Search" name="search" value="${requestScope.sName}">
+                    </form>
+                    <div class="navbar-nav align-items-center ms-auto">
+
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                                <a href="#" class="dropdown-item">My Profile</a>
+                                <a href="#" class="dropdown-item">Log Out</a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <!-- Navbar End -->
+
+
+                <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm">
+                    <div class="row d-flex align-items-center mb-3">
+
+                        <div class="col-md-3 function">
+                            <select name="type" class="form-select" id="type" onchange="if (this.value)
+                                        window.location.href = this.value">
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
+                                <c:forEach items="${requestScope.types}" var="t">
+                                    <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
+                                </c:forEach>                          
+                            </select>
+                        </div>
+                        <div class="col-md-2 function">
+                            <select class="form-select function" id="status" onchange="if (this.value)
+                                        window.location.href = this.value">
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${requestScope.type}">All Status</option>
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Pending&type=${requestScope.type}" ${'Pending'.equals(requestScope.status) ? 'selected' : ''}>Pending</option>
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Active&type=${requestScope.type}" ${'Active'.equals(requestScope.status) ? 'selected' : ''}>Active</option>
+                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=Inactive&type=${requestScope.type}" ${'Inactive'.equals(requestScope.status) ? 'selected' : ''}>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 function">
+                            <div class="btn py-1 px-4 ms-2">
+                                <a value="" style="text-decoration: none;color: white;" href="setting" >Clear</a>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-end">
+                            <div class="btn py-1 px-4 ms-2">
+                                <a href="#popup1" style="text-decoration: none;color: white;" type="button">Add New</a>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="row">
-                        <div class="col-lg-12">
-                            <table class="table">
-                                <thead>
+                        <div class="col-lg-12 table">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead style="font-size:21px;">
                                     <tr>
                                         <th>ID</th>
-                                        <th class="d-flex justify-content-between align-items-center">Setting type <a class="d-flex align-items-center" href="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
+                                        <th><div class="d-flex justify-content-start">Setting type <a class="d-flex align-items-center" href="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
                                         <th>Name</th>
-                                        <th class="d-flex justify-content-between align-items-center">Order <a class="d-flex align-items-center" href="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
-                                        <th class="stt">Status <a class="d-inline-flex align-items-center" href="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img class="sort-icon" height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></th>
+                                        <th><div class="d-flex justify-content-start">Order <a class="d-flex align-items-center" href="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
+                                        <th><div class="d-flex justify-content-start">Status <a class="d-flex align-items-center" href="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody style="font-size:24px;">
                                     <c:forEach items="${requestScope.settingList}" var="s">
                                         <tr>
                                             <td>${s.getId()}</td>
@@ -107,164 +154,308 @@
                             <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
 
                             <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
-                                <li class="page-item"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
                                 </c:forEach>
                             <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
                         </ul>
                     </nav>
-                </div>
-
-            </div>
-            <div id="popup1" class="overlay">
-                <div class="popup">
-                    <h2 class="ms-3 mb-3">Add New Setting</h2>
-                    <a class="close" href="#">&times;</a>
-                    <div class="content container-fluid">
-
-                        <form method="get" action="setting" class="row">
-                            <input type="hidden" name="action" value="add">
-                            <div class="col-md-7"><label class="labels">Group</label>
-                                <select class="form-select" id="roles" name="type" >
-                                    <c:forEach items="${requestScope.types}" var="t">
-                                        <option value="${t}">${t}</option>
-                                    </c:forEach>                             
-                                </select>
+                    <div id="popup1" class="overlay">
+                        <div class="popup">
+                            <div class="h5 ms-3 mb-3">Add New Setting</div>
+                            <a class="close" href="#">&times;</a>
+                            <div class="container-fluid">
+                                <form method="get" action="setting" class="row">
+                                    <input type="hidden" name="action" value="add">
+                                    <div class="col-md-7"><label class="labels">Group</label>
+                                        <select class="form-select" id="roles" name="type" >
+                                            <c:forEach items="${requestScope.types}" var="t">
+                                                <option value="${t}">${t}</option>
+                                            </c:forEach>                             
+                                        </select>
+                                    </div>
+                                    <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
+                                    <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
+                                    <div class="col-md-12"><label class="labels">Description</label>
+                                        <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}" placeholder="Description"></textarea>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="mt-4"><button class="btn py-1 px-4 ms-2" type="button submit">Add</button></div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
-                            <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
-                            <div class="col-md-12"><label class="labels">Description</label>
-                                <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}">${detail.getDescription()}</textarea>
-                            </div>
-                            <div class="d-flex justify-content-center">
-                                <div class="mt-4"><button class="btn btn-primary set-button" type="button submit">Add</button></div>
-                            </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+
+            </div>     
         </div>
-    </body>
-    <style>
-        body {
-            background: #EEEEEE;
-            font-family: 'Dosis', sans-serif;
-        }
-        .root{
-            color: black;
-            text-decoration: none
-        }
-        .wishlist-box-main{
-            padding: 70px 0px;
-        }
-        .table th {
-            vertical-align: middle;
-            white-space: nowrap;
-        }
-        table thead{
-            background: #BBBF52;
-            color: #ffffff;
 
-        }
-        .table thead th{
-            font-size: 18px;
-        }
-        th,td{
-            border-right: solid #e7e7e7 1px;
-        }
-        table td{
-            vertical-align: middle;
-            font-size: 16px;
-        }
-        tr{
-            border-top: none;
-        }
-        .table-main table td.thumbnail-img{
-            width: 120px;
-        }
-        .form-select:focus,.btn:focus,.page-link:focus{
-            box-shadow: none;
-            border-color: #BBBF52
-        }
-        .page-link:focus{
-            background-color: #BBBF52;
-        }
-        .page-link,.page-link:hover,.page-link:focus{
-            color: black;
-        }
-        .input-group .input-group-addon [type="submit"], .input-group .input-group-addon button {
-            border: none;
-            border-radius: 0;
-        }
-        .search {
-            padding: 0 10px;
-            line-height: 50px;
-            background: #BBBF52;
-            color: #fff;
-        }
-        .btn {
-            padding: 0 10px;
-            background: #BBBF52;
-            color: #fff;
-        }
-
-        .btn:hover {
-            color: #fff;
-            background-color: #B0B435;
-            border-color: #204d74;
-        }
-        .stt{
-            position: relative;
-        }
-        .sort-icon{
-            position:absolute;
-            right:5%;
-            top:26%;
-        }
-        .overlay {
-            position: absolute;
-            z-index: 999;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.7);
-            transition: opacity 500ms;
-            visibility: hidden;
-            opacity: 0;
-        }
-        .overlay:target {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        .popup {
-            margin: 70px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 5px;
-            width: 50%;
-            position: relative;
-            transition: all 5s ease-in-out;
-        }
-        .popup .close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            transition: all 200ms;
-            font-size: 30px;
-            font-weight: bold;
-            text-decoration: none;
-            color: #333;
-        }
-        .popup .close:hover {
-            color: #06D85F;
-        }
-        .popup .content {
-            max-height: 30%;
-            overflow: auto;
-        }
+        <!-- Content End -->
 
 
-    </style>
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/chart/chart.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/admin.js"></script>
+</body>
+<style>
+    /********** Template CSS **********/
+    :root {
+        --primary: #009CFF;
+        --light: #F3F6F9;
+        --dark: #191C24;
+    }
+
+    .back-to-top {
+        position: fixed;
+        display: none;
+        right: 45px;
+        bottom: 45px;
+        z-index: 99;
+    }
+
+
+    /*** Spinner ***/
+    #spinner {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .5s ease-out, visibility 0s linear .5s;
+        z-index: 99999;
+    }
+
+    #spinner.show {
+        transition: opacity .5s ease-out, visibility 0s linear 0s;
+        visibility: visible;
+        opacity: 1;
+    }
+
+
+
+    /*** Layout ***/
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 250px;
+        height: 100vh;
+        overflow-y: auto;
+        background: var(--light);
+        transition: 0.5s;
+        z-index: 999;
+    }
+
+    .content {
+        margin-left: 250px;
+        min-height: 100vh;
+        background: #FFFFFF;
+        transition: 0.5s;
+    }
+
+    @media (min-width: 992px) {
+        .sidebar {
+            margin-left: 0;
+        }
+
+        .sidebar.open {
+            margin-left: -250px;
+        }
+
+        .content {
+            width: calc(100% - 250px);
+        }
+
+        .content.open {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .sidebar {
+            margin-left: -250px;
+        }
+
+        .sidebar.open {
+            margin-left: 0;
+        }
+
+        .content {
+            width: 100%;
+            margin-left: 0;
+        }
+    }
+
+
+    /*** Navbar ***/
+    .sidebar .navbar .navbar-nav .nav-link {
+        padding: 7px 20px;
+        color: var(--dark);
+        font-weight: 500;
+        border-left: 3px solid var(--light);
+        border-radius: 0 30px 30px 0;
+        outline: none;
+    }
+
+    .sidebar .navbar .navbar-nav .nav-link:hover,
+    .sidebar .navbar .navbar-nav .nav-link.active {
+        color: var(--primary);
+        background: #FFFFFF;
+        border-color: var(--primary);
+    }
+
+    .sidebar .navbar .navbar-nav .nav-link i {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+        border-radius: 40px;
+    }
+
+    .sidebar .navbar .navbar-nav .nav-link:hover i,
+    .sidebar .navbar .navbar-nav .nav-link.active i {
+        background: var(--light);
+    }
+
+    .sidebar .navbar .dropdown-toggle::after {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        border: none;
+        content: "\f107";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        transition: .5s;
+    }
+
+    .sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
+        transform: rotate(-180deg);
+    }
+
+    .sidebar .navbar .dropdown-item {
+        padding-left: 25px;
+        border-radius: 0 30px 30px 0;
+    }
+
+    .content .navbar .navbar-nav .nav-link {
+        margin-left: 25px;
+        padding: 12px 0;
+        color: var(--dark);
+        outline: none;
+    }
+
+    .content .navbar .navbar-nav .nav-link:hover,
+    .content .navbar .navbar-nav .nav-link.active {
+        color: var(--primary);
+    }
+
+    .content .navbar .sidebar-toggler,
+    .content .navbar .navbar-nav .nav-link i {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: #FFFFFF;
+        border-radius: 40px;
+    }
+
+    .content .navbar .dropdown-toggle::after {
+        margin-left: 6px;
+        vertical-align: middle;
+        border: none;
+        content: "\f107";
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        transition: .5s;
+    }
+
+    .content .navbar .dropdown-toggle[aria-expanded=true]::after {
+        transform: rotate(-180deg);
+    }
+
+    @media (max-width: 575.98px) {
+        .content .navbar .navbar-nav .nav-link {
+            margin-left: 15px;
+        }
+    }
+    .btn {
+        padding: 0 10px;
+        background: #009CFF;
+        color: #fff;
+    }
+
+    .btn:hover {
+        color: #fff;
+        background-color: #009CFF;
+        border-color: #204d74;
+    }
+    .stt{
+        position: relative;
+    }
+    .sort-icon{
+        position:absolute;
+        right:5%;
+        top:26%;
+    }
+    .overlay {
+        position: fixed;
+        z-index:999;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        display:none;
+        opacity: 0;
+    }
+    .overlay:target {
+        display: block;
+        opacity: 1;
+    }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 50%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+    .popup .close {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        transition: all 200ms;
+        font-size: 30px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+    .popup .close:hover {
+        color: #06D85F;
+    }
+    .popup .content {
+        max-height: 30%;
+        overflow: auto;
+    }
+    .page-item:active{
+        background-color: #009CFF;
+    }
+
+</style>
 </html>

@@ -99,11 +99,11 @@
                             </div>
                             <div class="form-group last mb-2">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
+                                <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Enter password" required="">
                             </div>
                             <div class="form-group last mb-2">
                                 <label for="password">Confirm password</label>
-                                <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
+                                <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
                             </div>
                             <div class="form-group last mb-2">
                                 <label for="fullname">Full Name</label>
@@ -131,13 +131,13 @@
                                 <label for="fullname">Address</label>
                                 <div class="d-flex justify-content-start">
                                     <div class="mr-3">
-                                        <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm">
+                                        <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm" required>
                                             <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" >
-                                            <option  selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
+                                        <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" required>
+                                            <option selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
                                         </select>
                                     </div>
                                 </div>
