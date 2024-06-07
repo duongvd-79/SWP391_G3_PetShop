@@ -28,6 +28,7 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <link href="css/admin.css" rel="stylesheet">
         <title>Setting List</title>
     </head>
 
@@ -42,7 +43,7 @@
                     <div class="d-flex align-items-center ms-4 mb-4">
 
                     </div>
-                    <div class="navbar-nav w-100">
+                    <div class="navbar-nav w-100 mb-1">
                         <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                         <a href="setting" class="nav-item nav-link active h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
                         <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
@@ -138,7 +139,7 @@
                                             <td>${s.getStatus()}</td>
                                             <td><div class="d-flex justify-content-evenly align-items-center py-2">
                                                     <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                    <div class="btn py-1" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
+                                                    <div class="btn py-1 ${s.getStatus().equals('Active') ? 'bg-danger' : 'bg-primary'}" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -208,254 +209,4 @@
     <!-- Template Javascript -->
     <script src="js/admin.js"></script>
 </body>
-<style>
-    /********** Template CSS **********/
-    :root {
-        --primary: #009CFF;
-        --light: #F3F6F9;
-        --dark: #191C24;
-    }
-
-    .back-to-top {
-        position: fixed;
-        display: none;
-        right: 45px;
-        bottom: 45px;
-        z-index: 99;
-    }
-
-
-    /*** Spinner ***/
-    #spinner {
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity .5s ease-out, visibility 0s linear .5s;
-        z-index: 99999;
-    }
-
-    #spinner.show {
-        transition: opacity .5s ease-out, visibility 0s linear 0s;
-        visibility: visible;
-        opacity: 1;
-    }
-
-
-
-    /*** Layout ***/
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        width: 250px;
-        height: 100vh;
-        overflow-y: auto;
-        background: var(--light);
-        transition: 0.5s;
-        z-index: 999;
-    }
-
-    .content {
-        margin-left: 250px;
-        min-height: 100vh;
-        background: #FFFFFF;
-        transition: 0.5s;
-    }
-
-    @media (min-width: 992px) {
-        .sidebar {
-            margin-left: 0;
-        }
-
-        .sidebar.open {
-            margin-left: -250px;
-        }
-
-        .content {
-            width: calc(100% - 250px);
-        }
-
-        .content.open {
-            width: 100%;
-            margin-left: 0;
-        }
-    }
-
-    @media (max-width: 991.98px) {
-        .sidebar {
-            margin-left: -250px;
-        }
-
-        .sidebar.open {
-            margin-left: 0;
-        }
-
-        .content {
-            width: 100%;
-            margin-left: 0;
-        }
-    }
-
-
-    /*** Navbar ***/
-    .sidebar .navbar .navbar-nav .nav-link {
-        padding: 7px 20px;
-        color: var(--dark);
-        font-weight: 500;
-        border-left: 3px solid var(--light);
-        border-radius: 0 30px 30px 0;
-        outline: none;
-    }
-
-    .sidebar .navbar .navbar-nav .nav-link:hover,
-    .sidebar .navbar .navbar-nav .nav-link.active {
-        color: var(--primary);
-        background: #FFFFFF;
-        border-color: var(--primary);
-    }
-
-    .sidebar .navbar .navbar-nav .nav-link i {
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #FFFFFF;
-        border-radius: 40px;
-    }
-
-    .sidebar .navbar .navbar-nav .nav-link:hover i,
-    .sidebar .navbar .navbar-nav .nav-link.active i {
-        background: var(--light);
-    }
-
-    .sidebar .navbar .dropdown-toggle::after {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        border: none;
-        content: "\f107";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        transition: .5s;
-    }
-
-    .sidebar .navbar .dropdown-toggle[aria-expanded=true]::after {
-        transform: rotate(-180deg);
-    }
-
-    .sidebar .navbar .dropdown-item {
-        padding-left: 25px;
-        border-radius: 0 30px 30px 0;
-    }
-
-    .content .navbar .navbar-nav .nav-link {
-        margin-left: 25px;
-        padding: 12px 0;
-        color: var(--dark);
-        outline: none;
-    }
-
-    .content .navbar .navbar-nav .nav-link:hover,
-    .content .navbar .navbar-nav .nav-link.active {
-        color: var(--primary);
-    }
-
-    .content .navbar .sidebar-toggler,
-    .content .navbar .navbar-nav .nav-link i {
-        width: 40px;
-        height: 40px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: #FFFFFF;
-        border-radius: 40px;
-    }
-
-    .content .navbar .dropdown-toggle::after {
-        margin-left: 6px;
-        vertical-align: middle;
-        border: none;
-        content: "\f107";
-        font-family: "Font Awesome 5 Free";
-        font-weight: 900;
-        transition: .5s;
-    }
-
-    .content .navbar .dropdown-toggle[aria-expanded=true]::after {
-        transform: rotate(-180deg);
-    }
-
-    @media (max-width: 575.98px) {
-        .content .navbar .navbar-nav .nav-link {
-            margin-left: 15px;
-        }
-    }
-    .btn {
-        padding: 0 10px;
-        background: #009CFF;
-        color: #fff;
-    }
-
-    .btn:hover {
-        color: #fff;
-        background-color: #009CFF;
-        border-color: #204d74;
-    }
-    .stt{
-        position: relative;
-    }
-    .sort-icon{
-        position:absolute;
-        right:5%;
-        top:26%;
-    }
-    .overlay {
-        position: fixed;
-        z-index:999;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: rgba(0, 0, 0, 0.7);
-        transition: opacity 500ms;
-        display:none;
-        opacity: 0;
-    }
-    .overlay:target {
-        display: block;
-        opacity: 1;
-    }
-
-    .popup {
-        margin: 70px auto;
-        padding: 20px;
-        background: #fff;
-        border-radius: 5px;
-        width: 50%;
-        position: relative;
-        transition: all 5s ease-in-out;
-    }
-    .popup .close {
-        position: absolute;
-        top: 20px;
-        right: 30px;
-        transition: all 200ms;
-        font-size: 30px;
-        font-weight: bold;
-        text-decoration: none;
-        color: #333;
-    }
-    .popup .close:hover {
-        color: #06D85F;
-    }
-    .popup .content {
-        max-height: 30%;
-        overflow: auto;
-    }
-    .page-item:active{
-        background-color: #009CFF;
-    }
-
-</style>
 </html>
