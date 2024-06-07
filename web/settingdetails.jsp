@@ -46,7 +46,7 @@
                         <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                         <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
                         <div class="border-0 mb-1">
-                            <a style="margin-left: 33%;color:#009CFF; " href="#" class="nav-item active h6">Setting Details</a>
+                            <a style="margin-left: 41%;color:#009CFF; " href="#" class="nav-item active h7">Setting Details</a>
                         </div>
                         <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
                     </div>
@@ -69,7 +69,13 @@
 
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                <c:if test="${empty sessionScope.user.getPfp()}">
+                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
+                                </c:if>
+                                <c:if test="${not empty sessionScope.user.getPfp()}">
+                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
+                                </c:if>
+                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
                                 <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -83,7 +89,7 @@
 
 
                 <c:set value="${sessionScope.detail}" var="detail"/>
-        <div class="container-fluid rounded bg-white shadow-sm d-flex justify-content-center">
+                <div class="container-fluid rounded bg-white shadow-sm d-flex justify-content-center">
                     <div style="width:60%;" class="p-2 pb-5 pt-1">
 
                         <form class="row mt-3" method="get" action="setting">
@@ -141,7 +147,7 @@
                                     <input type="hidden" name="action" value="add">
                                     <div class="col-md-7"><label class="labels">Group</label>
                                         <select class="form-select" id="roles" name="type" >
-                                            <c:forEach items="${requestScope.types}" var="t">
+                                            <c:forEach items="${sessionScope.types}" var="t">
                                                 <option value="${t}">${t}</option>
                                             </c:forEach>                             
                                         </select>
@@ -159,25 +165,25 @@
                         </div>
                     </div>
 
-            </div>     
+                </div>     
+            </div>
+
+            <!-- Content End -->
+
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
 
-        <!-- Content End -->
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
 
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/admin.js"></script>
-</body>
+        <!-- Template Javascript -->
+        <script src="js/admin.js"></script>
+    </body>
 </html>
 

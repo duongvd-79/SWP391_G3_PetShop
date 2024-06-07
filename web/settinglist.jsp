@@ -70,7 +70,13 @@
 
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;">
+                                <c:if test="${empty sessionScope.user.getPfp()}">
+                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
+                                </c:if>
+                                <c:if test="${not empty sessionScope.user.getPfp()}">
+                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
+                                </c:if>
+                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
                                 <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
@@ -83,7 +89,7 @@
                 <!-- Navbar End -->
 
 
-                <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm">
+                <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm pb-1 px-2">
                     <div class="row d-flex align-items-center mb-3">
 
                         <div class="col-md-3 function">
@@ -151,7 +157,7 @@
                     </div>
 
                     <nav aria-label="setting list paging ">
-                        <ul class="pagination d-flex justify-content-end">
+                        <ul class="pagination d-flex justify-content-end mb-2">
                             <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
 
                             <c:forEach begin="1" end="${requestScope.pageNum}" var="i">

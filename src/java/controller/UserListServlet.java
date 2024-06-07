@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -63,7 +64,8 @@ public class UserListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
-        
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
         try {
             ArrayList<User> userList = userDAO.getAllUser();
             ArrayList<Setting> roleList = userDAO.getAllRole();
@@ -85,6 +87,10 @@ public class UserListServlet extends HttpServlet {
 
         } catch (SQLException ex) {
             Logger.getLogger(UserListServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        else{
+            response.sendRedirect("404.html");
         }
     } 
 
