@@ -39,9 +39,9 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name} <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a class="nav-link" href="#profilepopup">User Profile</a></li>
-                        <c:if test="${user.getRoleId()==1}">
+                            <c:if test="${user.getRoleId()==1}">
                             <li><a class="nav-link" href="setting">Admin</a></li>
-                        </c:if>
+                            </c:if>
                         <li><a class="text-danger" href="login?logout=true">Logout</a></li>
                     </ul>
                 </li>
@@ -77,7 +77,7 @@
                                                                 <div class="control__indicator"></div>
                                                             </label>-->
                             <!--Reset password-->
-                            <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password?</a></span>
+                            <span class="ml-auto"><a href="#reset" class="forgot-pass">Forgot Password?</a></span>
                         </div>
                         <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
                     </form>
@@ -147,382 +147,343 @@
                             </div>
                             <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
                         </div>
-                        <span class="text-danger">${sessionScope.alert}<span>
-                                <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
-                                <div class="social-login text-center mt-2">
-                                    <span>Already had an account? </span>
-                                    <a href="#loginpopup"><strong>Sign In</strong></a>
-                                </div>
+                    </form>
+                    <span class="text-danger">${sessionScope.alert}<span>
+                            <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
+                            <div class="social-login text-center mt-2">
+                                <span>Already had an account? </span>
+                                <a href="#loginpopup"><strong>Sign In</strong></a>
+                            </div>
 
-                                </form>
-                                </div>
-                                </div>
-                                </div>
-                                <%-- verify email popup --%>
-                                <div id="verifypopup" class="overlay">
-                                    <div class="popup">
-                                        <h2 class="ms-3 mb-3">Announce</h2>
-                                        <a class="close" href="#">&times;</a>
-                                        <div class="content container-fluid">
-                                            <h3>Check your register email for verification!</h3>
-                                        </div>
+                            </div>
+                            </div>
+                            </div>
+                            <%-- verify email popup --%>
+                            <div id="verifypopup" class="overlay">
+                                <div class="popup">
+                                    <h2 class="ms-3 mb-3">H2DV Petshop</h2>
+                                    <a class="close" href="#">&times;</a>
+                                    <div class="content container-fluid">
+                                        <h2>A verification link had been sended to ${sessionScope.newuser.getEmail()}</h2>
+                                        <h3>Check your email for verification!</h3>
                                     </div>
                                 </div>
-                                <%}%>
-
-                                <%
-                                    if (user != null && user.getRoleId()==5) {
-                                %>
-                                <!-- Start Atribute Navigation -->
-                                <div class="attr-nav">
-                                    <ul>
-                                        <li class="side-menu">
-                                            <a href="#">
-                                                <i class="bi bi-basket3"></i>
-                                                <span class="badge">${requestScope.cart.size()}</span>
-                                                <p>My Cart</p>
-                                            </a>
-                                        </li>
-                                    </ul>
+                            </div>
+                            <%-- reset password popup --%>
+                            <div id="reset" class="overlay">
+                                <div class="popup">
+                                    <div class="form-block">
+                                        <div class="mb-3">
+                                            <h3><strong>Reset Password</strong></h3>
+                                            <a class="close" href="#">&times;</a>
+                                        </div>
+                                        <form action="resetpassword" method="get">
+                                            <div class="form-group first">
+                                                <label for="email">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="${sessionScope.email}" placeholder="Enter your email" required="">
+                                            </div>
+                                            <p class="text-danger mb-2">${sessionScope.alert}</p>
+                                            <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
+                                        </form>
+                                    </div>
                                 </div>
-                                <!-- End Atribute Navigation -->
+                            </div>
+                            <c:if test="${sessionScope.email != null}">
+                            <div id="enterreset" class="overlay">
+                                <div class="popup">
+                                    <div class="form-block">
+                                        <div class="mb-3">
+                                            <h3><strong>Reset Password</strong></h3>
+                                            <a class="close" href="#">&times;</a>
+                                        </div>
+                                        <form action="resetpassword" method="post">
+                                            <div class="form-group last mb-2">
+                                                <label for="password">Password</label>
+                                                <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Enter password" required="">
+                                            </div>
+                                            <div class="form-group last mb-2">
+                                                <label for="password">Confirm password</label>
+                                                <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
+                                            </div>
+                                            <p class="text-danger mb-2">${sessionScope.alert1}</p>
+                                            <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            </c:if>
+                            <%}%>
 
-                                <!-- User Profile -->
-                                <div id="profilepopup" class="overlay container-fluid">
-                                    <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
-                                        <form action="userprofile" method="post" enctype="multipart/form-data">
-                                            <div class="row">
-                                                <div class="col-md-4 border-right">
-                                                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                        <img class="rounded-circle mt-5" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}">
-                                                        <input id="file-upload" type="file" name="profilepfp" accept="image/*">
-                                                        <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
-                                                        <span id="file-name"></span>
+                            <%
+                                if (user != null && user.getRoleId()==5) {
+                            %>
+                            <!-- Start Atribute Navigation -->
+                            <div class="attr-nav">
+                                <ul>
+                                    <li class="side-menu">
+                                        <a href="#">
+                                            <i class="bi bi-basket3"></i>
+                                            <span class="badge">${requestScope.cart.size()}</span>
+                                            <p>My Cart</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- End Atribute Navigation -->
+
+                            <!-- User Profile -->
+                            <div id="profilepopup" class="overlay">
+                                <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
+                                    <form action="userprofile" method="post" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-md-4 border-right">
+                                                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                                    <img class="rounded-circle mt-5" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}">
+                                                    <input id="file-upload" type="file" name="profilepfp" accept="image/*">
+                                                    <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
+                                                    <span id="file-name"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 border-right">
+                                                <div class="p-3 pt-5 pb-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                                        <h2 class="text-right"><strong>User Profile</strong></h2>
+                                                        <a class="close" href="#">&times;</a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12 col-lg-6 border-left border-right">
+                                                            <div class="mb-2">
+                                                                <h3><strong>Information</strong></h3>
+                                                            </div>
+                                                            <div class="row mt-2">
+                                                                <div class="col-md-12">
+                                                                    <label class="labels">Name</label>
+                                                                    <input type="text" class="form-control" name="pfname" id="pfname" placeholder="Enter Name" value="${sessionScope.user.name}" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-12">
+                                                                    <label class="labels">Email</label>
+                                                                    <input type="text" class="form-control" value="${sessionScope.user.email}" disabled readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-2">
+                                                                    <label class="labels">Gender</label>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender ? "checked" : ""}>
+                                                                    <label class="form-check-label">Male</label>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="radio" name="pfgender" id="pffemale" value="Female" ${!sessionScope.user.gender ? "checked" : ""}>
+                                                                    <label class="form-check-label">Female</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12 col-lg-6 border-left border-right">
+                                                            <div class="mb-2">
+                                                                <h3><strong>Contact</strong></h3>
+                                                            </div>
+                                                            <div class="row mt-1">
+                                                                <div class="col-md-6">
+                                                                    <label class="labels">City</label>
+                                                                    <select class="form-select form-select-sm mb-3 p-2" name="pfcity" id="pfcity" aria-label=".form-select-sm">
+                                                                        <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
+                                                                    </select>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <label class="labels">District</label>
+                                                                    <br>
+                                                                    <select class="form-select form-select-sm mb-3 p-2" name="pfdistrict" id="pfdistrict" aria-label=".form-select-sm" >
+                                                                        <option  selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-12">
+                                                                    <label class="labels">Detailed Address</label>
+                                                                    <input type="text" class="form-control" name="pfdetailaddress" placeholder="Enter address" value="" >
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-md-3">
+                                                                    <label class="labels">Phone</label>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <input type="text" class="form-control" name="pfphone" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${sessionScope.user.phone}" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-8 border-right">
-                                                    <div class="p-3 pt-5 pb-3">
-                                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                                            <h2 class="text-right"><strong>User Profile</strong></h2>
-                                                            <a class="close" href="#">&times;</a>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-md-12 col-lg-6 border-left border-right">
-                                                                <div class="mb-2">
-                                                                    <h3><strong>Information</strong></h3>
-                                                                </div>
-                                                                <div class="row mt-2">
-                                                                    <div class="col-md-12">
-                                                                        <label class="labels">Name</label>
-                                                                        <input type="text" class="form-control" name="pfname" id="pfname" placeholder="Enter Name" value="${sessionScope.user.name}" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    <div class="col-md-12">
-                                                                        <label class="labels">Email</label>
-                                                                        <input type="text" class="form-control" value="${sessionScope.user.email}" disabled readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    <div class="col-md-2">
-                                                                        <label class="labels">Gender</label>
-                                                                    </div>
-                                                                    <div class="col-md-3">
-                                                                        <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender ? "checked" : ""}>
-                                                                        <label class="form-check-label">Male</label>
-                                                                    </div>
-                                                                    <div class="col-md-4">
-                                                                        <input type="radio" name="pfgender" id="pffemale" value="Female" ${!sessionScope.user.gender ? "checked" : ""}>
-                                                                        <label class="form-check-label">Female</label>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12 col-lg-6 border-left border-right">
-                                                                <div class="mb-2">
-                                                                    <h3><strong>Contact</strong></h3>
-                                                                </div>
-                                                                <div class="row mt-1">
-                                                                    <div class="col-md-6">
-                                                                        <label class="labels">City</label>
-                                                                        <select class="form-select form-select-sm mb-3 p-2" name="pfcity" id="pfcity" aria-label=".form-select-sm">
-                                                                            <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <label class="labels">District</label>
-                                                                        <br>
-                                                                        <select class="form-select form-select-sm mb-3 p-2" name="pfdistrict" id="pfdistrict" aria-label=".form-select-sm" >
-                                                                            <option  selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    <div class="col-md-12">
-                                                                        <label class="labels">Detailed Address</label>
-                                                                        <input type="text" class="form-control" name="pfdetailaddress" placeholder="Enter address" value="" >
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mt-3">
-                                                                    <div class="col-md-3">
-                                                                        <label class="labels">Phone</label>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <input type="text" class="form-control" name="pfphone" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${sessionScope.user.phone}" required>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
 
-                                                        <!-- User Profile -->
-                                                        <div id="profilepopup" class="overlay container-fluid">
-                                                            <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
-                                                                <form action="userprofile" method="get">
-                                                                    <div class="row">
-                                                                        <div class="col-md-4 border-right">
-                                                                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                                                                <img class="rounded-circle mt-5" width="150px" src="images/userpfp/default.png">
-                                                                                <input id="file-upload" type="file" name="profilepfp" accept="image/*">
-                                                                                <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
-                                                                                <span id="file-name"></span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-md-8 border-right">
-                                                                            <div class="p-3 pt-5 pb-3">
-                                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                                    <h2 class="text-right"><strong>User Profile</strong></h2>
-                                                                                    <a class="close" href="#">&times;</a>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-md-12 col-lg-6 border-left border-right">
-                                                                                        <div class="mb-2">
-                                                                                            <h3><strong>Information</strong></h3>
-                                                                                        </div>
-                                                                                        <div class="row mt-2">
-                                                                                            <div class="col-md-12">
-                                                                                                <label class="labels">Name</label>
-                                                                                                <input type="text" class="form-control" id="pfname" placeholder="Enter Name" value="${user.name}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mt-3">
-                                                                                            <div class="col-md-12">
-                                                                                                <label class="labels">Email</label>
-                                                                                                <input type="text" class="form-control" value="${user.email}" disabled readonly>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mt-3">
-                                                                                            <div class="col-md-2">
-                                                                                                <label class="labels">Gender</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-3">
-                                                                                                <input type="radio" name="profilegender" id="pfmale" ${user.gender ? "checked" : ""}>
-                                                                                                <label class="form-check-label">Male</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-4">
-                                                                                                <input type="radio" name="profilegender" id="pffemale" ${!user.gender ? "checked" : ""}>
-                                                                                                <label class="labels">Female</label>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="col-md-12 col-lg-6 border-left border-right">
-                                                                                        <div class="mb-2">
-                                                                                            <h3><strong>Contact</strong></h3>
-                                                                                        </div>
-                                                                                        <div class="row mt-1">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="labels">City</label>
-                                                                                                <input type="text" class="form-control" placeholder="Enter City" value="" required>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="labels">District</label>
-                                                                                                <input type="text" class="form-control" placeholder="Enter District" value="" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mt-3">
-                                                                                            <div class="col-md-12">
-                                                                                                <label class="labels">Detailed Address</label>
-                                                                                                <input type="text" class="form-control" placeholder="Enter address" value="" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row mt-3">
-                                                                                            <div class="col-md-3">
-                                                                                                <label class="labels">Phone</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <input type="text" class="form-control" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${user.phone}" required>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="mt-3 text-center">
-                                                                        <button class="btn btn-primary" id="save-button" type="submit" disabled>Save Profile</button>
-                                                                    </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                        <%}%>
-                                                    </div>
-                                                    </nav>
+                            <%}%>
 
-                                                    <!-- End Navigation -->
-                                                    </header>
-                                                    <!-- End Main Top -->
-                                                    <style>
-                                                        .overlay {
-                                                            position: fixed;
-                                                            top: 0;
-                                                            bottom: 0;
-                                                            left: 0;
-                                                            right: 0;
-                                                            background: rgba(0, 0, 0, 0.7);
-                                                            transition: opacity 500ms;
-                                                            display:none;
-                                                            opacity: 0;
-                                                        }
-                                                        .overlay:target {
-                                                            display: block;
-                                                            opacity: 1;
-                                                        }
-                                                        .popup,.popup2{
-                                                            margin: 150px auto;
-                                                            padding: 30px 40px;
-                                                            background: #fff;
-                                                            border-radius: 5px;
-                                                            width: 30%;
-                                                            min-width: 400px;
-                                                            position: relative;
-                                                            transition: all 5s ease-in-out;
-                                                        }
-                                                        .popup2{
-                                                            margin: 2vh auto;
-                                                        }
-                                                        .close {
-                                                            position: absolute;
-                                                            top: 20px;
-                                                            right: 30px;
-                                                            transition: all 200ms;
-                                                            font-size: 30px;
-                                                            font-weight: bold;
-                                                            text-decoration: none;
-                                                            color: #333;
-                                                        }
-                                                        .popup .close:hover {
-                                                            color: #06D85F;
-                                                        }
-                                                        .popup .content {
-                                                            max-height: 30%;
-                                                            overflow: auto;
-                                                        }
-                                                        input[type="file"] {
-                                                            display: none;
-                                                        }
+                            </nav>
 
-                                                    </style>
-                                                    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+                            <!-- End Navigation -->
+                            </header>
+                            <!-- End Main Top -->
+                            <style>
+                                .overlay {
+                                    position: fixed;
+                                    top: 0;
+                                    bottom: 0;
+                                    left: 0;
+                                    right: 0;
+                                    background: rgba(0, 0, 0, 0.7);
+                                    transition: opacity 500ms;
+                                    display:none;
+                                    opacity: 0;
+                                }
+                                .overlay:target {
+                                    display: block;
+                                    opacity: 1;
+                                }
+                                .popup,.popup2{
+                                    margin: 150px auto;
+                                    padding: 30px 40px;
+                                    background: #fff;
+                                    border-radius: 5px;
+                                    width: 30%;
+                                    min-width: 400px;
+                                    position: relative;
+                                    transition: all 5s ease-in-out;
+                                }
+                                .popup2{
+                                    margin: 2vh auto;
+                                }
+                                .close {
+                                    position: absolute;
+                                    top: 20px;
+                                    right: 30px;
+                                    transition: all 200ms;
+                                    font-size: 30px;
+                                    font-weight: bold;
+                                    text-decoration: none;
+                                    color: #333;
+                                }
+                                .popup .close:hover {
+                                    color: #06D85F;
+                                }
+                                .popup .content {
+                                    max-height: 30%;
+                                    overflow: auto;
+                                }
+                                input[type="file"] {
+                                    display: none;
+                                }
 
-                                                    <script>
-                                                        var cities = document.getElementById("pfcity");
-                                                        var districts = document.getElementById("pfdistrict");
+                            </style>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 
-                                                        var Parameter = {
-                                                            url: "js/data.json",
-                                                            method: "GET",
-                                                            responseType: "application/json",
-                                                        };
+                            <script>
+                                var cities = document.getElementById("pfcity");
+                                var districts = document.getElementById("pfdistrict");
 
-                                                        var promise = axios(Parameter);
-                                                        promise.then(function (result) {
-                                                            renderCity(result.data);
-                                                        });
+                                var Parameter = {
+                                    url: "js/data.json",
+                                    method: "GET",
+                                    responseType: "application/json",
+                                };
 
-                                                        function renderCity(data) {
-                                                            for (const city of data) {
-                                                                cities.options[cities.options.length] = new Option(city.Name);
-                                                            }
+                                var promise = axios(Parameter);
+                                promise.then(function (result) {
+                                    renderCity(result.data);
+                                });
 
-                                                            cities.onchange = function () {
-                                                                districts.length = 1;
+                                function renderCity(data) {
+                                    for (const city of data) {
+                                        cities.options[cities.options.length] = new Option(city.Name);
+                                    }
 
-                                                                if (this.value !== "") {
-                                                                    const selectedCity = data.find(city => city.Name === this.value);
+                                    cities.onchange = function () {
+                                        districts.length = 1;
 
-                                                                    for (const district of selectedCity.Districts) {
-                                                                        districts.options[districts.options.length] = new Option(district.Name);
-                                                                    }
-                                                                }
-                                                            };
-                                                        }
-                                                    </script>
-                                                    <script>
-                                                        var cities2 = document.getElementById("city");
-                                                        var districts2 = document.getElementById("district");
+                                        if (this.value !== "") {
+                                            const selectedCity = data.find(city => city.Name === this.value);
 
-                                                        var Parameter2 = {
-                                                            url: "js/data.json",
-                                                            method: "GET",
-                                                            responseType: "application/json",
-                                                        };
+                                            for (const district of selectedCity.Districts) {
+                                                districts.options[districts.options.length] = new Option(district.Name);
+                                            }
+                                        }
+                                    };
+                                }
+                            </script>
+                            <script>
+                                var cities2 = document.getElementById("city");
+                                var districts2 = document.getElementById("district");
 
-                                                        var promise2 = axios(Parameter2);
-                                                        promise2.then(function (result2) {
-                                                            renderCity2(result2.data);
-                                                        });
+                                var Parameter2 = {
+                                    url: "js/data.json",
+                                    method: "GET",
+                                    responseType: "application/json",
+                                };
 
-                                                        function renderCity2(data) {
-                                                            for (const city of data) {
-                                                                cities2.options[cities2.options.length] = new Option(city.Name);
-                                                            }
+                                var promise2 = axios(Parameter2);
+                                promise2.then(function (result2) {
+                                    renderCity2(result2.data);
+                                });
 
-                                                            cities2.onchange = function () {
-                                                                districts2.length = 1;
+                                function renderCity2(data) {
+                                    for (const city of data) {
+                                        cities2.options[cities2.options.length] = new Option(city.Name);
+                                    }
 
-                                                                if (this.value !== "") {
-                                                                    const selectedCity = data.find(city => city.Name === this.value);
+                                    cities2.onchange = function () {
+                                        districts2.length = 1;
 
-                                                                    for (const district of selectedCity.Districts) {
-                                                                        districts2.options[districts2.options.length] = new Option(district.Name);
-                                                                    }
-                                                                }
-                                                            };
-                                                        }
-                                                    </script>
-                                                    <script>
-                                                        var file = document.getElementById('file-upload');
-                                                        var previewImage = document.getElementById('preview-img');
+                                        if (this.value !== "") {
+                                            const selectedCity = data.find(city => city.Name === this.value);
 
-                                                        file.addEventListener('change', function () {
-                                                            var fileName = this.files[0].name;
-                                                            document.getElementById('file-name').textContent = fileName;
-                                                        });
-                                                        file.addEventListener('change', (e) => {
-                                                            var reader = new FileReader();
+                                            for (const district of selectedCity.Districts) {
+                                                districts2.options[districts2.options.length] = new Option(district.Name);
+                                            }
+                                        }
+                                    };
+                                }
+                            </script>
+                            <script>
+                                var file = document.getElementById('file-upload');
+                                var previewImage = document.getElementById('preview-img');
 
-                                                            reader.onload = (event) => {
-                                                                previewImage.src = event.target.result;
-                                                            };
-                                                            reader.readAsDataURL(e.target.files[0]);
-                                                        });
-                                                        document.addEventListener('DOMContentLoaded', function () {
-                                                            var name = document.getElementById('pfname');
-                                                            var phone = document.getElementById('pfphone');
-                                                            var saveButton = document.getElementById('save-button');
-                                                            var originalName = '${sessionScope.user.name}';
-                                                            var originalPhone = '${sessionScope.user.phone}';
+                                file.addEventListener('change', function () {
+                                    var fileName = this.files[0].name;
+                                    document.getElementById('file-name').textContent = fileName;
+                                });
+                                file.addEventListener('change', (e) => {
+                                    var reader = new FileReader();
 
-                                                            function toggleButton() {
-                                                                if (name.value !== originalName || phone.value !== originalPhone
-                                                                        || file.value !== "") {
-                                                                    saveButton.disabled = false;
-                                                                } else {
-                                                                    saveButton.disabled = true;
-                                                                }
-                                                            }
-                                                            ;
+                                    reader.onload = (event) => {
+                                        previewImage.src = event.target.result;
+                                    };
+                                    reader.readAsDataURL(e.target.files[0]);
+                                });
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    var name = document.getElementById('pfname');
+                                    var phone = document.getElementById('pfphone');
+                                    var saveButton = document.getElementById('save-button');
+                                    var originalName = '${sessionScope.user.name}';
+                                    var originalPhone = '${sessionScope.user.phone}';
 
-                                                            name.addEventListener('input', toggleButton);
-                                                            phone.addEventListener('input', toggleButton);
-                                                            file.addEventListener('change', toggleButton);
-                                                        });
-                                                    </script>
+                                    function toggleButton() {
+                                        if (name.value !== originalName || phone.value !== originalPhone
+                                                || file.value !== "") {
+                                            saveButton.disabled = false;
+                                        } else {
+                                            saveButton.disabled = true;
+                                        }
+                                    }
+                                    ;
+
+                                    name.addEventListener('input', toggleButton);
+                                    phone.addEventListener('input', toggleButton);
+                                    file.addEventListener('change', toggleButton);
+                                });
+                            </script>

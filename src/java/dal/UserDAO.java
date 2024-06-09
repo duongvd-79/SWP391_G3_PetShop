@@ -242,6 +242,20 @@ public class UserDAO extends DBContext {
         }
     }
     
+    public void changePassword(String email,String password){
+        try {
+            String sql = "UPDATE user SET password = MD5(?) WHERE email = ?";
+            PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, password);
+            stm.setString(2, email);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+    
     public void addNewUser(User u) throws SQLException{
         String sql = "insert into user(email,password,name,gender,status,role_id,phone) values (?,MD5(?),?,?,?,?,?)";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -315,8 +329,8 @@ public class UserDAO extends DBContext {
 //            System.out.println(s.getId() + s.getPfp());
 //        }
 //        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
-        User user = u.login("sale@gmail.com", "827ccb0eea8a706c4c34a16891f84e7b");
-        System.out.println(user.getName());
+        u.changePassword("hoangdz512@gmail.com","123456" );
+        
         
     }
 

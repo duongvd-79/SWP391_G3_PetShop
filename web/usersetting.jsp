@@ -136,24 +136,32 @@
                                         <input name="action" value="update" hidden>
                                         <input name="id" value="${u.getId()}" hidden>
                                         <div class="col-md-7"><label class="labels">Role</label>
-                                            <select class="form-select" id="roles" name="roleid">
-                                                <c:forEach items="${requestScope.sList}" var="s">
-                                                    <option value="${s.getId()}" ${(requestScope.u.getRoleId() == requestScope.s.getId()) ? 'selected' : ''}>${s.getName()}</option>
+                                            <select class="form-select" id="roles" name="roleid" ${u.getRoleId()==1 ? 'disabled' : ''}>
+                                                <c:forEach items="${requestScope.rList}" var="r">
+                                                    <option value="${r.getId()}" ${r.getId() == u.getRoleId() ? 'selected' : ''}>${r.getName()}</option>
                                                 </c:forEach>
                                             </select>
                                         </div>
                                         <div class="col-md-5"><label class="labels">Status</label>
-                                            <select class="form-select" id="status" name="status">
-                                                <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
-                                                <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
-                                            </select>
+                                            
+                                                <c:if test="${u.getRoleId() == 1}">
+                                                    <input type="text" class="form-control" value="${u.getStatus()}" readonly>
+                                                </c:if> 
+                                                <c:if test="${u.getRoleId() != 1}">
+                                                    <select class="form-select" id="status" name="status">
+                                                    <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
+                                                    <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
+                                                    </select>
+                                                </c:if>
+                                                
+                                            
                                         </div>
 
 
                                         <div class="d-flex justify-content-center align-items-center mt-3">
-                                            <div class="mt-3 me-3 text-center d-flex align-items-center"><button class="btn py-1 px-4 ms-2" type="button submit">Save Profile</button></div>
+                                            <div class="${u.getRoleId()==1 ? 'd-none' : ''} mt-3 me-3 text-center align-items-center"><button class="btn py-1 px-4 ms-2" type="button submit">Save Profile</button></div>
                                             <div class="mt-3 ms-3 d-flex justify-content-between align-items-center">
-                                                <a  href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
+                                                <a href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
                                             </div>
                                         </div>
                                     </form>
@@ -166,19 +174,19 @@
                     </div>
                     <div id="popup1" class="overlay">
                         <div class="popup">
-                            <h2 class="ms-3 mb-3">Add New User</h2>
+                            <h1 class="ms-3 mb-3">Add New User</h1>
                             <a class="close" href="#">&times;</a>
-                            <div class="content container-fluid">
+                            <div class="container-fluid">
 
                                 <form method="post" action="adduser" class="row">
                                     <input type="hidden" name="action" value="add">
                                     <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
-                                    <div class="col-md-12 mb-2"><label class="labels">Password</label><input type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
+                                    <div class="col-md-12 mb-2"><label class="labels">Password</label><input class="form-control" type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
                                     <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
                                     <div class="col-md-5"><label class="labels">Role</label>
                                         <select class="form-select" id="roles" name="roleid">
-                                            <c:forEach items="${requestScope.sList}" var="s">
-                                                <option value="${s.getId()}">${s.getName()}</option>
+                                            <c:forEach items="${requestScope.rList}" var="r">
+                                                <option value="${r.getId()}">${r.getName()}</option>
                                             </c:forEach>
                                         </select>
                                     </div>

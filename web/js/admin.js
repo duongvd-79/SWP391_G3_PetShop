@@ -17,7 +17,7 @@
         $('.sidebar, .content').toggleClass("open");
         return false;
     });
-    
+
 })(jQuery);
 
 

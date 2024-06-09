@@ -111,14 +111,14 @@
                                 <div class="my-2">
                                     <div class="form-check custom-radio form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="status" value="Active" id="active" ${"Active".equals(requestScope.detail.getStatus()) ? 'checked' : ''}>
+                                        <input class="form-check-input font-weight-bold" type="radio" name="status" value="Active" id="active" ${'Active' == detail.status ? 'checked' : ''} ${detail.name == 'admin' ? 'disabled' : ''}>
                                         <label class="form-check-label" for="active">
                                             Active
                                         </label>
                                     </div>
                                     <div class="form-check custom-radio form-check-inline">
 
-                                        <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive" ${"Active".equals(requestScope.detail.getStatus()) ? '':'checked'}>
+                                        <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive" ${'Active' == detail.status ? '':'checked'} ${detail.name == 'admin' ? 'disabled' : ''}>
                                         <label class="form-check-label" for="inactive">
                                             Inactive
                                         </label>
@@ -184,6 +184,13 @@
 
         <!-- Template Javascript -->
         <script src="js/admin.js"></script>
+        <style>
+            label{
+                font-size: 18px;
+                font-weight: bold;
+                line-height: 10px;
+            }
+        </style>
     </body>
 </html>
 

@@ -4,26 +4,25 @@
  */
 package controller;
 
+import model.User;
 import dal.UserDAO;
+import helper.KeyGenerator;
+import helper.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Setting;
-import model.User;
+
 
 /**
  *
  * @author ACER
  */
-public class EditUserServlet extends HttpServlet {
+public class ResetPasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +41,10 @@ public class EditUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditUserServlet</title>");
+            out.println("<title>Servlet ResetPasswordServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ResetPasswordServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,35 +62,32 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-       UserDAO uDAO = new UserDAO();
-
-        String action = request.getParameter("action");
-        if (action != null && action.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String status = request.getParameter("status");
-            int roleid = Integer.parseInt(request.getParameter("roleid"));
-            uDAO.updateUser(roleid, status, id);
-            response.sendRedirect("userlist");
+        UserDAO uDAO = new UserDAO();
+        String alert="";
+        HttpSession session = request.getSession();
+        String email = request.getParameter("email").trim();
+        //check account exist
+        boolean isExist = false;
+        try {
+            for (User user : uDAO.getAllUser()) {
+                if (email.equals(user.getEmail())) {
+                    isExist = true;
+                }
+            }
+        } catch (SQLException ex) {}
+        if(!isExist){
+            alert="Account not exist";
+            session.setAttribute("alert", alert);
+            session.setAttribute("email",email);
+            response.sendRedirect("home#reset");
         }
         else{
-        List<Setting> rList;
-        List<User> uList = new ArrayList<>();
-        try {
-            uList = uDAO.getAllUser();
-            rList = uDAO.getAllRole();
-            request.setAttribute("rList", rList);
-        } catch (SQLException ex) {
-        }
-        User u = null;
-        int id = Integer.parseInt(request.getParameter("id"));
-        for (User user : uList) {
-            if (user.getId() == id) {
-                u = user;
-            }
-        }
-        request.setAttribute("u", u);
-        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
+            String key= KeyGenerator.getKey();
+            session.setAttribute("key", key);
+            session.setAttribute("email",email);
+            session.setMaxInactiveInterval(180);
+            SendMail.sendMail(email, "Reset Your Password", "Click this link to reset your password:\n"+"http://localhost:9090/SWP391_G3_PetShop/resetverify?key="+key+"\n This link will expired in 3 minutes.");
+            response.sendRedirect("home#verifypopup");
         }
     }
 
@@ -106,7 +102,24 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession();
+        UserDAO uDAO = new UserDAO();
+        String alert="";
+        String password = request.getParameter("password");
+        String cfpassword = request.getParameter("cfpassword");
+        String email = (String) session.getAttribute("email");
+        //password not match 
+        if(!password.equals(cfpassword)){
+            alert = "Confirm password does not match";
+            session.setAttribute("alert1", alert);
+            response.sendRedirect("home#enterreset");
+        }
+        else {
+            uDAO.changePassword(email,password);
+            alert = "Password changed success. Please login.";
+            session.setAttribute("alert1", alert);
+            response.sendRedirect("home#enterreset");
+        }
     }
 
     /**

@@ -139,13 +139,20 @@
                                     <c:forEach items="${requestScope.settingList}" var="s">
                                         <tr>
                                             <td>${s.getId()}</td>
-                                            <td>${s.getType()}</td>
-                                            <td>${s.getName()}</td>
-                                            <td>${s.getOrder()}</td>
-                                            <td>${s.getStatus()}</td>
-                                            <td><div class="d-flex justify-content-evenly align-items-center py-2">
-                                                    <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
-                                                    <div class="btn py-1 ${s.getStatus().equals('Active') ? 'bg-danger' : 'bg-primary'}" style="line-height: 25px;width:100px;"><a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a></div>
+                                            <td >${s.getType()}</td>
+                                            <td >${s.getName()}</td>
+                                            <td >${s.getOrder()}</td>
+                                            <td >${s.getStatus()}</td>
+                                            <td ><div class="d-flex justify-content-evenly align-items-center py-2">
+                                                    <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img class="mb-1" height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                    <div class="btn py-1 ${s.getStatus().equals('Active') ? 'bg-danger' : 'bg-primary'}" style="line-height: 25px;width:100px;">
+                                                        <c:if test="${s.getName()!='admin'}">
+                                                            <a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a>
+                                                        </c:if>
+                                                        <c:if test="${s.getName() == 'admin'}">
+                                                            <span>Unchange</span>
+                                                        </c:if>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -211,7 +218,6 @@
     <script src="lib/chart/chart.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-
     <!-- Template Javascript -->
     <script src="js/admin.js"></script>
 </body>

@@ -11,19 +11,15 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Setting;
 import model.User;
 
 /**
  *
  * @author ACER
  */
-public class EditUserServlet extends HttpServlet {
+public class ResetVerifyServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +38,10 @@ public class EditUserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditUserServlet</title>");
+            out.println("<title>Servlet ResetVerifyServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditUserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ResetVerifyServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,35 +59,21 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-       UserDAO uDAO = new UserDAO();
-
-        String action = request.getParameter("action");
-        if (action != null && action.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String status = request.getParameter("status");
-            int roleid = Integer.parseInt(request.getParameter("roleid"));
-            uDAO.updateUser(roleid, status, id);
-            response.sendRedirect("userlist");
-        }
-        else{
-        List<Setting> rList;
-        List<User> uList = new ArrayList<>();
-        try {
-            uList = uDAO.getAllUser();
-            rList = uDAO.getAllRole();
-            request.setAttribute("rList", rList);
-        } catch (SQLException ex) {
-        }
-        User u = null;
-        int id = Integer.parseInt(request.getParameter("id"));
-        for (User user : uList) {
-            if (user.getId() == id) {
-                u = user;
-            }
-        }
-        request.setAttribute("u", u);
-        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
+        HttpSession session = request.getSession();
+        String key = request.getParameter("key");
+        String alert = "";
+        String email = request.getParameter("email");
+        if (key.equals((String) session.getAttribute("key"))) {
+            session.setAttribute("alert", alert);
+            response.sendRedirect("home#enterreset");
+        } else if (session.getAttribute("key") == null) {
+            alert = "Link had been expired";
+            session.setAttribute("alert", alert);
+            response.sendRedirect("home#reset");
+        } else {
+            alert = "Not authorize access";
+            session.setAttribute("alert", alert);
+            response.sendRedirect("home#reset");
         }
     }
 
