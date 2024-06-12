@@ -63,10 +63,10 @@ public class UserListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
         HttpSession session = request.getSession();
         if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
         try {
+            UserDAO userDAO = new UserDAO();
             ArrayList<User> userList = userDAO.getAllUser();
             ArrayList<Setting> roleList = userDAO.getAllRole();
 

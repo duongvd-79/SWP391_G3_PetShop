@@ -26,7 +26,7 @@ public class FeedbackDAO extends DBContext {
                 + "ORDER BY created_date desc\n"
                 + "limit 3;";
         PreparedStatement sta = connection.prepareStatement(sql);
-        sta.setInt(1,newid );
+        sta.setInt(1, newid);
         ResultSet rs = sta.executeQuery();
         ArrayList<ProductFeedback> lst = new ArrayList<>();
         while (rs.next()) {
@@ -40,15 +40,61 @@ public class FeedbackDAO extends DBContext {
             String status = rs.getString("status");
             Date created_date = rs.getDate("created_date");
             String pfp = rs.getString("pfp");
-            ProductFeedback u = new ProductFeedback( id
-            ,  pid,  uid,  star,  detail
-            ,  image,  status
-            ,  created_date,  name
-            ,  pfp
+            ProductFeedback u = new ProductFeedback(id,
+                    pid, uid, star, detail,
+                    image, status,
+                    created_date, name,
+                    pfp
             );
             lst.add(u);
         }
         return lst;
     }
-    
+
+    public int getCountFeedback(String pcategory) {
+        String sql = "SELECT COUNT(*) AS count\n"
+                + "FROM product_feedback as pf\n"
+                + " JOIN product as p ON p.id = pf.product_id\n";
+        if (pcategory != null) {
+            sql += "WHERE p.category_id = '" + pcategory + "'";
+        }
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta = connection.prepareStatement(sql);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getCountFeedback(String start, String end,String pcategory) {
+        String sql = "SELECT COUNT(*) AS count\n"
+                + "FROM product_feedback as pf\n"
+                + " JOIN product as p ON p.id = pf.product_id\n"
+                + "where pf.created_date between '" + start + "' and '" + end + "'";
+        if (pcategory != null) {
+            sql += "and p.category_id = '" + pcategory + "'";
+        }
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta = connection.prepareStatement(sql);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) {
+        FeedbackDAO f = new FeedbackDAO();
+        System.out.println(f.getCountFeedback("2023-01-01","2024-08-08","6"));
+    }
+
 }

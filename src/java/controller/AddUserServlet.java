@@ -84,7 +84,7 @@ public class AddUserServlet extends HttpServlet {
         String gender = request.getParameter("gender");
         int roleid = Integer.parseInt(request.getParameter("roleid"));
         boolean dup = false;
-        User u = new User(email, password, name, "Peding", phone, null, (gender.equals("Male")), roleid);
+        User u = new User(email, password, name, "Pending", phone, null, (gender.equals("Male")), roleid);
 
         try {
             for (User user : uDAO.getAllUser()) {

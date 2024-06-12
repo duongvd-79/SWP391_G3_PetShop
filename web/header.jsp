@@ -40,7 +40,7 @@
                     <ul class="dropdown-menu">
                         <li><a class="nav-link" href="#profilepopup">User Profile</a></li>
                             <c:if test="${user.getRoleId()==1}">
-                            <li><a class="nav-link" href="setting">Admin</a></li>
+                            <li><a class="nav-link" href="admindashboard">Admin</a></li>
                             </c:if>
                         <li><a class="text-danger" href="login?logout=true">Logout</a></li>
                     </ul>

@@ -33,8 +33,8 @@
         <servlet-class>controller.UserListServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>EditUserServlet</servlet-name>
-        <servlet-class>controller.EditUserServlet</servlet-class>
+        <servlet-name>UserDetailsServlet</servlet-name>
+        <servlet-class>controller.UserDetailsServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>AddUserServlet</servlet-name>
@@ -67,6 +67,10 @@
     <servlet>
         <servlet-name>ResetVerifyServlet</servlet-name>
         <servlet-class>controller.ResetVerifyServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AdminDashBoardServet</servlet-name>
+        <servlet-class>controller.AdminDashBoardServet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -105,8 +109,8 @@
         <url-pattern>/userlist</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>EditUserServlet</servlet-name>
-        <url-pattern>/edituser</url-pattern>
+        <servlet-name>UserDetailsServlet</servlet-name>
+        <url-pattern>/userdetails</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AddUserServlet</servlet-name>
@@ -135,5 +139,9 @@
     <servlet-mapping>
         <servlet-name>ResetVerifyServlet</servlet-name>
         <url-pattern>/resetverify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminDashBoardServet</servlet-name>
+        <url-pattern>/admindashboard</url-pattern>
     </servlet-mapping>
 </web-app>

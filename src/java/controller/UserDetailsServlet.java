@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ import model.User;
  *
  * @author ACER
  */
-public class EditUserServlet extends HttpServlet {
+public class UserDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -63,35 +64,38 @@ public class EditUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
+            UserDAO uDAO = new UserDAO();
 
-       UserDAO uDAO = new UserDAO();
-
-        String action = request.getParameter("action");
-        if (action != null && action.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String status = request.getParameter("status");
-            int roleid = Integer.parseInt(request.getParameter("roleid"));
-            uDAO.updateUser(roleid, status, id);
-            response.sendRedirect("userlist");
-        }
-        else{
-        List<Setting> rList;
-        List<User> uList = new ArrayList<>();
-        try {
-            uList = uDAO.getAllUser();
-            rList = uDAO.getAllRole();
-            request.setAttribute("rList", rList);
-        } catch (SQLException ex) {
-        }
-        User u = null;
-        int id = Integer.parseInt(request.getParameter("id"));
-        for (User user : uList) {
-            if (user.getId() == id) {
-                u = user;
+            String action = request.getParameter("action");
+            if (action != null && action.equals("update")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String status = request.getParameter("status");
+                int roleid = Integer.parseInt(request.getParameter("roleid"));
+                uDAO.updateUser(roleid, status, id);
+                response.sendRedirect("userlist");
+            } else {
+                List<Setting> rList;
+                List<User> uList = new ArrayList<>();
+                try {
+                    uList = uDAO.getAllUser();
+                    rList = uDAO.getAllRole();
+                    request.setAttribute("rList", rList);
+                } catch (SQLException ex) {
+                }
+                User u = null;
+                int id = Integer.parseInt(request.getParameter("id"));
+                for (User user : uList) {
+                    if (user.getId() == id) {
+                        u = user;
+                    }
+                }
+                request.setAttribute("u", u);
+                request.getRequestDispatcher("userdetails.jsp").forward(request, response);
             }
-        }
-        request.setAttribute("u", u);
-        request.getRequestDispatcher("usersetting.jsp").forward(request, response);
+        } else {
+            response.sendRedirect("404.html");
         }
     }
 
