@@ -106,10 +106,34 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
+    public List<Product> getProductForEachOrder(int uid,String status) {
+        String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
+                + "JOIN `order` o ON od.order_id = o.id\n"
+                + "WHERE o.customer_id = ? AND o.status = ? AND (od.order_id, od.product_id) IN (\n"
+                + "SELECT order_id, MIN(product_id) FROM order_details \n"
+                + "GROUP BY order_id\n"
+                + ")\n"
+                + "ORDER BY o.ordered_date desc";
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, uid);
+            stm.setString(2, status);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        for(Product pr : p.getFeatured()){
-            System.out.println(pr.getThumbnail());
+        for (Product pr : p.getProductForEachOrder(7,"success")) {
+            System.out.println(pr.getTitle());
         }
     }
 }
