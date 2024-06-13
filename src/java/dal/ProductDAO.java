@@ -129,6 +129,24 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
+    
+     public List<Product> getLatestProductList() {
+        String sql = "SELECT * FROM product\n"
+                + "ORDER BY created_date DESC\n"
+                + "LIMIT 4;";
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+        }
+        return productList;
+    }
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();

@@ -329,7 +329,7 @@
                 </form>
             </div>
         </div>
-
+        <jsp:include page="changepassword.jsp"></jsp:include>
         <%}%>
 
     </nav>
