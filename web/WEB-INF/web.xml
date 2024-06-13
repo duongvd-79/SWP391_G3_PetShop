@@ -76,6 +76,10 @@
         <servlet-name>MyOrdersServlet</servlet-name>
         <servlet-class>controller.MyOrdersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controller.ChangePassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -151,5 +155,9 @@
     <servlet-mapping>
         <servlet-name>MyOrdersServlet</servlet-name>
         <url-pattern>/myorders</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
 </web-app>
