@@ -64,13 +64,13 @@ public class UserListServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
+    throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
-            try {
-                ArrayList<User> userList = userDAO.getAllUser();
-                ArrayList<Setting> roleList = userDAO.getAllRole();
+        try {
+            UserDAO userDAO = new UserDAO();
+            ArrayList<User> userList = userDAO.getAllUser();
+            ArrayList<Setting> roleList = userDAO.getAllRole();
 
                 // get all status currently have in useList
                 ArrayList<String> tempList = new ArrayList<>();

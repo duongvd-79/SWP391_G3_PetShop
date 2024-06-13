@@ -43,9 +43,9 @@
 
                     </div>
                     <div class="navbar-nav w-100">
-                        <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
-                        <a href="userlist" class="nav-item nav-link h6 active"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                        <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                        <a href="userlist" class="nav-item nav-link active"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -55,34 +55,7 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav style="z-index:2;" class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-
-                    <div class="navbar-nav align-items-center ms-auto">
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <c:if test="${empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
-                                </c:if>
-                                <c:if test="${not empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
-                                </c:if>
-                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <jsp:include page="adminheader.jsp"></jsp:include>
                 <!-- Navbar End -->
 
 
@@ -173,7 +146,7 @@
                                                         <td>${u.status}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-evenly align-items-center py-2">
-                                                                <div class="me-4"><a href="edituser?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                                <div class="me-4"><a href="userdetails?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -216,13 +189,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                                <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" >
+                                                <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>

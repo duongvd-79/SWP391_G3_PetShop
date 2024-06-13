@@ -26,10 +26,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, name, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -51,10 +49,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -76,10 +72,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -101,10 +95,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -126,10 +118,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -169,10 +159,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -194,10 +182,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -218,10 +204,8 @@ public class UserDAO extends DBContext {
             int role_id = rs.getInt("role_id");
             String phone = rs.getString("phone");
             Date lastlog = rs.getDate("last_log");
-            int update_by = rs.getInt("update_by");
-            Date update_date = rs.getDate("update_date");
             String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, fullname, status, phone, pfp, update_by, role_id, gender, lastlog, update_date);
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
             lst.add(u);
         }
         return lst;
@@ -257,7 +241,7 @@ public class UserDAO extends DBContext {
     }
     
     public void addNewUser(User u) throws SQLException{
-        String sql = "insert into user(email,password,name,gender,status,role_id,phone) values (?,MD5(?),?,?,?,?,?)";
+        String sql = "insert into user(email,password,name,gender,status,role_id,phone,create_date) values (?,MD5(?),?,?,?,?,?,NOW())";
         PreparedStatement sta = connection.prepareStatement(sql);
         sta.setString(1, u.getEmail());
         sta.setString(2, u.getPassword());
@@ -297,10 +281,9 @@ public class UserDAO extends DBContext {
                 user.setPhone(rs.getString("phone"));
                 user.setPfp(rs.getString("pfp"));
                 user.setRoleId(rs.getInt("role_id"));
-                user.setUpdateBy(rs.getInt("update_by"));
                 user.setGender(rs.getBoolean("gender"));
                 user.setLastLog(rs.getDate("last_log"));
-                user.setUpdateDate(rs.getDate("update_date"));
+                user.setCreateDate(rs.getDate("create_date"));
                 return user;
             }
         } catch (SQLException e) {
@@ -322,6 +305,86 @@ public class UserDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
+    public int getCountCustomer() {
+        String sql = "SELECT COUNT(*) as count FROM user where role_id = 5";
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta = connection.prepareStatement(sql);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public int getCountCustomer(String start,String end) {
+        String sql = "SELECT COUNT(*) as count FROM user where role_id = 5 and create_date between '"+start+"' and '"+end+"'";
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta = connection.prepareStatement(sql);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    public ArrayList<User> getTop4NewCutomers() throws SQLException {
+    String sql = "SELECT * FROM user where role_id=5 ORDER BY create_date DESC LIMIT 4 ";
+    try (PreparedStatement sta = connection.prepareStatement(sql);
+         ResultSet rs = sta.executeQuery()) {
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
+    }
+    public ArrayList<User> getTop4NewlyBuyCutomers() throws SQLException {
+        String sql = "SELECT u.*\n"
+                + "FROM user u\n"
+                + "JOIN (\n"
+                + "    SELECT customer_id, MAX(ordered_date) AS latest_order_date\n"
+                + "    FROM `order`\n"
+                + "    GROUP BY customer_id\n"
+                + ") o ON u.id = o.customer_id\n"
+                + "ORDER BY o.latest_order_date DESC\n"
+                + "LIMIT 4;";
+        try (PreparedStatement sta = connection.prepareStatement(sql); ResultSet rs = sta.executeQuery()) {
+            ArrayList<User> lst = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String email = rs.getString("email");
+                String pass = rs.getString("password");
+                String name = rs.getString("name");
+                boolean gender = rs.getBoolean("gender");
+                String status = rs.getString("status");
+                int role_id = rs.getInt("role_id");
+                String phone = rs.getString("phone");
+                Date lastlog = rs.getDate("last_log");
+                String pfp = rs.getString("pfp");
+                User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+                lst.add(u);
+            }
+            return lst;
+        }
+    
+}
 
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
@@ -329,7 +392,10 @@ public class UserDAO extends DBContext {
 //            System.out.println(s.getId() + s.getPfp());
 //        }
 //        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
-        u.changePassword("hoangdz512@gmail.com","123456" );
+//        u.changePassword("hoangdz512@gmail.com","123456" );
+          for(User user : u.getTop4NewlyBuyCutomers()){
+              System.out.println(user.getName());
+          }
         
         
     }

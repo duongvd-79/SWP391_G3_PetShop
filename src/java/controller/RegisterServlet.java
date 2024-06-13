@@ -101,6 +101,8 @@ public class RegisterServlet extends HttpServlet {
         boolean dup = false;
         Address a = new Address(0, district, city, address, true);
         User u = new User(email, password, name, "Pending", phone, null, (gender.equals("Male")), 5);
+        session.setAttribute("newuser", u);
+        session.setAttribute("address", a);
         for (User user : uList) {
             if (user.getEmail().equals(email)) {
                 dup = true;
@@ -109,22 +111,16 @@ public class RegisterServlet extends HttpServlet {
 
         if (dup) {
             session.setAttribute("alert", "Email had been taken.");
-            session.setAttribute("address", a);
-            session.setAttribute("newuser", u);
             response.sendRedirect("home#registerpopup");
         } else if (!password.equals(cfpassword)) {
-            session.setAttribute("newuser", u);
-            session.setAttribute("address", a);
             session.setAttribute("alert", "Password not match.");
             response.sendRedirect("home#registerpopup");
         } else {
             session.removeAttribute("alert");
-            session.setAttribute("newuser", u);
-            session.setAttribute("address", a);
-            String key= KeyGenerator.getKey();
+            String key = KeyGenerator.getKey();
             session.setAttribute("key", key);
             session.setMaxInactiveInterval(180);
-            SendMail.sendMail(email,"Email verificaton","Click this link to finish you registration:\n"+"http://localhost:9090/SWP391_G3_PetShop/emailverify?key="+key+"\n This link will expired in 3 minutes." );
+            SendMail.sendMail(email, "Email verificaton", "Click this link to finish you registration:\n" + "http://localhost:9090/SWP391_G3_PetShop/emailverify?key=" + key + "\n This link will expired in 3 minutes.");
             response.sendRedirect("home#verifypopup");
         }
 

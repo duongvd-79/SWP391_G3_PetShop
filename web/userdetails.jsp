@@ -45,9 +45,9 @@
 
                     </div>
                     <div class="navbar-nav w-100 mb-1">
-                        <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
-                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                        <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
                         <div class="border-0 mb-1">
                             <a style="margin-left: 41%;color:#009CFF; " href="#" class="nav-item active h7">User Setting</a>
                         </div>
@@ -60,40 +60,14 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav style="background-color: #F3F6F9;z-index: 2;" class="navbar navbar-expand sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <div class="navbar-nav align-items-center ms-auto">
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <c:if test="${empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
-                                </c:if>
-                                <c:if test="${not empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
-                                </c:if>
-                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Navbar End -->
+                <jsp:include page="adminheader.jsp"></jsp:include>
+                    <!-- Navbar End -->
 
 
-                <div class="container rounded bg-white mt-4 mb-5 shadow-sm">
-                    <div class="row">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-2 py-4">
+                    <div class="container rounded bg-white mt-4 mb-5 shadow-sm">
+                        <div class="row">
+                            <div class="col-md-3 border-right">
+                                <div class="d-flex flex-column align-items-center text-center p-2 py-4">
                                 <c:if test="${empty requestScope.u.getPfp()}">
                                     <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
                                 </c:if>
@@ -117,13 +91,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio"  id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                <input class="form-check-input" type="radio" value="Male" id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                <input class="form-check-input" type="radio" value="Female" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>
@@ -132,7 +106,7 @@
                                         </div>
 
                                     </div>
-                                    <form class="row" action="edituser" method="get">
+                                    <form class="row" action="userdetails" method="get">
                                         <input name="action" value="update" hidden>
                                         <input name="id" value="${u.getId()}" hidden>
                                         <div class="col-md-7"><label class="labels">Role</label>
@@ -143,18 +117,18 @@
                                             </select>
                                         </div>
                                         <div class="col-md-5"><label class="labels">Status</label>
-                                            
-                                                <c:if test="${u.getRoleId() == 1}">
-                                                    <input type="text" class="form-control" value="${u.getStatus()}" readonly>
-                                                </c:if> 
-                                                <c:if test="${u.getRoleId() != 1}">
-                                                    <select class="form-select" id="status" name="status">
+
+                                            <c:if test="${u.getRoleId() == 1}">
+                                                <input type="text" class="form-control" value="${u.getStatus()}" readonly>
+                                            </c:if> 
+                                            <c:if test="${u.getRoleId() != 1}">
+                                                <select class="form-select" id="status" name="status">
                                                     <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
                                                     <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
-                                                    </select>
-                                                </c:if>
-                                                
-                                            
+                                                </select>
+                                            </c:if>
+
+
                                         </div>
 
 
@@ -195,13 +169,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                                <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" >
+                                                <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>

@@ -196,6 +196,27 @@ public class SettingDAO extends DBContext {
             System.out.println(e);
         }
     }
+    
+    //get all product category
+    public List<Setting> getAllProductCategory() {
+        List<Setting> list = new ArrayList<>();
+        try {
+            String strSelect = "SELECT s.id, type_id, s.name,`order`,"
+                    + " status, description, t.name as type FROM setting as s join setting_type as t "
+                    + "on type_id = t.id where type_id =1 order by s.id";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Setting setting = new Setting(rs.getInt("id"),
+                        rs.getInt("type_id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
+                        rs.getString("status"), rs.getString("description")
+                );
+                list.add(setting);
+            }
+        } catch (SQLException e) {
+        }
+        return list;
+    }
 
     public static void main(String[] args) {
         SettingDAO s = new SettingDAO();
@@ -203,10 +224,8 @@ public class SettingDAO extends DBContext {
 //        Setting st = new Setting(1, 1, "SẢn Phẩm cho mèo", 1, "Active", "hehehe");
 //        s.updateSetting(3, st);
 //        s.updateProductCategory(1, st);
-        List<Setting> sList = s.getAll();
-        for (Setting stt : sList) {
+        for (Setting stt : s.getAllProductCategory()) {
             System.out.println(stt.getName() + stt.getType());
         }
-        System.out.println(s.getTypeId("Product Category"));
     }
 }

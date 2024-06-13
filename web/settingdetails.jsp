@@ -43,7 +43,7 @@
 
                     </div>
                     <div class="navbar-nav w-100 mb-1">
-                        <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                        <a href="admindashboard" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
                         <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
                         <div class="border-0 mb-1">
                             <a style="margin-left: 41%;color:#009CFF; " href="#" class="nav-item active h7">Setting Details</a>
@@ -58,33 +58,7 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav style="background-color: #F3F6F9;z-index: 2;" class="navbar navbar-expand sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <div class="navbar-nav align-items-center ms-auto">
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <c:if test="${empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
-                                </c:if>
-                                <c:if test="${not empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
-                                </c:if>
-                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
+                <jsp:include page="adminheader.jsp"></jsp:include>
                 <!-- Navbar End -->
 
 

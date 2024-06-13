@@ -47,6 +47,9 @@
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name} <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a class="nav-link" href="#profilepopup">User Profile</a></li>
+                            <c:if test="${user.getRoleId()==1}">
+                            <li><a class="nav-link" href="admindashboard">Admin</a></li>
+                            </c:if>
                         <li><a class="text-danger" href="login?logout=true">Logout</a></li>
                     </ul>
                 </li>
@@ -125,13 +128,13 @@
                         </div>
                         <div class="row">
                             <div class="col-4 form-group mt-2 mb-1">
-                                <input type="radio" name="gender" id="male" checked>
+                                <input type="radio" name="gender" id="male" value="Male" checked>
                                 <label for="male">
                                     Male
                                 </label>
                             </div>
                             <div class="col-3 form-group mt-2 mb-0">
-                                <input type="radio" name="gender" id="female" >
+                                <input type="radio" name="gender" value="Female" id="female" >
                                 <label for="female">
                                     Female
                                 </label>
@@ -153,9 +156,9 @@
                             </div>
                             <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
                         </div>
+                        <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
                     </form>
                     <span class="text-danger">${sessionScope.alert}</span>
-                    <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
                     <div class="social-login text-center mt-2">
                         <span>Already had an account? </span>
                         <a href="#loginpopup"><strong>Sign In</strong></a>

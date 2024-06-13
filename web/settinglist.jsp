@@ -44,9 +44,9 @@
 
                     </div>
                     <div class="navbar-nav w-100 mb-1">
-                        <a href="#" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="setting" class="nav-item nav-link active h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
-                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                        <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-item nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -56,46 +56,17 @@
             <!-- Content Start -->
             <div class="content">
                 <!-- Navbar Start -->
-                <nav style="background-color: #F3F6F9;z-index: 2;" class="navbar navbar-expand sticky-top px-4 py-0">
-                    <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                        <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                    </a>
-                    <a href="#" class="sidebar-toggler flex-shrink-0">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                    <form class="d-none d-md-flex ms-4" action="setting" method="get">
-                        <input class="form-control border-0" type="search" placeholder="Search" name="search" value="${requestScope.sName}">
-                    </form>
-                    <div class="navbar-nav align-items-center ms-auto">
-
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                                <c:if test="${empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
-                                </c:if>
-                                <c:if test="${not empty sessionScope.user.getPfp()}">
-                                    <c:set var="pfp" scope="request" value="${sessionScope.user.getPfp()}"></c:set>
-                                </c:if>
-                                <img class="rounded-circle me-lg-2" src="${requestScope.pfp}" alt="" style="width: 40px; height: 40px;">
-                                <span class="d-none d-lg-inline-flex">${sessionScope.user.getName()}</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item">My Profile</a>
-                                <a href="#" class="dropdown-item">Log Out</a>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-                <!-- Navbar End -->
+                <jsp:include page="adminheader.jsp"></jsp:include>
+                    <!-- Navbar End -->
 
 
-                <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm pb-1 px-2">
-                    <div class="row d-flex align-items-center mb-3">
+                    <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm pb-1 px-2">
+                        <div class="row d-flex align-items-center mb-3">
 
-                        <div class="col-md-3 function">
-                            <select name="type" class="form-select" id="type" onchange="if (this.value)
+                            <div class="col-md-3 function">
+                                <select name="type" class="form-select" id="type" onchange="if (this.value)
                                         window.location.href = this.value">
-                                <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
+                                    <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
                                 <c:forEach items="${requestScope.types}" var="t">
                                     <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
                                 </c:forEach>                          
@@ -128,10 +99,10 @@
                                 <thead style="font-size:21px;">
                                     <tr>
                                         <th>ID</th>
-                                        <th><div class="d-flex justify-content-start">Setting type <a class="d-flex align-items-center" href="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
+                                        <th><div class="d-flex justify-content-between">Setting type <a class="d-flex align-items-center" href="setting?page=1&sort=type&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><i class="bi bi-sort-up"></i></a></div></th>
                                         <th>Name</th>
-                                        <th><div class="d-flex justify-content-start">Order <a class="d-flex align-items-center" href="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
-                                        <th><div class="d-flex justify-content-start">Status <a class="d-flex align-items-center" href="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><img height="20" src="https://img.icons8.com/?size=100&id=f1fhADRkTrAU&format=png&color=FFFFFF" alt="alt"/></a></div></th>
+                                        <th><div class="d-flex justify-content-between">Order <a class="d-flex align-items-center" href="setting?page=1&sort=order&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><i class="bi bi-sort-up"></i></a></div></th>
+                                        <th><div class="d-flex justify-content-between">Status <a class="d-flex align-items-center" href="setting?page=1&sort=status&search=${requestScope.sName}&action=filter&status=${requestScope.status}&type=${requestScope.type}"><i class="bi bi-sort-up"></i></a></div></th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -142,12 +113,12 @@
                                             <td >${s.getType()}</td>
                                             <td >${s.getName()}</td>
                                             <td >${s.getOrder()}</td>
-                                            <td >${s.getStatus()}</td>
+                                            <td class="${s.getStatus().equals('Active') ? 'text-primary' : 'text-danger'} fw-bolder">${s.getStatus()}</td>
                                             <td ><div class="d-flex justify-content-evenly align-items-center py-2">
                                                     <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img class="mb-1" height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                     <div class="btn py-1 ${s.getStatus().equals('Active') ? 'bg-danger' : 'bg-primary'}" style="line-height: 25px;width:100px;">
                                                         <c:if test="${s.getName()!='admin'}">
-                                                            <a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}</a>
+                                                            <a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Disable' : 'Activate'}</a>
                                                         </c:if>
                                                         <c:if test="${s.getName() == 'admin'}">
                                                             <span>Unchange</span>
@@ -200,25 +171,22 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>     
+            </div>
         </div>
-
+         
         <!-- Content End -->
 
 
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <!-- Template Javascript -->
-    <script src="js/admin.js"></script>
-</body>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/admin.js"></script>
+    </body>
 </html>
