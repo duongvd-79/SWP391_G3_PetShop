@@ -13,10 +13,12 @@ import model.Address;
  *
  * @author ACER
  */
-public class AddressDAO extends DBContext{
+public class AddressDAO extends DBContext {
+
     PreparedStatement stm;
     ResultSet rs;
-    public void addNew(String city,String district,String detail) throws SQLException {
+
+    public void addNew(String city, String district, String detail) throws SQLException {
         try {
             String strSelect = "insert into address(detail,city,district,is_default) values (?,?,?,1) ";
             stm = connection.prepareStatement(strSelect);
@@ -28,6 +30,7 @@ public class AddressDAO extends DBContext{
             System.out.println(e);
         }
     }
+
     public void addNewUserAddress() throws SQLException {
         UserDAO uDAO = new UserDAO();
         int uid = uDAO.getLastId();
@@ -42,11 +45,12 @@ public class AddressDAO extends DBContext{
             System.out.println(e);
         }
     }
-    public int getLastId() throws SQLException{
+
+    public int getLastId() throws SQLException {
         String sql = "SELECT * from address ORDER BY id DESC LIMIT 1";
         stm = connection.prepareStatement(sql);
         rs = stm.executeQuery();
-        int id=0;
+        int id = 0;
         while (rs.next()) {
             id = rs.getInt("id");
         }
@@ -78,6 +82,7 @@ public class AddressDAO extends DBContext{
         }
         return null;
     }
+
     public void updateUserAddress(Address address) {
         String sql = "UPDATE address SET district = ?, city = ?, detail = ? WHERE id = ?";
         try {
@@ -91,8 +96,29 @@ public class AddressDAO extends DBContext{
         }
     }
 
-    public static void main(String[] args) throws SQLException{
+    public void addAddress(String city, String district, String detail, int userId) {
+        try {
+            String sql = "INSERT INTO address(district, city, detail, is_default) VALUES (?, ?, ?, 1)";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, district);
+            stm.setString(2, city);
+            stm.setString(3, detail);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+        try {
+            int aid = getLastId();
+            String strSelect = "INSERT INTO user_address(customer_id, address_id) VALUES (?, ?) ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, userId);
+            stm.setInt(2, aid);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public static void main(String[] args) throws SQLException {
         AddressDAO aDAO = new AddressDAO();
-        aDAO.addNewUserAddress();
+        aDAO.addAddress("hn", "aa", "ddd", 4);
     }
 }

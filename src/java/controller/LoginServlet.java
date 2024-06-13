@@ -89,7 +89,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             Address address = addressDAO.getAddress(user.getId());
             session.setAttribute("user", user);
-            //session.setAttribute("address", address);
+            session.setAttribute("address", address);
             response.sendRedirect("home");
         } else {
             String error = "Wrong email or password!";

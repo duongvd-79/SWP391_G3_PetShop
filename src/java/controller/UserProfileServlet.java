@@ -15,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import model.Address;
 import model.User;
 
@@ -89,7 +88,7 @@ public class UserProfileServlet extends HttpServlet {
             session = request.getSession(true);
             String error = "Please login first!";
             session.setAttribute("error", error);
-            response.sendRedirect("home#loginpopup");
+            response.sendRedirect("#loginpopup");
         } else {
             UserDAO userDAO = new UserDAO();
             AddressDAO addressDAO = new AddressDAO();
@@ -116,35 +115,49 @@ public class UserProfileServlet extends HttpServlet {
 
             // Handle text inputs
             Part namePart = request.getPart("pfname");
-            String name = getValueFromPart(namePart);
+            String name = getValueFromPart(namePart).trim();
 
             Part phonePart = request.getPart("pfphone");
-            String phone = getValueFromPart(phonePart);
+            String phone = getValueFromPart(phonePart).trim();
             
             Part genderPart = request.getPart("pfgender");
-            String gender = getValueFromPart(genderPart);
+            String gender = getValueFromPart(genderPart).trim();
             
             Part districtPart = request.getPart("pfdistrict");
-            String district = getValueFromPart(districtPart);
+            String district = getValueFromPart(districtPart).trim();
             
             Part cityPart = request.getPart("pfcity");
-            String city = getValueFromPart(cityPart);
+            String city = getValueFromPart(cityPart).trim();
             
             Part detailaddressPart = request.getPart("pfdetailaddress");
-            String detailaddress = getValueFromPart(detailaddressPart);
+            String detailAddress = getValueFromPart(detailaddressPart);
 
+            // Update user
             user.setName(name);
             if (gender != null) {
                 user.setGender(gender.equals("Male"));
             }
             user.setPhone(phone);
-            
             userDAO.updateUserProfile(user);
-            Address address = addressDAO.getAddress(user.getId());
-            addressDAO.updateUserAddress(address);
             session.setAttribute("user", user);
+            
+            // Update address
+            Address address = addressDAO.getAddress(user.getId());
+            if (address == null) {
+                addressDAO.addAddress(city, district, detailAddress, user.getId());
+                address = addressDAO.getAddress(user.getId());
+            }
+            address.setCity(city);
+            address.setDistrict(district);
+            address.setDetail(detailAddress);
+            addressDAO.updateUserAddress(address);
             session.setAttribute("address", address);
-            response.sendRedirect("home#profilepopup");
+            
+            String successNoti = "Updated successfully!";
+            session.setAttribute("successnoti", successNoti);
+            session.setAttribute("toastType", "success");
+            
+            response.sendRedirect("#profilepopup");
         }
     }
 

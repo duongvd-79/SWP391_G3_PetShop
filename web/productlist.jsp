@@ -66,17 +66,6 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
-            <!-- Start Top Search -->
-            <div class="container-fluid form-control mb-2">
-                <div class="row">
-                    <div class="col-12">
-                        <input type="search" placeholder="Search" style="width: 100%">
-                    </div>
-                </div>
-            </div>
-            <!-- End Top Search -->
-
             <!-- Start Slider -->
             <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
@@ -104,7 +93,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="sidebar container-fluid col-sm-3">
-                    <!-- Sidebar  -->
+                    <!-- Start Sidebar  -->
                     <div class="container-fluid sticky-top" style="top: 111px;z-index: 2;">
                         <div class="row">
                             <div class="col-12 text-center mt-3">
@@ -131,6 +120,7 @@
                             </c:forEach>
                         </div>
                     </div>
+                    <!-- End Sidebar  -->
                 </div>
 
                 <div class="col-sm-9 border-left">
@@ -138,21 +128,17 @@
                     <div class="products-box">
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="title-all text-center">
-                                        <h1>Products</h1>
+                                <div class="col-lg-8">
+                                    <div class="title-all">
+                                        <h1>All Products</h1>
                                         <p>Explore products on Pet Shop.</p>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="special-menu text-center">
-                                        <div class="button-group filter-button-group">
-                                            <button data-filter=".top-featured">Featured</button>
-                                        </div>
-                                    </div>
+                                <div class="col-lg-4">
+                                    <select class="form-select py-2 px-1" id="sort">
+                                        <option value="home">hehe</option>
+                                        <option>haha</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -202,39 +188,6 @@
                         </div>
                     </div>
                     <!-- End Products  -->
-
-                    <!-- Start Blog  -->
-                    <div class="latest-blog">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="title-all text-center">
-                                        <h1>Hot Blog</h1>
-                                        <p>Discover the most visited blogs.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <c:forEach items="${requestScope.featuredblog}" var="fp">
-                                    <div class="col-md-6 col-lg-4 col-xl-4" title="${fp.title}"
-                                         onclick="window.location.href = 'blogdetail?id=${fp.id}'" style="cursor: pointer">
-                                        <div class="blog-box">
-                                            <div class="blog-img">
-                                                <img class="img-fluid" src="${fp.thumbnail}" alt="" />
-                                            </div>
-                                            <div class="blog-content">
-                                                <div class="title-blog">
-                                                    <h3>${fp.title}</h3>
-                                                    <div class="ellipsis-text-3">${fp.detail}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </c:forEach>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Blog  -->
                 </div>
             </div>
         </div>
@@ -258,5 +211,13 @@
         <script src="js/form-validator.min.js"></script>
         <script src="js/contact-form-script.js"></script>
         <script src="js/custom.js"></script>
+        <script>
+            var sort = document.getElementById('#sort');
+            sort.onchange = function () {
+                if (sort.value === 'home') {
+                    window.location.href = 'home';
+                }
+            }
+        </script>
     </body>
 </html>

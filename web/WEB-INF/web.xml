@@ -68,6 +68,10 @@
         <servlet-name>ResetVerifyServlet</servlet-name>
         <servlet-class>controller.ResetVerifyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductListServlet</servlet-name>
+        <servlet-class>controller.ProductListServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -135,5 +139,9 @@
     <servlet-mapping>
         <servlet-name>ResetVerifyServlet</servlet-name>
         <url-pattern>/resetverify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductListServlet</servlet-name>
+        <url-pattern>/productlist</url-pattern>
     </servlet-mapping>
 </web-app>
