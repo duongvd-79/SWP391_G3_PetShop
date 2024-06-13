@@ -189,13 +189,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                                <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" >
+                                                <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>

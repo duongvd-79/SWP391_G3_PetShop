@@ -61,13 +61,13 @@
             <div class="content">
                 <!-- Navbar Start -->
                 <jsp:include page="adminheader.jsp"></jsp:include>
-                <!-- Navbar End -->
+                    <!-- Navbar End -->
 
 
-                <div class="container rounded bg-white mt-4 mb-5 shadow-sm">
-                    <div class="row">
-                        <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-2 py-4">
+                    <div class="container rounded bg-white mt-4 mb-5 shadow-sm">
+                        <div class="row">
+                            <div class="col-md-3 border-right">
+                                <div class="d-flex flex-column align-items-center text-center p-2 py-4">
                                 <c:if test="${empty requestScope.u.getPfp()}">
                                     <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
                                 </c:if>
@@ -91,13 +91,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio"  id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                <input class="form-check-input" type="radio" value="Male" id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                <input class="form-check-input" type="radio" value="Female" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>
@@ -117,18 +117,18 @@
                                             </select>
                                         </div>
                                         <div class="col-md-5"><label class="labels">Status</label>
-                                            
-                                                <c:if test="${u.getRoleId() == 1}">
-                                                    <input type="text" class="form-control" value="${u.getStatus()}" readonly>
-                                                </c:if> 
-                                                <c:if test="${u.getRoleId() != 1}">
-                                                    <select class="form-select" id="status" name="status">
+
+                                            <c:if test="${u.getRoleId() == 1}">
+                                                <input type="text" class="form-control" value="${u.getStatus()}" readonly>
+                                            </c:if> 
+                                            <c:if test="${u.getRoleId() != 1}">
+                                                <select class="form-select" id="status" name="status">
                                                     <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
                                                     <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
-                                                    </select>
-                                                </c:if>
-                                                
-                                            
+                                                </select>
+                                            </c:if>
+
+
                                         </div>
 
 
@@ -169,13 +169,13 @@
                                         <label class="labels">Gender</label><br>
                                         <div class="mt-2">
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="male" checked >
+                                                <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
                                                 <label class="form-check-label" for="male">
                                                     Male
                                                 </label>
                                             </div>
                                             <div class="form-check custom-radio form-check-inline">
-                                                <input class="form-check-input" type="radio" name="gender" id="female" >
+                                                <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
                                                 <label class="form-check-label" for="female">
                                                     Female
                                                 </label>
