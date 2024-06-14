@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
         String logoutRequest = request.getParameter("logout");
         HttpSession session = request.getSession(false);
         if (session == null || logoutRequest == null) {
-            response.sendRedirect("home#loginpopup");
+            response.sendRedirect("home#login");
         } else {
             session.invalidate();
             response.sendRedirect("home");
@@ -96,8 +96,7 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("error", error);
             session.setAttribute("username", email);
-            //request.getRequestDispatcher("home#loginpopup").forward(request, response);
-            response.sendRedirect("home#loginpopup");
+            response.sendRedirect("home#login");
         }
     }
 

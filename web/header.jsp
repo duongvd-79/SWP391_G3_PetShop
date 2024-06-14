@@ -26,7 +26,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="productlist">All Products</a></li>
                             <c:forEach items="${requestScope.prcategory}" var="prcate">
-                            <li><a href="#">${prcate.name}</a></li>
+                                <li><a href="#">${prcate.name}</a></li>
                             </c:forEach>
                     </ul>
                 </li>
@@ -38,15 +38,15 @@
                 <li class="dropdown">
                     <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Account <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#loginpopup">Login</a></li>
-                        <li><a href="#registerpopup">Register</a></li>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#register">Register</a></li>
                     </ul>
                 </li>
                 <%} else {%>
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name} <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
-                        <li><a class="nav-link" href="#profilepopup">User Profile</a></li>
+                        <li><a class="nav-link" href="#profile">User Profile</a></li>
                             <c:if test="${user.getRoleId()==1}">
                             <li><a class="nav-link" href="admindashboard">Admin</a></li>
                             </c:if>
@@ -62,7 +62,7 @@
             if (user == null) {
         %>
         <!-- Login Popup -->
-        <div id="loginpopup" class="overlay">
+        <div id="login" class="overlay">
             <div class="popup">
                 <div class="form-block">
                     <div class="mb-4">
@@ -90,15 +90,15 @@
                         <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
                     </form>
                     <div class="social-login text-center mt-2">
-                        <a href="#registerpopup">or <strong>Sign Up</strong></a>
+                        <a href="#register">or <strong>Sign Up</strong></a>
                     </div>
                 </div>
             </div>
         </div>
         <!-- End Login Popup -->
-
+        
         <!-- Begin Register Popup -->
-        <div id="registerpopup" class="overlay">
+        <div id="register" class="overlay">
             <div class="popup2">
                 <div class="form-block">
                     <div class="mb-1">
@@ -161,7 +161,7 @@
                     <span class="text-danger">${sessionScope.alert}</span>
                     <div class="social-login text-center mt-2">
                         <span>Already had an account? </span>
-                        <a href="#loginpopup"><strong>Sign In</strong></a>
+                        <a href="#login"><strong>Sign In</strong></a>
                     </div>
                 </div>
             </div>
@@ -169,7 +169,7 @@
         <!-- End Register Popup -->
 
         <!-- Begin Verify email popup -->
-        <div id="verifypopup" class="overlay">
+        <div id="verify" class="overlay">
             <div class="popup">
                 <h2 class="ms-3 mb-3">H2DV Petshop</h2>
                 <a class="close" href="#">&times;</a>
@@ -182,48 +182,7 @@
         <!-- End Verify email popup -->
 
         <!-- Begin Reset Password Popup -->
-        <div id="reset" class="overlay">
-            <div class="popup">
-                <div class="form-block">
-                    <div class="mb-3">
-                        <h3><strong>Reset Password</strong></h3>
-                        <a class="close" href="#">&times;</a>
-                    </div>
-                    <form action="resetpassword" method="get">
-                        <div class="form-group first">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="${sessionScope.email}" placeholder="Enter your email" required="">
-                        </div>
-                        <p class="text-danger mb-2">${sessionScope.alert}</p>
-                        <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
-                    </form>
-                </div>
-            </div>
-        </div>
-        <c:if test="${sessionScope.email != null}">
-            <div id="enterreset" class="overlay">
-                <div class="popup">
-                    <div class="form-block">
-                        <div class="mb-3">
-                            <h3><strong>Reset Password</strong></h3>
-                            <a class="close" href="#">&times;</a>
-                        </div>
-                        <form action="resetpassword" method="post">
-                            <div class="form-group last mb-2">
-                                <label for="password">Password</label>
-                                <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Enter password" required="">
-                            </div>
-                            <div class="form-group last mb-2">
-                                <label for="password">Confirm password</label>
-                                <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
-                            </div>
-                            <p class="text-danger mb-2">${sessionScope.alert1}</p>
-                            <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </c:if>
+        <jsp:include page="resetPassword.jsp"></jsp:include>
         <!-- End Reset Password Popup -->
         <%}%>
 
@@ -249,103 +208,7 @@
             if (user != null) {
         %>
         <!-- Begin User Profile -->
-        <div id="profilepopup" class="overlay">
-            <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
-                <form action="userprofile" method="post" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-md-4 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                                <h2 class="text-right"><strong>Profile Picture</strong></h2>
-                                <img class="rounded-circle my-3" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}" onerror="this.src='images/userpfp/default.png';this.onerror='';">
-                                <input id="file-upload" type="file" name="profilepfp" accept="image/*">
-                                <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
-                                <span id="file-name"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-8 border-right">
-                            <div class="p-3 pt-5 pb-3">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h2 class="text-right"><strong>User Profile</strong></h2>
-                                    <a class="close" href="#">&times;</a>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12 col-lg-6 border-left border-right">
-                                        <div class="mb-2">
-                                            <h3><strong>Information</strong></h3>
-                                        </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-12">
-                                                <label class="labels">Name</label>
-                                                <input type="text" class="form-control" name="pfname" id="pfname" placeholder="Enter Name" value="${sessionScope.user.name}" required>
-                                                <span id="name-info" class="info-popup">Letters only, max 50 characters</span>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-12">
-                                                <label class="labels">Email</label>
-                                                <input type="text" class="form-control" id="pfemail" value="${sessionScope.user.email}" disabled readonly>
-                                                <span id="email-info" class="info-popup">You cannot change your email once registered</span>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-2">
-                                                <label class="labels">Gender</label>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender eq 'Male' ? "checked" : ""}>
-                                                <label class="form-check-label">Male</label>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="radio" name="pfgender" id="pffemale" value="Female" ${sessionScope.user.gender eq 'Female' ? "checked" : ""}>
-                                                <label class="form-check-label">Female</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-6 border-left border-right">
-                                        <div class="mb-2">
-                                            <h3><strong>Contact</strong></h3>
-                                        </div>
-                                        <div class="row mt-1">
-                                            <div class="col-md-6">
-                                                <label class="labels">City</label>
-                                                <select class="form-select p-2" name="pfcity" id="pfcity" style="max-width: 150px" required>
-                                                    <option ${sessionScope.address.getCity() == null ? 'selected' : ''}>City</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="labels">District</label>
-                                                <br>
-                                                <select class="form-select p-2" name="pfdistrict" id="pfdistrict" style="max-width: 120px" required>
-                                                    <option ${sessionScope.address.getCity() == null ? 'selected' : ''}>District</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-12">
-                                                <label class="labels">Detailed Address</label>
-                                                <input type="text" class="form-control" name="pfdetailaddress" id="pfdetailaddress" placeholder="Enter address" value="${sessionScope.address.getDetail()}" required>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-md-3">
-                                                <label class="labels">Phone</label>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" class="form-control" name="pfphone" id="pfphone" pattern="^[0-9]{10}$" placeholder="Enter Phone" value="${sessionScope.user.phone}" required>
-                                                <span id="phone-info" class="info-popup">Numbers only, max 10 characters</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-3 text-center">
-                        <button class="btn btn-primary" id="save-button" type="submit" disabled>Save Profile</button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        <jsp:include page="userProfile.jsp"></jsp:include>
         <!-- End User Profile -->
         <%}%>
     </nav>
@@ -359,23 +222,6 @@
         right: 10px;
         cursor: pointer;
     }
-    .info-popup {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 15px;
-        padding: 5px 10px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        z-index: 1;
-    }
-    #pfname:focus + .info-popup, #pfphone:focus + .info-popup {
-        display: block;
-    }
-    #pfemail:hover + .info-popup {
-        display: block;
-    }
-
     .dropdown:hover .dropdown-menu {
         display: block;
         margin-top: 0;
@@ -425,15 +271,6 @@
         max-height: 30%;
         overflow: auto;
     }
-    input[type="file"] {
-        display: none;
-    }
-    .custom-file-upload {
-        border: 1px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-    }
     .dropdown-menu li:hover {
         background-color: lightgray;
     }
@@ -442,36 +279,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script>
-    const nameInput = document.getElementById("pfname");
-    const nameInfo = document.getElementById("name-info");
-    const emailInput = document.getElementById("pfemail");
-    const emailInfo = document.getElementById("email-info");
-    const phoneInput = document.getElementById("pfphone");
-    const phoneInfo = document.getElementById("phone-info");
-
-    nameInput.addEventListener("focus", () => {
-        nameInfo.style.display = "block";
-    });
-
-    nameInput.addEventListener("blur", () => {
-        nameInfo.style.display = "none";
-    });
-    emailInput.addEventListener("mouseover", () => {
-        emailInfo.style.display = "block";
-    });
-
-    emailInput.addEventListener("mouseout", () => {
-        emailInfo.style.display = "none";
-    });
-    phoneInput.addEventListener("focus", () => {
-        phoneInfo.style.display = "block";
-    });
-
-    phoneInput.addEventListener("blur", () => {
-        phoneInfo.style.display = "none";
-    });
-</script>
 <script>
     $(document).ready(function () {
         var toastMessage = '${sessionScope.successnoti}';
@@ -482,58 +289,12 @@
             } else if (toastType === 'error') {
                 toastr.error(toastMessage);
             }
-    <% 
+            <% 
                 session.removeAttribute("successnoti");
                 session.removeAttribute("toastType");
-    %>
+            %>
         }
     });
-</script>
-<script>
-    var cities = document.getElementById("pfcity");
-    var districts = document.getElementById("pfdistrict");
-
-    var Parameter = {
-        url: "js/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
-
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-        renderCity(result.data);
-    });
-
-    function renderCity(data) {
-        for (const city of data) {
-            const option = new Option(city.Name);
-            option.value = city.Name;
-            option.selected = city.Name === '${sessionScope.address.getCity()}';
-            cities.add(option);
-        }
-
-        if (cities.value !== "") {
-            renderDistrict(cities.value, data);
-        }
-        cities.onchange = function () {
-            renderDistrict(this.value, data);
-        };
-
-        function renderDistrict(selectedCityName, data) {
-            districts.length = 1;
-
-            if (selectedCityName !== "") {
-                const selectedCity = data.find(city => city.Name === selectedCityName);
-
-                for (const district of selectedCity.Districts) {
-                    const option = new Option(district.Name);
-                    option.value = district.Name;
-                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
-                    districts.add(option);
-                }
-            }
-        }
-    }
 </script>
 <script>
     var cities2 = document.getElementById("city");
@@ -569,71 +330,6 @@
     }
 </script>
 <script>
-    var file = document.getElementById('file-upload');
-    var previewImage = document.getElementById('preview-img');
-
-    file.addEventListener('change', function () {
-        var fileName = this.files[0].name;
-        document.getElementById('file-name').textContent = fileName;
-    });
-    file.addEventListener('change', (e) => {
-        var reader = new FileReader();
-
-        reader.onload = (event) => {
-            previewImage.src = event.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-    document.addEventListener('DOMContentLoaded', function () {
-        var name = document.getElementById('pfname');
-        var phone = document.getElementById('pfphone');
-        var male = document.getElementById('pfmale')
-        var female = document.getElementById('pffemale')
-        var city = document.getElementById('pfcity');
-        var district = document.getElementById('pfdistrict');
-        var detailaddress = document.getElementById('pfdetailaddress');
-        var saveButton = document.getElementById('save-button');
-        const originalName = '${sessionScope.user.name}';
-        const originalPhone = '${sessionScope.user.phone}';
-        const originalGender = '${sessionScope.user.gender}';
-        const originalCity = '${sessionScope.address.city}';
-        const originalDistrict = '${sessionScope.address.district}';
-        const originalDetailAddress = '${sessionScope.address.detail}';
-
-        function toggleButton() {
-            if (name.value !== originalName || phone.value !== originalPhone
-                    || (originalGender === 'Male' && female.checked)
-                    || (originalGender === 'Female' && male.checked)
-                    || file.value !== "" || city.value !== originalCity
-                    || district.value !== originalDistrict
-                    || detailaddress.value !== originalDetailAddress) {
-                saveButton.disabled = false;
-            } else {
-                saveButton.disabled = true;
-            }
-        }
-        ;
-
-        name.addEventListener('input', toggleButton);
-        phone.addEventListener('input', toggleButton);
-        male.addEventListener('change', toggleButton);
-        female.addEventListener('change', toggleButton);
-        file.addEventListener('change', toggleButton);
-        city.addEventListener('change', toggleButton);
-        district.addEventListener('change', toggleButton);
-        detailaddress.addEventListener('input', toggleButton);
-    });
-    const togglePassword = document.getElementById('togglePassword');
-    const password = document.getElementById('login-password');
-    const eyeIcon = togglePassword.querySelector('.bi');
-    togglePassword.addEventListener('click', () => {
-        
-        // Toggle the eye and bi-eye icon
-        eyeIcon.classList.toggle('bi-eye');
-        eyeIcon.classList.toggle('bi-eye-slash');
-        
-        password.type = password.type === 'text' ? 'password' : 'text';
-    });
     const currentPage = window.location.pathname;
     const navLinks = document.querySelectorAll('.nav-link');
 

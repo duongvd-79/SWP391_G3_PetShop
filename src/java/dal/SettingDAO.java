@@ -101,6 +101,17 @@ public class SettingDAO extends DBContext {
         }
         return outputlist;
     }
+    
+    // Get all active setting by type
+    public List<Setting> getActiveByType(String type) {
+        List<Setting> outputlist = new ArrayList<>();
+        for (Setting s : getAllByType(getAll(), type)) {
+            if (s.getStatus().equals("Active")) {
+                outputlist.add(s);
+            }
+        }
+        return outputlist;
+    }
 
     //Lấy hết qua status
     public List<Setting> getAllByStatus(List<Setting> list, String status) {

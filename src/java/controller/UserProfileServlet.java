@@ -66,9 +66,9 @@ public class UserProfileServlet extends HttpServlet {
             session = request.getSession(true);
             String error = "Please login first!";
             session.setAttribute("error", error);
-            response.sendRedirect("home#loginpopup");
+            response.sendRedirect("home#login");
         } else {
-            response.sendRedirect("home#profilepopup");
+            response.sendRedirect("home#profile");
         }
     } 
 
@@ -88,7 +88,7 @@ public class UserProfileServlet extends HttpServlet {
             session = request.getSession(true);
             String error = "Please login first!";
             session.setAttribute("error", error);
-            response.sendRedirect("#loginpopup");
+            response.sendRedirect("#login");
         } else {
             UserDAO userDAO = new UserDAO();
             AddressDAO addressDAO = new AddressDAO();
@@ -157,7 +157,7 @@ public class UserProfileServlet extends HttpServlet {
             session.setAttribute("successnoti", successNoti);
             session.setAttribute("toastType", "success");
             
-            response.sendRedirect("#profilepopup");
+            response.sendRedirect("#profile");
         }
     }
 

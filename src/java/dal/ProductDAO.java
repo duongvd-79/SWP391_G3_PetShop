@@ -45,6 +45,7 @@ public class ProductDAO extends DBContext {
             }
             return productList;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -108,7 +109,7 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        for(Product pr : p.getFeatured()){
+        for(Product pr : p.getAll()){
             System.out.println(pr.getThumbnail());
         }
     }

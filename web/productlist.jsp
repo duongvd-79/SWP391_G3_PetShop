@@ -48,11 +48,11 @@
             #featured-list {
                 transition:  0.5s ease-in-out;
             }
-            .latest-blog-img {
-                width: 33%;
-                float: left;
-                position: relative;
-                margin-top: 2px;
+            .blog-content {
+                transition: transform 0.3s, filter 0.3s;
+            }
+            .blog-content:hover {
+                transform: scale(1.1, 1.1);
             }
             .latest-blog-content {
                 width: 67%;
@@ -61,6 +61,69 @@
             }
             .latest-blog-content h3 a {
                 font-size: 20px;
+            }
+            .blog-box {
+                border-bottom: solid lightgray 1px;
+            }
+            .range-slide {
+                position: relative;
+                margin: 20px 20px;
+                height: 4px;
+            }
+            .slide {
+                position: absolute;
+                top: 0;
+                height: 4px;
+                background: lightgray;
+                left: 9px;
+                right: 9px;
+            }
+            .line {
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                height: 4px;
+                background-color: #b0b435;
+            }
+            .thumb {
+                position: absolute;
+                z-index: 2;
+                text-align: left;
+                border: 1px solid gray;
+                background-color: white;
+                border-radius: 50%;
+                outline: none;
+                top: -7px;
+                height: 18px;
+                width: 18px;
+                margin-left: -9px;
+            }
+            .range {
+                -webkit-appearance: none;
+                appearance: none;
+                position: absolute;
+                pointer-events: none;
+                z-index: 3;
+                height: 3px;
+                top: 0;
+                width: 100%;
+                opacity: 0;
+                margin: 0;
+            }
+            .range::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                pointer-events: all;
+                border-radius: 50%;
+                cursor: pointer;
+                width: 18px;
+                height: 18px;
+            }
+            .display {
+                margin: 0 20px 20px;
+                display: flex;
+                justify-content: space-evenly;
             }
         </style>
     </head>
@@ -100,25 +163,49 @@
                                 <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Latest blog</h3>
                             </div>
                         </div>
-                        <div class="row border-top pt-3">
-                            <c:forEach items="${requestScope.latestblog}" var="lb" begin="0" end="2">
-                                <div class="col-12 blog-box" title="${lb.title}"
-                                     onclick="window.location.href = 'blogdetail?id=${lb.id}'" style="cursor: pointer">
-                                    <div class="blog-box" style="margin-bottom: 20px;">
-                                        <div class="latest-blog-img">
-                                            <img class="img-fluid" src="${lb.thumbnail}" alt="" />
-                                        </div>
+                        <form action="productlist" method="get">
+                            <div class="row border-top pt-3">
+                                <div class="col-12 input-group mb-3">
+                                    <input type="text" class="form-control" name="search" placeholder="Search" aria-label="search" aria-describedby="search">
+                                    <span class="input-group-text btn" id="search"><i class="bi bi-search"></i></span>
+                                </div>
+                                <div class="col-12 mb-3 blog-box pt-2">
+                                    <h2>Categories</h2>
+                                </div>
+                                <c:forEach items="${requestScope.prcategory}" var="pcate">
+                                    <div class="col-12 blog-content" title="${pcate.name}">
                                         <div class="latest-blog-content">
                                             <div style="padding: 0px 5px;">
                                                 <h3>
-                                                    <a href="blogdetail?id=${lb.id}">${lb.title}</a>
+                                                    <a href="">${pcate.name}</a>
                                                 </h3>
                                             </div>
                                         </div>
                                     </div>
+                                </c:forEach>
+                                <div class="col-12 mb-3 blog-box pt-2">
+                                    <h2>Price</h2>
                                 </div>
-                            </c:forEach>
-                        </div>
+                                <div class="col-12">
+                                    <div class="range-slide">
+                                        <div class="slide">
+                                            <div class="line" id="line" style="left: 0%; right: 0%;"></div>
+                                            <span class="thumb" id="thumbMin" style="left: 0%;"></span>
+                                            <span class="thumb" id="thumbMax" style="left: 100%;"></span>
+                                        </div>
+                                        <input class="range" id="rangeMin" type="range" max="100" min="10" step="1" value="0">
+                                        <input class="range" id="rangeMax" type="range" max="100" min="10" step="1" value="100">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="display">
+                                        <input class="form-control mr-5" name="minValue" id="min" value="50000">
+                                        <span>to</span>
+                                        <input class="form-control ml-5" name="maxValue" id="max" value="500000">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <!-- End Sidebar  -->
                 </div>
@@ -134,17 +221,22 @@
                                         <p>Explore products on Pet Shop.</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
-                                    <select class="form-select py-2 px-1" id="sort">
-                                        <option value="home">hehe</option>
-                                        <option>haha</option>
-                                    </select>
+                                <div class="col-lg-4 d-flex align-items-start justify-content-end">
+                                    <span>
+                                        <span class="mr-2" style="font-size: 18px">Sort:</span>
+                                        <select class="form-select py-2 px-1 mr-5 mt-4" id="sort" name="sort" title="Sort">
+                                            <option value="Latest">By Newest Arrivals</option>
+                                            <option value="Oldest">By Oldest Products</option>
+                                            <option value="Price Asc">By Price (Low to High)</option>
+                                            <option value="Price Desc">By Price (High to Low)</option>
+                                        </select>
+                                    </span>
                                 </div>
                             </div>
 
-                            <div class="row special-list" id="featured-list">
-                                <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
-                                    <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
+                            <div class="row" id="featured-list">
+                                <c:forEach items="${requestScope.allproduct}" var="apr">
+                                    <div class="col-lg-3 col-md-6">
                                         <div class="products-single fix">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">
@@ -180,11 +272,6 @@
                                     </div>
                                 </c:forEach>
                             </div>
-                            <c:forEach items="${requestScope.allproduct}" varStatus="status">
-                                <c:if test="${(status.count==8)}">
-                                    <a href="productlist">See more...</a>
-                                </c:if>
-                            </c:forEach>
                         </div>
                     </div>
                     <!-- End Products  -->
@@ -212,12 +299,37 @@
         <script src="js/contact-form-script.js"></script>
         <script src="js/custom.js"></script>
         <script>
-            var sort = document.getElementById('#sort');
-            sort.onchange = function () {
-                if (sort.value === 'home') {
-                    window.location.href = 'home';
-                }
-            }
+            document.getElementById('sort').addEventListener('change', function () {
+                var selectedValue = this.value;
+                window.location.href = selectedValue;
+            });
+
+            let min = 10;
+            let max = 100;
+
+            const calcLeftPosition = value => 100 / (100 - 10) * (value - 10);
+
+            document.getElementById('rangeMin').addEventListener('input', function (e) {
+                const newValue = parseInt(e.target.value);
+                if (newValue > max)
+                    return;
+                min = newValue;
+                document.getElementById('thumbMin').style.left = calcLeftPosition(newValue) + '%';
+                document.getElementById('min').value = newValue * 5000;
+                document.getElementById('line').style.left = calcLeftPosition(newValue) + '%';
+                document.getElementById('line').style.right = (100 - calcLeftPosition(max)) + '%';
+            });
+
+            document.getElementById('rangeMax').addEventListener('input', function (e) {
+                const newValue = parseInt(e.target.value);
+                if (newValue < min)
+                    return;
+                max = newValue;
+                document.getElementById('thumbMax').style.left = calcLeftPosition(newValue) + '%';
+                document.getElementById('max').value = newValue * 5000;
+                document.getElementById('line').style.left = calcLeftPosition(min) + '%';
+                document.getElementById('line').style.right = (100 - calcLeftPosition(newValue)) + '%';
+            });
         </script>
     </body>
 </html>

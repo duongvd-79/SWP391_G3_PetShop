@@ -71,109 +71,112 @@ public class AdminDashBoardServet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
-        String interval = request.getParameter("interval");
-        OrderDAO oDAO = new OrderDAO();
-        OrderDetailsDAO odDAO = new OrderDetailsDAO();
-        FeedbackDAO fDAO = new FeedbackDAO();
-        UserDAO uDAO = new UserDAO();
-        SettingDAO sDAO = new SettingDAO();
+            String interval = request.getParameter("interval");
+            OrderDAO oDAO = new OrderDAO();
+            OrderDetailsDAO odDAO = new OrderDetailsDAO();
+            FeedbackDAO fDAO = new FeedbackDAO();
+            UserDAO uDAO = new UserDAO();
+            SettingDAO sDAO = new SettingDAO();
 
-        int numOfOrders = 0;
-        double revenues = 0;
-        int numOfFb = 0;
-        int numOfCustomers = 0;
-        String year = request.getParameter("year");
-        if(year==null) year = getCurrentYear();
-        String pcategory = request.getParameter("pcategory");
-        String start = request.getParameter("start");
-        String end = request.getParameter("end");
-        List<Integer> orderList = new ArrayList<>();
-        List<Double> monthlyRevenueList = new ArrayList<>();
-        List<Double> monthlyProfitList = new ArrayList<>();
-        
-        if (interval == null) {
-            // custom date range
-            if (start != null) {
-                interval = start+" - "+end;
-                numOfOrders = oDAO.getCountOrder(start,end);
-                revenues = odDAO.getRevenue(start,end);
-                numOfFb = fDAO.getCountFeedback(start,end,pcategory);
-                numOfCustomers = uDAO.getCountCustomer(start,end);
-                orderList.add(oDAO.countOrderByStatus("success", start,end));
-                orderList.add(oDAO.countOrderByStatus("submitted", start,end));
-                orderList.add(oDAO.countOrderByStatus("cancelled", start,end));
-            } else {
-                interval = "ALL TIME";
+            int numOfOrders = 0;
+            double revenues = 0;
+            int numOfFb = 0;
+            int numOfCustomers = 0;
+            String year = request.getParameter("year");
+            if (year == null) {
+                year = getCurrentYear();
             }
-        } // overview statistics for all time 
-        if (interval.equals("ALL TIME")) {
-            numOfOrders = oDAO.getCountOrder();
-            revenues = odDAO.getRevenue();
-            numOfFb = fDAO.getCountFeedback(pcategory);
-            numOfCustomers = uDAO.getCountCustomer();
-            orderList.add(oDAO.countOrderByStatus("success"));
-            orderList.add(oDAO.countOrderByStatus("submitted"));
-            orderList.add(oDAO.countOrderByStatus("cancelled"));
-        } else if (interval.equals("LAST 7 DAYS")) {//last 7 day
-            numOfOrders = oDAO.getCountOrder(getDateXBefore(7), getCurrentDate());
-            revenues = odDAO.getRevenue(getDateXBefore(7), getCurrentDate());
-            numOfFb = fDAO.getCountFeedback(getDateXBefore(7), getCurrentDate(),pcategory);
-            numOfCustomers = uDAO.getCountCustomer(getDateXBefore(7), getCurrentDate());
-            orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(7), getCurrentDate()));
-            orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(7), getCurrentDate()));
-            orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(7), getCurrentDate()));
-        } else if (interval.equals("LAST 30 DAYS")) {//last 30 day
-            numOfOrders = oDAO.getCountOrder(getDateXBefore(30), getCurrentDate());
-            revenues = odDAO.getRevenue(getDateXBefore(30), getCurrentDate());
-            numOfFb = fDAO.getCountFeedback(getDateXBefore(30), getCurrentDate(),pcategory);
-            numOfCustomers = uDAO.getCountCustomer(getDateXBefore(30), getCurrentDate());
-            orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(30), getCurrentDate()));
-            orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(30), getCurrentDate()));
-            orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(30), getCurrentDate()));
-        }
+            String pcategory = request.getParameter("pcategory");
+            String start = request.getParameter("start");
+            String end = request.getParameter("end");
+            List<Integer> orderList = new ArrayList<>();
+            List<Double> monthlyRevenueList = new ArrayList<>();
+            List<Double> monthlyProfitList = new ArrayList<>();
 
-        //new customer, newly buy customers
-        List<User> newCustomers = new ArrayList<>();
-        List<User> newlyBuyCustomers = new ArrayList<>();
-        List<Setting> pCategoryList = new ArrayList<>();
-        try {
-            //lấy dữ liệu biểu đồ bảng thu nhập
-            for(int i=1;i<=12;i++){
-                monthlyRevenueList.add(odDAO.getMonthlyRevenue(i, year));
-                monthlyProfitList.add(odDAO.getMonthlyProfit(i, year));
+            if (interval == null) {
+                // custom date range
+                if (start != null) {
+                    interval = start + " - " + end;
+                    numOfOrders = oDAO.getCountOrder(start, end);
+                    revenues = odDAO.getRevenue(start, end);
+                    numOfFb = fDAO.getCountFeedback(start, end, pcategory);
+                    numOfCustomers = uDAO.getCountCustomer(start, end);
+                    orderList.add(oDAO.countOrderByStatus("success", start, end));
+                    orderList.add(oDAO.countOrderByStatus("submitted", start, end));
+                    orderList.add(oDAO.countOrderByStatus("cancelled", start, end));
+                } else {
+                    interval = "ALL TIME";
+                }
+            } // overview statistics for all time 
+            if (interval.equals("ALL TIME")) {
+                numOfOrders = oDAO.getCountOrder();
+                revenues = odDAO.getRevenue();
+                numOfFb = fDAO.getCountFeedback(pcategory);
+                numOfCustomers = uDAO.getCountCustomer();
+                orderList.add(oDAO.countOrderByStatus("success"));
+                orderList.add(oDAO.countOrderByStatus("submitted"));
+                orderList.add(oDAO.countOrderByStatus("cancelled"));
+            } else if (interval.equals("LAST 7 DAYS")) {//last 7 day
+                numOfOrders = oDAO.getCountOrder(getDateXBefore(7), getCurrentDate());
+                revenues = odDAO.getRevenue(getDateXBefore(7), getCurrentDate());
+                numOfFb = fDAO.getCountFeedback(getDateXBefore(7), getCurrentDate(), pcategory);
+                numOfCustomers = uDAO.getCountCustomer(getDateXBefore(7), getCurrentDate());
+                orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(7), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(7), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(7), getCurrentDate()));
+            } else if (interval.equals("LAST 30 DAYS")) {//last 30 day
+                numOfOrders = oDAO.getCountOrder(getDateXBefore(30), getCurrentDate());
+                revenues = odDAO.getRevenue(getDateXBefore(30), getCurrentDate());
+                numOfFb = fDAO.getCountFeedback(getDateXBefore(30), getCurrentDate(), pcategory);
+                numOfCustomers = uDAO.getCountCustomer(getDateXBefore(30), getCurrentDate());
+                orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(30), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(30), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(30), getCurrentDate()));
             }
-            //dữ liệu cho bảng customer
-            newCustomers = uDAO.getTop4NewCutomers();
-            newlyBuyCustomers = uDAO.getTop4NewlyBuyCutomers();
-            pCategoryList = sDAO.getAllProductCategory();
-        } catch (SQLException ex) {
-        }
-        //filter
-        request.setAttribute("interval", interval);
-        request.setAttribute("start", start);
-        request.setAttribute("end", end);
-        request.setAttribute("pcategory", pcategory);
-        request.setAttribute("pCategoryList", pCategoryList);
-        request.setAttribute("year", year);
-        //số liệu tổng quan
-        request.setAttribute("numOfOrders", numOfOrders);
-        request.setAttribute("revenues", revenues);
-        request.setAttribute("numOfFb", numOfFb);
-        request.setAttribute("numOfCustomers", numOfCustomers);
-        //bảng customer
-        request.setAttribute("newCustomers", newCustomers);
-        request.setAttribute("newlyBuyCustomers", newlyBuyCustomers);
-        //dữ liệ cho biểu đồ
-        request.setAttribute("orderList", orderList);
-        request.setAttribute("monthlyRevenueList", monthlyRevenueList);
-        request.setAttribute("monthlyProfitList", monthlyProfitList);
 
-        request.getRequestDispatcher("admindashboard.jsp").forward(request, response);
-        }else{
+            //new customer, newly buy customers
+            List<User> newCustomers = new ArrayList<>();
+            List<User> newlyBuyCustomers = new ArrayList<>();
+            List<Setting> pCategoryList = new ArrayList<>();
+            try {
+                //lấy dữ liệu biểu đồ bảng thu nhập
+                for (int i = 1; i <= 12; i++) {
+                    monthlyRevenueList.add(odDAO.getMonthlyRevenue(i, year));
+                    monthlyProfitList.add(odDAO.getMonthlyProfit(i, year));
+                }
+                //dữ liệu cho bảng customer
+                newCustomers = uDAO.getTop4NewCutomers();
+                newlyBuyCustomers = uDAO.getTop4NewlyBuyCutomers();
+                pCategoryList = sDAO.getAllProductCategory();
+            } catch (SQLException ex) {
+            }
+            //filter
+            request.setAttribute("interval", interval);
+            request.setAttribute("start", start);
+            request.setAttribute("end", end);
+            request.setAttribute("pcategory", pcategory);
+            request.setAttribute("pCategoryList", pCategoryList);
+            request.setAttribute("year", year);
+            //số liệu tổng quan
+            request.setAttribute("numOfOrders", numOfOrders);
+            request.setAttribute("revenues", revenues);
+            request.setAttribute("numOfFb", numOfFb);
+            request.setAttribute("numOfCustomers", numOfCustomers);
+            //bảng customer
+            request.setAttribute("newCustomers", newCustomers);
+            request.setAttribute("newlyBuyCustomers", newlyBuyCustomers);
+            //dữ liệu cho biểu đồ
+            request.setAttribute("orderList", orderList);
+            request.setAttribute("monthlyRevenueList", monthlyRevenueList);
+            request.setAttribute("monthlyProfitList", monthlyProfitList);
+
+            request.getRequestDispatcher("admindashboard.jsp").forward(request, response);
+        } else {
             response.sendRedirect("404.html");
         }
     }
-    private static String getCurrentYear(){
+
+    private static String getCurrentYear() {
         return Year.now().toString();
     }
 

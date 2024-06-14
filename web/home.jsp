@@ -156,9 +156,9 @@
                                 </div>
                             </div>
 
-                            <div class="row special-list" id="featured-list">
+                            <div class="row" id="featured-list">
                                 <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
-                                    <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
+                                    <div class="col-lg-3 col-md-6 ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                                         <div class="products-single fix">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">

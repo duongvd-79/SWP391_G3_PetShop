@@ -92,9 +92,9 @@ public class AddUserServlet extends HttpServlet {
                     dup = true;
                 }
             }
-            if(dup){
-               session.setAttribute("msg", "The email had been taken");
-               response.sendRedirect("userlist");
+            if (dup) {
+                session.setAttribute("msg", "The email had been taken");
+                response.sendRedirect("userlist");
             }
             uDAO.addNewUser(u);
             SendMail.sendMail(email, "Your account has been create by this email.", "Your password: " + password);
