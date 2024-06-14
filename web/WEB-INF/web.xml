@@ -77,7 +77,6 @@
         <servlet-class>controller.MyOrdersServlet</servlet-class>
     </servlet>
     <servlet>
- 
         <servlet-name>CartServlet</servlet-name>
         <servlet-class>controller.CartServlet</servlet-class>
     </servlet>
@@ -92,12 +91,15 @@
     <servlet>
         <servlet-name>DeleteCartItemServlet</servlet-name>
         <servlet-class>controller.DeleteCartItemServlet</servlet-class>
-          </servlet>
-           <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>ChangePassword</servlet-name>
         <servlet-class>controller.ChangePassword</servlet-class>
     </servlet>
-
+    <servlet>
+        <servlet-name>AddCartPageServlet</servlet-name>
+        <servlet-class>controller.AddCartPageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -175,7 +177,6 @@
         <url-pattern>/myorders</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-
         <servlet-name>CartServlet</servlet-name>
         <url-pattern>/cart</url-pattern>
     </servlet-mapping>
@@ -190,9 +191,13 @@
     <servlet-mapping>
         <servlet-name>DeleteCartItemServlet</servlet-name>
         <url-pattern>/deletecartitem</url-pattern>
-</servlet-mapping>
-<servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>ChangePassword</servlet-name>
         <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCartPageServlet</servlet-name>
+        <url-pattern>/addcartpage</url-pattern>
     </servlet-mapping>
 </web-app>

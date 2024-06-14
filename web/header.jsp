@@ -224,7 +224,7 @@
         <div class="attr-nav">
             <ul>
                 <li class="side-menu">
-                    <a href="#">
+                    <a href="cart">
                         <i class="bi bi-basket3"></i>
                         <span class="badge">${requestScope.cart.size()}</span>
                         <p>My Cart</p>

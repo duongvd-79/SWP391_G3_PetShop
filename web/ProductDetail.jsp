@@ -43,26 +43,26 @@
 
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-        <!-- Start All Title Box -->
-        <div class="all-title-box">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h2>Shop Detail</h2>
+            <!-- Start All Title Box -->
+            <div class="all-title-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h2>Shop Detail</h2>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- End All Title Box -->
+            <!-- End All Title Box -->
 
-        <!-- Start Shop Detail  -->
-        <div class="shop-detail-box-main">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-5 col-lg-5 col-md-6">
-                        <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
-                            <div class="carousel-inner" role="listbox">
-                                <div class="carousel-item active"> <img class="d-block w-100" src=${product.thumbnail}> </div>
+            <!-- Start Shop Detail  -->
+            <div class="shop-detail-box-main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-5 col-lg-5 col-md-6">
+                            <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
+                                <div class="carousel-inner" role="listbox">
+                                    <div class="carousel-item active"> <img class="d-block w-100" src=${product.thumbnail}> </div>
                             </div>
                         </div>
                     </div>
@@ -73,11 +73,15 @@
                             <p class="available-stock"><span> <a href="#">8 sold</a></span><p>
                             <h4>Short Description:</h4>
                             <p>${requestScope.product.description}</p>
+                            <%
+                                 User user = (User) session.getAttribute("user");
+                                    if (user != null) {
+                            %>
                             <ul>
                                 <li>
                                     <div class="form-group quantity-box">
                                         <label class="control-label">Quantity</label>
-                                        <input class="form-control" value="0" min="0" max="20" type="number">
+                                        <input class="form-control" id="quantity" name="quantity" value="1" min="0" max="20" type="number">
                                     </div>
                                 </li>
                             </ul>
@@ -85,9 +89,20 @@
                             <div class="price-box-bar">
                                 <div class="cart-and-bay-btn">
                                     <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-                                    <a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
+                                    <a id="addToCartLink" class="btn hvr-hover" data-fancybox-close="" href="#" onclick="updateHref()">Add to cart</a>
                                 </div>
                             </div>
+
+                            <script>
+                                function updateHref() {
+                                    var quantity = document.getElementById("quantity").value;
+                                    var productid = "${requestScope.product.id}";
+                                    var href = "addcart?productid=" + productid + "&quantity=" + quantity + "&currentid=" + productid;
+                                    document.getElementById("addToCartLink").href = href;
+                                }
+
+                            </script>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -143,10 +158,9 @@
                                     <div class="mask-icon">
                                         <a class="view" href="productdetail?id=${p.id}">View</a>
                                         <%
-                                            User user = (User) session.getAttribute("user");
                                             if (user != null) {
                                         %>
-                                        <a class="cart" href="#">Add to Cart</a>
+                                        <a class="cart" href="addcart?productid=${p.id}&quantity=1&currentid=${requestScope.product.id}">Add to Cart</a>
                                         <%}%>
                                     </div>
                                 </div>
