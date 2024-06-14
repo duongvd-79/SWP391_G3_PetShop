@@ -65,110 +65,11 @@
             if (user == null) {
         %>
         <!-- Login Popup -->
-        <div id="login" class="overlay">
-            <div class="popup">
-                <div class="form-block">
-                    <div class="mb-4">
-                        <h3>Sign In to <strong>PetShop</strong></h3>
-                        <a class="close" id="login-close" href="#">&times;</a>
-                    </div>
-                    <form action="login" method="post">
-                        <div class="form-group first">
-                            <p class="text-danger">${sessionScope.error}</p>
-                            <%
-                                session.removeAttribute("error");
-                            %>
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="${sessionScope.username}">
-                        </div>
-                        <div class="form-group last mb-1 position-relative">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="login-password" name="password">
-                            <span id="togglePassword"><i class="bi bi-eye"></i></span>
-                        </div>
-                        <div class="d-flex mb-4 align-items-center">
-                            <!--Reset password-->
-                            <span class="ml-auto"><a href="#reset" class="forgot-pass">Reset Password</a></span>
-                        </div>
-                        <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
-                    </form>
-                    <div class="social-login text-center mt-2">
-                        <a href="#register">or <strong>Sign Up</strong></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="login.jsp"></jsp:include>
         <!-- End Login Popup -->
         
         <!-- Begin Register Popup -->
-        <div id="register" class="overlay">
-            <div class="popup2">
-                <div class="form-block">
-                    <div class="mb-1">
-                        <h3><strong>Register</strong></h3>
-                        <a class="close" href="#">&times;</a>
-                    </div>
-                    <form action="register" method="post">
-                        <div class="form-group first mb-2">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="password">Confirm password</label>
-                            <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="fullname">Full Name</label>
-                            <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getName()}">
-                        </div>
-                        <div class="form-group last mb-1">
-                            <label for="phone">Phone</label>
-                            <input type="text" class="form-control" pattern="^[0-9]{10}$" title="Phone must contain 10 number" id="phone" name="phone" placeholder="Phone number" required="" value="${newuser.getPhone()}">
-                        </div>
-                        <div class="row">
-                            <div class="col-4 form-group mt-2 mb-1">
-                                <input type="radio" name="gender" id="male" value="Male" checked>
-                                <label for="male">
-                                    Male
-                                </label>
-                            </div>
-                            <div class="col-3 form-group mt-2 mb-0">
-                                <input type="radio" name="gender" value="Female" id="female" >
-                                <label for="female">
-                                    Female
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group last mb-3">
-                            <label for="fullname">Address</label>
-                            <div class="d-flex justify-content-start">
-                                <div class="mr-3">
-                                    <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm" required>
-                                        <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" required>
-                                        <option selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
-                        </div>
-                        <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
-                    </form>
-                    <span class="text-danger">${sessionScope.alert}</span>
-                    <div class="social-login text-center mt-2">
-                        <span>Already had an account? </span>
-                        <a href="#login"><strong>Sign In</strong></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="register.jsp"></jsp:include>
         <!-- End Register Popup -->
 
         <!-- Begin Verify email popup -->
@@ -198,7 +99,7 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                        <span class="badge">${requestScope.cart.size()}</span>
+                        <span class="badge">${requestScope.cartDetailList.size()}</span>
                         <p>My Cart</p>
                     </a>
                 </li>
@@ -211,7 +112,7 @@
             if (user != null) {
         %>
         <!-- Begin User Profile -->
-        <jsp:include page="userProfile.jsp"></jsp:include>
+        <%--<jsp:include page="userProfile.jsp"></jsp:include>--%>
         <!-- End User Profile -->
         <%}%>
     </nav>

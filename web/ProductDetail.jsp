@@ -82,7 +82,6 @@
 
                             <div class="price-box-bar">
                                 <%
-                                    User user = (User) session.getAttribute("user");
                                     if (user != null && user.getRoleId() == 5) {
                                 %>
                                 <div class="cart-and-bay-btn">
