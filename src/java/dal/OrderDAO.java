@@ -35,11 +35,13 @@ public class OrderDAO extends DBContext {
         return o;
     }
 
-    public List<Order> getAll() {
-        String sql = "SELECT * FROM `order`";
+    public List<Order> getAll(String status, int userId) {
+        String sql = "SELECT * FROM `order` where status=? and customer_id=? order by ordered_date desc";
         try {
             List<Order> orderList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
+            stm.setString(1, status);
+            stm.setInt(2, userId);
             rs = stm.executeQuery();
             while (rs.next()) {
                 Order p = setOrder(rs);
@@ -50,6 +52,7 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
+
     public int countOrderByStatus(String status) {
         String sql = "SELECT COUNT(*) as count FROM `order` where status=?";
         try {
@@ -64,8 +67,9 @@ public class OrderDAO extends DBContext {
         }
         return 0;
     }
-    public int countOrderByStatus(String status,String start,String end) {
-        String sql = "SELECT COUNT(*) as count FROM `order` where status=? and ordered_date between '"+start+"' and '"+end+"'";
+
+    public int countOrderByStatus(String status, String start, String end) {
+        String sql = "SELECT COUNT(*) as count FROM `order` where status=? and ordered_date between '" + start + "' and '" + end + "'";
         try {
             List<Order> orderList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
@@ -78,6 +82,7 @@ public class OrderDAO extends DBContext {
         }
         return 0;
     }
+
     //count all order
     public int getCountOrder() {
         String sql = "SELECT COUNT(*) as count FROM `order`";
@@ -92,9 +97,10 @@ public class OrderDAO extends DBContext {
         }
         return 0;
     }
+
     //count order base on an interval of time
-    public int getCountOrder(String start,String end) {
-        String sql = "SELECT COUNT(*) as count FROM `order` where ordered_date between '"+start+"' and '"+end+"'";
+    public int getCountOrder(String start, String end) {
+        String sql = "SELECT COUNT(*) as count FROM `order` where ordered_date between '" + start + "' and '" + end + "'";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -106,8 +112,32 @@ public class OrderDAO extends DBContext {
         }
         return 0;
     }
+
+    //count product for each order
+    public List<Integer> getRemainNumOfProductEachOrder(String status,int uid) {
+        List<Integer> list = new ArrayList<>();
+        String sql = "SELECT COUNT(product_id) AS count\n"
+                + "FROM order_details as od join `order` as o on o.id= od.order_id \n"
+                + "WHERE o.customer_id = ? and o.status =?\n"
+                + "GROUP BY order_id order by ordered_date desc";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, uid);
+            stm.setString(2, status);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                list.add(rs.getInt("count")-1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
-        System.out.println(oDAO.countOrderByStatus("submitted"));
+        for (Order o : oDAO.getAll("success", 7)) {
+            System.out.println(o.getId());
+        }
     }
 }

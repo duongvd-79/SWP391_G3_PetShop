@@ -40,9 +40,10 @@
                                 <div class="d-lg-inline-flex nav-item text-uppercase">${sessionScope.user.getName()}</div>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                                <a href="#" class="dropdown-item text-uppercase">My Profile</a>
+                                <a href="#profilepopup" class="dropdown-item text-uppercase">My Profile</a>
                                 <a href="login?logout=true" class="dropdown-item text-uppercase">Log Out</a>
                             </div>
                         </div>
                     </div>
+                    <%--<jsp:include page="profilepopup.jsp"></jsp:include>--%>
                 </nav>

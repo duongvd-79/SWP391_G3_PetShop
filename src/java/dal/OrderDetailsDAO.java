@@ -127,10 +127,25 @@ public class OrderDetailsDAO extends DBContext {
         }
         return 0; // Return 0 if there's an error or no profit found
     }
+    // get product quantity
+    public int getQuantity(int pid, int oid) {
+        String sql = "SELECT quantity from order_details where product_id = ? and order_id = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, pid);
+            stm.setInt(2, oid);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("quantity");
+            }
+        } catch (SQLException e) {
+        }
+        return 0; // Return 0 if there's an error or no profit found
+    }
 
     public static void main(String[] args) {
         OrderDetailsDAO oDAO = new OrderDetailsDAO();
-        System.out.println(oDAO.getMonthlyProfit(6, "2024"));
-
+        System.out.println(oDAO.getQuantity(1, 2));
+        System.out.println("hehe");
     }
 }
