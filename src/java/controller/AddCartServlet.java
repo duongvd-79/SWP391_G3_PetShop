@@ -83,7 +83,7 @@ public class AddCartServlet extends HttpServlet {
                 if (c.getUserId() == user.getId() && c.getProductId() == productid) {
                     duplicate = true;
                    
-                    cartdao.updateItemInCart(c.getQuantity() + 1, c.getId());
+                    cartdao.updateItemInCart(c.getQuantity() + quantity, c.getId());
                     response.sendRedirect("productdetail?id=" + currentid);
                     
                 }

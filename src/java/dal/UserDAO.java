@@ -210,23 +210,23 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
-    
-    public void updateUser(int roleId,String status,int id){
+
+    public void updateUser(int roleId, String status, int id) {
         try {
             String sql = "UPDATE user SET role_id = ?,status = ? WHERE id = ?";
             PreparedStatement stm;
             stm = connection.prepareStatement(sql);
             stm.setInt(1, roleId);
             stm.setString(2, status);
-            stm.setInt(3,id );
+            stm.setInt(3, id);
             stm.executeUpdate();
 
         } catch (SQLException e) {
             System.out.println(e);
         }
     }
-    
-    public void changePassword(String email,String password){
+
+    public void changePassword(String email, String password) {
         try {
             String sql = "UPDATE user SET password = MD5(?) WHERE email = ?";
             PreparedStatement stm;
@@ -239,8 +239,8 @@ public class UserDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
-    public void addNewUser(User u) throws SQLException{
+
+    public void addNewUser(User u) throws SQLException {
         String sql = "insert into user(email,password,name,gender,status,role_id,phone,create_date) values (?,MD5(?),?,?,?,?,?,NOW())";
         PreparedStatement sta = connection.prepareStatement(sql);
         sta.setString(1, u.getEmail());
@@ -253,17 +253,17 @@ public class UserDAO extends DBContext {
         sta.executeUpdate();
     }
 
-    public int getLastId() throws SQLException{
+    public int getLastId() throws SQLException {
         String sql = "SELECT * from user ORDER BY id DESC LIMIT 1";
         PreparedStatement sta = connection.prepareStatement(sql);
         ResultSet rs = sta.executeQuery();
-        int id=0;
+        int id = 0;
         while (rs.next()) {
             id = rs.getInt("id");
         }
         return id;
     }
-    
+
     public User login(String email, String password) {
         String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
         try {
@@ -292,7 +292,7 @@ public class UserDAO extends DBContext {
     }
 
     public void updateUserProfile(User user) {
-            String sql = "UPDATE user SET name = ?, gender = ?, phone = ?, pfp = ? WHERE id = ?";
+        String sql = "UPDATE user SET name = ?, gender = ?, phone = ?, pfp = ? WHERE id = ?";
         try {
             PreparedStatement stm;
             stm = connection.prepareStatement(sql);
@@ -305,6 +305,7 @@ public class UserDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
+
     public int getCountCustomer() {
         String sql = "SELECT COUNT(*) as count FROM user where role_id = 5";
         try {
@@ -319,8 +320,9 @@ public class UserDAO extends DBContext {
         }
         return 0;
     }
-    public int getCountCustomer(String start,String end) {
-        String sql = "SELECT COUNT(*) as count FROM user where role_id = 5 and create_date between '"+start+"' and '"+end+"'";
+
+    public int getCountCustomer(String start, String end) {
+        String sql = "SELECT COUNT(*) as count FROM user where role_id = 5 and create_date between '" + start + "' and '" + end + "'";
         try {
             PreparedStatement sta = connection.prepareStatement(sql);
             sta = connection.prepareStatement(sql);
@@ -333,28 +335,29 @@ public class UserDAO extends DBContext {
         }
         return 0;
     }
+
     public ArrayList<User> getTop4NewCutomers() throws SQLException {
-    String sql = "SELECT * FROM user where role_id=5 ORDER BY create_date DESC LIMIT 4 ";
-    try (PreparedStatement sta = connection.prepareStatement(sql);
-         ResultSet rs = sta.executeQuery()) {
-        ArrayList<User> lst = new ArrayList<>();
-        while (rs.next()) {
-            int id = rs.getInt("id");
-            String email = rs.getString("email");
-            String pass = rs.getString("password");
-            String name = rs.getString("name");
-            boolean gender = rs.getBoolean("gender");
-            String status = rs.getString("status");
-            int role_id = rs.getInt("role_id");
-            String phone = rs.getString("phone");
-            Date lastlog = rs.getDate("last_log");
-            String pfp = rs.getString("pfp");
-            User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
-            lst.add(u);
+        String sql = "SELECT * FROM user where role_id=5 ORDER BY create_date DESC LIMIT 4 ";
+        try (PreparedStatement sta = connection.prepareStatement(sql); ResultSet rs = sta.executeQuery()) {
+            ArrayList<User> lst = new ArrayList<>();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String email = rs.getString("email");
+                String pass = rs.getString("password");
+                String name = rs.getString("name");
+                boolean gender = rs.getBoolean("gender");
+                String status = rs.getString("status");
+                int role_id = rs.getInt("role_id");
+                String phone = rs.getString("phone");
+                Date lastlog = rs.getDate("last_log");
+                String pfp = rs.getString("pfp");
+                User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+                lst.add(u);
+            }
+            return lst;
         }
-        return lst;
     }
-    }
+
     public ArrayList<User> getTop4NewlyBuyCutomers() throws SQLException {
         String sql = "SELECT u.*\n"
                 + "FROM user u\n"
@@ -383,8 +386,30 @@ public class UserDAO extends DBContext {
             }
             return lst;
         }
-    
-}
+
+    }
+
+    public User getUserByID(int uid) throws SQLException {
+        String sql = "select * from user where id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, uid);
+        ResultSet rs = sta.executeQuery();
+        User u = new User();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+        }
+        return u;
+    }
 
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
@@ -393,11 +418,10 @@ public class UserDAO extends DBContext {
 //        }
 //        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
 //        u.changePassword("hoangdz512@gmail.com","123456" );
-          for(User user : u.getTop4NewlyBuyCutomers()){
-              System.out.println(user.getName());
-          }
-        
-        
+        for (User user : u.getTop4NewlyBuyCutomers()) {
+            System.out.println(user.getName());
+        }
+
     }
 
 }

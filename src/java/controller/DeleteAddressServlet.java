@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
-import dal.CartDAO;
-import dal.ProductDAO;
+import dal.AddressDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,49 +15,44 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.Cart;
-import model.Product;
+import model.Address;
 import model.User;
 
 /**
  *
  * @author Admin
  */
-public class CartServlet extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+public class DeleteAddressServlet extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CartServlet</title>");
+            out.println("<title>Servlet DeleteAddressServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CartServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet DeleteAddressServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -65,35 +60,30 @@ public class CartServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        CartDAO cartdao = new CartDAO();
-        ProductDAO productdao = new ProductDAO();
+    throws ServletException, IOException {
+         int id = Integer.parseInt(request.getParameter("id"));
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        double grand_total = 0;
+        AddressDAO addressdao = new AddressDAO();
         try {
-            if(user != null){
-            ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-            List<Product> latestProductList = productdao.getLatestProductList();
-            for(Cart c : cartDetailList){
-            grand_total += c.getList_price()*c.getQuantity();
-            }
-            request.setAttribute("cartDetailList", cartDetailList);
-            session.setAttribute("cartDetailList", cartDetailList);
-            request.setAttribute("grand_total", grand_total);
-            request.setAttribute("latestProductList", latestProductList);
-            request.getRequestDispatcher("Cart.jsp").forward(request, response);
+            if (user != null) {
+                addressdao.deleteUserAddress(id, user.getId());
+                addressdao.deleteAddress(id);
+                
+
+                ArrayList<Address> a = addressdao.getAddressList(user.getId());
+                session.setAttribute("addressList", a);
+                response.sendRedirect("cartcontact#addresspopup");
             } else {
-            response.sendRedirect("home");
+                response.sendRedirect("home");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CartServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DeleteAddressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -101,13 +91,12 @@ public class CartServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

@@ -81,7 +81,7 @@
                                 <li>
                                     <div class="form-group quantity-box">
                                         <label class="control-label">Quantity</label>
-                                        <input class="form-control" id="quantity" name="quantity" value="1" min="0" max="20" type="number">
+                                        <input class="form-control" id="quantity" name="quantity" value="1" min="1" max="20" step="1" type="number">
                                     </div>
                                 </li>
                             </ul>

@@ -69,7 +69,7 @@
         </div>
         
         <div class="cart-box-main">
-            <div class="container-fluid">
+            <div  class="container">
                 <c:choose>
                     <c:when test="${empty cartDetailList}">
                         <div class="row justify-content-center">
@@ -141,18 +141,20 @@
                                     </script>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-sm-12">
-                                <div class="order-box">
-                                    <h3>Order summary</h3>
-                                    <div class="d-flex gr-total">
-                                        <h5>Grand Total</h5>
-                                        <div class="ml-auto h5">${grand_total}00 vnd</div>
+                            <div  class="col-lg-4  col-sm-12">
+                                <div class="sticky-top" style="top: 135px; z-index: 2">
+                                    <div class="order-box">
+                                        <h3>Order summary</h3>
+                                        <div class="d-flex gr-total">
+                                            <h5>Grand Total</h5>
+                                            <div class="ml-auto h5">${grand_total}00 vnd</div>
+                                        </div>
+                                        <hr> 
                                     </div>
-                                    <hr> 
-                                </div>
-                                <div class="col-12 d-flex shopping-box justify-content-between">
-                                    <a href="checkout.html" class="btn hvr-hover btn-black">Continue Shopping</a>
-                                    <a href="checkout.html" class="btn hvr-hover">Checkout</a>
+                                    <div class="col-12 d-flex shopping-box justify-content-between">
+                                        <a href="home" class="btn hvr-hover btn-black">Continue Shopping</a>
+                                        <a href="cartcontact" class="btn hvr-hover">Checkout</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

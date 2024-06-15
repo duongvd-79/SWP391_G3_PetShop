@@ -4,8 +4,9 @@
  */
 package controller;
 
+import dal.AddressDAO;
 import dal.CartDAO;
-import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,18 +16,17 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Address;
 import model.Cart;
-import model.Product;
 import model.User;
 
 /**
  *
  * @author Admin
  */
-public class CartServlet extends HttpServlet {
+public class ConfirmAddressServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +45,10 @@ public class CartServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CartServlet</title>");
+            out.println("<title>Servlet ConfirmAddressServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CartServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ConfirmAddressServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,28 +66,31 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        int address_id = Integer.parseInt(request.getParameter("addressid"));
+        UserDAO userdao = new UserDAO();
         CartDAO cartdao = new CartDAO();
-        ProductDAO productdao = new ProductDAO();
+        AddressDAO addressdao = new AddressDAO();
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        double grand_total = 0;
+        User u = (User) session.getAttribute("user");
+        double total_cost = 0;
         try {
-            if(user != null){
-            ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-            List<Product> latestProductList = productdao.getLatestProductList();
-            for(Cart c : cartDetailList){
-            grand_total += c.getList_price()*c.getQuantity();
-            }
-            request.setAttribute("cartDetailList", cartDetailList);
-            session.setAttribute("cartDetailList", cartDetailList);
-            request.setAttribute("grand_total", grand_total);
-            request.setAttribute("latestProductList", latestProductList);
-            request.getRequestDispatcher("Cart.jsp").forward(request, response);
+            if (u != null) {
+                User user = userdao.getUserByID(u.getId());
+                Address address = addressdao.getChosenAddress(address_id);
+                ArrayList<Cart> cartDetailList = cartdao.getCartDetail(u.getId());
+                for (Cart c : cartDetailList) {
+                    total_cost += c.getQuantity() * c.getList_price();
+                }
+                request.setAttribute("userinfor", user);
+                request.setAttribute("defaultAddress", address);
+                request.setAttribute("cartDetailList", cartDetailList);
+                request.setAttribute("total_cost", total_cost);
+                request.getRequestDispatcher("CartContact.jsp").forward(request, response);
             } else {
-            response.sendRedirect("home");
+                response.sendRedirect("home");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(CartServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ConfirmAddressServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
