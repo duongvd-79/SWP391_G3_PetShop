@@ -1,0 +1,129 @@
+.ellipsis-text-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5em; /* Adjust based on your font-size */
+    max-height: 4.5em; /* 3 lines * line-height */
+}
+.ellipsis-text-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5em; /* Adjust based on your font-size */
+    max-height: 4.5em; /* 3 lines * line-height */
+}
+.ellipsis-text-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.5em; /* Adjust based on your font-size */
+    max-height: 4.5em; /* 3 lines * line-height */
+}
+#featured-list {
+    transition:  0.5s ease-in-out;
+}
+.product-content {
+    transition: transform 0.3s;
+}
+.product-content:hover {
+    transform: scale(1.1) translateX(20px);
+}
+.latest-blog-img {
+    width: 33%;
+    float: left;
+    position: relative;
+    margin-top: 10px;
+}
+.latest-product-content {
+    width: 67%;
+    float: left;
+    padding-left: 10px;
+}
+.latest-product-content h3 a {
+    font-size: 20px;
+}
+.latest-product-content div h3 {
+    padding-top: 10px;
+}
+.blog-box {
+    border-bottom: solid lightgray 1px;
+}
+.range-slide {
+    position: relative;
+    margin: 20px 20px;
+    height: 4px;
+}
+.slide {
+    position: absolute;
+    top: 0;
+    height: 4px;
+    background: lightgray;
+    left: 9px;
+    right: 9px;
+}
+.line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 4px;
+    background-color: #b0b435;
+}
+.thumb {
+    position: absolute;
+    z-index: 2;
+    text-align: left;
+    border: 1px solid gray;
+    background-color: white;
+    border-radius: 50%;
+    outline: none;
+    top: -7px;
+    height: 18px;
+    width: 18px;
+    margin-left: -9px;
+}
+.range {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    pointer-events: none;
+    z-index: 3;
+    height: 3px;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    margin: 0;
+}
+.range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    pointer-events: all;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+}
+.display {
+    margin: 0 20px 20px;
+    display: flex;
+    justify-content: space-evenly;
+}
+.page-item.active .page-link {
+    background-color: #b0b435;
+    border-color: #b0b435;
+}
+.page-link {
+    color: #212121;
+}
+.reset-button {
+    font-weight: 900;
+    font-size: 20px;
+    max-height: 25px;
+    max-width: 25px;
+    background-color: transparent;
+    border-color: transparent;
+    cursor: pointer
+}

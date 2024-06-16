@@ -62,7 +62,7 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         // Get product list
         ProductDAO productDAO = new ProductDAO();
-        List<Product> allProduct = productDAO.getActive();
+        List<Product> allProduct = productDAO.getActive(false, 0, null);
         List<Product> featuredProduct = productDAO.getActiveFeatured();
         request.setAttribute("allproduct", allProduct);
         request.setAttribute("featuredproduct", featuredProduct);

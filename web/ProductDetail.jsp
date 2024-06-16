@@ -68,8 +68,8 @@
                             <h4>Description:</h4>
                             <p>${requestScope.product.description}</p>
                             <%
-                                 User user = (User) session.getAttribute("user");
-                                    if (user != null) {
+                                User user = (User) session.getAttribute("user");
+                                if (user != null) {
                             %>
                             <ul>
                                 <li>
@@ -82,7 +82,6 @@
 
                             <div class="price-box-bar">
                                 <%
-                                    User user = (User) session.getAttribute("user");
                                     if (user != null && user.getRoleId() == 5) {
                                 %>
                                 <div class="cart-and-bay-btn">
@@ -101,7 +100,6 @@
                                     var href = "addcart?productid=" + productid + "&quantity=" + quantity + "&currentid=" + productid;
                                     document.getElementById("addToCartLink").href = href;
                                 }
-
                             </script>
                             <% } %>
                         </div>

@@ -21,121 +21,8 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-        <style>
-            .ellipsis-text-1 {
-                display: -webkit-box;
-                -webkit-line-clamp: 1;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                line-height: 1.5em; /* Adjust based on your font-size */
-                max-height: 4.5em; /* 3 lines * line-height */
-            }
-            .ellipsis-text-2 {
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                line-height: 1.5em; /* Adjust based on your font-size */
-                max-height: 4.5em; /* 3 lines * line-height */
-            }
-            .ellipsis-text-3 {
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                line-height: 1.5em; /* Adjust based on your font-size */
-                max-height: 4.5em; /* 3 lines * line-height */
-            }
-            #featured-list {
-                transition:  0.5s ease-in-out;
-            }
-            .blog-content {
-                transition: transform 0.3s;
-            }
-            .blog-content:hover {
-                transform: scale(1.1) translateX(20px);
-            }
-            .latest-blog-content {
-                width: 67%;
-                float: left;
-                padding-left: 10px;
-            }
-            .latest-blog-content h3 a {
-                font-size: 20px;
-            }
-            .blog-box {
-                border-bottom: solid lightgray 1px;
-            }
-            .range-slide {
-                position: relative;
-                margin: 20px 20px;
-                height: 4px;
-            }
-            .slide {
-                position: absolute;
-                top: 0;
-                height: 4px;
-                background: lightgray;
-                left: 9px;
-                right: 9px;
-            }
-            .line {
-                position: absolute;
-                left: 0;
-                right: 0;
-                top: 0;
-                height: 4px;
-                background-color: #b0b435;
-            }
-            .thumb {
-                position: absolute;
-                z-index: 2;
-                text-align: left;
-                border: 1px solid gray;
-                background-color: white;
-                border-radius: 50%;
-                outline: none;
-                top: -7px;
-                height: 18px;
-                width: 18px;
-                margin-left: -9px;
-            }
-            .range {
-                -webkit-appearance: none;
-                appearance: none;
-                position: absolute;
-                pointer-events: none;
-                z-index: 3;
-                height: 3px;
-                top: 0;
-                width: 100%;
-                opacity: 0;
-                margin: 0;
-            }
-            .range::-webkit-slider-thumb {
-                -webkit-appearance: none;
-                appearance: none;
-                pointer-events: all;
-                border-radius: 50%;
-                cursor: pointer;
-                width: 18px;
-                height: 18px;
-            }
-            .display {
-                margin: 0 20px 20px;
-                display: flex;
-                justify-content: space-evenly;
-            }
-            .reset-button {
-                font-weight: 900;
-                font-size: 20px;
-                max-height: 25px;
-                max-width: 25px;
-                background-color: transparent;
-                border-color: transparent;
-                cursor: pointer
-            }
-        </style>
+        <!-- Page CSS -->
+        <link rel="stylesheet" href="css/public/productList.css">
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
@@ -181,11 +68,11 @@
                                     <button type="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
                                 </div>
                                 <div class="col-12 mb-3 blog-box pt-2">
-                                    <h2>Categories</h2>
+                                    <h2 style="font-weight: 700">Categories</h2>
                                 </div>
                                 <c:forEach items="${prcategory}" var="pcate">
-                                    <div class="col-12 input-group blog-content" title="${pcate.name}">
-                                        <div class="latest-blog-content">
+                                    <div class="col-12 input-group product-content" title="${pcate.name}">
+                                        <div class="latest-product-content">
                                             <div style="padding: 0px 5px;">
                                                 <h3>
                                                     <a href="productlist?category=${pcate.id}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">${pcate.name}</a>
@@ -199,7 +86,7 @@
                                     </div>
                                 </c:forEach>
                                 <div class="col-12 mb-3 blog-box pt-2">
-                                    <h2>Price</h2>
+                                    <h2 style="font-weight: 700">Price</h2>
                                 </div>
                                 <div class="col-12">
                                     <div class="range-slide">
@@ -223,6 +110,30 @@
                             <input name="sort" value="${sort}" hidden>
                             <input name="page" value="1" hidden>
                         </form>
+                        <div class="row">
+                            <div class="col-12 text-center mt-3">
+                                <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Latest Product</h3>
+                            </div>
+                        </div>
+                        <div class="row border-top pt-3">
+                            <c:forEach items="${requestScope.latestproduct}" var="lp" begin="0" end="1">
+                                <div class="col-12 blog-box" title="${lp.title}"
+                                     onclick="window.location.href = 'productdetail?id=${lp.id}'" style="cursor: pointer">
+                                    <div class="blog-box">
+                                        <div class="latest-blog-img">
+                                            <img class="img-fluid" src="${lp.thumbnail}" alt="" />
+                                        </div>
+                                        <div class="latest-product-content">
+                                            <div style="padding: 0px 5px;">
+                                                <h3>
+                                                    <a href="productdetail?id=${lp.id}">${lp.title}</a>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
+                        </div>
                     </div>
                     <!-- End Sidebar  -->
                 </div>
@@ -242,6 +153,7 @@
                                     <span>
                                         <span class="mr-2" style="font-size: 18px">Sort:</span>
                                         <select class="form-select py-2 px-1 mr-5 mt-4" id="sort" title="Sort">
+                                            <option>Default</option>
                                             <option value="Latest" ${sort == "Latest" ? "selected" : ""}>By Newest Arrivals</option>
                                             <option value="Oldest" ${sort == "Oldest" ? "selected" : ""}>By Oldest Products</option>
                                             <option value="Price Asc" ${sort == "Price Asc" ? "selected" : ""}>By Price (Low to High)</option>
@@ -292,17 +204,21 @@
                             <div class="row justify-content-end mr-1">
                                 <nav>
                                     <ul class="pagination">
-                                        <li class="page-item">
-                                            <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
-                                        </li>
+                                        <c:if test="${page - 2 >= 0}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
+                                            </li>
+                                        </c:if>
                                         <c:forEach begin="1" end="${totalPage}" var="i">
                                             <li class="page-item ${page == i ? "active" : ""}">
                                                 <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${i}">${i}</a>
                                             </li>
                                         </c:forEach>
-                                        <li class="page-item">
-                                            <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
-                                        </li>
+                                        <c:if test="${page + 1 <= totalPage}">
+                                            <li class="page-item">
+                                                <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
+                                            </li>
+                                        </c:if>
                                     </ul>
                                 </nav>
                             </div>
@@ -333,14 +249,14 @@
             <script src="js/contact-form-script.js"></script>
             <script src="js/custom.js"></script>
             <script>
-                document.getElementById('sort').addEventListener('change', function () {
-                    var selectedValue = this.value;
-                    window.location.href = 'productlist?category=${category}'
-                            + '&search=${search.replace(" ", "+")}'
-                            + '&minPrice=${minPrice}'
-                            + '&maxPrice=${maxPrice}&sort=' + selectedValue +
-                            '&page=${page}';
-                });
+                                         document.getElementById('sort').addEventListener('change', function () {
+                                             var selectedValue = this.value;
+                                             window.location.href = 'productlist?category=${category}'
+                                                     + '&search=${search.replace(" ", "+")}'
+                                                     + '&minPrice=${minPrice}'
+                                                     + '&maxPrice=${maxPrice}&sort=' + selectedValue +
+                                                     '&page=${page}';
+                                         });
         </script>
         <script>
             let min = 50000;

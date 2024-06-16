@@ -12,7 +12,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import model.Product;
@@ -95,8 +94,7 @@ public class ProductListServlet extends HttpServlet {
             pageIndex = Integer.parseInt(pageIndexRaw);
         }
         request.setAttribute("page", pageIndex);
-        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex);
-        allProduct = productDAO.filter(false, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex);
+        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, null);
         request.setAttribute("allproduct", productList);
 
         // Display searched query on searchbar
@@ -106,20 +104,10 @@ public class ProductListServlet extends HttpServlet {
 
         // Sort
         String sort = request.getParameter("sort");
-        if (sort != null) {
-            switch (sort) {
-                case "Latest" ->
-                    Collections.sort(productList, (p1, p2) -> p2.getCreatedDate().compareTo(p1.getCreatedDate()));
-                case "Oldest" ->
-                    Collections.sort(productList, (p1, p2) -> p1.getCreatedDate().compareTo(p2.getCreatedDate()));
-                case "Price Asc" ->
-                    Collections.sort(productList, (p1, p2) -> Double.compare(p1.getListPrice(), p2.getListPrice()));
-                case "Price Desc" ->
-                    Collections.sort(productList, (p1, p2) -> Double.compare(p2.getListPrice(), p1.getListPrice()));
-            }
-            // Remember sort type
-            request.setAttribute("sort", sort);
-        }
+        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, sort);
+        request.setAttribute("allproduct", productList);
+        // Remember sort type
+        request.setAttribute("sort", sort);
 
         // Product date
         Date today = new Date();
@@ -129,6 +117,10 @@ public class ProductListServlet extends HttpServlet {
         Date oneMonthAgo = cal.getTime();
         request.setAttribute("oneMonthAgo", oneMonthAgo);
 
+        // Get latest product
+        allProduct = productDAO.getActive(false, 0, "Latest");
+        request.setAttribute("latestproduct", allProduct);
+        
         // Pagination
         int totalProduct = allProduct.size();
         int maxPage = totalProduct / 8;
