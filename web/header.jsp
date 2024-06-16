@@ -26,7 +26,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="productlist">All Products</a></li>
                             <c:forEach items="${requestScope.prcategory}" var="prcate">
-                                <li><a href="#">${prcate.name}</a></li>
+                            <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
                             </c:forEach>
                     </ul>
                 </li>
@@ -36,7 +36,7 @@
                         if (user == null) {
                     %>
                 <li class="dropdown">
-                    <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Account <i class="bi bi-caret-down-fill"></i></a>
+                    <a href="account" class="nav-link dropdown-toggle" data-toggle="dropdown">Account <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#login">Login</a></li>
                         <li><a href="#register">Register</a></li>
@@ -74,6 +74,7 @@
                     </div>
                     <form action="login" method="post">
                         <div class="form-group first">
+                            <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
                             <p class="text-danger">${sessionScope.error}</p>
                             <%
                                 session.removeAttribute("error");
@@ -99,7 +100,7 @@
             </div>
         </div>
         <!-- End Login Popup -->
-        
+
         <!-- Begin Register Popup -->
         <div id="register" class="overlay">
             <div class="popup2">
@@ -186,7 +187,7 @@
 
         <!-- Begin Reset Password Popup -->
         <jsp:include page="resetPassword.jsp"></jsp:include>
-        <!-- End Reset Password Popup -->
+            <!-- End Reset Password Popup -->
         <%}%>
 
         <%
@@ -212,7 +213,7 @@
         %>
         <!-- Begin User Profile -->
         <jsp:include page="userProfile.jsp"></jsp:include>
-        <!-- End User Profile -->
+            <!-- End User Profile -->
         <%}%>
     </nav>
     <!-- End Navigation -->
@@ -292,11 +293,145 @@
             } else if (toastType === 'error') {
                 toastr.error(toastMessage);
             }
-            <% 
+    <% 
                 session.removeAttribute("successnoti");
                 session.removeAttribute("toastType");
-            %>
+    %>
         }
+    });
+</script>
+<script>
+    // Field guide popup
+    const nameInput = document.getElementById('pfname');
+    const nameInfo = document.getElementById('name-info');
+    const emailInput = document.getElementById('pfemail');
+    const emailInfo = document.getElementById('email-info');
+    const phoneInput = document.getElementById('pfphone');
+    const phoneInfo = document.getElementById('phone-info');
+
+    nameInput.addEventListener('focus', () => {
+        nameInfo.style.display = 'block';
+    });
+    nameInput.addEventListener('blur', () => {
+        nameInfo.style.display = 'none';
+    });
+
+    emailInput.addEventListener('mouseover', () => {
+        emailInfo.style.display = 'block';
+    });
+    emailInput.addEventListener('mouseout', () => {
+        emailInfo.style.display = 'none';
+    });
+
+    phoneInput.addEventListener('focus', () => {
+        phoneInfo.style.display = 'block';
+    });
+    phoneInput.addEventListener('blur', () => {
+        phoneInfo.style.display = 'none';
+    });
+
+    // Render cites & districts
+    var cities = document.getElementById("pfcity");
+    var districts = document.getElementById("pfdistrict");
+
+    var Parameter = {
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const city of data) {
+            const option = new Option(city.Name);
+            option.value = city.Name;
+            option.selected = city.Name === '${sessionScope.address.getCity()}';
+            cities.add(option);
+        }
+
+        if (cities.value !== "") {
+            renderDistrict(cities.value, data);
+        }
+        cities.onchange = function () {
+            renderDistrict(this.value, data);
+        };
+
+        function renderDistrict(selectedCityName, data) {
+            districts.length = 1;
+
+            if (selectedCityName !== "") {
+                const selectedCity = data.find(city => city.Name === selectedCityName);
+
+                for (const district of selectedCity.Districts) {
+                    const option = new Option(district.Name);
+                    option.value = district.Name;
+                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
+                    districts.add(option);
+                }
+            }
+        }
+    }
+
+    // Image upload
+    var file = document.getElementById('file-upload');
+    var previewImage = document.getElementById('preview-img');
+
+    file.addEventListener('change', function () {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
+    });
+    file.addEventListener('change', (e) => {
+        var reader = new FileReader();
+
+        reader.onload = (event) => {
+            previewImage.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    });
+
+    // Toggle save button on changes
+    document.addEventListener('DOMContentLoaded', function () {
+        var name = document.getElementById('pfname');
+        var phone = document.getElementById('pfphone');
+        var male = document.getElementById('pfmale')
+        var female = document.getElementById('pffemale')
+        var city = document.getElementById('pfcity');
+        var district = document.getElementById('pfdistrict');
+        var detailaddress = document.getElementById('pfdetailaddress');
+        var saveButton = document.getElementById('save-button');
+        const originalName = '${sessionScope.user.name}';
+        const originalPhone = '${sessionScope.user.phone}';
+        const originalGender = '${sessionScope.user.gender}';
+        const originalCity = '${sessionScope.address.city}';
+        const originalDistrict = '${sessionScope.address.district}';
+        const originalDetailAddress = '${sessionScope.address.detail}';
+
+        function toggleButton() {
+            if (name.value !== originalName || phone.value !== originalPhone
+                    || (originalGender === 'Male' && female.checked)
+                    || (originalGender === 'Female' && male.checked)
+                    || file.value !== '' || city.value !== originalCity
+                    || district.value !== originalDistrict
+                    || detailaddress.value !== originalDetailAddress) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
+        }
+        ;
+
+        name.addEventListener('input', toggleButton);
+        phone.addEventListener('input', toggleButton);
+        male.addEventListener('change', toggleButton);
+        female.addEventListener('change', toggleButton);
+        file.addEventListener('change', toggleButton);
+        city.addEventListener('change', toggleButton);
+        district.addEventListener('change', toggleButton);
+        detailaddress.addEventListener('input', toggleButton);
     });
 </script>
 <script>
@@ -333,12 +468,17 @@
     }
 </script>
 <script>
-    const currentPage = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link');
+    document.addEventListener('DOMContentLoaded', () => {
+        const currentPage = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
 
-    navLinks.forEach(link => {
-        if (link.getAttribute('href').includes(currentPage)) {
-            link.parentElement.classList.add('active');
-        }
+        navLinks.forEach(link => {
+            if (currentPage.includes(link.getAttribute('href'))) {
+                link.parentElement.classList.add('active');
+            }
+        });
+        
+        const path = document.getElementById('pathName');
+        path.value = window.location.pathname.split('/').pop();
     });
 </script>

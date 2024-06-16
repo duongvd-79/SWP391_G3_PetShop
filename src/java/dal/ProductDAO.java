@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Product;
-import model.ProductFeedback;
 
 public class ProductDAO extends DBContext {
 
@@ -50,8 +49,12 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<Product> getFeatured() {
-        String sql = "SELECT * FROM product WHERE is_featured = 1 LIMIT 8";
+    public List<Product> getActive() {
+        String sql = "SELECT pr.id, pr.title, pr.description, pr.import_price,"
+                + "pr.list_price, pr.status, pr.is_featured, pr.thumbnail,"
+                + "pr.created_date, pr.quantity, pr.category_id\n"
+                + "FROM petshop.product pr JOIN petshop.setting s ON pr.category_id = s.id\n"
+                + "WHERE s.status = 'Active'";
         try {
             productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
@@ -62,7 +65,36 @@ public class ProductDAO extends DBContext {
             }
             return productList;
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
+        return null;
+    }
+
+    public List<Product> pagination(int index) {
+        String sql = "SELECT pr.id, pr.title, pr.description, pr.import_price, "
+                + "pr.list_price, pr.status, pr.is_featured, pr.thumbnail, "
+                + "pr.created_date, pr.quantity, pr.category_id\n"
+                + "FROM petshop.product pr JOIN petshop.setting s ON pr.category_id = s.id\n"
+                + "WHERE s.status = 'Active' LIMIT 8 OFFSET ?";
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, (index - 1) * 8);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public List<Product> getActiveFeatured() {
+        productList = getActive();
+        productList.removeIf(p -> !p.isIsFeatured());
         return productList;
     }
 
@@ -78,6 +110,47 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
         }
         return null;
+    }
+
+    private List<Product> getActiveByCategoryId(int cateId) {
+        productList = getActive();
+        productList.removeIf(p -> p.getCategoryId() != cateId);
+        return productList;
+    }
+
+    private List<Product> getActiveByPrice(double minPrice, double maxPrice) {
+        productList = getActive();
+        productList.removeIf(p -> p.getListPrice() > maxPrice || p.getListPrice() < minPrice);
+        return productList;
+    }
+
+    private List<Product> search(String query) {
+        productList = getActive();
+        SettingDAO sdao = new SettingDAO();
+        productList.removeIf(p -> !p.getTitle().toLowerCase().contains(query)
+                && !sdao.getActiveById(p.getCategoryId()).toLowerCase().contains(query));
+        return productList;
+    }
+
+    public List<Product> filter(boolean flag, String categoryRaw, String minPriceRaw, String maxPriceRaw, String searchQuery, int index) {
+        if (flag) {
+            productList = pagination(index);
+        } else {
+            productList = getActive();
+        }
+        if (categoryRaw != null && !categoryRaw.equals("")) {
+            int category = Integer.parseInt(categoryRaw);
+            productList = getActiveByCategoryId(category);
+        }
+        if (minPriceRaw != null && !minPriceRaw.equals("") && maxPriceRaw != null && !maxPriceRaw.equals("")) {
+            double minPrice = Double.parseDouble(minPriceRaw) / 1000;
+            double maxPrice = Double.parseDouble(maxPriceRaw) / 1000;
+            productList = getActiveByPrice(minPrice, maxPrice);
+        }
+        if (searchQuery != null && !searchQuery.equals("")) {
+            productList = search(searchQuery);
+        }
+        return productList;
     }
 
     public List<Product> getRelatedProduct(int id) {
@@ -107,7 +180,7 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<Product> getProductForEachOrder(int uid,String status) {
+    public List<Product> getProductForEachOrder(int uid, String status) {
         String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
                 + "JOIN `order` o ON od.order_id = o.id\n"
                 + "WHERE o.customer_id = ? AND o.status = ? AND (od.order_id, od.product_id) IN (\n"
@@ -130,8 +203,8 @@ public class ProductDAO extends DBContext {
         }
         return null;
     }
-    
-     public List<Product> getLatestProductList() {
+
+    public List<Product> getLatestProductList() {
         String sql = "SELECT * FROM product\n"
                 + "ORDER BY created_date DESC\n"
                 + "LIMIT 4;";
@@ -151,8 +224,8 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        for (Product pr : p.getProductForEachOrder(7,"success")) {
-            System.out.println(pr.getTitle());
+        for (Product pr : p.filter(true, "8", null, null, null, 1)) {
+            System.out.println(pr.getCategoryId());
         }
     }
 }
