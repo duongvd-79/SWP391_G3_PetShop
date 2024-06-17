@@ -79,8 +79,38 @@ public class ProductListServlet extends HttpServlet {
 
         // Get attributes
         String categoryRaw = request.getParameter("category");
-        String minPriceRaw = request.getParameter("minPrice");
-        String maxPriceRaw = request.getParameter("maxPrice");
+        String minPriceRaw = null;
+        String maxPriceRaw = null;
+        String priceOption = request.getParameter("priceOption");
+        if (priceOption != null && !priceOption.equals("")) {
+            switch (priceOption) {
+                case "price1" -> {
+                    minPriceRaw = "0";
+                    maxPriceRaw = "100000";
+                }
+                case "price2" -> {
+                    minPriceRaw = "100000";
+                    maxPriceRaw = "350000";
+                }
+                case "price3" -> {
+                    minPriceRaw = "350000";
+                    maxPriceRaw = "600000";
+                }
+                case "price4" -> {
+                    minPriceRaw = "600000";
+                    maxPriceRaw = null;
+                }
+                case "customPrice" -> {
+                    minPriceRaw = request.getParameter("minPrice");
+                    maxPriceRaw = request.getParameter("maxPrice");
+                }
+                default -> {
+                    minPriceRaw = null;
+                    maxPriceRaw = null;
+                }
+            }
+        }
+        request.setAttribute("priceOption", priceOption);
         String search = request.getParameter("search");
         if (categoryRaw != null && !categoryRaw.equals("")) {
             int category = Integer.parseInt(categoryRaw);
@@ -88,14 +118,14 @@ public class ProductListServlet extends HttpServlet {
             // Highlight category in next page
             request.setAttribute("category", category);
         }
+
+        // Display page index
         String pageIndexRaw = request.getParameter("page");
         int pageIndex = 1;
         if (pageIndexRaw != null && !pageIndexRaw.equals("")) {
             pageIndex = Integer.parseInt(pageIndexRaw);
         }
         request.setAttribute("page", pageIndex);
-        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, null);
-        request.setAttribute("allproduct", productList);
 
         // Display searched query on searchbar
         request.setAttribute("search", search);
@@ -104,8 +134,13 @@ public class ProductListServlet extends HttpServlet {
 
         // Sort
         String sort = request.getParameter("sort");
-        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, sort);
+
+        productList = productDAO.getActive(true, categoryRaw,
+                minPriceRaw, maxPriceRaw, search, sort, pageIndex);
         request.setAttribute("allproduct", productList);
+        int resultSize = productList.size();
+        request.setAttribute("resultSize", resultSize);
+
         // Remember sort type
         request.setAttribute("sort", sort);
 
@@ -118,11 +153,15 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("oneMonthAgo", oneMonthAgo);
 
         // Get latest product
-        allProduct = productDAO.getActive(false, 0, "Latest");
+        allProduct = productDAO.getActive(false, null, null, null, null, "Latest", 0);
         request.setAttribute("latestproduct", allProduct);
-        
+
         // Pagination
-        int totalProduct = allProduct.size();
+        int totalProduct;
+        // Get total product
+        allProduct = productDAO.getActive(false, categoryRaw,
+                minPriceRaw, maxPriceRaw, search, sort, 0);
+        totalProduct = allProduct.size();
         int maxPage = totalProduct / 8;
         if (totalProduct % 8 != 0) {
             maxPage++;

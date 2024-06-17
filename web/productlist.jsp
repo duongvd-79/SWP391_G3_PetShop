@@ -26,48 +26,24 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-            <!-- Start Slider -->
-            <div id="slides-shop" class="cover-slides">
-                <ul class="slides-container">
-                <c:forEach items="${slider}" var="sl">
-                    <li class="text-center">
-                        <img src="${sl.image}" alt="">
-                        <div class="container">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="sidebar container-fluid col-sm-3">
+                        <!-- Start Sidebar  -->
+                        <div class="container-fluid sticky-top" style="top: 111px;z-index: 2;">
                             <div class="row">
-                                <div class="col-md-12">
-                                    <h1 class="m-b-20"><strong>${sl.title}</strong></h1>
-                                    <p><a class="btn hvr-hover" href="${sl.backLink}">${sl.backLink.contains("product") ? "To Product Details" : "To Blog Details"}</a></p>
+                                <div class="col-12 text-center mt-3">
+                                    <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                </c:forEach>
-            </ul>
-            <div class="slides-navigation">
-                <a href="#" class="next"><i class="bi bi-caret-right-fill" aria-hidden="true"></i></a>
-                <a href="#" class="prev"><i class="bi bi-caret-left-fill" aria-hidden="true"></i></a>
-            </div>
-        </div>
-        <!-- End Slider -->
-
-        <div class="container-fluid">
-            <div class="row">
-                <div class="sidebar container-fluid col-sm-3">
-                    <!-- Start Sidebar  -->
-                    <div class="container-fluid sticky-top" style="top: 111px;z-index: 2;">
-                        <div class="row">
-                            <div class="col-12 text-center mt-3">
-                                <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
-                            </div>
-                        </div>
-                        <form action="productlist" method="get">
-                            <input name="category" value="${category}" hidden>
+                            <form action="productlist" method="get">
+                                <input name="category" value="${category}" hidden>
                             <div class="row border-top pt-3">
                                 <div class="col-12 input-group mb-3">
                                     <input type="text" class="form-control" name="search" placeholder="Search" value="${search}">
                                     <button type="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
                                 </div>
-                                <div class="col-12 mb-3 blog-box pt-2">
+                                <div class="col-12 mb-0 blog-box pt-2">
                                     <h2 style="font-weight: 700">Categories</h2>
                                 </div>
                                 <c:forEach items="${prcategory}" var="pcate">
@@ -75,13 +51,13 @@
                                         <div class="latest-product-content">
                                             <div style="padding: 0px 5px;">
                                                 <h3>
-                                                    <a href="productlist?category=${pcate.id}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">${pcate.name}</a>
+                                                    <a href="?category=${pcate.id}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">${pcate.name}</a>
                                                 </h3>
                                             </div>
                                         </div>
                                         <c:if test="${pcate.id == category}">
                                             <a class="input-group-text text-danger reset-button"
-                                               href="productlist?&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page}">&times;</a>
+                                               href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
                                         </c:if>
                                     </div>
                                 </c:forEach>
@@ -89,37 +65,53 @@
                                     <h2 style="font-weight: 700">Price</h2>
                                 </div>
                                 <div class="col-12">
-                                    <div class="range-slide">
-                                        <div class="slide">
-                                            <div class="line" id="line" style="left: 0%; right: 0%;"></div>
-                                            <span class="thumb" id="thumbMin" style="left: 0%;"></span>
-                                            <span class="thumb" id="thumbMax" style="left: 100%;"></span>
-                                        </div>
-                                        <input class="range" id="rangeMin" type="range" max="1000000" min="50000" step="50000" value="0">
-                                        <input class="range" id="rangeMax" type="range" max="1000000" min="50000" step="50000" value="100">
-                                    </div>
+
                                 </div>
                                 <div class="col-12">
-                                    <div class="display">
-                                        <input type="number" class="form-control mr-5" name="minPrice" id="min" value="${empty minPrice ? "50000" : minPrice}">
-                                        <span>to</span>
-                                        <input type="number" class="form-control ml-5" name="maxPrice" id="max" value="${empty maxPrice ? "1000000" : maxPrice}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="price1" type="radio" name="priceOption" value="price1" ${priceOption eq "price1" ? "checked" : ""}>
+                                        <label class="form-check-label" for="price1">Less than 100.000đ</label>
                                     </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="price2" type="radio" name="priceOption" value="price2" ${priceOption eq "price2" ? "checked" : ""}>
+                                        <label class="form-check-label" for="price2">100.000đ - 350.000đ</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="price3" type="radio" name="priceOption" value="price3" ${priceOption eq "price3" ? "checked" : ""}>
+                                        <label class="form-check-label" for="price3">350.000đ - 600.000đ</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="price4" type="radio" name="priceOption" value="price4" ${priceOption eq "price4" ? "checked" : ""}>
+                                        <label class="form-check-label" for="price4">More than 600.000đ</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" id="customPrice" type="radio" name="priceOption" value="customPrice" ${priceOption eq "customPrice" ? "checked" : ""}>
+                                        <label class="form-check-label" for="customPrice">Custom Price:</label>
+                                    </div>
+                                    <div class="display row">
+                                        <input type="number" class="form-control col" name="minPrice" id="min" value="${minPrice}">
+                                        <span class="col-2 text-center" style="padding: 5px 2px 0  0">to</span>
+                                        <input type="number" class="form-control col" name="maxPrice" id="max" value="${maxPrice}">
+                                    </div>
+                                </div>
+                                <div class="col-12 text-center mb-4">
+                                    <button type="submit" class="btn btn-apply">Apply</button>
+                                    <a type="button" class="btn btn-reset" href="?category=${category}&search=${search.replace(" ", "+")}&sort=${sort.replace(" ", "%20")}">Reset</a>
                                 </div>
                             </div>
                             <input name="sort" value="${sort}" hidden>
                             <input name="page" value="1" hidden>
                         </form>
-                        <div class="row">
+                        <div class="row border-top">
                             <div class="col-12 text-center mt-3">
                                 <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Latest Product</h3>
                             </div>
                         </div>
                         <div class="row border-top pt-3">
-                            <c:forEach items="${requestScope.latestproduct}" var="lp" begin="0" end="1">
+                            <c:forEach items="${latestproduct}" var="lp" begin="0" end="1">
                                 <div class="col-12 blog-box" title="${lp.title}"
                                      onclick="window.location.href = 'productdetail?id=${lp.id}'" style="cursor: pointer">
-                                    <div class="blog-box">
+                                    <div>
                                         <div class="latest-blog-img">
                                             <img class="img-fluid" src="${lp.thumbnail}" alt="" />
                                         </div>
@@ -150,23 +142,30 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-4 d-flex align-items-start justify-content-end">
-                                    <span>
-                                        <span class="mr-2" style="font-size: 18px">Sort:</span>
-                                        <select class="form-select py-2 px-1 mr-5 mt-4" id="sort" title="Sort">
-                                            <option>Default</option>
-                                            <option value="Latest" ${sort == "Latest" ? "selected" : ""}>By Newest Arrivals</option>
-                                            <option value="Oldest" ${sort == "Oldest" ? "selected" : ""}>By Oldest Products</option>
-                                            <option value="Price Asc" ${sort == "Price Asc" ? "selected" : ""}>By Price (Low to High)</option>
-                                            <option value="Price Desc" ${sort == "Price Desc" ? "selected" : ""}>By Price (High to Low)</option>
-                                        </select>
-                                    </span>
+                                    <div class="row">
+                                        <div class="col mr-2 align-content-end text-right" style="font-size: 18px;padding: 0;">Sort:</div>
+                                        <div class="col" style="padding: 0;margin-right: 10px">
+                                            <select class="form-select py-2 px-1 mr-5 mt-4" id="sort" title="Sort">
+                                                <option>Default</option>
+                                                <option value="Latest" ${sort == "Latest" ? "selected" : ""}>By Newest Arrivals</option>
+                                                <option value="Oldest" ${sort == "Oldest" ? "selected" : ""}>By Oldest Products</option>
+                                                <option value="Price Asc" ${sort == "Price Asc" ? "selected" : ""}>By Price (Low to High)</option>
+                                                <option value="Price Desc" ${sort == "Price Desc" ? "selected" : ""}>By Price (High to Low)</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="row" id="featured-list">
+                            <div class="row" id="product-list">
+                                <c:if test="${resultSize == 0}">
+                                    <div class="col-12 text-center">
+                                        <h2>No product matches your search!</h2>
+                                    </div>
+                                </c:if>
                                 <c:forEach items="${allproduct}" var="apr">
                                     <div class="col-lg-3 col-md-6">
-                                        <div class="products-single fix">
+                                        <div class="products-single fix" style="border: solid lightgray 1px;border-radius: 5px">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">
                                                     <c:choose>
@@ -201,26 +200,28 @@
                                     </div>
                                 </c:forEach>
                             </div>
-                            <div class="row justify-content-end mr-1">
-                                <nav>
-                                    <ul class="pagination">
-                                        <c:if test="${page - 2 >= 0}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
-                                            </li>
-                                        </c:if>
-                                        <c:forEach begin="1" end="${totalPage}" var="i">
-                                            <li class="page-item ${page == i ? "active" : ""}">
-                                                <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${i}">${i}</a>
-                                            </li>
-                                        </c:forEach>
-                                        <c:if test="${page + 1 <= totalPage}">
-                                            <li class="page-item">
-                                                <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
-                                            </li>
-                                        </c:if>
-                                    </ul>
-                                </nav>
+                            <div class="px-5 pt-3">
+                                <div class="row justify-content-end mr-1">
+                                    <nav>
+                                        <ul class="pagination">
+                                            <c:if test="${page - 2 >= 0}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
+                                                </li>
+                                            </c:if>
+                                            <c:forEach begin="1" end="${totalPage}" var="i">
+                                                <li class="page-item ${page == i ? "active" : ""}">
+                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${i}">${i}</a>
+                                                </li>
+                                            </c:forEach>
+                                            <c:if test="${page + 1 <= totalPage}">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
+                                                </li>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -253,67 +254,49 @@
                                              var selectedValue = this.value;
                                              window.location.href = 'productlist?category=${category}'
                                                      + '&search=${search.replace(" ", "+")}'
+                                                     + '&priceOption=${priceOption}'
                                                      + '&minPrice=${minPrice}'
                                                      + '&maxPrice=${maxPrice}&sort=' + selectedValue +
                                                      '&page=${page}';
                                          });
         </script>
         <script>
-            let min = 50000;
-            let max = 1000000;
-            const calcLeftPosition = value => 100 / (1000000 - 50000) * (value - 50000);
-            const updateSliderValues = (num1, num2) => {
-                document.getElementById('line').style.left = calcLeftPosition(num1) + '%';
-                document.getElementById('line').style.right = (100 - calcLeftPosition(num2)) + '%';
-            }
+            document.addEventListener('DOMContentLoaded', function () {
+                const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
+                const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
+                const customPriceInputs = document.querySelectorAll('.display input');
 
-            document.getElementById('rangeMin').addEventListener('input', (e) => {
-                const newValue = ${empty minPrice ? "parseInt(e.target.value)" : minPrice};
-                if (newValue <= max) {
-                    min = newValue;
-                    document.getElementById('thumbMin').style.left = calcLeftPosition(newValue) + '%';
-                    document.getElementById('min').value = newValue;
-                    updateSliderValues(min, max);
+                function updateStates() {
+                    if (customPriceRadio.checked) {
+                        customPriceInputs.forEach(input => input.disabled = false);
+                    } else {
+                        customPriceInputs.forEach(input => input.disabled = true);
+                    }
                 }
-            });
-            document.getElementById('rangeMax').addEventListener('input', (e) => {
-                const newValue = ${empty maxPrice ? "parseInt(e.target.value)" : maxPrice};
-                if (newValue >= min) {
-                    max = newValue;
-                    document.getElementById('thumbMax').style.left = calcLeftPosition(newValue) + '%';
-                    document.getElementById('max').value = newValue;
-                    updateSliderValues(max, min);
-                }
-            });
 
-            document.getElementById('min').addEventListener('input', (e) => {
-                const newValue = parseInt(e.target.value);
-                if (newValue >= 50000 && newValue <= max) {
-                    min = newValue;
-                    document.getElementById('thumbMin').style.left = calcLeftPosition(newValue) + '%';
-                    document.getElementById('min').value = newValue;
-                    updateSliderValues(min, max);
-                }
-            });
-            document.getElementById('max').addEventListener('input', (e) => {
-                const newValue = parseInt(e.target.value);
-                if (newValue <= 1000000 && newValue >= min) {
-                    max = newValue;
-                    document.getElementById('thumbMax').style.left = calcLeftPosition(newValue) + '%';
-                    document.getElementById('max').value = newValue;
-                    updateSliderValues(max, min);
-                }
+                // Initial state check
+                updateStates();
+
+                predefinedPrices.forEach(price => {
+                    price.addEventListener('change', function () {
+                        updateStates();
+                    });
+                });
+                customPriceRadio.addEventListener('change', function () {
+                    updateStates();
+                });
             });
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const selectedCate = '<%= request.getParameter("category") %>';
+                const selected = '<%= request.getParameter("category") %>';
 
-                if (selectedCate && selectedCate.trim() !== "") {
-                    const cates = document.querySelectorAll('.blog-content a');
+                if (selected && selected.trim() !== '') {
+                    Cate = 'category=' + selected;
+                    const cates = document.querySelectorAll('.product-content a');
 
                     cates.forEach(cate => {
-                        if (cate.getAttribute('href').includes(selectedCate)) {
+                        if (cate.getAttribute('href').includes(Cate)) {
                             cate.parentElement.parentElement.parentElement.parentElement.style.transform = 'scale(1.1) translateX(20px)';
                             cate.style.fontWeight = '900';
                         }

@@ -199,7 +199,7 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                        <span class="badge">${requestScope.cart.size()}</span>
+                        <span class="badge">${requestScope.cartList.size()}</span>
                         <p>My Cart</p>
                     </a>
                 </li>
