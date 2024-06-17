@@ -71,14 +71,15 @@ public class MyOrdersServlet extends HttpServlet {
         if(request.getParameter("status")==null)
             status="submitted";
         
+        User user = (User)session.getAttribute("user");
         List<Order> oList ;
         List<Product> pList;
         List<Integer> remainNum ;
         List<Integer> pQuantity = new ArrayList<>();
         
-        oList = oDAO.getAll(status,((User)session.getAttribute("user")).getId());
+        oList = oDAO.getAll(status,user.getId());
         pList = pDAO.getProductForEachOrder(((User)session.getAttribute("user")).getId(),status);
-        remainNum= oDAO.getRemainNumOfProductEachOrder(status, ((User)session.getAttribute("user")).getId());
+        remainNum= oDAO.getRemainNumOfProductEachOrder(status, user.getId());
         for(int i=0;i<oList.size();i++){
             pQuantity.add(odDAO.getQuantity(pList.get(i).getId(),oList.get(i).getId() ));
         }

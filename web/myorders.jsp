@@ -54,7 +54,7 @@
                 <%-- List of My order--%>
                 <c:if test="${length >= 0 }">
                     <c:forEach begin="0" end="${length}" var="i" step="1">
-                    <div style="height:150px;color: black;font-size: 20px;border-bottom: #dadada solid 1px;" class="row col-12">
+                    <div style="height:150px;color: black;font-size: 20px;border-bottom: #dadada solid 1px;" class="row col-12 p-0 m-0">
                         <div class="col-2 d-flex flex-column justify-content-center ">
                             <div>Order ID : ${oList[i].id}</div>
                             <div>Date : ${oList[i].orderedDate}</div>

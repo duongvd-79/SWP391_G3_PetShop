@@ -10,7 +10,7 @@
     <div class="popup">
         <div class="form-block">
             <div class="mb-4">
-                <h3>Change Password</h3>
+                <h2>Change Password</h2>
                 <a class="close" href="#">&times;</a>
             </div>
             <form action="changepassword" method="post">
