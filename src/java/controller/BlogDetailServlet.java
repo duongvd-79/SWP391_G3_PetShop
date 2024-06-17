@@ -17,7 +17,7 @@ import model.Post;
  *
  * @author Acer
  */
-public class PostDetailServlet extends HttpServlet {
+public class BlogDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,7 +30,7 @@ public class PostDetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         String pid = request.getParameter("pid");
+        String pid = request.getParameter("id");
          PostDAO dao = new PostDAO();
          Post pdetail = dao.getPostById(pid);
          request.setAttribute("postdetail", pdetail);

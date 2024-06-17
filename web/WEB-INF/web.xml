@@ -5,14 +5,6 @@
         <servlet-class>controller.HomeServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>PostListServlet</servlet-name>
-        <servlet-class>controller.PostListServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>PostDetailServlet</servlet-name>
-        <servlet-class>controller.PostDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>controller.ProductDetailServlet</servlet-class>
     </servlet>
@@ -44,6 +36,30 @@
         <servlet-name>SettingServlet</servlet-name>
         <servlet-class>controller.SettingServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddBlogServlet</servlet-name>
+        <servlet-class>controller.AddBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogManagerServlet</servlet-name>
+        <servlet-class>controller.BlogManagerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBlogServlet</servlet-name>
+        <servlet-class>controller.EditBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortBlogServlet</servlet-name>
+        <servlet-class>controller.SortBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <servlet-class>controller.BlogDetailServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -51,14 +67,6 @@
     <servlet-mapping>
         <servlet-name>SettingServlet</servlet-name>
         <url-pattern>/setting</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PostListServlet</servlet-name>
-        <url-pattern>/postlist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>PostDetailServlet</servlet-name>
-        <url-pattern>/postdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
@@ -88,6 +96,28 @@
         <servlet-name>AddUserServlet</servlet-name>
         <url-pattern>/adduser</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBlogServlet</servlet-name>
+        <url-pattern>/addblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogManagerServlet</servlet-name>
+        <url-pattern>/BlogManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBlogServlet</servlet-name>
+        <url-pattern>/editblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortBlogServlet</servlet-name>
+        <url-pattern>/sortblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <url-pattern>/blogdetail</url-pattern>
+    </servlet-mapping>
 </web-app>
-
-

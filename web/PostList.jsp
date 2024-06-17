@@ -173,7 +173,7 @@
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="postlist">Blog</a></li>
+                            <li class="nav-item"><a class="nav-link" href="bloglist">Blog</a></li>
                             <li class="nav-item"><a class="nav-link" href="contact-us">Contact Us</a></li>
                         </ul>
                     </div>
@@ -301,7 +301,7 @@
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <a href="postdetail?pid=`+post.id+`" title="`+post.title+`" class="image-resize ratiobox">
+                                <a href="blogdetail?pid=`+post.id+`" title="`+post.title+`" class="image-resize ratiobox">
                                     <p class="ellipsis-text" style="font-weight: bold">`+post.title+`</p>
                                 </a>
                             </div>

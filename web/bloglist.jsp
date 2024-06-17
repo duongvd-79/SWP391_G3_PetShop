@@ -219,7 +219,6 @@
                 renderPosts(currentPage);
                 renderPagination();
             });
-            //có đoạn này e thêm k phải thì a xoá nhé 
              document.getElementById('categorySelect').addEventListener('change', function() {
         if (this.value == "0") {
             window.location.href = '/bloglist';
