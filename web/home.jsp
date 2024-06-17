@@ -7,14 +7,13 @@
         <meta content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>PetShop Home Page</title>
+        <title>PetShop Homepage</title>
 
         <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         <!-- Icon CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <!-- Site CSS -->
@@ -163,14 +162,7 @@
                                         <div class="products-single fix">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">
-                                                    <c:choose>
-                                                        <c:when test="${(apr.isFeatured)}">
-                                                            <p class="sale">Hot</p>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <p class="new">New</p>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                    <p class="sale">Hot</p>
                                                 </div>
                                                 <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
                                                 <div class="mask-icon">

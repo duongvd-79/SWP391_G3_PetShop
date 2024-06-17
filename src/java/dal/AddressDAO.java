@@ -64,7 +64,7 @@ public class AddressDAO extends DBContext {
             stm.setInt(1, userId);
             rs = stm.executeQuery();
             if (rs.next()) {
-                String sql2 = "SELECT * FROM address WHERE id = ?";
+                String sql2 = "SELECT * FROM address WHERE id = ? AND is_default = 1";
                 stm = connection.prepareStatement(sql2);
                 stm.setInt(1, rs.getInt("address_id"));
                 rs = stm.executeQuery();
