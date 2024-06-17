@@ -65,111 +65,11 @@
             if (user == null) {
         %>
         <!-- Login Popup -->
-        <div id="login" class="overlay">
-            <div class="popup">
-                <div class="form-block">
-                    <div class="mb-4">
-                        <h3>Sign In to <strong>PetShop</strong></h3>
-                        <a class="close" id="login-close" href="#">&times;</a>
-                    </div>
-                    <form action="login" method="post">
-                        <div class="form-group first">
-                            <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
-                            <p class="text-danger">${sessionScope.error}</p>
-                            <%
-                                session.removeAttribute("error");
-                            %>
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" value="${sessionScope.username}">
-                        </div>
-                        <div class="form-group last mb-1 position-relative">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="login-password" name="password">
-                            <span id="togglePassword"><i class="bi bi-eye"></i></span>
-                        </div>
-                        <div class="d-flex mb-4 align-items-center">
-                            <!--Reset password-->
-                            <span class="ml-auto"><a href="#reset" class="forgot-pass">Reset Password</a></span>
-                        </div>
-                        <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
-                    </form>
-                    <div class="social-login text-center mt-2">
-                        <a href="#register">or <strong>Sign Up</strong></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="login.jsp"></jsp:include>
         <!-- End Login Popup -->
 
         <!-- Begin Register Popup -->
-        <div id="register" class="overlay">
-            <div class="popup2">
-                <div class="form-block">
-                    <div class="mb-1">
-                        <h3><strong>Register</strong></h3>
-                        <a class="close" href="#">&times;</a>
-                    </div>
-                    <form action="register" method="post">
-                        <div class="form-group first mb-2">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="password">Confirm password</label>
-                            <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
-                        </div>
-                        <div class="form-group last mb-2">
-                            <label for="fullname">Full Name</label>
-                            <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getName()}">
-                        </div>
-                        <div class="form-group last mb-1">
-                            <label for="phone">Phone</label>
-                            <input type="text" class="form-control" pattern="^[0-9]{10}$" title="Phone must contain 10 number" id="phone" name="phone" placeholder="Phone number" required="" value="${newuser.getPhone()}">
-                        </div>
-                        <div class="row">
-                            <div class="col-4 form-group mt-2 mb-1">
-                                <input type="radio" name="gender" id="male" value="Male" checked>
-                                <label for="male">
-                                    Male
-                                </label>
-                            </div>
-                            <div class="col-3 form-group mt-2 mb-0">
-                                <input type="radio" name="gender" value="Female" id="female" >
-                                <label for="female">
-                                    Female
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group last mb-3">
-                            <label for="fullname">Address</label>
-                            <div class="d-flex justify-content-start">
-                                <div class="mr-3">
-                                    <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm" required>
-                                        <option selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" required>
-                                        <option selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
-                        </div>
-                        <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
-                    </form>
-                    <span class="text-danger">${sessionScope.alert}</span>
-                    <div class="social-login text-center mt-2">
-                        <span>Already had an account? </span>
-                        <a href="#login"><strong>Sign In</strong></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <jsp:include page="register.jsp"></jsp:include>
         <!-- End Register Popup -->
 
         <!-- Begin Verify email popup -->
@@ -213,6 +113,8 @@
         %>
         <!-- Begin User Profile -->
         <jsp:include page="userProfile.jsp"></jsp:include>
+        <!-- End User Profile -->
+        <jsp:include page="changepassword.jsp"></jsp:include>
             <!-- End User Profile -->
         <%}%>
     </nav>
@@ -482,3 +384,137 @@
         path.value = window.location.pathname.split('/').pop();
     });
 </script>
+<script>
+    // Field guide popup
+    const nameInput = document.getElementById('pfname');
+    const nameInfo = document.getElementById('name-info');
+    const emailInput = document.getElementById('pfemail');
+    const emailInfo = document.getElementById('email-info');
+    const phoneInput = document.getElementById('pfphone');
+    const phoneInfo = document.getElementById('phone-info');
+
+    nameInput.addEventListener('focus', () => {
+        nameInfo.style.display = 'block';
+    });
+    nameInput.addEventListener('blur', () => {
+        nameInfo.style.display = 'none';
+    });
+
+    emailInput.addEventListener('mouseover', () => {
+        emailInfo.style.display = 'block';
+    });
+    emailInput.addEventListener('mouseout', () => {
+        emailInfo.style.display = 'none';
+    });
+
+    phoneInput.addEventListener('focus', () => {
+        phoneInfo.style.display = 'block';
+    });
+    phoneInput.addEventListener('blur', () => {
+        phoneInfo.style.display = 'none';
+    });
+
+    // Render cites & districts
+    var cities = document.getElementById("pfcity");
+    var districts = document.getElementById("pfdistrict");
+
+    var Parameter = {
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const city of data) {
+            const option = new Option(city.Name);
+            option.value = city.Name;
+            option.selected = city.Name === '${sessionScope.address.getCity()}';
+            cities.add(option);
+        }
+
+        if (cities.value !== "") {
+            renderDistrict(cities.value, data);
+        }
+        cities.onchange = function () {
+            renderDistrict(this.value, data);
+        };
+
+        function renderDistrict(selectedCityName, data) {
+            districts.length = 1;
+
+            if (selectedCityName !== "") {
+                const selectedCity = data.find(city => city.Name === selectedCityName);
+
+                for (const district of selectedCity.Districts) {
+                    const option = new Option(district.Name);
+                    option.value = district.Name;
+                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
+                    districts.add(option);
+                }
+            }
+        }
+    }
+    
+    // Image upload
+    var file = document.getElementById('file-upload');
+    var previewImage = document.getElementById('preview-img');
+
+    file.addEventListener('change', function () {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
+    });
+    file.addEventListener('change', (e) => {
+        var reader = new FileReader();
+
+        reader.onload = (event) => {
+            previewImage.src = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+    });
+    
+    // Toggle save button on changes
+    document.addEventListener('DOMContentLoaded', function () {
+        var name = document.getElementById('pfname');
+        var phone = document.getElementById('pfphone');
+        var male = document.getElementById('pfmale')
+        var female = document.getElementById('pffemale')
+        var city = document.getElementById('pfcity');
+        var district = document.getElementById('pfdistrict');
+        var detailaddress = document.getElementById('pfdetailaddress');
+        var saveButton = document.getElementById('save-button');
+        const originalName = '${sessionScope.user.name}';
+        const originalPhone = '${sessionScope.user.phone}';
+        const originalGender = '${sessionScope.user.gender}';
+        const originalCity = '${sessionScope.address.city}';
+        const originalDistrict = '${sessionScope.address.district}';
+        const originalDetailAddress = '${sessionScope.address.detail}';
+
+        function toggleButton() {
+            if (name.value !== originalName || phone.value !== originalPhone
+                    || (originalGender === 'Male' && female.checked)
+                    || (originalGender === 'Female' && male.checked)
+                    || file.value !== '' || city.value !== originalCity
+                    || district.value !== originalDistrict
+                    || detailaddress.value !== originalDetailAddress) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
+        };
+
+        name.addEventListener('input', toggleButton);
+        phone.addEventListener('input', toggleButton);
+        male.addEventListener('change', toggleButton);
+        female.addEventListener('change', toggleButton);
+        file.addEventListener('change', toggleButton);
+        city.addEventListener('change', toggleButton);
+        district.addEventListener('change', toggleButton);
+        detailaddress.addEventListener('input', toggleButton);
+    });
+</script>
+
