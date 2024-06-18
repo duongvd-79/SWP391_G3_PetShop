@@ -71,7 +71,7 @@ public class FeedbackDAO extends DBContext {
         return 0;
     }
 
-    public int getCountFeedback(String start, String end,String pcategory) {
+    public int getCountFeedback(String start, String end, String pcategory) {
         String sql = "SELECT COUNT(*) AS count\n"
                 + "FROM product_feedback as pf\n"
                 + " JOIN product as p ON p.id = pf.product_id\n"
@@ -92,9 +92,37 @@ public class FeedbackDAO extends DBContext {
         return 0;
     }
 
+    public void AddFeedback(int pid, int uid, String content, int star, String pic, String status, String date) throws SQLException {
+        String sql = "INSERT INTO product_feedback (product_id, user_id, detail, star, image, status, created_date) VALUES (?,?,?,?,?,?,?);";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, pid);
+            sta.setInt(2, uid);
+            sta.setString(3, content);
+            sta.setInt(4, star);
+            sta.setString(5, pic);
+            sta.setString(6, status);
+            sta.setString(7, date);
+            sta.executeUpdate();
+
+        }
+    }
+    
+    public void AddFeedbackImage(int pid, int uid, String image) throws SQLException {
+        String sql = "INSERT INTO product_feedback (product_id, user_id, detail, star, image, status, created_date) VALUES (?,?,?,?,?,?,?);";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, pid);
+            sta.setInt(2, uid);
+            sta.setString(3, image);
+            sta.executeUpdate();
+
+        }
+    }
+    
+    
+
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
-        System.out.println(f.getCountFeedback("2023-01-01","2024-08-08","6"));
+        System.out.println(f.getCountFeedback("2023-01-01", "2024-08-08", "6"));
     }
 
 }

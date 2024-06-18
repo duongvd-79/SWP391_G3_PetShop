@@ -137,7 +137,7 @@
                             <c:if test="${not empty fl}">
                                 <a href="#" class="btn hvr-hover">See more</a>
                             </c:if>
-                            <a href="#" class="btn hvr-hover">Leave a Review</a>
+                            <a href="feedback?productid=${requestScope.product.id}" class="btn hvr-hover">Leave a Review</a>
                         </div>
                     </div>
                 </div>
