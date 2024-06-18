@@ -23,8 +23,8 @@
                 </div>
                 <div class="form-group last mb-1 position-relative">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="login-password" name="password">
-                    <span id="togglePassword"><i class="bi bi-eye"></i></span>
+                    <input type="password" class="form-control" id="login-password1" name="password">
+                    <span id="togglePassword1" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="d-flex mb-4 align-items-center">
                     <!--Reset password-->

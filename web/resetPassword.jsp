@@ -29,13 +29,15 @@
                     <a class="close" href="#">&times;</a>
                 </div>
                 <form action="resetpassword" method="post">
-                    <div class="form-group last mb-2">
+                    <div class="form-group last mb-2 position-relative">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Enter password" required="">
+                        <input type="password" class="form-control" id="login-password4" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="password" placeholder="Enter password" required="">
+                        <span id="togglePassword4" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                     </div>
-                    <div class="form-group last mb-2">
+                    <div class="form-group last mb-2 position-relative">
                         <label for="password">Confirm password</label>
-                        <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
+                        <input type="password" class="form-control" id="login-password5" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
+                        <span id="togglePassword5" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                     </div>
                     <p class="text-danger mb-2">${sessionScope.alert1}</p>
                     <%
