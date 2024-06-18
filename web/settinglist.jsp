@@ -134,7 +134,7 @@
                         </div>
                     </div>
 
-                    <nav aria-label="setting list paging ">
+                    <nav aria-label="setting list paging">
                         <ul class="pagination d-flex justify-content-end mb-2">
                             <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
 

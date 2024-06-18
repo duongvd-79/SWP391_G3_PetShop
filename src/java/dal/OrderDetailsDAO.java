@@ -49,9 +49,13 @@ public class OrderDetailsDAO extends DBContext {
         return null;
     }
 
-    public double getRevenue() {
+    public double getRevenue(String pcategory) {
         try {
-            String sql = "SELECT SUM(sell_price * quantity) AS totalRevenue FROM order_details";
+            String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
+                    + "JOIN product AS p ON p.id = od.product_id";
+            if (pcategory != null) {
+            sql += " where p.category_id = '" + pcategory + "'";
+             }
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             if (rs.next()) {
@@ -62,7 +66,6 @@ public class OrderDetailsDAO extends DBContext {
         return 0;
     }
 
-    // Method to calculate profit
     public double getProfit() {
         String sql = "SELECT SUM((sell_price - import_price) * quantity) AS totalProfit FROM order_details";
         try {
@@ -73,12 +76,16 @@ public class OrderDetailsDAO extends DBContext {
             }
         } catch (SQLException e) {
         }
-        return 0; // Return 0 if there's an error or no profit found
+        return 0;
     }
 
-    public double getRevenue(String start, String end) {
-        String sql = "SELECT SUM(sell_price * quantity) AS totalRevenue FROM order_details as od "
-                + "JOIN `order` as o ON o.id = od.order_id WHERE ordered_date between '" + start + "' and '" + end + "'";
+    public double getRevenue(String start, String end,String pcategory) {
+        String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
+                + "JOIN `order` as o ON o.id = od.order_id JOIN product AS p ON p.id = od.product_id "
+                + "WHERE ordered_date between '" + start + "' and '" + end + "'";
+        if (pcategory != null) {
+            sql += "and p.category_id = '" + pcategory + "'";
+        }
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -86,9 +93,9 @@ public class OrderDetailsDAO extends DBContext {
                 return rs.getDouble("totalRevenue");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace(); 
         }
-        return 0; // Return 0 if there's an error or no revenue found
+        return 0; 
     }
 
     // Method to calculate revenue in a specific month of a year
@@ -105,7 +112,7 @@ public class OrderDetailsDAO extends DBContext {
             }
         } catch (SQLException e) {
         }
-        return 0; // Return 0 if there's an error or no revenue found
+        return 0; 
     }
 
     // Method to calculate profit in a specific month of a year
@@ -123,9 +130,9 @@ public class OrderDetailsDAO extends DBContext {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace(); 
         }
-        return 0; // Return 0 if there's an error or no profit found
+        return 0; 
     }
     // get product quantity
     public int getQuantity(int pid, int oid) {
@@ -140,12 +147,12 @@ public class OrderDetailsDAO extends DBContext {
             }
         } catch (SQLException e) {
         }
-        return 0; // Return 0 if there's an error or no profit found
+        return 0; 
     }
 
     public static void main(String[] args) {
         OrderDetailsDAO oDAO = new OrderDetailsDAO();
-        System.out.println(oDAO.getQuantity(1, 2));
+        System.out.println(oDAO.getRevenue("10"));
         System.out.println("hehe");
     }
 }

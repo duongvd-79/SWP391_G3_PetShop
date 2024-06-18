@@ -12,6 +12,9 @@
                     <input type="email" class="form-control" id="email" name="email" value="${sessionScope.email}" placeholder="Enter your email" required="">
                 </div>
                 <p class="text-danger mb-2">${sessionScope.alert}</p>
+                <%
+                        session.removeAttribute("alert");
+                    %>
                 <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
             </form>
         </div>
@@ -35,6 +38,9 @@
                         <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" name="cfpassword" placeholder="Confirm your password" required="">
                     </div>
                     <p class="text-danger mb-2">${sessionScope.alert1}</p>
+                    <%
+                        session.removeAttribute("alert1");
+                    %>
                     <input type="submit" value="Submit" class="btn btn-pill text-white btn-block btn-primary">
                 </form>
             </div>

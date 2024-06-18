@@ -45,8 +45,9 @@
                 <%} else {%>
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name} <i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu pb-1">
                         <li><a class="nav-link" href="#profile">User Profile</a></li>
+                        <li><a class="nav-link" href="#changepassword">Change password</a></li>
                             <c:if test="${user.getRoleId()==1}">
                             <li><a class="nav-link" href="admindashboard">Admin</a></li>
                             </c:if>
@@ -516,5 +517,20 @@
         district.addEventListener('change', toggleButton);
         detailaddress.addEventListener('input', toggleButton);
     });
+    
+    document.querySelectorAll('input[type="password"]').forEach(input => {
+    let revealButton = document.createElement('button');
+    revealButton.textContent = 'Show';
+    revealButton.onclick = function() {
+        if (input.type === 'password') {
+            input.type = 'text';
+            revealButton.textContent = 'Hide';
+        } else {
+            input.type = 'password';
+            revealButton.textContent = 'Show';
+        }
+    };
+    input.parentNode.insertBefore(revealButton, input.nextSibling);
+});
 </script>
 

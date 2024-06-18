@@ -31,6 +31,11 @@
         <link href="css/admin.css" rel="stylesheet">
         <title>User List</title>
     </head>
+    <style>
+        #search-form{
+                display:none !important;
+            }
+    </style>
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->

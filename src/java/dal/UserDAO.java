@@ -248,7 +248,7 @@ public class UserDAO extends DBContext {
         sta.setString(2, u.getPassword());
         sta.setString(3, u.getName());
         sta.setBoolean(4, (u.getGender().equals("Male")));
-        sta.setString(5, u.getStatus());
+        sta.setString(5, "Active");
         sta.setInt(6, u.getRoleId());
         sta.setString(7, u.getPhone());
         sta.executeUpdate();

@@ -43,12 +43,12 @@
 
                     </div>
                     <div class="navbar-nav w-100 mb-1">
-                        <a href="admindashboard" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
+                        <a href="admindashboard" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
                         <div class="border-0 mb-1">
                             <a style="margin-left: 41%;color:#009CFF; " href="#" class="nav-item active h7">Setting Details</a>
                         </div>
-                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>

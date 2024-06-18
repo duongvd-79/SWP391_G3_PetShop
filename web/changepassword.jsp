@@ -27,6 +27,9 @@
                     <input type="password" name="cfnewpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" id="password" name="password">
                 </div>
                 <div class="mb-3 text-danger">${sessionScope.alert}</div> 
+                <%
+                        session.removeAttribute("alert");
+                %>
                 <input type="submit" value="Save" class="btn btn-pill text-white btn-block btn-primary">
             </form>
         </div>

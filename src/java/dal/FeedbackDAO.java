@@ -8,6 +8,8 @@ package dal;
  *
  * @author Admin
  */
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -91,10 +93,46 @@ public class FeedbackDAO extends DBContext {
         }
         return 0;
     }
+    
+    public double getAverageRating(String pcategory) {
+        String sql = "SELECT AVG(pf.star) AS averageRating "
+                + "FROM product_feedback as pf "
+                + "JOIN product as p ON p.id = pf.product_id";
+        if (pcategory != null) {
+            sql += " AND p.category_id = '" + pcategory + "'";
+        }
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                BigDecimal bd = new BigDecimal(rs.getDouble("averageRating")).setScale(2, RoundingMode.HALF_UP);
+                return bd.doubleValue();
+            }
+        } catch (SQLException e) {
+        }
+        return 0;
+    }
+    public double getAverageRating(String start, String end, String pcategory) {
+        String sql = "SELECT AVG(pf.star) AS averageRating "
+                + "FROM product_feedback as pf "
+                + "JOIN product as p ON p.id = pf.product_id "
+                + "WHERE pf.created_date between '" + start + "' and '" + end + "'";
+        if (pcategory != null) {
+            sql += " AND p.category_id = '" + pcategory + "'";
+        }
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                BigDecimal bd = new BigDecimal(rs.getDouble("averageRating")).setScale(2, RoundingMode.HALF_UP);
+                return bd.doubleValue();
+            }
+        } catch (SQLException e) {
+        }
+        return 0;
+    }
 
     public static void main(String[] args) {
         FeedbackDAO f = new FeedbackDAO();
-        System.out.println(f.getCountFeedback("2023-01-01","2024-08-08","6"));
+        System.out.println(f.getAverageRating("6"));
     }
 
 }

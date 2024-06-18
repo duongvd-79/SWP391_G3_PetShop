@@ -18,34 +18,37 @@ import model.User;
  * @author duongvu
  */
 public class LoginServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");  
+            out.println("<title>Servlet LoginServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -64,8 +67,9 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -73,25 +77,32 @@ public class LoginServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         AddressDAO addressDAO = new AddressDAO();
-        
+
         String email = request.getParameter("email").trim();
         String password = request.getParameter("password");
-        
+
         User user = userDAO.login(email, MD5.getMD5(password));
-        
+
         if (user != null) {
-            HttpSession session = request.getSession(true);
-            Address address = addressDAO.getAddress(user.getId());
-            
-            // Get previous page
-            String page = request.getParameter("page");
-            
-            session.setAttribute("user", user);
-            session.setAttribute("address", address);
-            response.sendRedirect(page);
+            if (!user.getStatus().equalsIgnoreCase("Active")) {
+                String error = "You are not allow to login!";
+                HttpSession session = request.getSession(true);
+                session.setAttribute("error", error);
+                response.sendRedirect("home#login");
+            } else {
+                HttpSession session = request.getSession(true);
+                Address address = addressDAO.getAddress(user.getId());
+
+                // Get previous page
+                String page = request.getParameter("page");
+
+                session.setAttribute("user", user);
+                session.setAttribute("address", address);
+                response.sendRedirect("home");
+            }
         } else {
             String error = "Wrong email or password!";
             HttpSession session = request.getSession(true);
@@ -101,8 +112,9 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

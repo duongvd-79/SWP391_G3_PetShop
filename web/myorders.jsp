@@ -39,46 +39,58 @@
         <body>
 
             <div style="min-height:759px;" class="container ">
-                <div class="row" style="background-color: #F5F5F5;">
+                <div class="row">
                     <ul class="nav nav-tabs w-100">
                         <li class="nav-item status">
                             <a style="border-bottom:#0D6EFD solid 0px;" class="nav-link text-primary ${'submitted'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=submitted">Submitted</a>
-                        </li> 
-                        <li class="nav-item status">
-                            <a style="border-bottom:#198754 solid 0px;" class="nav-link text-success ${'success'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=success">Success</a>
-                        </li>
-                        <li class="nav-item status">
-                            <a style="border-bottom:#DC3545 solid 0px;" class="nav-link text-danger ${'cancelled'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=cancelled">Cancelled</a>
-                        </li>
-                    </ul>
+                    </li> 
+                    <li class="nav-item status">
+                        <a style="border-bottom:#198754 solid 0px;" class="nav-link text-success ${'success'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=success">Success</a>
+                    </li>
+                    <li class="nav-item status">
+                        <a style="border-bottom:#DC3545 solid 0px;" class="nav-link text-danger ${'cancelled'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=cancelled">Cancelled</a>
+                    </li>
+                </ul>
+            </div>
+                    <div style="background-color: #f9f9f9;border: #dadada solid 1px;position: relative;" class="row d-flex pb-5">
+
                 <%-- List of My order--%>
                 <c:if test="${length >= 0 }">
                     <c:forEach begin="0" end="${length}" var="i" step="1">
-                    <div style="height:150px;color: black;font-size: 20px;border-bottom: #dadada solid 1px;" class="row col-12 p-0 m-0">
-                        <div class="col-2 d-flex flex-column justify-content-center ">
-                            <div>Order ID : ${oList[i].id}</div>
-                            <div>Date : ${oList[i].orderedDate}</div>
-                        </div>
-                        <div class="col-8 d-flex align-items-center">
-                            <img class="mx-4" height="100" src="${pList[i].thumbnail}" alt="alt"/>
-                            <div >
-                                <div>${pList[i].title} x ${pQuantity[i]}</div>
-                                <div>And ${remainNum[i]} more product <a class="text-primary" href="#">VIEW DETAILS HERE</a></div>
+                        <div style="height:150px;" color: black;font-size: 20px;border-bottom: #dadada solid 1px;" class="row col-12 p-0 m-0">
+                            <div class="col-2 d-flex flex-column justify-content-center ">
+                                <div>Order ID : ${oList[i].id}</div>
+                                <div>Date : ${oList[i].orderedDate}</div>
+                            </div>
+                            <div class="col-8 d-flex align-items-center">
+                                <img class="mx-4" height="100" src="${pList[i].thumbnail}" alt="alt"/>
+                                <div >
+                                    <div>${pList[i].title} x ${pQuantity[i]}</div>
+                                    <div>And ${remainNum[i]} more product <a class="text-primary" href="#">VIEW DETAILS HERE</a></div>
+                                </div>
+                            </div>
+                            <div class="col-2 d-flex align-items-center">
+                                <div><b>Total Cost: ${oList[i].total}</b></div>
                             </div>
                         </div>
-                        <div class="col-2 d-flex align-items-center">
-                            <div><b>Total Cost: ${oList[i].total}</b></div>
-                        </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                    <nav style="position: absolute;bottom: 5px; left:10px;" aria-label="setting list paging">
+                        <ul class="pagination d-flex justify-content-end mb-2">
+                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="myorders?status=${status}&page=${page-1}" >Previous</a></li>
+                                <c:forEach begin="1" end="${requestScope.pageNum}" step="1" var="i">
+                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${i}">${i}</a></li>
+                                </c:forEach>
+                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="myorders?status=${status}&page=${page+1}">Next</a></li>
+                        </ul>
+                    </nav>
                 </c:if>
 
                 <%-- Empty List --%>
                 <c:if test="${length < 0}">
-                <div class="col-12 d-flex justify-content-between align-items-center p-0">
-                    <img style="width:50%;margin: 50px auto 0px;" src="images/no-order.svg" alt="alt"/>
-                </div>
-                <div class="col-12 d-flex justify-content-center mb-5 h5">No Order Here</div>
+                    <div class="col-12 d-flex justify-content-between align-items-center p-0">
+                        <img style="width:47%;margin: 20px auto 0px;" src="images/no-order.svg" alt="alt"/>
+                    </div>
+                    <div class="col-12 d-flex justify-content-center mb-5 h5">No Order Here</div>
                 </c:if>
             </div>
         </div>

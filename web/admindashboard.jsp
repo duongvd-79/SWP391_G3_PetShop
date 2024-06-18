@@ -40,6 +40,19 @@
             #search-form{
                 display:none !important;
             }
+            .star-rating {
+                font-size: 1.5rem;
+                color: gray;
+            }
+
+            .star-rating::before {
+                content: '★★★★★';
+                color: gold;
+                white-space: nowrap;
+                width: var(--rating-width, 50%);
+                height:30px;
+                transition: width 0.3s;
+            }
         </style>
         <title>ADMIN DASHBOARD</title>
     </head>
@@ -69,6 +82,7 @@
             <div class="content">
                 <!-- Header  Start-->
                 <jsp:include page="adminheader.jsp"></jsp:include>
+                <jsp:include page="userProfile.jsp"></jsp:include>
                     <!-- Header End -->
                     <div class="container-fluid rounded bg-white mt-4 mb-5 px-3">
                         <div class="row">
@@ -157,14 +171,15 @@
                                         <h3 class="card-title fw-bolder">FEEKBACKS</h3>
                                     </div> 
                                 </div>
-                                <h1 class="mt-1 mb-3">${numOfFb}</h1>
-                                <span class="h6 text-uppercase">${interval}&emsp;${pname}</span>
+                                <h1 class="mt-1 mb-3">${numOfFb} &emsp;&emsp;Rating:${avgRating}</h1>
+                                <span class="h6 text-uppercase d-block">${interval}&emsp;${pname}</span>
+                                
                             </div>
                         </div>
                         <!--customer--> 
                         <div class="col-12 col-lg-6 d-flex p-0 mt-3">
                             <div class="card w-100">
-                                <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-header d-flex justify-content-between align-items-center bg-warning text-white">
                                     <span class="card-title ms-2 h5 mb-0">New Customer</span>
                                 </div>
                                 <c:forEach items="${newCustomers}" var="c">
@@ -181,7 +196,7 @@
 
                             </div>
                             <div class="card w-100">
-                                <div class="card-header d-flex justify-content-between align-items-center">
+                                <div class="card-header d-flex justify-content-between align-items-center bg-warning text-white">
                                     <span class="card-title ms-2 h5 mb-0">Newly Buy Customer</span>
                                 </div>
                                 <c:forEach items="${newlyBuyCustomers}" var="c">
@@ -227,7 +242,7 @@
                             <div class="card">
                                 <div class="position-relative w-25 right-0 mt-2 ms-2">
                                     <select id="year-choose" class="form-select">
-                                        <c:forEach begin="2022" end="2024" step="1" var="y">
+                                        <c:forEach begin="2024" end="${2024+(curyear-2024)}" step="1" var="y">
                                             <option value="${y}" ${(requestScope.year == y) ? 'selected':''}>${y}</option>
                                         </c:forEach>
                                     </select>
@@ -285,9 +300,11 @@
                                     title: {
                                         display: true,
                                         text: 'ORDER STATUS FOR ${interval}',
+
                                         font: {
                                             size: 18
-                                        }
+                                        },
+                                        color: '#5bc0de'
                                     }
                                 },
                                 cutout: '70%' // Cutout percentage for doughnut chart
@@ -407,8 +424,17 @@
                 <script>
                     document.getElementById('year-choose').addEventListener('change', function () {
                         const customDateRange = document.getElementById('custom-date-range');
-                            customDateRange.style.display = 'none';
-                            window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}'+"&year="+this.value;                     
+                        customDateRange.style.display = 'none';
+                        window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}' + "&year=" + this.value;
+                    });
+                </script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const averageRating = 3.7;
+                        const widthPercentage = (averageRating / 5) * 100;
+                        const starRatingElement = document.getElementById('starRating');ng
+                        starRatingElement.style.setProperty('--rating-width', `${widthPercentage}%`);
+                        starRatingElement.style.width = `${widthPercentage}%`;
                     });
                 </script>
                 </body>
