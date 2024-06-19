@@ -67,7 +67,7 @@
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>
-            <span class="text-danger">${sessionScope.alert}</span>
+            <span class="text-danger">${sessionScope.alert}</span>   
             <div class="social-login text-center mt-2">
                 <span>Already had an account? </span>
                 <a href="#login"><strong>Sign In</strong></a>

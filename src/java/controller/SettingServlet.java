@@ -144,7 +144,6 @@ public class SettingServlet extends HttpServlet {
                 String name = request.getParameter("name");
                 String desciption = request.getParameter("note");
                 sDAO.addNew(typeId, order, name, status, desciption);
-
                 sList = sDAO.getAll();
             }
 

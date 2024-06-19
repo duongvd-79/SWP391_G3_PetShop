@@ -35,11 +35,8 @@
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
+            <div style="margin-top:125px;" style="z-index:2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
                 <nav class="navbar">
-                    <a href="#" class="navbar-brand mx-4 mb-3">
-                        <h1 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h1>
-                    </a>
                     <div class="d-flex align-items-center ms-4 mb-4">
 
                     </div>
@@ -54,13 +51,14 @@
 
 
             <!-- Content Start -->
-            <div class="content">
+            <div class="content m-0 w-100">
                 <!-- Navbar Start -->
                 <jsp:include page="adminheader.jsp"></jsp:include>
                     <!-- Navbar End -->
 
 
                     <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm pb-1 px-2">
+                        <div style="margin-left:260px;" clas="row">
                         <div class="row d-flex align-items-center mb-3">
 
                             <div class="col-md-3 function">

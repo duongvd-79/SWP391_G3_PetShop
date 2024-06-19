@@ -33,6 +33,20 @@
                 border-radius: 5px;
                 border-bottom-width:3px !important;
             }
+            .page-link.active{
+                color: white;
+                background-color: rgb(176, 180, 53) !important;
+            }
+            .page-item.active .page-link {
+                background-color: #b0b435;
+                border-color: #b0b435;
+            }
+            .page-link {
+                color: #212121;
+            }
+            .page-link:hover{
+                color: #212121;
+            }
         </style>
     </head>
     <jsp:include page="header.jsp"></jsp:include>
@@ -52,7 +66,7 @@
                     </li>
                 </ul>
             </div>
-                    <div style="max-height: 670px;background-color: #f9f9f9;border: #dadada solid 1px;position: relative;padding-bottom: 71px;" class="row d-flex">
+            <div style="max-height: 670px;background-color: #f9f9f9;border: #dadada solid 1px;position: relative;padding-bottom: 71px;" class="row d-flex">
 
                 <%-- List of My order--%>
                 <c:if test="${length >= 0 }">

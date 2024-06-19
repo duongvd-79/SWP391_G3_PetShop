@@ -29,42 +29,22 @@
 
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
-        <link href="css/admin.css" rel="stylesheet">
-        <!<!-- Toastr -->
+        <!-- Toastr -->
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
         <style>
-            .nav-item{
-                font-size: 16px;
-                font-weight: 700;
-            }
             #search-form{
                 display:none !important;
             }
-            .star-rating {
-                font-size: 1.5rem;
-                color: gray;
-            }
-
-            .star-rating::before {
-                content: '★★★★★';
-                color: gold;
-                white-space: nowrap;
-                width: var(--rating-width, 50%);
-                height:30px;
-                transition: width 0.3s;
-            }
         </style>
+        <link href="css/admin.css" rel="stylesheet">
         <title>ADMIN DASHBOARD</title>
     </head>
 
     <body>
-        <div class="container-fluid position-relative bg-white d-flex p-0">
+        <div class="container-fluid position-relative bg-white d-flex p-0 ">
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
+            <div style="margin-top:125px;z-index: 2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
                 <nav class="navbar">
-                    <a href="#" class="navbar-brand mx-4 mb-3">
-                        <h1 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h1>
-                    </a>
                     <div class="d-flex align-items-center ms-4 mb-4">
 
                     </div>
@@ -79,13 +59,13 @@
 
 
             <!-- Content Start -->
-            <div class="content">
+            <div class="content m-0 w-100">
                 <!-- Header  Start-->
                 <jsp:include page="adminheader.jsp"></jsp:include>
                 <jsp:include page="userProfile.jsp"></jsp:include>
                     <!-- Header End -->
                     <div class="container-fluid rounded bg-white mt-4 mb-5 px-3">
-                        <div class="row">
+                        <div style="margin-left:260px;"  class="row">
                             <div class="row">
                                 <div class="col-3 mb-3">
                                 <c:set var="compareinterval" value="${requestScope.start} - ${requestScope.end}" />
@@ -256,6 +236,9 @@
                         </div>
                     </div>
                 </div>
+                                            
+            </div>
+                                        
                 <!-- Content End -->
 
                 <!-- JavaScript Libraries -->
