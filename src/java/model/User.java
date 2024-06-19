@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Date;
@@ -25,9 +21,9 @@ public class User {
     pfp TEXT,
      */
     String email, password, name, status, phone, pfp;
-    int roleId, id, updateBy;
+    int roleId, id;
     boolean gender;
-    Date lastLog, updateDate;
+    Date lastLog, createDate;
 
     public User() {
     }
@@ -39,12 +35,11 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
-        this.id = id;
         this.gender = gender;
         this.roleId = roleId;
     }
     
-    public User(int id, String email, String password, String name, String status, String phone, String pfp, int updateBy, int roleId, boolean gender, Date lastLog, Date updateDate) {
+    public User(int id, String email, String password, String name, String status, String phone, String pfp, int roleId, boolean gender, Date lastLog) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -52,35 +47,9 @@ public class User {
         this.status = status;
         this.phone = phone;
         this.pfp = pfp;
-        this.updateBy = updateBy;
         this.roleId = roleId;
         this.gender = gender;
         this.lastLog = lastLog;
-        this.updateDate = updateDate;
-    }
-
-    public int getUpdateBy() {
-        return updateBy;
-    }
-
-    public void setUpdateBy(int updateBy) {
-        this.updateBy = updateBy;
-    }
-
-    public Date getUpdatedDate() {
-        return updateDate;
-    }
-
-    public void setUpdatedDate(Date updatedDate) {
-        this.updateDate = updatedDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -139,9 +108,16 @@ public class User {
         this.roleId = roleId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getGender() {
-        if(gender) return "Male";
-        return "Female";
+        return gender ? "Male" : "Female";
     }
 
     public void setGender(boolean gender) {
@@ -156,12 +132,14 @@ public class User {
         this.lastLog = lastLog;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
+    
+
 
 }

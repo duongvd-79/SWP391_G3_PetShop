@@ -2,6 +2,8 @@ package controller;
 
 import dal.PostDAO;
 import dal.ProductDAO;
+import dal.SettingDAO;
+import dal.SliderDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -11,6 +13,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import model.Post;
 import model.Product;
+import model.Setting;
+import model.Slider;
 
 /**
  *
@@ -56,17 +60,30 @@ public class HomeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Get product list
         ProductDAO productDAO = new ProductDAO();
-        PostDAO postDAO = new PostDAO();
-
-        List<Product> allProduct = productDAO.getAll();
-        List<Product> featuredProduct = productDAO.getFeatured();
-
-        List<Post> featuredPost = postDAO.getFeatured();
-
-        request.setAttribute("featuredproduct", featuredProduct);
+        List<Product> allProduct = productDAO.getActive(false, 0, null);
+        List<Product> featuredProduct = productDAO.getActiveFeatured();
         request.setAttribute("allproduct", allProduct);
-        request.setAttribute("featuredpost", featuredPost);
+        request.setAttribute("featuredproduct", featuredProduct);
+
+        // Get blog list
+        PostDAO postDAO = new PostDAO();
+        List<Post> featuredBlog = postDAO.getFeatured();
+        List<Post> latestBlog = postDAO.getLatest();
+        request.setAttribute("featuredblog", featuredBlog);
+        request.setAttribute("latestblog", latestBlog);
+
+        // Get slider list
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliderList = sliderDAO.getActive();
+        request.setAttribute("slider", sliderList);
+
+        // Get product category list
+        SettingDAO settingDAO = new SettingDAO();
+        List<Setting> prCategory = settingDAO.getActiveByType("Product Category");
+        request.setAttribute("prcategory", prCategory);
+
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 

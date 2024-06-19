@@ -7,7 +7,6 @@ package controller;
 import dal.PostDAO;
 import dal.SettingDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,11 @@ import model.Setting;
  *
  * @author Acer
  */
+<<<<<<<< HEAD:src/java/controller/SortBlogServlet.java
 public class SortBlogServlet extends HttpServlet {
+========
+public class BlogListServlet extends HttpServlet {
+>>>>>>>> master:src/java/controller/BlogListServlet.java
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -70,8 +73,12 @@ public class SortBlogServlet extends HttpServlet {
         ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
         List<Setting> listS = dao1.getPostCategory();
         request.setAttribute("listp", listp);
+<<<<<<<< HEAD:src/java/controller/SortBlogServlet.java
         request.setAttribute("sList", listS);
         request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
+========
+        request.getRequestDispatcher("bloglist.jsp").forward(request, response);
+>>>>>>>> master:src/java/controller/BlogListServlet.java
     }
 
     /**

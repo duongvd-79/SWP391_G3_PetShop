@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
 import java.util.Date;
@@ -21,8 +17,8 @@ public class Order {
     delivered_date DATETIME,
     total DECIMAL(10, 2),
      */
-    int id;
-    String customerId, status;
+    int id,customerId;
+    String status;
     double total;
     boolean isDelivered;
     Date orderedDate, deliveredDate;
@@ -30,7 +26,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, String customerId, String status, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
+    public Order(int id, int customerId, String status, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
         this.id = id;
         this.customerId = customerId;
         this.status = status;
@@ -48,11 +44,11 @@ public class Order {
         this.id = id;
     }
 
-    public String getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

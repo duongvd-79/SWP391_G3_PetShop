@@ -59,6 +59,39 @@
 
             .search-container button {
                 margin-left: auto;
+            .search-container {
+                max-width: 600px;
+                margin-left: 15px;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0,0,0,0.1);
+                border-radius: 8px;
+            }
+            .search-container h2 {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .search-box {
+                display: flex;
+            }
+            .search-box input[type="text"] {
+                flex: 1;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px 0 0 4px;
+                font-size: 16px;
+            }
+            .search-box button {
+                padding: 10px;
+                background-color: #28a745;
+                border: none;
+                border-radius: 0 4px 4px 0;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+            }
+            .search-box button:hover {
+                background-color: #218838;
             }
             .blog-content {
                 padding: 20px;
@@ -224,6 +257,7 @@
             window.location.href = '/bloglist';
         }
     });
+
         </script>
         <jsp:include page="footer.jsp"></jsp:include>
         <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>

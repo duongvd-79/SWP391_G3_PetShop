@@ -74,9 +74,9 @@ public class FilterUserServlet extends HttpServlet {
             if (gender != null) {
                 int new_gender = 0;
                 if (gender.equalsIgnoreCase("male")) {
-                    new_gender = 0;
-                } else {
                     new_gender = 1;
+                } else {
+                    new_gender = 0;
                 }
                 userList = userDAO.filterUserByGender(new_gender);
                 // check if user filter by role 

@@ -14,8 +14,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Setting;
 import model.User;
 
 /**
@@ -66,6 +69,21 @@ public class SearchUserServlet extends HttpServlet {
             ArrayList<User> userListByName = userDAO.searchUserByName(search);
             ArrayList<User> userListByEmail = userDAO.searchUserByEmail(search);
             ArrayList<User> userListByPhone = userDAO.searchUserByPhone(search);
+            ArrayList<User> userList = userDAO.getAllUser();
+            ArrayList<Setting> roleList = userDAO.getAllRole();
+
+            // get all status currently have in useList
+            ArrayList<String> tempList = new ArrayList<>();
+            for (User u : userList) {
+                tempList.add(u.getStatus());
+            }
+
+            Set<String> setWithoutDuplicates = new HashSet<>(tempList);
+
+            ArrayList<String> statusList = new ArrayList<>(setWithoutDuplicates);
+
+            request.setAttribute("roleList", roleList);
+            request.setAttribute("statusList", statusList);
 
             combinedUserList.addAll(userListByName);
             combinedUserList.addAll(userListByEmail);
