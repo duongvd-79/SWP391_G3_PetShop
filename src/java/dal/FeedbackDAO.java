@@ -108,23 +108,21 @@ public class FeedbackDAO extends DBContext {
 
         }
     }
-    
+
     public int getFeedbackID(int pid, int uid) throws SQLException {
-    String sql = "SELECT id FROM product_feedback WHERE product_id = ? AND user_id = ? ORDER BY created_date DESC LIMIT 1";
-    try (PreparedStatement sta = connection.prepareStatement(sql)) {
-        sta.setInt(1, pid);
-        sta.setInt(2, uid);
-        try (ResultSet rs = sta.executeQuery()) {
-            if (rs.next()) {
-                return rs.getInt("id");
+        String sql = "SELECT id FROM product_feedback WHERE product_id = ? AND user_id = ? ORDER BY created_date DESC LIMIT 1";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, pid);
+            sta.setInt(2, uid);
+            try (ResultSet rs = sta.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
             }
         }
+        return -1; // return -1 if no feedback ID found
     }
-    return -1; // return -1 if no feedback ID found
-}
 
-      
-    
     public void AddFeedbackImage(int cid, int fid, String image) throws SQLException {
         String sql = "INSERT INTO feedback_image (customer_id, feedback_id, image) VALUES (?,?,?);";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
@@ -135,8 +133,8 @@ public class FeedbackDAO extends DBContext {
 
         }
     }
-    
-     public ArrayList<ProductFeedback> getFeedbackImage(int feedbackId) throws SQLException {
+
+    public ArrayList<ProductFeedback> getFeedbackImage(int feedbackId) throws SQLException {
         String sql = "select * from feedback_image where feedback_id = ?";
         PreparedStatement sta = connection.prepareStatement(sql);
         sta.setInt(1, feedbackId);
@@ -147,12 +145,53 @@ public class FeedbackDAO extends DBContext {
             int cid = rs.getInt("customer_id");
             int fid = rs.getInt("feedback_id");
             String image = rs.getString("image");
-           ProductFeedback pf = new ProductFeedback(id, cid, fid, image); 
+            ProductFeedback pf = new ProductFeedback(id, cid, fid, image);
+            lst.add(pf);
+        }
+        return lst;
+    }
+
+    public ArrayList<ProductFeedback> getFeedbackByProductID(int productID) throws SQLException {
+        String sql = "select * from product_feedback where product_id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, productID);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<ProductFeedback> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int pid = rs.getInt("product_id");
+            int uid = rs.getInt("user_id");
+            String detail = rs.getString("detail");
+            int star = rs.getInt("star");
+            String image = rs.getString("image");
+            String status = rs.getString("status");
+            Date date = rs.getDate("created_date");
+            ProductFeedback pf = new ProductFeedback( id,  pid,  uid,  star,  detail,  image,  status,  date); 
             lst.add(pf);
         }
         return lst;
     }
     
+    public ArrayList<ProductFeedback> getFeedbackByProductIDTop3(int productID) throws SQLException {
+        String sql = "select * from product_feedback where product_id = ? order by created_date DESC limit 3";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, productID);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<ProductFeedback> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int pid = rs.getInt("product_id");
+            int uid = rs.getInt("user_id");
+            String detail = rs.getString("detail");
+            int star = rs.getInt("star");
+            String image = rs.getString("image");
+            String status = rs.getString("status");
+            Date date = rs.getDate("created_date");
+            ProductFeedback pf = new ProductFeedback( id,  pid,  uid,  star,  detail,  image,  status,  date); 
+            lst.add(pf);
+        }
+        return lst;
+    }
 
     public static void main(String[] args) throws SQLException {
         FeedbackDAO f = new FeedbackDAO();

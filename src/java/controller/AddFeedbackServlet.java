@@ -15,8 +15,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,7 +57,6 @@ public class AddFeedbackServlet extends HttpServlet {
             }
 
             // Handle file upload
-            // Handle file upload
             for (Part filePart : request.getParts()) {
                 String fileName = filePart.getSubmittedFileName();
                 if (fileName != null && !fileName.isEmpty()) {
@@ -68,8 +67,12 @@ public class AddFeedbackServlet extends HttpServlet {
 
                     // Generate URL for the uploaded file
                     String fileUrl = "images\\feedbackimage\\" + fileName;
-                    feedbackDAO.AddFeedbackImage(u.getId(), fid, fileUrl);
+
+                   
+                    // Save the file URL to the database
+                     feedbackDAO.AddFeedbackImage(u.getId(), fid, fileUrl);
                 }
+               
             }
             response.sendRedirect("home");
         } catch (SQLException ex) {
@@ -77,10 +80,10 @@ public class AddFeedbackServlet extends HttpServlet {
         }
     }
 
-    private static String getCurrentDate() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return currentDate.format(formatter);
+     private static String getCurrentDate() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return currentDateTime.format(formatter);
     }
 
     private String getValueFromPart(Part part) throws IOException {

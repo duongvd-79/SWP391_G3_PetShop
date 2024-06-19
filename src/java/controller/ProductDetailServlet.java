@@ -12,6 +12,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Product;
 import model.ProductFeedback;
+import model.User;
 
 /**
  *
@@ -66,6 +68,8 @@ public class ProductDetailServlet extends HttpServlet {
             throws ServletException, IOException {
         ProductDAO productDAO = new ProductDAO();
         FeedbackDAO feedbackDAO = new FeedbackDAO();
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
 
         String idRaw = request.getParameter("id");
         try {
@@ -73,10 +77,28 @@ public class ProductDetailServlet extends HttpServlet {
             Product p = productDAO.getProductById(id);
 
             ArrayList<ProductFeedback> feedbackList = feedbackDAO.getNewFeedback(id);
+            ArrayList<ProductFeedback> flist = feedbackDAO.getFeedbackByProductID(id);
+            int sum = 0;
+            for (ProductFeedback pf : flist) {
+                sum += pf.getStar();
+            }
+            int star = (int) Math.round((double) sum / flist.size());
+            
+            // to pick out the image of each customer in feedback
+            ArrayList<ProductFeedback> topList = feedbackDAO.getFeedbackByProductIDTop3(id);
+            ArrayList<ArrayList> imageList = new ArrayList<>();
+            for (ProductFeedback pf : topList) {
+                ArrayList<ProductFeedback> sampleList = feedbackDAO.getFeedbackImage(pf.getId());
+                imageList.add(sampleList);
+            }
+
             List<Product> productList = productDAO.getRelatedProduct(id);
             request.setAttribute("feedbackList", feedbackList);
             request.setAttribute("product", p);
+            request.setAttribute("star", star);
+            request.setAttribute("reviewTotal", flist.size());
             request.setAttribute("relatedlist", productList);
+            request.setAttribute("imageList", imageList);
             request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);

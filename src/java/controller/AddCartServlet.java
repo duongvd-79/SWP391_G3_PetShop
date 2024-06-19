@@ -5,6 +5,7 @@
 package controller;
 
 import dal.CartDAO;
+import dal.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Cart;
+import model.Product;
 import model.User;
 
 /**
@@ -76,26 +78,28 @@ public class AddCartServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         try {
-            if(user != null){
-            ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
-            boolean duplicate = false;
-            for (Cart c : cartItemList) {
-                if (c.getUserId() == user.getId() && c.getProductId() == productid) {
-                    duplicate = true;
-                   
-                    cartdao.updateItemInCart(c.getQuantity() + quantity, c.getId());
-                    response.sendRedirect("productdetail?id=" + currentid);
-                    
-                }
-            }
-            if (duplicate == false) {
-                cartdao.AddToCart(productid, user.getId(), quantity);
-                response.sendRedirect("productdetail?id=" + currentid);
-            }
+            if (user != null) {
+
+
+                    ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
+                    boolean duplicate = false;
+                    for (Cart c : cartItemList) {
+                        if (c.getUserId() == user.getId() && c.getProductId() == productid) {
+                            duplicate = true;
+
+                            cartdao.updateItemInCart(c.getQuantity() + quantity, c.getId());
+                            response.sendRedirect("productdetail?id=" + currentid);
+
+                        }
+                    }
+                    if (duplicate == false) {
+                        cartdao.AddToCart(productid, user.getId(), quantity);
+                        response.sendRedirect("productdetail?id=" + currentid);
+                    }
             } else {
-            response.sendRedirect("home");
+                response.sendRedirect("home");
             }
-          
+
         } catch (SQLException ex) {
             Logger.getLogger(AddCartServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
