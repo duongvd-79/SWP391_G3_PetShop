@@ -85,6 +85,7 @@ public class MyOrdersServlet extends HttpServlet {
             List<Product> pList;
             List<Integer> remainNum;
             List<Integer> pQuantity = new ArrayList<>();
+            List<Product> allProduct;
 
             oList = oDAO.getAll(status, user.getId(), page, num);
             pList = pDAO.getProductForEachOrder(((User) session.getAttribute("user")).getId(), status, page, num);
@@ -93,6 +94,9 @@ public class MyOrdersServlet extends HttpServlet {
                 pQuantity.add(odDAO.getQuantity(pList.get(i).getId(), oList.get(i).getId()));
             }
             int size = oDAO.getAll(status, user.getId(), 1, Integer.MAX_VALUE).size();
+            // Get latest product
+            allProduct = pDAO.getActive(false, null, null, null, null, "Latest", 0);
+            request.setAttribute("latestproduct", allProduct);
             request.setAttribute("page", page);
             request.setAttribute("pageNum", ((size % num == 0) ? (size / num) : (size / num + 1)));
             request.setAttribute("oList", oList);
