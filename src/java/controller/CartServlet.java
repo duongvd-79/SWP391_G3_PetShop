@@ -72,19 +72,24 @@ public class CartServlet extends HttpServlet {
         User user = (User) session.getAttribute("user");
         double grand_total = 0;
         try {
-            if(user != null){
-            ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-            List<Product> latestProductList = productdao.getLatestProductList();
-            for(Cart c : cartDetailList){
-            grand_total += c.getList_price()*c.getQuantity();
-            }
-            request.setAttribute("cartDetailList", cartDetailList);
-            session.setAttribute("cartDetailList", cartDetailList);
-            request.setAttribute("grand_total", grand_total);
-            request.setAttribute("latestProductList", latestProductList);
-            request.getRequestDispatcher("Cart.jsp").forward(request, response);
+            if (user != null) {
+                ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
+                List<Product> latestProductList = productdao.getLatestProductList();
+                ArrayList<Integer> quantityList = new ArrayList<>();
+                for (Cart c : cartDetailList) {
+                    grand_total += c.getList_price() * c.getQuantity();
+                    Product pd = productdao.getProductById(c.getProductId());
+                    quantityList.add(pd.getQuantity());
+                }
+                request.setAttribute("cartDetailList", cartDetailList);
+                session.setAttribute("cartDetailList", cartDetailList);
+                request.setAttribute("grand_total", grand_total);
+                request.setAttribute("latestProductList", latestProductList);
+                request.setAttribute("quantityList", quantityList);
+                request.setAttribute("length", cartDetailList.size()-1);
+                request.getRequestDispatcher("Cart.jsp").forward(request, response);
             } else {
-            response.sendRedirect("home");
+                response.sendRedirect("home");
             }
         } catch (SQLException ex) {
             Logger.getLogger(CartServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -103,29 +103,29 @@
                                                 User user = (User) session.getAttribute("user");
                                                 if (user != null) {
                                             %>
-                                            <c:forEach items="${cartDetailList}" var="c">
+                                             <c:forEach begin="0" end="${length}" var="i" step="1">
                                                 <tr>
                                                     <td class="thumbnail-img">
                                                         <a href="#">
-                                                            <img class="img-fluid" src="${c.thumbnail}" alt="" />
+                                                            <img class="img-fluid" src="${cartDetailList[i].thumbnail}" alt="" />
                                                         </a>
                                                     </td>
                                                     <td class="name-pr">
                                                         <a href="#">
-                                                            ${c.title}
+                                                            ${cartDetailList[i].title}
                                                         </a>
                                                     </td>
                                                     <td class="price-pr">
-                                                        <p>${c.list_price}00 vnd</p>
+                                                        <p>${cartDetailList[i].list_price}00 vnd</p>
                                                     </td>
                                                     <td class="quantity-box">                   
-                                                        <input type="number" size="4" value="${c.quantity}" min="1" step="1" class="c-input-text qty text" onchange="updateQuantity(${c.productId}, this.value)">
+                                                        <input type="number" size="4" value="${cartDetailList[i].quantity}" min="1" step="1" max="${quantityList[i]}" class="c-input-text qty text" onchange="updateQuantity(${cartDetailList[i].productId}, this.value)">
                                                     </td>
                                                     <td class="total-pr">
-                                                        <p>${c.list_price * c.quantity}00 vnd</p>
+                                                        <p>${cartDetailList[i].list_price * cartDetailList[i].quantity}00 vnd</p>
                                                     </td>
                                                     <td class="remove-pr">
-                                                        <a href="deletecartitem?id=${c.id}">
+                                                        <a href="deletecartitem?id=${cartDetailList[i].id}">
                                                             <i class="bi bi-trash"></i>
                                                         </a>
                                                     </td>
