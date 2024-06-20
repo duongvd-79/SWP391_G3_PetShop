@@ -40,6 +40,27 @@ public class SettingDAO extends DBContext {
         return list;
     }
 
+    public List<Setting> getPostCategory() {
+        List<Setting> list = new ArrayList<>();
+        try {
+            String strSelect = "SELECT s.id, type_id, s.name,`order`,status, description, t.name as type FROM setting as s join setting_type as t \n"
+                    + "                    on type_id = t.id\n"
+                    + "                    where type_id=2\n"
+                    + "                    order by s.id;";
+            stm = connection.prepareStatement(strSelect);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Setting setting = new Setting(rs.getInt("id"),
+                        rs.getInt("type_id"), rs.getString("type"), rs.getInt("order"), rs.getString("name"),
+                        rs.getString("status"), rs.getString("description")
+                );
+                list.add(setting);
+            }
+        } catch (SQLException e) {
+        }
+        return list;
+    }
+
     public Setting getById(int id) {
         SettingDAO s = new SettingDAO();
         List<Setting> list = s.getAll();

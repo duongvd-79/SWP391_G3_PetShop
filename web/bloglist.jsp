@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/custom.css">
         <style>
             .ellipsis-text {
                 white-space: nowrap;
@@ -27,6 +29,36 @@
                 text-overflow: ellipsis;
                 max-width: 100%; /* Adjust this value to limit the width as needed */
             }
+            .search-container form {
+                display: flex;
+                align-items: center;
+            }
+
+            .search-container label {
+                margin-right: 10px;
+            }
+
+            .search-container input[type="text"] {
+                margin-right: 10px;
+            }
+
+            .search-container div {
+                display: flex;
+                align-items: center;
+                margin-right: 10px;
+            }
+
+            .search-container h4 {
+                margin: 0;
+                margin-right: 5px;
+            }
+
+            .search-container select {
+                margin-right: 10px;
+            }
+
+            .search-container button {
+                margin-left: auto;
             .search-container {
                 max-width: 600px;
                 margin-left: 15px;
@@ -78,143 +110,154 @@
                     </div>
                 </div>
             </div>
+
             <!-- End Top Search -->
 
             <div class="latest-blog">
                 <div class="container">
-                    <nav aria-label="breadcrumb" class="position-sticky" style="top: 111px; z-index: 1;">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Blog List</li>
-                        </ol>
-                    </nav>
                     <div class="row">
                         <div class="search-container">
                             <form action="bloglist" method="GET">
-                                <input type="text" name="search" placeholder="Search..." required>
-                                <button type="submit">Search</button>
-                            </form>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="title-all text-center">
-                                <h1>All Blogs</h1>
+                                <label>Từ khóa</label>
+                                <input type="text" name="search" placeholder="Search...">
+                                <div>
+                                    <h4>Thể loại</h4>  
+                                    <select name="categoryID" id="categorySelect">
+                                        <option value="">All</option>
+                                    <c:forEach items="${listC}" var="category">
+                                        <option value="${category.id}">${category.name}</option>
+                                    </c:forEach>
+                                </select>
                             </div>
-                        </div>
+                            <button type="submit">Search</button>
+                        </form>
                     </div>
-                    <div id="posts-container" class="row">
-                        <!-- Placeholder for dynamically rendered posts -->
+                    <div class="col-lg-12">
+                        <div class="title-all text-center">
+                            <h1>All posts</h1>
+                        </div>
                     </div>
                 </div>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="margin-left: 67%;" id="pagination-controls">
-                        <!-- Placeholder for pagination controls -->
-                    </ul>
-                </nav>
+                <div id="posts-container" class="row">
+                    <!-- Placeholder for dynamically rendered posts -->
+                </div>
             </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" style="margin-left: 67%;" id="pagination-controls">
+                    <!-- Placeholder for pagination controls -->
+                </ul>
+            </nav>
+        </div>
 
-            <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded", function () {
-                    // Sample data from the server (Replace this with actual server data)
-                    const posts = [
+        <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                // Sample data from the server (Replace this with actual server data)
+                const posts = [
             <c:forEach var="p" items="${listp}">
-                        {
-                            id: "${p.id}",
-                            thumbnail: "${p.thumbnail}",
-                            title: "${p.title}",
-                            user: "${p.user.name}",
-                            createdDate: "${p.createdDate}"
-                        },
+                    {
+                        id: "${p.id}",
+                        thumbnail: "${p.thumbnail}",
+                        title: "${p.title}",
+                        user: "${p.user.name}",
+                        createdDate: "${p.createdDate}"
+                    },
             </c:forEach>
-                    ];
+                ];
 
-                    const postsPerPage = 3; // Number of posts per page
-                    let currentPage = 1;
+                const postsPerPage = 3; // Number of posts per page
+                let currentPage = 1;
 
-                    function renderPosts(page) {
-                        const start = (page - 1) * postsPerPage;
-                        const end = start + postsPerPage;
-                        const paginatedPosts = posts.slice(start, end);
+                function renderPosts(page) {
+                    const start = (page - 1) * postsPerPage;
+                    const end = start + postsPerPage;
+                    const paginatedPosts = posts.slice(start, end);
 
-                        const postsContainer = document.getElementById("posts-container");
-                        postsContainer.innerHTML = "";
-                        paginatedPosts.forEach((post) => {
-                            const postElement = document.createElement("div");
-                            postElement.className = "col-md-6 col-lg-4 col-xl-4";
-                            postElement.innerHTML = `
-                                <div class="blog-box">
-                                    <div class="blog-img">
-                                        <img class="img-fluid" src="` + post.thumbnail + `" alt="" />
-                                    </div>
-                                    <div class="blog-content">
-                                        <div class="title-blog">
-                                            <a href="blogdetail?id=` + post.id + `" title="` + post.title + `" class="image-resize ratiobox">
-                                                <p class="ellipsis-text" style="font-weight: bold">` + post.title + `</p>
-                                            </a>
-                                        </div>
-                                        <div class="mr-3 d-flex align-items-center">
-                                            <p class="mb-0"><i class="bi bi-person-circle"></i> ` + post.user + `</p>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <p class="mb-0"><i class="bi bi-calendar-week"></i> ` + post.createdDate + `</p>
-                                        </div>
-                                        <a href="blogdetail?id=` + post.id + `" class="btn btn-secondary">Đọc tiếp</a>
-                                    </div>
+                    const postsContainer = document.getElementById("posts-container");
+                    postsContainer.innerHTML = "";
+                    paginatedPosts.forEach((post) => {
+                        const postElement = document.createElement("div");
+                        postElement.className = "col-md-6 col-lg-4 col-xl-4";
+                        postElement.innerHTML = `
+                            <div class="blog-box">
+                                <div class="blog-img">
+                                    <img class="img-fluid" src="` + post.thumbnail + `" alt="" />
                                 </div>
-                            `;
-                            postsContainer.appendChild(postElement);
+                                <div class="blog-content">
+                                    <div class="title-blog">
+                                        <a href="blogdetail?id=` + post.id + `" title="` + post.title + `" class="image-resize ratiobox">
+                                            <p class="ellipsis-text" style="font-weight: bold">` + post.title + `</p>
+                                        </a>
+                                    </div>
+                                    <div class="mr-3 d-flex align-items-center">
+                                        <p class="mb-0"><i class="bi bi-person-circle"></i> ` + post.user + `</p>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <p class="mb-0"><i class="bi bi-calendar-week"></i> ` + post.createdDate + `</p>
+                                    </div>
+                                    <a href="blogdetail?id=` + post.id + `" class="btn btn-secondary">Đọc tiếp</a>
+                                </div>
+                            </div>
+                        `;
+                        postsContainer.appendChild(postElement);
+                    });
+                }
+
+                function renderPagination() {
+                    const pageCount = Math.ceil(posts.length / postsPerPage);
+                    const paginationControls = document.getElementById("pagination-controls");
+                    paginationControls.innerHTML = "";
+
+                    if (currentPage > 1) {
+                        const prevPageItem = document.createElement("li");
+                        prevPageItem.className = "page-item";
+                        prevPageItem.innerHTML = `<a class="page-link" href="#">Previous</a>`;
+                        prevPageItem.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            currentPage--;
+                            renderPosts(currentPage);
+                            renderPagination();
                         });
+                        paginationControls.appendChild(prevPageItem);
                     }
 
-                    function renderPagination() {
-                        const pageCount = Math.ceil(posts.length / postsPerPage);
-                        const paginationControls = document.getElementById("pagination-controls");
-                        paginationControls.innerHTML = "";
-
-                        if (currentPage > 1) {
-                            const prevPageItem = document.createElement("li");
-                            prevPageItem.className = "page-item";
-                            prevPageItem.innerHTML = `<a class="page-link" href="#">Previous</a>`;
-                            prevPageItem.addEventListener("click", function (e) {
-                                e.preventDefault();
-                                currentPage--;
-                                renderPosts(currentPage);
-                                renderPagination();
-                            });
-                            paginationControls.appendChild(prevPageItem);
-                        }
-
-                        for (let i = 1; i <= pageCount; i++) {
-                            const pageItem = document.createElement("li");
-                            let status = i === currentPage ? 'active' : '';
-                            pageItem.className = `page-item ` + status;
-                            pageItem.innerHTML = `<a class="page-link" href="#">` + i + `</a>`;
-                            pageItem.addEventListener("click", function (e) {
-                                e.preventDefault();
-                                currentPage = i;
-                                renderPosts(currentPage);
-                                renderPagination();
-                            });
-                            paginationControls.appendChild(pageItem);
-                        }
-
-                        if (currentPage < pageCount) {
-                            const nextPageItem = document.createElement("li");
-                            nextPageItem.className = "page-item";
-                            nextPageItem.innerHTML = `<a class="page-link" href="#">Next</a>`;
-                            nextPageItem.addEventListener("click", function (e) {
-                                e.preventDefault();
-                                currentPage++;
-                                renderPosts(currentPage);
-                                renderPagination();
-                            });
-                            paginationControls.appendChild(nextPageItem);
-                        }
+                    for (let i = 1; i <= pageCount; i++) {
+                        const pageItem = document.createElement("li");
+                        let status = i === currentPage ? 'active' : '';
+                        pageItem.className = `page-item ` + status;
+                        pageItem.innerHTML = `<a class="page-link" href="#">` + i + `</a>`;
+                        pageItem.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            currentPage = i;
+                            renderPosts(currentPage);
+                            renderPagination();
+                        });
+                        paginationControls.appendChild(pageItem);
                     }
 
-                    // Initial render
-                    renderPosts(currentPage);
-                    renderPagination();
-                });
+                    if (currentPage < pageCount) {
+                        const nextPageItem = document.createElement("li");
+                        nextPageItem.className = "page-item";
+                        nextPageItem.innerHTML = `<a class="page-link" href="#">Next</a>`;
+                        nextPageItem.addEventListener("click", function (e) {
+                            e.preventDefault();
+                            currentPage++;
+                            renderPosts(currentPage);
+                            renderPagination();
+                        });
+                        paginationControls.appendChild(nextPageItem);
+                    }
+                }
+
+                // Initial render
+                renderPosts(currentPage);
+                renderPagination();
+            });
+             document.getElementById('categorySelect').addEventListener('change', function() {
+        if (this.value == "0") {
+            window.location.href = '/bloglist';
+        }
+    });
+
         </script>
         <jsp:include page="footer.jsp"></jsp:include>
         <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>

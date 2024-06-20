@@ -30,6 +30,7 @@ public class BlogDetailServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         String id = request.getParameter("id");
         PostDAO dao = new PostDAO();
         Post blog = dao.getPostById(id);

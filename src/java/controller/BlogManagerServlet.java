@@ -21,9 +21,8 @@ import model.Setting;
  *
  * @author Acer
  */
-public class BlogListServlet extends HttpServlet {
-public class SortBlogServlet extends HttpServlet {
-public class BlogListServlet extends HttpServlet {
+public class BlogManagerServlet extends HttpServlet {
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,14 +40,10 @@ public class BlogListServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BlogListServlet</title>");            
+            out.println("<title>Servlet BlogManagerServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BlogListServlet at " + request.getContextPath() + "</h1>");
-            out.println("<title>Servlet SortBlogServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SortBlogServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BlogManagerServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,16 +62,6 @@ public class BlogListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO dao = new PostDAO();
-    SettingDAO dao1 = new SettingDAO();
-    String search = request.getParameter("search");
-    String categoryId = request.getParameter("categoryID");
-    search = search == null ? "" : search;
-    categoryId = categoryId == null ? "" : categoryId;
-    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
-    List<Setting> listS = dao1.getPostCategory();
-    request.setAttribute("listp", listp);
-    request.setAttribute("listC", listS);
-    request.getRequestDispatcher("bloglist.jsp").forward(request, response);
         SettingDAO dao1 = new SettingDAO();
         String search = request.getParameter("search");
         String categoryId = request.getParameter("categoryID");
@@ -87,7 +72,6 @@ public class BlogListServlet extends HttpServlet {
         request.setAttribute("listp", listp);
         request.setAttribute("sList", listS);
         request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
-        request.getRequestDispatcher("bloglist.jsp").forward(request, response);
     }
 
     /**
