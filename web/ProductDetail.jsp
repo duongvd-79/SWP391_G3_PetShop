@@ -114,9 +114,7 @@
                                 </h5>
                             </div>
                             <p class="available-stock"><span> <a href="#">${requestScope.product.quantity} remains</a></span><p>
-                            <h4>Short Description:</h4>
-                            <h5><del>${requestScope.product.listPrice + 100}00 đ</del>&nbsp;&nbsp;${requestScope.product.listPrice}00 đ</h5>
-                            <p class="available-stock"><span> <a href="#">8 sold</a></span><p>
+                         
                             <h4>Description:</h4>
                             <p>${requestScope.product.description}</p>
                             <%
@@ -189,13 +187,7 @@
                                                 <img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
                                             </div>
                                             <div class="media-body">
-                                                <p>${fl[i].detail}</p>
-                                                <div>
-                                                    <c:forEach items="${imageList[i]}" var="im">
-                                                        <img class="border  p-1 mr-2" src="${im.feedback_image}" style="width: 75px; height: 75px; object-fit: cover;" alt="User Image">
-                                                    </c:forEach>
-                                                </div>
-                                                <small class="text-muted">Posted by ${fl[i].name} on ${fl[i].createdDate} <c:if test="${fl[i].star == 1}">
+                                                 <small class="text-muted">Posted by ${fl[i].name} on ${fl[i].createdDate} <c:if test="${fl[i].star == 1}">
                                                         <span class="product-rating">
                                                             <i class="bi bi-star-fill text-warning"></i>
                                                             <i class="bi bi-star"></i>
@@ -241,6 +233,13 @@
                                                         </span>
                                                     </c:if> 
                                                 </small>
+                                                <p>${fl[i].detail}</p>
+                                                <div>
+                                                    <c:forEach items="${imageList[i]}" var="im">
+                                                        <img class="border  p-1 mr-2" src="${im.feedback_image}" style="width: 75px; height: 75px; object-fit: cover;" alt="User Image">
+                                                    </c:forEach>
+                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </c:forEach>
