@@ -59,7 +59,7 @@ public class ProductDAO extends DBContext {
         String sqlOrder = "";
         String sqlPaging = "";
         if (isPaginated) {
-            sqlPaging = " LIMIT 8 OFFSET ?";
+            sqlPaging = " LIMIT 12 OFFSET ?";
         }
         if (categoryRaw != null && !categoryRaw.equals("")) {
             sqlCategory = "AND category_id = ? ";
@@ -97,7 +97,7 @@ public class ProductDAO extends DBContext {
                 + "pr.created_date, pr.quantity, pr.category_id, s.name\n"
                 + "FROM petshop.product pr JOIN petshop.setting s ON pr.category_id = s.id\n"
                 + "WHERE s.status = 'Active' " + sqlCategory + sqlMinPrice + sqlMaxPrice + sqlSearch
-                + " ORDER BY " + sqlOrder + " pr.id " + sqlPaging;
+                + " ORDER BY " + sqlOrder + " pr.status, pr.id " + sqlPaging;
         try {
             productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
@@ -118,14 +118,14 @@ public class ProductDAO extends DBContext {
                 count++;
             }
             if (search != null && !search.equals("")) {
-                search = "'%" + search + "%'";
+                search = "%" + search + "%";
                 stm.setString(count, search);
                 count++;
                 stm.setString(count, search);
                 count++;
             }
             if (isPaginated) {
-                stm.setInt(count, (index - 1) * 8);
+                stm.setInt(count, (index - 1) * 12);
             }
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -230,10 +230,9 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getActive(true, "", "100000", "200000", "", "", 1);
+        List<Product> productList = p.getActive(true, "", "", "", "dry", "", 1);
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
         }
-        System.out.println(productList.size());
     }
 }

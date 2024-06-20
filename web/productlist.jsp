@@ -23,6 +23,32 @@
         <link rel="stylesheet" href="css/responsive.css">
         <!-- Page CSS -->
         <link rel="stylesheet" href="css/public/productList.css">
+        <style>
+            #clearSearchInput {
+                display: none;
+            }
+            .type-ofs {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translate(35%, -165%) rotate(45deg);
+                width: 100%;
+                height: 30%;
+                z-index: 8;
+            }
+            .type-ofs .out-of-stock {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #ffffff;
+                padding: 2px 30px;
+                font-weight: 700;
+                text-transform: uppercase;
+                line-height: 1.2;
+            }
+            .out-of-stock-img {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
@@ -30,35 +56,50 @@
                 <div class="row">
                     <div class="sidebar container-fluid col-sm-3">
                         <!-- Start Sidebar  -->
-                        <div class="container-fluid sticky-top" style="top: 111px;z-index: 2;">
+                        <div class="container-fluid sticky-top" style="top: 126px;z-index: 2;">
                             <div class="row">
                                 <div class="col-12 text-center mt-3">
-                                    <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
+                                    <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter${category}</h3>
                                 </div>
                             </div>
                             <form action="productlist" method="get">
                                 <input name="category" value="${category}" hidden>
                             <div class="row border-top pt-3">
                                 <div class="col-12 input-group mb-3">
-                                    <input type="text" class="form-control" name="search" placeholder="Search" value="${search}">
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Search" value="${search}" list="searchList">
+                                    <button type="button" class="input-group-text btn" id="clearSearchInput">&times;</button>
                                     <button type="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
+                                    <datalist id="searchList">
+                                        <c:forEach items="${allSearchList}" var="asl">
+                                            <option value="${asl.title}"></option>
+                                        </c:forEach>
+                                        <c:forEach items="${applicationScope.prcategory}" var="cate">
+                                            <option value="Category: ${cate.name}"></option>
+                                        </c:forEach>
+                                    </datalist>
                                 </div>
                                 <div class="col-12 mb-0 blog-box pt-2">
                                     <h2 style="font-weight: 700">Categories</h2>
                                 </div>
-                                <c:forEach items="${prcategory}" var="pcate">
+                                <c:forEach items="${applicationScope.prcategory}" var="pcate">
                                     <div class="col-12 input-group product-content" title="${pcate.name}">
                                         <div class="latest-product-content">
                                             <div style="padding: 0px 5px;">
                                                 <h3>
-                                                    <a href="?category=${pcate.id}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">${pcate.name}</a>
+                                                    <a href="?category=${pcate.id}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">${pcate.name}</a>
                                                 </h3>
                                             </div>
                                         </div>
-                                        <c:if test="${pcate.id == category}">
-                                            <a class="input-group-text text-danger reset-button"
-                                               href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
-                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${pcate.name == categoryName}">
+                                                <a class="input-group-text text-danger reset-button"
+                                                   href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
+                                            </c:when>
+                                            <c:when test="${pcate.id == category}">
+                                                <a class="input-group-text text-danger reset-button"
+                                                   href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
+                                            </c:when>
+                                        </c:choose>
                                     </div>
                                 </c:forEach>
                                 <div class="col-12 mb-3 blog-box pt-2">
@@ -135,17 +176,17 @@
                     <div class="products-box">
                         <div class="container">
                             <div class="row">
-                                <div class="col-lg-8">
+                                <div class="col-md-10">
                                     <div class="title-all">
                                         <h1>All Products</h1>
                                         <p>Explore products on Pet Shop.</p>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 d-flex align-items-start justify-content-end">
-                                    <div class="row">
-                                        <div class="col mr-2 align-content-end text-right" style="font-size: 18px;padding: 0;">Sort:</div>
-                                        <div class="col" style="padding: 0;margin-right: 10px">
-                                            <select class="form-select py-2 px-1 mr-5 mt-4" id="sort" title="Sort">
+                                <div class="col-md-2 d-flex align-items-center justify-content-end">
+                                    <div class="row mb-lg-4 mr-5">
+                                        <div class="col-2 mr-2 align-content-end text-right" style="font-size: 18px;padding: 0;">Sort:</div>
+                                        <div class="col-xl-8 col-10 align-content-end text-left" style="padding: 0;margin-right: 10px">
+                                            <select class="form-select py-2 px-1 mr-5" id="sort" title="Sort">
                                                 <option>Default</option>
                                                 <option value="Latest" ${sort == "Latest" ? "selected" : ""}>By Newest Arrivals</option>
                                                 <option value="Oldest" ${sort == "Oldest" ? "selected" : ""}>By Oldest Products</option>
@@ -167,24 +208,35 @@
                                     <div class="col-lg-3 col-md-6">
                                         <div class="products-single fix" style="border: solid lightgray 1px;border-radius: 5px">
                                             <div class="box-img-hover">
-                                                <div class="type-lb">
-                                                    <c:choose>
-                                                        <c:when test="${(apr.isFeatured)}">
-                                                            <p class="sale">Hot</p>
-                                                        </c:when>
-                                                        <c:when test="${apr.createdDate >= oneMonthAgo}">
-                                                            <p class="new">New</p>
-                                                        </c:when>
-                                                    </c:choose>
-                                                </div>
-                                                <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
+                                                <c:choose>
+                                                    <c:when test="${apr.status != 'Available'}">
+                                                        <div class="type-ofs text-center align-items-center">
+                                                            <p class="out-of-stock">Out<br>of Stock</p>
+                                                        </div>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <div class="type-lb">
+                                                            <c:choose>
+                                                                <c:when test="${(apr.isFeatured)}">
+                                                                    <p class="sale">Hot</p>
+                                                                </c:when>
+                                                                <c:when test="${apr.createdDate >= oneMonthAgo}">
+                                                                    <p class="new">New</p>
+                                                                </c:when>
+                                                            </c:choose>
+                                                        </div>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                                <img src="${apr.thumbnail}" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%
                                                         User user = (User) session.getAttribute("user");
                                                         if (user != null && user.getRoleId() == 5) {
                                                     %>
-                                                    <a class="cart" href="#">Add to Cart</a>
+                                                    <c:if test="${apr.status eq 'Available'}">
+                                                        <a class="cart" href="#">Add to Cart</a>
+                                                    </c:if>
                                                     <%}%>
                                                 </div>
                                             </div>
@@ -289,19 +341,50 @@
         </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const selected = '<%= request.getParameter("category") %>';
+                const selectedId = '<%= request.getParameter("category") %>'.trim();
+                const selectedName = '<%= request.getParameter("categoryName") %>'.trim();
 
-                if (selected && selected.trim() !== '') {
-                    Cate = 'category=' + selected;
+                if (selectedName || selectedId) {
                     const cates = document.querySelectorAll('.product-content a');
 
                     cates.forEach(cate => {
-                        if (cate.getAttribute('href').includes(Cate)) {
+                        const matchesName = selectedName && cate.innerText.trim() === selectedName;
+                        const matchesId = selectedId && cate.getAttribute('href').includes('category=' + selectedId);
+
+                        if (matchesName || matchesId) {
                             cate.parentElement.parentElement.parentElement.parentElement.style.transform = 'scale(1.1) translateX(20px)';
                             cate.style.fontWeight = '900';
                         }
                     });
                 }
+            });
+
+        </script>
+        <script>
+            // Clear search button
+            const searchInput = document.getElementById('search');
+            const clearButton = document.getElementById('clearSearchInput');
+
+            document.addEventListener('DOMContentLoaded', () => {
+                if (searchInput.value.trim() !== '') {
+                    clearButton.style.display = 'block';
+                }
+            });
+            searchInput.addEventListener('input', () => {
+                if (searchInput.value !== '') {
+                    clearButton.style.display = 'block';
+                } else {
+                    clearButton.style.display = 'none';
+                }
+            });
+            searchInput.addEventListener('focusout', () => {
+                if (searchInput.value === '') {
+                    clearButton.style.display = 'none';
+                }
+            });
+            clearButton.addEventListener('click', () => {
+                searchInput.value = '';
+                clearButton.style.display = 'none';
             });
         </script>
     </body>

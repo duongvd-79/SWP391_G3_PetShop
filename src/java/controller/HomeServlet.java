@@ -82,7 +82,7 @@ public class HomeServlet extends HttpServlet {
         // Get product category list
         SettingDAO settingDAO = new SettingDAO();
         List<Setting> prCategory = settingDAO.getActiveByType("Product Category");
-        request.setAttribute("prcategory", prCategory);
+        getServletContext().setAttribute("prcategory", prCategory);
 
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }

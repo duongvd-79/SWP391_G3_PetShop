@@ -24,34 +24,37 @@ import model.User;
  */
 @MultipartConfig
 public class UserProfileServlet extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserProfileServlet</title>");  
+            out.println("<title>Servlet UserProfileServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserProfileServlet at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UserProfileServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,7 +62,7 @@ public class UserProfileServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -70,10 +73,11 @@ public class UserProfileServlet extends HttpServlet {
         } else {
             response.sendRedirect("home#profile");
         }
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -81,83 +85,100 @@ public class UserProfileServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
+        if (session == null) {
             session = request.getSession(true);
             String error = "Please login first!";
             session.setAttribute("error", error);
-            response.sendRedirect("#login");
+            response.sendRedirect("home#login");
         } else {
-            UserDAO userDAO = new UserDAO();
-            AddressDAO addressDAO = new AddressDAO();
-            
-            // Create path components to save the file
-            String uploadPath = "C:\\Users\\duongvu\\Documents\\NetBeansProjects\\SWP391_G3_PetShop\\web\\images\\userpfp";
-            File uploadDir = new File(uploadPath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdir();
+            User user = (User) session.getAttribute("user");
+            if (user == null) {
+                session = request.getSession(true);
+                String error = "Please login first!";
+                session.setAttribute("error", error);
+                response.sendRedirect("#login");
+            } else {
+                // Error flag
+                boolean changeFlag = true;
+
+                UserDAO userDAO = new UserDAO();
+                AddressDAO addressDAO = new AddressDAO();
+
+                // Create path components to save the file
+                String uploadPath = getServletContext().getRealPath("/") + "images\\userpfp";
+                File uploadDir = new File(uploadPath);
+                if (!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+
+                // Handle file upload
+                Part filePart = request.getPart("profilepfp");
+                String fileName = filePart.getSubmittedFileName();
+                File file = new File(uploadDir, fileName);
+
+                // Save the file
+                if (fileName != null && !fileName.equals("")) {
+                    filePart.write(file.getAbsolutePath());
+                    // Generate URL for the uploaded file
+                    String fileUrl = "images\\userpfp\\" + fileName;
+                    user.setPfp(fileUrl);
+                }
+
+                // Handle text inputs
+                Part namePart = request.getPart("pfname");
+                String name = getValueFromPart(namePart).trim();
+
+                Part phonePart = request.getPart("pfphone");
+                String phone = getValueFromPart(phonePart).trim();
+
+                Part genderPart = request.getPart("pfgender");
+                String gender = getValueFromPart(genderPart).trim();
+
+                Part districtPart = request.getPart("pfdistrict");
+                String district = getValueFromPart(districtPart).trim();
+
+                Part cityPart = request.getPart("pfcity");
+                String city = getValueFromPart(cityPart).trim();
+
+                Part detailaddressPart = request.getPart("pfdetailaddress");
+                String detailAddress = getValueFromPart(detailaddressPart);
+
+                // Update user
+                user.setName(name);
+                if (gender != null) {
+                    user.setGender(gender.equals("Male"));
+                }
+                user.setPhone(phone);
+                userDAO.updateUserProfile(user);
+                session.setAttribute("user", user);
+
+                // Update address
+                Address address = addressDAO.getAddress(user.getId());
+                if (address == null) {
+                    addressDAO.addAddress(city, district, detailAddress, user.getId());
+                    address = addressDAO.getAddress(user.getId());
+                }
+                address.setCity(city);
+                address.setDistrict(district);
+                address.setDetail(detailAddress);
+                addressDAO.updateUserAddress(address);
+                session.setAttribute("address", address);
+
+                // Display notification
+                if (changeFlag) {
+                    String Noti = "Updated successfully!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+                } else {
+                    String Noti = "Updated failed!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "error");
+                }
+
+                response.sendRedirect("#profile");
             }
-
-            // Handle file upload
-            Part filePart = request.getPart("profilepfp");
-            String fileName = filePart.getSubmittedFileName();
-            File file = new File(uploadDir, fileName);
-
-            // Save the file
-            if (fileName != null && !fileName.equals("")) {
-                filePart.write(file.getAbsolutePath());
-                // Generate URL for the uploaded file
-                String fileUrl = "images\\userpfp\\" + fileName;
-                user.setPfp(fileUrl);
-            }
-
-            // Handle text inputs
-            Part namePart = request.getPart("pfname");
-            String name = getValueFromPart(namePart).trim();
-
-            Part phonePart = request.getPart("pfphone");
-            String phone = getValueFromPart(phonePart).trim();
-            
-            Part genderPart = request.getPart("pfgender");
-            String gender = getValueFromPart(genderPart).trim();
-            
-            Part districtPart = request.getPart("pfdistrict");
-            String district = getValueFromPart(districtPart).trim();
-            
-            Part cityPart = request.getPart("pfcity");
-            String city = getValueFromPart(cityPart).trim();
-            
-            Part detailaddressPart = request.getPart("pfdetailaddress");
-            String detailAddress = getValueFromPart(detailaddressPart);
-
-            // Update user
-            user.setName(name);
-            if (gender != null) {
-                user.setGender(gender.equals("Male"));
-            }
-            user.setPhone(phone);
-            userDAO.updateUserProfile(user);
-            session.setAttribute("user", user);
-            
-            // Update address
-            Address address = addressDAO.getAddress(user.getId());
-            if (address == null) {
-                addressDAO.addAddress(city, district, detailAddress, user.getId());
-                address = addressDAO.getAddress(user.getId());
-            }
-            address.setCity(city);
-            address.setDistrict(district);
-            address.setDetail(detailAddress);
-            addressDAO.updateUserAddress(address);
-            session.setAttribute("address", address);
-            
-            String successNoti = "Updated successfully!";
-            session.setAttribute("successnoti", successNoti);
-            session.setAttribute("toastType", "success");
-            
-            response.sendRedirect("#profile");
         }
     }
 
@@ -176,8 +197,9 @@ public class UserProfileServlet extends HttpServlet {
         return null; // or return an empty string or handle the null case accordingly
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

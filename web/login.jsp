@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : Jun 14, 2024, 1:36:56 PM
-    Author     : ACER
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="login" class="overlay">
     <div class="popup">
@@ -14,6 +8,7 @@
             </div>
             <form action="login" method="post">
                 <div class="form-group first">
+                    <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
                     <p class="text-danger">${sessionScope.error}</p>
                     <%
                         session.removeAttribute("error");
@@ -24,7 +19,7 @@
                 <div class="form-group last mb-1 position-relative">
                     <label for="password">Password</label>
                     <input type="password" class="form-control" id="login-password" name="password">
-                    <span id="togglePassword"><i class="bi bi-eye"></i></span>
+                    <i class="bi bi-eye" id="togglePassword"></i>
                 </div>
                 <div class="d-flex mb-4 align-items-center">
                     <!--Reset password-->

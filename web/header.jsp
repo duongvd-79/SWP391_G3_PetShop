@@ -25,7 +25,7 @@
                     <a href="productlist" class="nav-link dropdown-toggle" data-toggle="dropdown">Product <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="productlist">All Products</a></li>
-                            <c:forEach items="${requestScope.prcategory}" var="prcate">
+                            <c:forEach items="${applicationScope.prcategory}" var="prcate">
                             <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
                             </c:forEach>
                     </ul>
@@ -66,19 +66,19 @@
         %>
         <!-- Login Popup -->
         <jsp:include page="login.jsp"></jsp:include>
-        <!-- End Login Popup -->
+            <!-- End Login Popup -->
 
-        <!-- Begin Register Popup -->
+            <!-- Begin Register Popup -->
         <jsp:include page="register.jsp"></jsp:include>
-        <!-- End Register Popup -->
+            <!-- End Register Popup -->
 
-        <!-- Begin Verify email popup -->
-        <div id="verify" class="overlay">
-            <div class="popup">
-                <h2 class="ms-3 mb-3">H2DV Petshop</h2>
-                <a class="close" href="#">&times;</a>
-                <div class="content container-fluid">
-                    <h2>A verification link had been sended to ${sessionScope.newuser.getEmail()}</h2>
+            <!-- Begin Verify email popup -->
+            <div id="verify" class="overlay">
+                <div class="popup">
+                    <h2 class="ms-3 mb-3">H2DV Petshop</h2>
+                    <a class="close" href="#">&times;</a>
+                    <div class="content container-fluid">
+                        <h2>A verification link had been sended to ${sessionScope.newuser.getEmail()}</h2>
                     <h3>Check your email for verification!</h3>
                 </div>
             </div>
@@ -113,7 +113,7 @@
         %>
         <!-- Begin User Profile -->
         <jsp:include page="userProfile.jsp"></jsp:include>
-        <!-- End User Profile -->
+            <!-- End User Profile -->
         <jsp:include page="changepassword.jsp"></jsp:include>
             <!-- End User Profile -->
         <%}%>
@@ -182,12 +182,12 @@
     }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function () {
-        var toastMessage = '${sessionScope.successnoti}';
+        var toastMessage = '${sessionScope.noti}';
         var toastType = '${sessionScope.toastType}';
         if (toastMessage) {
             if (toastType === 'success') {
@@ -196,7 +196,7 @@
                 toastr.error(toastMessage);
             }
     <% 
-                session.removeAttribute("successnoti");
+                session.removeAttribute("noti");
                 session.removeAttribute("toastType");
     %>
         }
@@ -281,19 +281,35 @@
     // Image upload
     var file = document.getElementById('file-upload');
     var previewImage = document.getElementById('preview-img');
+    var fileSizeWarning = document.getElementById('file-size-warning');
 
     file.addEventListener('change', function () {
         var fileName = this.files[0].name;
         document.getElementById('file-name').textContent = fileName;
     });
-    file.addEventListener('change', (e) => {
+    
+    // Handle umage size
+    file.addEventListener('change', function (e) {
         var reader = new FileReader();
+        var file1 = this.files[0];
+        const maxSize = 50 * 1024 * 1024;
 
-        reader.onload = (event) => {
-            previewImage.src = event.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        if (file1.size > maxSize) {
+            fileSizeWarning.style.display = 'block';
+            
+            // Clear the file input
+            this.value = '';
+            previewImage.src = '';
+            document.getElementById('file-name').textContent = '';
+        } else {
+            fileSizeWarning.style.display = 'none';
+            reader.onload = (event) => {
+                previewImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file1);
+        }
     });
+
 
     // Toggle save button on changes
     document.addEventListener('DOMContentLoaded', function () {
@@ -325,7 +341,6 @@
             }
         }
         ;
-
         name.addEventListener('input', toggleButton);
         phone.addEventListener('input', toggleButton);
         male.addEventListener('change', toggleButton);
@@ -379,142 +394,17 @@
                 link.parentElement.classList.add('active');
             }
         });
-        
+
+        // Get page path for login
         const path = document.getElementById('pathName');
-        path.value = window.location.pathname.split('/').pop();
+        path.value = window.location.pathname.split('/').pop() + window.location.search;
+    });
+
+    const showLoginPwBtn = document.getElementById('togglePassword');
+    const loginPasswordInput = document.getElementById('login-password');
+    showLoginPwBtn.addEventListener('click', () => {
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+        loginPasswordInput.type = loginPasswordInput.type === 'text' ? 'password' : 'text';
     });
 </script>
-<script>
-    // Field guide popup
-    const nameInput = document.getElementById('pfname');
-    const nameInfo = document.getElementById('name-info');
-    const emailInput = document.getElementById('pfemail');
-    const emailInfo = document.getElementById('email-info');
-    const phoneInput = document.getElementById('pfphone');
-    const phoneInfo = document.getElementById('phone-info');
-
-    nameInput.addEventListener('focus', () => {
-        nameInfo.style.display = 'block';
-    });
-    nameInput.addEventListener('blur', () => {
-        nameInfo.style.display = 'none';
-    });
-
-    emailInput.addEventListener('mouseover', () => {
-        emailInfo.style.display = 'block';
-    });
-    emailInput.addEventListener('mouseout', () => {
-        emailInfo.style.display = 'none';
-    });
-
-    phoneInput.addEventListener('focus', () => {
-        phoneInfo.style.display = 'block';
-    });
-    phoneInput.addEventListener('blur', () => {
-        phoneInfo.style.display = 'none';
-    });
-
-    // Render cites & districts
-    var cities = document.getElementById("pfcity");
-    var districts = document.getElementById("pfdistrict");
-
-    var Parameter = {
-        url: "js/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
-
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-        renderCity(result.data);
-    });
-
-    function renderCity(data) {
-        for (const city of data) {
-            const option = new Option(city.Name);
-            option.value = city.Name;
-            option.selected = city.Name === '${sessionScope.address.getCity()}';
-            cities.add(option);
-        }
-
-        if (cities.value !== "") {
-            renderDistrict(cities.value, data);
-        }
-        cities.onchange = function () {
-            renderDistrict(this.value, data);
-        };
-
-        function renderDistrict(selectedCityName, data) {
-            districts.length = 1;
-
-            if (selectedCityName !== "") {
-                const selectedCity = data.find(city => city.Name === selectedCityName);
-
-                for (const district of selectedCity.Districts) {
-                    const option = new Option(district.Name);
-                    option.value = district.Name;
-                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
-                    districts.add(option);
-                }
-            }
-        }
-    }
-    
-    // Image upload
-    var file = document.getElementById('file-upload');
-    var previewImage = document.getElementById('preview-img');
-
-    file.addEventListener('change', function () {
-        var fileName = this.files[0].name;
-        document.getElementById('file-name').textContent = fileName;
-    });
-    file.addEventListener('change', (e) => {
-        var reader = new FileReader();
-
-        reader.onload = (event) => {
-            previewImage.src = event.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    });
-    
-    // Toggle save button on changes
-    document.addEventListener('DOMContentLoaded', function () {
-        var name = document.getElementById('pfname');
-        var phone = document.getElementById('pfphone');
-        var male = document.getElementById('pfmale')
-        var female = document.getElementById('pffemale')
-        var city = document.getElementById('pfcity');
-        var district = document.getElementById('pfdistrict');
-        var detailaddress = document.getElementById('pfdetailaddress');
-        var saveButton = document.getElementById('save-button');
-        const originalName = '${sessionScope.user.name}';
-        const originalPhone = '${sessionScope.user.phone}';
-        const originalGender = '${sessionScope.user.gender}';
-        const originalCity = '${sessionScope.address.city}';
-        const originalDistrict = '${sessionScope.address.district}';
-        const originalDetailAddress = '${sessionScope.address.detail}';
-
-        function toggleButton() {
-            if (name.value !== originalName || phone.value !== originalPhone
-                    || (originalGender === 'Male' && female.checked)
-                    || (originalGender === 'Female' && male.checked)
-                    || file.value !== '' || city.value !== originalCity
-                    || district.value !== originalDistrict
-                    || detailaddress.value !== originalDetailAddress) {
-                saveButton.disabled = false;
-            } else {
-                saveButton.disabled = true;
-            }
-        };
-
-        name.addEventListener('input', toggleButton);
-        phone.addEventListener('input', toggleButton);
-        male.addEventListener('change', toggleButton);
-        female.addEventListener('change', toggleButton);
-        file.addEventListener('change', toggleButton);
-        city.addEventListener('change', toggleButton);
-        district.addEventListener('change', toggleButton);
-        detailaddress.addEventListener('input', toggleButton);
-    });
-</script>
-
