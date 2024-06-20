@@ -65,7 +65,7 @@ public class AddressDAO extends DBContext {
             stm.setInt(1, userId);
             rs = stm.executeQuery();
             if (rs.next()) {
-                String sql2 = "SELECT * FROM address WHERE id = ?";
+                String sql2 = "SELECT * FROM address WHERE id = ? AND is_default = 1";
                 stm = connection.prepareStatement(sql2);
                 stm.setInt(1, rs.getInt("address_id"));
                 rs = stm.executeQuery();
@@ -187,11 +187,33 @@ public class AddressDAO extends DBContext {
             sta.setInt(1, aid);
             sta.setInt(2, uid);
             sta.executeUpdate();
+            } catch (SQLException e) {
+        }
+    }
+
+    public void addAddress(String city, String district, String detail, int userId) {
+        try {
+            String sql = "INSERT INTO address(district, city, detail, is_default) VALUES (?, ?, ?, 1)";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, district);
+            stm.setString(2, city);
+            stm.setString(3, detail);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+        try {
+            int aid = getLastId();
+            String strSelect = "INSERT INTO user_address(customer_id, address_id) VALUES (?, ?) ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setInt(1, userId);
+            stm.setInt(2, aid);
+            stm.executeUpdate();
+        } catch (SQLException e) {
         }
     }
 
     public static void main(String[] args) throws SQLException {
         AddressDAO aDAO = new AddressDAO();
-        aDAO.addNewUserAddress();
+        aDAO.addAddress("hn", "aa", "ddd", 4);
     }
 }

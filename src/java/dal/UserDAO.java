@@ -1,5 +1,6 @@
 package dal;
 
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -247,7 +248,7 @@ public class UserDAO extends DBContext {
         sta.setString(2, u.getPassword());
         sta.setString(3, u.getName());
         sta.setBoolean(4, (u.getGender().equals("Male")));
-        sta.setString(5, u.getStatus());
+        sta.setString(5, "Active");
         sta.setInt(6, u.getRoleId());
         sta.setString(7, u.getPhone());
         sta.executeUpdate();
@@ -282,11 +283,23 @@ public class UserDAO extends DBContext {
                 user.setPfp(rs.getString("pfp"));
                 user.setRoleId(rs.getInt("role_id"));
                 user.setGender(rs.getBoolean("gender"));
-                user.setLastLog(rs.getDate("last_log"));
                 user.setCreateDate(rs.getDate("create_date"));
+                
+                // Set last login time
+                Date currentDate = new Date();
+                user.setLastLog(currentDate);
+                
+                // Update last login time in database
+                sql = "UPDATE user SET last_log = ? WHERE id = ?";
+                stm = connection.prepareStatement(sql);
+                stm.setTimestamp(1, new Timestamp(currentDate.getTime()));
+                stm.setInt(2, user.getId());
+                stm.executeUpdate();
+                
                 return user;
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -310,7 +323,6 @@ public class UserDAO extends DBContext {
         String sql = "SELECT COUNT(*) as count FROM user where role_id = 5";
         try {
             PreparedStatement sta = connection.prepareStatement(sql);
-            sta = connection.prepareStatement(sql);
             ResultSet rs = sta.executeQuery();
             if (rs.next()) {
                 return rs.getInt("count");
@@ -325,7 +337,6 @@ public class UserDAO extends DBContext {
         String sql = "SELECT COUNT(*) as count FROM user where role_id = 5 and create_date between '" + start + "' and '" + end + "'";
         try {
             PreparedStatement sta = connection.prepareStatement(sql);
-            sta = connection.prepareStatement(sql);
             ResultSet rs = sta.executeQuery();
             if (rs.next()) {
                 return rs.getInt("count");
@@ -422,6 +433,5 @@ public class UserDAO extends DBContext {
             System.out.println(user.getName());
         }
 
-    }
 
 }

@@ -20,8 +20,6 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/custom.css">
         <style>
             .ellipsis-text {
                 white-space: nowrap;
@@ -84,6 +82,12 @@
 
             <div class="latest-blog">
                 <div class="container">
+                    <nav aria-label="breadcrumb" class="position-sticky" style="top: 111px; z-index: 1;">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Blog List</li>
+                        </ol>
+                    </nav>
                     <div class="row">
                         <div class="search-container">
                             <form action="bloglist" method="GET">

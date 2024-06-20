@@ -31,18 +31,20 @@
         <link href="css/admin.css" rel="stylesheet">
         <title>User List</title>
     </head>
+    <style>
+        #search-form{
+                display:none !important;
+            }
+    </style>
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
-                <nav class="navbar bg-light navbar-light">
-                    <a href="#" class="navbar-brand mx-4 mb-3">
-                        <h1 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h1>
-                    </a>
+            <div style="margin-top:125px;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
+                <nav class="navbar navbar-light">
                     <div class="d-flex align-items-center ms-4 mb-4">
 
                     </div>
-                    <div class="navbar-nav w-100">
+                    <div class="navbar-nav w-100 mb-1">
                         <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
                         <a href="userlist" class="nav-item nav-link active"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
@@ -53,14 +55,14 @@
 
 
             <!-- Content Start -->
-            <div class="content">
+            <div class="content m-0 w-100">
                 <!-- Navbar Start -->
                 <jsp:include page="adminheader.jsp"></jsp:include>
                 <!-- Navbar End -->
 
 
                 <div class="container-fluid rounded bg-white mt-5 mb-5 shadow-sm">
-                    <div class="row">
+                    <div style="margin-left:260px;" class="row">
                         <div class="row d-flex align-items-center mb-3">
                             <div class="col-md-5 function">
                                 <div class="input-group d-flex ">

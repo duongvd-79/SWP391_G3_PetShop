@@ -62,11 +62,15 @@ public class ResetVerifyServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String key = request.getParameter("key");
         String alert = "";
-        String email = request.getParameter("email");
-        if (key.equals((String) session.getAttribute("key"))) {
+        String email = (String) session.getAttribute("email");
+        long creationTime = session.getCreationTime();
+        long currentTime = System.currentTimeMillis();
+        long maxInactiveInterval = 180 * 1000;
+        if (key.equals((String) session.getAttribute("key")) && currentTime - creationTime < maxInactiveInterval) {
+            session.setAttribute("checkemail", email);
             session.setAttribute("alert", alert);
             response.sendRedirect("home#enterreset");
-        } else if (session.getAttribute("key") == null) {
+        } else if (session.getAttribute("key") == null || currentTime - creationTime > maxInactiveInterval) {
             alert = "Link had been expired";
             session.setAttribute("alert", alert);
             response.sendRedirect("home#reset");

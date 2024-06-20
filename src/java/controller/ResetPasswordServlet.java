@@ -85,9 +85,8 @@ public class ResetPasswordServlet extends HttpServlet {
             String key= KeyGenerator.getKey();
             session.setAttribute("key", key);
             session.setAttribute("email",email);
-            session.setMaxInactiveInterval(180);
             SendMail.sendMail(email, "Reset Your Password", "Click this link to reset your password:\n"+"http://localhost:9090/SWP391_G3_PetShop/resetverify?key="+key+"\n This link will expired in 3 minutes.");
-            response.sendRedirect("home#verifypopup");
+            response.sendRedirect("home#verify");
         }
     }
 
@@ -107,7 +106,7 @@ public class ResetPasswordServlet extends HttpServlet {
         String alert="";
         String password = request.getParameter("password");
         String cfpassword = request.getParameter("cfpassword");
-        String email = (String) session.getAttribute("email");
+        String email = (String) session.getAttribute("checkemail");
         //password not match 
         if(!password.equals(cfpassword)){
             alert = "Confirm password does not match";

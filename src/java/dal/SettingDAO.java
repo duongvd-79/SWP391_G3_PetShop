@@ -102,6 +102,27 @@ public class SettingDAO extends DBContext {
         return outputlist;
     }
 
+    // Get all active setting by type
+    public List<Setting> getActiveByType(String type) {
+        List<Setting> outputlist = new ArrayList<>();
+        for (Setting s : getAllByType(getAll(), type)) {
+            if (s.getStatus().equals("Active")) {
+                outputlist.add(s);
+            }
+        }
+        return outputlist;
+    }
+
+    // Get all active setting by name
+    public String getActiveById(int id) {
+        for (Setting s : getAll()) {
+            if (s.getStatus().equals("Active") && s.getId() == id) {
+                return s.getName();
+            }
+        }
+        return null;
+    }
+
     //Lấy hết qua status
     public List<Setting> getAllByStatus(List<Setting> list, String status) {
         List<Setting> outputlist = new ArrayList<>();
@@ -196,7 +217,7 @@ public class SettingDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     //get all product category
     public List<Setting> getAllProductCategory() {
         List<Setting> list = new ArrayList<>();

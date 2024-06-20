@@ -82,6 +82,8 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
+        session.invalidate();
+        session = request.getSession(true);
         UserDAO uDAO = new UserDAO();
         List<User> uList = new ArrayList<>();
         try {
@@ -111,17 +113,16 @@ public class RegisterServlet extends HttpServlet {
 
         if (dup) {
             session.setAttribute("alert", "Email had been taken.");
-            response.sendRedirect("home#registerpopup");
+            response.sendRedirect("home#register");
         } else if (!password.equals(cfpassword)) {
             session.setAttribute("alert", "Password not match.");
-            response.sendRedirect("home#registerpopup");
+            response.sendRedirect("home#register");
         } else {
             session.removeAttribute("alert");
             String key = KeyGenerator.getKey();
             session.setAttribute("key", key);
-            session.setMaxInactiveInterval(180);
             SendMail.sendMail(email, "Email verificaton", "Click this link to finish you registration:\n" + "http://localhost:9090/SWP391_G3_PetShop/emailverify?key=" + key + "\n This link will expired in 3 minutes.");
-            response.sendRedirect("home#verifypopup");
+            response.sendRedirect("home#verify");
         }
 
     }

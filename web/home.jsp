@@ -7,14 +7,13 @@
         <meta content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>PetShop Home Page</title>
+        <title>PetShop Homepage</title>
 
         <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         <!-- Icon CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <!-- Site CSS -->
@@ -66,27 +65,19 @@
         </style>
     </head>
     <body>
-
         <jsp:include page="header.jsp"></jsp:include>
 
             <!-- Start Top Search -->
-            <div class="top-search">
-                <div class="container">
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Search">
-                        <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            <div class="container-fluid form-control mb-2">
+                <div class="row">
+                    <div class="col-12">
+                        <input type="search" placeholder="Search" style="width: 100%">
                     </div>
                 </div>
             </div>
             <!-- End Top Search -->
 
             <!-- Start Slider -->
-            <div class="container-fluid row form-control mb-2">
-                <div class="col-12">
-                    <input type="search" placeholder="Search" style="width: 100%">
-                </div>
-            </div>
             <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
                 <c:forEach items="${requestScope.slider}" var="sl">
@@ -112,11 +103,11 @@
 
         <div class="container-fluid">
             <div class="row">
-                <div class="container-fluid col-sm-3">
+                <div class="sidebar container-fluid col-sm-3">
                     <!-- Sidebar  -->
-                    <div class="container-fluid">
+                    <div class="container-fluid sticky-top" style="top: 111px;z-index: 2;">
                         <div class="row">
-                            <div class="col-12 text-center mt-5">
+                            <div class="col-12 text-center mt-3">
                                 <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Latest blog</h3>
                             </div>
                         </div>
@@ -142,7 +133,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-sm-9 border-left">
                     <!-- Start Products  -->
                     <div class="products-box">
@@ -166,27 +156,20 @@
                                 </div>
                             </div>
 
-                            <div class="row special-list" id="featured-list">
+                            <div class="row" id="featured-list">
                                 <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
-                                    <div class="col-lg-3 col-md-6 special-grid ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
+                                    <div class="col-lg-3 col-md-6 ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                                         <div class="products-single fix">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">
-                                                    <c:choose>
-                                                        <c:when test="${(apr.isFeatured)}">
-                                                            <p class="sale">Hot</p>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <p class="new">New</p>
-                                                        </c:otherwise>
-                                                    </c:choose>
+                                                    <p class="sale">Hot</p>
                                                 </div>
                                                 <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%
                                                         User user = (User) session.getAttribute("user");
-                                                        if (user != null) {
+                                                        if (user != null && user.getRoleId() == 5) {
                                                     %>
                                                     <a class="cart" href="addcarthomepage?productid=${apr.id}&quantity=1">Add to Cart</a>
                                                     <%}%>

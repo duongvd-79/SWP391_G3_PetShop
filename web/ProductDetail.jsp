@@ -31,14 +31,6 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-        <!-- Custom CSS -->
-        <link rel="stylesheet" href="css/custom.css">
-
-
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
 
     </head>
 
@@ -123,6 +115,9 @@
                             </div>
                             <p class="available-stock"><span> <a href="#">${requestScope.product.quantity} remains</a></span><p>
                             <h4>Short Description:</h4>
+                            <h5><del>${requestScope.product.listPrice + 100}00 đ</del>&nbsp;&nbsp;${requestScope.product.listPrice}00 đ</h5>
+                            <p class="available-stock"><span> <a href="#">8 sold</a></span><p>
+                            <h4>Description:</h4>
                             <p>${requestScope.product.description}</p>
                             <%
                                 User user = (User) session.getAttribute("user");
@@ -138,6 +133,9 @@
                             </ul>
 
                             <div class="price-box-bar">
+                                <%
+                                    if (user != null && user.getRoleId() == 5) {
+                                %>
                                 <div class="cart-and-bay-btn">
                                     <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
                                     <a id="addToCartLink" class="btn hvr-hover" data-fancybox-close="" href="#" onclick="return updateHref()">Add to cart</a>
@@ -145,6 +143,9 @@
                                 <div>
                                     <p id="msg" style="color: red;"></p>
                                 </div>
+                                <%} else {%>
+                                <a class="btn hvr-hover" data-fancybox-close="" href="#loginpopup">Login to Buy</a>
+                                <%}%>
                             </div>
 
                             <script>
@@ -278,7 +279,7 @@
                                     <div class="mask-icon">
                                         <a class="view" href="productdetail?id=${p.id}">View</a>
                                         <%
-                                            if (user != null) {
+                                            if (user != null && user.getRoleId() == 5) {
                                         %>
                                         <a class="cart" href="addcart?productid=${p.id}&quantity=1&currentid=${requestScope.product.id}">Add to Cart</a>
                                         <%}%>

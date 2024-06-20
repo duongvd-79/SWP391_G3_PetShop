@@ -30,25 +30,27 @@
         <link href="css/admin.css" rel="stylesheet">
         <title>Setting List</title>
     </head>
+    <style>
+        #search-form{
+                display:none !important;
+            }
+    </style>
 
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div class="sidebar pe-4 pb-3">
+            <div style="margin-top:125px;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
                 <nav style="padding: 10px 20px;" class="navbar">
-                    <a href="#" class="navbar-brand mx-4 mb-3">
-                        <h1 class="text-primary"><i class="fa fa-hashtag me-2"></i>ADMIN</h1>
-                    </a>
                     <div class="d-flex align-items-center ms-4 mb-4">
 
                     </div>
                     <div class="navbar-nav w-100 mb-1">
-                        <a href="admindashboard" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>Setting</a>
+                        <a href="admindashboard" class="nav-item nav-link h6"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
                         <div class="border-0 mb-1">
-                            <a style="margin-left: 41%;color:#009CFF; " href="#" class="nav-item active h7">Setting Details</a>
+                            <a style="margin-left: 41%; " href="#" class="nav-item active h7">Setting Details</a>
                         </div>
-                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>User List</a>
+                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -56,7 +58,7 @@
 
 
             <!-- Content Start -->
-            <div class="content">
+            <div class="content m-0 w-100">
                 <!-- Navbar Start -->
                 <jsp:include page="adminheader.jsp"></jsp:include>
                 <!-- Navbar End -->
@@ -64,7 +66,8 @@
 
                 <c:set value="${sessionScope.detail}" var="detail"/>
                 <div class="container-fluid rounded bg-white shadow-sm d-flex justify-content-center">
-                    <div style="width:60%;" class="p-2 pb-5 pt-1">
+                    <div style="margin-left:260px;" class="row">
+                    <div style="width:60vw;" class="p-2 pb-5 pt-1">
 
                         <form class="row mt-3" method="get" action="setting">
                             <input type="hidden" name="action" value="update">
@@ -138,15 +141,14 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
                 </div>     
             </div>
 
             <!-- Content End -->
 
 
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+
         </div>
 
         <!-- JavaScript Libraries -->
