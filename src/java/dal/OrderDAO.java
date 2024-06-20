@@ -122,7 +122,7 @@ public class OrderDAO extends DBContext {
         String sql = "SELECT COUNT(product_id) AS count\n"
                 + "FROM order_details as od join `order` as o on o.id= od.order_id \n"
                 + "WHERE o.customer_id = ? and o.status =?\n"
-                + "GROUP BY order_id order by ordered_date desc";
+                + "GROUP BY order_id order by ordered_date desc limit ?,?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, uid);

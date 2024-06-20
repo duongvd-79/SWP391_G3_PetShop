@@ -16,7 +16,7 @@
             <form action="changepassword" method="post">
                 <div class="form-group first mb-1 position-relative">
                     <label for="password">Old Password</label>
-                    <input type="password" name="oldpassword" id="login-password6" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" class="form-control">
+                    <input type="password" name="oldpassword" id="login-password6" class="form-control">
                     <span id="togglePassword6" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-1 position-relative">

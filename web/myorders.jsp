@@ -50,9 +50,21 @@
         </style>
     </head>
     <jsp:include page="header.jsp"></jsp:include>
+        
         <body>
+            <div class="all-title-box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <ul style="font-weight:bold;background-color: transparent;" class="breadcrumb float-left">
+                            <li style="color:#b0b435;" class="breadcrumb-item active">MY ORDERS</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            <div style="min-height:759px;" class="container ">
+            <div style="min-height:759px;" class="container mt-2 ">
                 <div class="row">
                     <ul class="nav nav-tabs w-100">
                         <li class="nav-item status">
