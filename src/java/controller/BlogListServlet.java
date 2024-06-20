@@ -22,8 +22,6 @@ import model.Setting;
  * @author Acer
  */
 public class BlogListServlet extends HttpServlet {
-public class SortBlogServlet extends HttpServlet {
-public class BlogListServlet extends HttpServlet {
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -67,16 +65,16 @@ public class BlogListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO dao = new PostDAO();
-    SettingDAO dao1 = new SettingDAO();
-    String search = request.getParameter("search");
-    String categoryId = request.getParameter("categoryID");
-    search = search == null ? "" : search;
-    categoryId = categoryId == null ? "" : categoryId;
-    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
-    List<Setting> listS = dao1.getPostCategory();
-    request.setAttribute("listp", listp);
-    request.setAttribute("listC", listS);
-    request.getRequestDispatcher("bloglist.jsp").forward(request, response);
+//    SettingDAO dao1 = new SettingDAO();
+//    String search = request.getParameter("search");
+//    String categoryId = request.getParameter("categoryID");
+//    search = search == null ? "" : search;
+//    categoryId = categoryId == null ? "" : categoryId;
+//    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+//    List<Setting> listS = dao1.getPostCategory();
+//    request.setAttribute("listp", listp);
+//    request.setAttribute("listC", listS);
+//    request.getRequestDispatcher("bloglist.jsp").forward(request, response);
         SettingDAO dao1 = new SettingDAO();
         String search = request.getParameter("search");
         String categoryId = request.getParameter("categoryID");

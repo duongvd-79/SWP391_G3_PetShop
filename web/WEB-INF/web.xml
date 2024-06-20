@@ -61,14 +61,6 @@
         <servlet-class>controller.SortBlogServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>BlogListServlet</servlet-name>
-        <servlet-class>controller.BlogListServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BlogDetailServlet</servlet-name>
-        <servlet-class>controller.BlogDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
@@ -227,14 +219,6 @@
     <servlet-mapping>
         <servlet-name>SortBlogServlet</servlet-name>
         <url-pattern>/sortblog</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BlogListServlet</servlet-name>
-        <url-pattern>/bloglist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BlogDetailServlet</servlet-name>
-        <url-pattern>/blogdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
