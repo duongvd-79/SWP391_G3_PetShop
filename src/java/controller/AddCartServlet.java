@@ -80,22 +80,25 @@ public class AddCartServlet extends HttpServlet {
         try {
             if (user != null) {
 
+                ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
+                boolean duplicate = false;
+                for (Cart c : cartItemList) {
+                    if (c.getUserId() == user.getId() && c.getProductId() == productid) {
+                        duplicate = true;
 
-                    ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
-                    boolean duplicate = false;
-                    for (Cart c : cartItemList) {
-                        if (c.getUserId() == user.getId() && c.getProductId() == productid) {
-                            duplicate = true;
-
-                            cartdao.updateItemInCart(c.getQuantity() + quantity, c.getId());
-                            response.sendRedirect("productdetail?id=" + currentid);
-
-                        }
-                    }
-                    if (duplicate == false) {
-                        cartdao.AddToCart(productid, user.getId(), quantity);
+                        cartdao.updateItemInCart(c.getQuantity() + quantity, c.getId());
+                        ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
+                        session.setAttribute("size", cartDetailList.size());
                         response.sendRedirect("productdetail?id=" + currentid);
+
                     }
+                }
+                if (duplicate == false) {
+                    cartdao.AddToCart(productid, user.getId(), quantity);
+                    ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
+                    session.setAttribute("size", cartDetailList.size());
+                    response.sendRedirect("productdetail?id=" + currentid);
+                }
             } else {
                 response.sendRedirect("home");
             }

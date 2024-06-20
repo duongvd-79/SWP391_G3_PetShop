@@ -4,26 +4,27 @@
  */
 package controller;
 
-import dal.CartDAO;
+import dal.PostDAO;
+import dal.SettingDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Cart;
-import model.User;
+import java.util.List;
+import model.Post;
+import model.Setting;
 
 /**
  *
- * @author Admin
+ * @author Acer
  */
-public class AddCartPageServlet extends HttpServlet {
+<<<<<<<< HEAD:src/java/controller/SortBlogServlet.java
+public class SortBlogServlet extends HttpServlet {
+========
+public class BlogListServlet extends HttpServlet {
+>>>>>>>> master:src/java/controller/BlogListServlet.java
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +43,10 @@ public class AddCartPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddCartPageServlet</title>");
+            out.println("<title>Servlet SortBlogServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddCartPageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SortBlogServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,44 +64,21 @@ public class AddCartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pid = request.getParameter("productid");
-        String quan = request.getParameter("quantity");
-
-        CartDAO cartdao = new CartDAO();
-
-        int productid = Integer.parseInt(pid);
-        int quantity = Integer.parseInt(quan);
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        try {
-            if (user != null) {
-                ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
-                boolean duplicate = false;
-                for (Cart c : cartItemList) {
-                    if (c.getUserId() == user.getId() && c.getProductId() == productid) {
-                        duplicate = true;
-
-                        cartdao.updateItemInCart(c.getQuantity() + 1, c.getId());
-                        ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-                        session.setAttribute("size", cartDetailList.size());
-                        response.sendRedirect("cart");
-
-                    }
-                }
-                if (duplicate == false) {
-                    cartdao.AddToCart(productid, user.getId(), quantity);
-                    ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-                    session.setAttribute("size", cartDetailList.size());
-                    response.sendRedirect("cart");
-                }
-            } else {
-                response.sendRedirect("home");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AddCartPageServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PostDAO dao = new PostDAO();
+        SettingDAO dao1 = new SettingDAO();
+        String search = request.getParameter("search");
+        String categoryId = request.getParameter("categoryID");
+        search = search == null ? "" : search;
+        categoryId = categoryId == null ? "" : categoryId;
+        ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+        List<Setting> listS = dao1.getPostCategory();
+        request.setAttribute("listp", listp);
+<<<<<<<< HEAD:src/java/controller/SortBlogServlet.java
+        request.setAttribute("sList", listS);
+        request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
+========
+        request.getRequestDispatcher("bloglist.jsp").forward(request, response);
+>>>>>>>> master:src/java/controller/BlogListServlet.java
     }
 
     /**

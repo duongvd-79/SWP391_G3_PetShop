@@ -4,26 +4,24 @@
  */
 package controller;
 
-import dal.CartDAO;
+import dal.PostDAO;
+import dal.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Cart;
-import model.User;
+import java.util.List;
+import model.Post;
+import model.Setting;
 
 /**
  *
- * @author Admin
+ * @author Acer
  */
-public class AddCartPageServlet extends HttpServlet {
+public class EditBlogServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +40,10 @@ public class AddCartPageServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet AddCartPageServlet</title>");
+            out.println("<title>Servlet EditBlogServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet AddCartPageServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet EditBlogServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,44 +61,21 @@ public class AddCartPageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String pid = request.getParameter("productid");
-        String quan = request.getParameter("quantity");
-
-        CartDAO cartdao = new CartDAO();
-
-        int productid = Integer.parseInt(pid);
-        int quantity = Integer.parseInt(quan);
-
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        try {
-            if (user != null) {
-                ArrayList<Cart> cartItemList = cartdao.getAllItemInCart(user.getId());
-                boolean duplicate = false;
-                for (Cart c : cartItemList) {
-                    if (c.getUserId() == user.getId() && c.getProductId() == productid) {
-                        duplicate = true;
-
-                        cartdao.updateItemInCart(c.getQuantity() + 1, c.getId());
-                        ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-                        session.setAttribute("size", cartDetailList.size());
-                        response.sendRedirect("cart");
-
-                    }
-                }
-                if (duplicate == false) {
-                    cartdao.AddToCart(productid, user.getId(), quantity);
-                    ArrayList<Cart> cartDetailList = cartdao.getCartDetail(user.getId());
-                    session.setAttribute("size", cartDetailList.size());
-                    response.sendRedirect("cart");
-                }
-            } else {
-                response.sendRedirect("home");
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(AddCartPageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        PostDAO pDAO = new PostDAO();
+        SettingDAO sDAO = new SettingDAO();
+        List<Setting> sList;
+        List<Post> uList;
+        uList = pDAO.getAllPosts("", "");
+        sList = sDAO.getPostCategory();
+        request.setAttribute("sList", sList);
+        Post u = null;
+        int id = Integer.parseInt(request.getParameter("id"));
+        for (Post user : uList) {
+            if(user.getId()==id)
+                u=user;
         }
+        request.setAttribute("u", u);
+        request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
     }
 
     /**
@@ -114,7 +89,18 @@ public class AddCartPageServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        PostDAO pDAO = new PostDAO();
+        String action = request.getParameter("action");
+        if (action != null && action.equals("update")) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            String title = request.getParameter("title");
+            String thumbnail = request.getParameter("thumbnail");
+            String detail = request.getParameter("detail");
+            String status = request.getParameter("status");
+            String category = request.getParameter("category");
+            pDAO.updateBlog(id, title, thumbnail, detail, status, category);
+            response.sendRedirect("BlogManager");
+        }
     }
 
     /**

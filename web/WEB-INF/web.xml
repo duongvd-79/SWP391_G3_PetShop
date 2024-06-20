@@ -45,6 +45,30 @@
         <servlet-class>controller.SettingServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>AddBlogServlet</servlet-name>
+        <servlet-class>controller.AddBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogManagerServlet</servlet-name>
+        <servlet-class>controller.BlogManagerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditBlogServlet</servlet-name>
+        <servlet-class>controller.EditBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SortBlogServlet</servlet-name>
+        <servlet-class>controller.SortBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <servlet-class>controller.BlogDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>controller.RegisterServlet</servlet-class>
     </servlet>
@@ -187,6 +211,30 @@
     <servlet-mapping>
         <servlet-name>AddUserServlet</servlet-name>
         <url-pattern>/adduser</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddBlogServlet</servlet-name>
+        <url-pattern>/addblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogManagerServlet</servlet-name>
+        <url-pattern>/BlogManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditBlogServlet</servlet-name>
+        <url-pattern>/editblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SortBlogServlet</servlet-name>
+        <url-pattern>/sortblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <url-pattern>/blogdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
