@@ -12,8 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import model.Cart;
 
 public class CartDAO extends DBContext {
@@ -67,12 +65,12 @@ public class CartDAO extends DBContext {
             String thumbnail = rs.getString("thumbnail");
             double list_price = rs.getDouble("list_price");
             int quantity = rs.getInt("quantity");
-            Cart c = new Cart(id,pid, quantity, thumbnail, title, list_price);
+            Cart c = new Cart(id, pid, quantity, thumbnail, title, list_price);
             lst.add(c);
         }
         return lst;
     }
-    
+
     public void deleteCartItem(int id) throws SQLException {
         String sql = "DELETE FROM cart WHERE id = ?";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
@@ -80,11 +78,11 @@ public class CartDAO extends DBContext {
             sta.executeUpdate();
         }
     }
-    
+
     public static void main(String[] args) throws SQLException {
         CartDAO cartdao = new CartDAO();
         ArrayList<Cart> cartList = cartdao.getCartDetail(2);
-        for(Cart c : cartList) {
+        for (Cart c : cartList) {
             System.out.println(c.getTitle());
         }
     }

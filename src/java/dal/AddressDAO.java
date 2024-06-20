@@ -115,7 +115,7 @@ public class AddressDAO extends DBContext {
         }
         return a;
     }
-    
+
     public Address getChosenAddress(int aid) throws SQLException {
         String sql = "select * from address where id = ?";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -150,7 +150,7 @@ public class AddressDAO extends DBContext {
         }
         return al;
     }
-    
+
     public void addNewAddress(String city, String district, String detail) throws SQLException {
         try {
             String strSelect = "insert into address(detail,city,district,is_default) values (?,?,?,0) ";
@@ -163,8 +163,8 @@ public class AddressDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
-     public void AddUserAddress(int cid, int aid) throws SQLException {
+
+    public void AddUserAddress(int cid, int aid) throws SQLException {
         String sql = "insert into user_address(customer_id, address_id) values (?,?);";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
             sta.setInt(1, cid);
@@ -172,22 +172,22 @@ public class AddressDAO extends DBContext {
             sta.executeUpdate();
         }
     }
-    
-     public void deleteAddress(int id) throws SQLException {
+
+    public void deleteAddress(int id) throws SQLException {
         String sql = "DELETE FROM address WHERE id = ?";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
             sta.setInt(1, id);
             sta.executeUpdate();
         }
     }
-     
-     public void deleteUserAddress(int aid, int uid) throws SQLException {
+
+    public void deleteUserAddress(int aid, int uid) throws SQLException {
         String sql = "DELETE FROM user_address WHERE address_id = ? and customer_id = ?";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
             sta.setInt(1, aid);
             sta.setInt(2, uid);
             sta.executeUpdate();
-            } catch (SQLException e) {
+        } catch (SQLException e) {
         }
     }
 

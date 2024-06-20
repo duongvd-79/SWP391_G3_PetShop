@@ -8,8 +8,6 @@ package dal;
  *
  * @author Admin
  */
-import com.mysql.cj.jdbc.Blob;
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.PreparedStatement;
@@ -17,10 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import model.Product;
 import model.ProductFeedback;
-import model.User;
 
 public class FeedbackDAO extends DBContext {
 
@@ -95,7 +90,7 @@ public class FeedbackDAO extends DBContext {
         }
         return 0;
     }
-    
+
     public double getAverageRating(String pcategory) {
         String sql = "SELECT AVG(pf.star) AS averageRating "
                 + "FROM product_feedback as pf "
@@ -113,6 +108,7 @@ public class FeedbackDAO extends DBContext {
         }
         return 0;
     }
+
     public double getAverageRating(String start, String end, String pcategory) {
         String sql = "SELECT AVG(pf.star) AS averageRating "
                 + "FROM product_feedback as pf "
@@ -204,12 +200,12 @@ public class FeedbackDAO extends DBContext {
             String image = rs.getString("image");
             String status = rs.getString("status");
             Date date = rs.getDate("created_date");
-            ProductFeedback pf = new ProductFeedback( id,  pid,  uid,  star,  detail,  image,  status,  date); 
+            ProductFeedback pf = new ProductFeedback(id, pid, uid, star, detail, image, status, date);
             lst.add(pf);
         }
         return lst;
     }
-    
+
     public ArrayList<ProductFeedback> getFeedbackByProductIDTop3(int productID) throws SQLException {
         String sql = "select * from product_feedback where product_id = ? order by created_date DESC limit 3";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -225,7 +221,7 @@ public class FeedbackDAO extends DBContext {
             String image = rs.getString("image");
             String status = rs.getString("status");
             Date date = rs.getDate("created_date");
-            ProductFeedback pf = new ProductFeedback( id,  pid,  uid,  star,  detail,  image,  status,  date); 
+            ProductFeedback pf = new ProductFeedback(id, pid, uid, star, detail, image, status, date);
             lst.add(pf);
         }
         return lst;

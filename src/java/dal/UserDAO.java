@@ -283,18 +283,18 @@ public class UserDAO extends DBContext {
                 user.setRoleId(rs.getInt("role_id"));
                 user.setGender(rs.getBoolean("gender"));
                 user.setCreateDate(rs.getDate("create_date"));
-                
+
                 // Set last login time
                 Date currentDate = new Date();
                 user.setLastLog(currentDate);
-                
+
                 // Update last login time in database
                 sql = "UPDATE user SET last_log = ? WHERE id = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setTimestamp(1, new Timestamp(currentDate.getTime()));
                 stm.setInt(2, user.getId());
                 stm.executeUpdate();
-                
+
                 return user;
             }
         } catch (SQLException e) {
@@ -432,5 +432,5 @@ public class UserDAO extends DBContext {
             System.out.println(user.getName());
         }
 
-
+    }
 }

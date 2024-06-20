@@ -186,7 +186,7 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<Product> getProductForEachOrder(int uid, String status,int page,int num) {
+    public List<Product> getProductForEachOrder(int uid, String status, int page, int num) {
         String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
                 + "JOIN `order` o ON od.order_id = o.id\n"
                 + "WHERE o.customer_id = ? AND o.status = ? AND (od.order_id, od.product_id) IN (\n"
@@ -199,7 +199,7 @@ public class ProductDAO extends DBContext {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, uid);
             stm.setString(2, status);
-            stm.setInt(3, (page-1)*num);
+            stm.setInt(3, (page - 1) * num);
             stm.setInt(4, num);
             rs = stm.executeQuery();
             while (rs.next()) {
