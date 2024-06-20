@@ -33,94 +33,85 @@
     </head>
     <style>
         #search-form{
-                display:none !important;
-            }
+            display:none !important;
+        }
     </style>
-    <body>
-        <div class="container-fluid position-relative bg-white d-flex p-0">
-            <!-- Sidebar Start -->
-            <div style="margin-top:125px;background-color: transparent;" class="sidebar pe-4 pb-3 shadow-sm">
-                <nav class="navbar navbar-light">
-                    <div class="d-flex align-items-center ms-4 mb-4">
-
+    <jsp:include page="header.jsp"></jsp:include>
+        <body>
+            <div class="container-fluid position-relative bg-white d-flex p-0">
+                <div class="row">
+                    <!-- Sidebar Start -->
+                    <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
+                        <div style="top:130px;" class="w-100 mb-1 sticky-top">
+                            <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                            <a href="setting" class="nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                            <a href="userlist" class="nav-link active"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
+                        </div>
                     </div>
-                    <div class="navbar-nav w-100 mb-1">
-                        <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
-                        <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-item nav-link active"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
-                    </div>
-                </nav>
-            </div>
-            <!-- Sidebar End -->
+                    <!-- Sidebar End -->
 
 
-            <!-- Content Start -->
-            <div class="content m-0 w-100">
-                <!-- Navbar Start -->
-                <jsp:include page="adminheader.jsp"></jsp:include>
-                <!-- Navbar End -->
+                    <!-- Content Start -->
+                    <div class="col-10 container-fluid rounded bg-white mt-2 mb-5">
+                        <div class="row">
+                            <div class="row d-flex align-items-center mb-3">
+                                <div class="col-md-5 function">
+                                    <div class="input-group d-flex ">
+                                        <form style="width:80%;" class="d-none d-md-flex ms-4 mt-2" action="searchuser" method="get">
+                                            <input type="search" name="search" class="form-control" placeholder="Enter name, email, role,.. to search user" value="">
+                                        </form>
+
+                                    </div>
+                                </div>
 
 
-                <div class="container-fluid rounded bg-white mt-2 mb-5">
-                    <div style="margin-left:260px;" class="row">
-                        <div class="row d-flex align-items-center mb-3">
-                            <div class="col-md-5 function">
-                                <div class="input-group d-flex ">
-                                    <form style="width:80%;" class="d-none d-md-flex ms-4 mt-2" action="searchuser" method="get">
-                                        <input type="search" name="search" class="form-control" placeholder="Enter name, email, role,.. to search user" value="">
-                                    </form>
+
+                                <div class="col-md-3 function mb-3">
+                                    <label>Sort User By: </label>
+                                    <select name="type" class="form-select" id="type" onchange="if (this.value)
+                                                window.location.href = this.value">
+                                        <option>All Users</option>
+                                        <option value="sortuser?order_by=id"}>User ID</option>
+                                        <option value="sortuser?order_by=name"}>FullName</option>
+                                        <option value="sortuser?order_by=gender"}>Gender</option>
+                                        <option value="sortuser?order_by=email"}>Email</option>
+                                        <option value="sortuser?order_by=phone"}>Mobile</option>
+                                        <option value="sortuser?order_by=role_id"}>Role ID</option>
+                                        <option value="sortuser?order_by=status"}>Status</option>
+                                    </select>
 
                                 </div>
-                            </div>
+
+                                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                                    <a  href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
+                                </div>
 
 
 
-                            <div class="col-md-3 function mb-3">
-                                <label>Sort User By: </label>
-                                <select name="type" class="form-select" id="type" onchange="if (this.value)
-                                            window.location.href = this.value">
-                                    <option>All Users</option>
-                                    <option value="sortuser?order_by=id"}>User ID</option>
-                                    <option value="sortuser?order_by=name"}>FullName</option>
-                                    <option value="sortuser?order_by=gender"}>Gender</option>
-                                    <option value="sortuser?order_by=email"}>Email</option>
-                                    <option value="sortuser?order_by=phone"}>Mobile</option>
-                                    <option value="sortuser?order_by=role_id"}>Role ID</option>
-                                    <option value="sortuser?order_by=status"}>Status</option>
-                                </select>
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="col-lg-12 table">
+                                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                                <thead style="font-size:21px;">
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Fullname</th>
 
-                            </div>
-
-                            <div class="col-md-4 d-flex justify-content-end align-items-center">
-                                <a  href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
-                            </div>
-
-
-
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-lg-12 table">
-                                        <table class="table text-start align-middle table-bordered table-hover mb-0">
-                                            <thead style="font-size:21px;">
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Fullname</th>
-
-                                                    <th>
-                                                        <select class="gender-dropdown" onchange="if (this.value)
+                                                        <th>
+                                                            <select class="gender-dropdown" onchange="if (this.value)
+                                                                        window.location.href = this.value">
+                                                                <option>Gender:</option>
+                                                                <option value="userlist">All User</option>
+                                                                <option value="filteruser?gender=male">Male</option>
+                                                                <option value="filteruser?gender=female">Female</option>
+                                                            </select>
+                                                        </th>
+                                                        <th>Email</th>
+                                                        <th>Mobile</th>
+                                                        <th> <select class="gender-dropdown" onchange="if (this.value)
                                                                     window.location.href = this.value">
-                                                            <option>Gender:</option>
-                                                            <option value="userlist">All User</option>
-                                                            <option value="filteruser?gender=male">Male</option>
-                                                            <option value="filteruser?gender=female">Female</option>
-                                                        </select>
-                                                    </th>
-                                                    <th>Email</th>
-                                                    <th>Mobile</th>
-                                                    <th> <select class="gender-dropdown" onchange="if (this.value)
-                                                                window.location.href = this.value">
-                                                            <option selected>Role</option>
-                                                            <option value="userlist">All Role</option>
+                                                                <option selected>Role</option>
+                                                                <option value="userlist">All Role</option>
                                                             <c:forEach items="${roleList}" var="r">
                                                                 <option value="filteruser?role=${r.id}" >${r.name}</option>
                                                             </c:forEach>
@@ -215,21 +206,33 @@
                         </div>
                     </div>
                 </div>
-                                <jsp:include page="footer.jsp"></jsp:include>
-                </div>
+                <jsp:include page="footer.jsp"></jsp:include>
+            </div>
+        </div>
 
-                <!-- JavaScript Libraries -->
-                <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="lib/chart/chart.min.js"></script>
-                <script src="lib/easing/easing.min.js"></script>
-                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- ALL PLUGINS -->
+        <script src="js/jquery.superslides.min.js"></script>
+        <script src="js/bootstrap-select.js"></script>
+        <script src="js/inewsticker.js"></script>
+        <script src="js/bootsnav.js."></script>
+        <script src="js/images-loded.min.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/baguetteBox.min.js"></script>
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/contact-form-script.js"></script>
+        <script src="js/custom.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/admin.js"></script>
+        <style>
 
-                <!-- Template Javascript -->
-                <script src="js/admin.js"></script>
-                <style>
+        </style>
+    </body>
 
-    </style>
-                </body>
-
-                </html>
+</html>

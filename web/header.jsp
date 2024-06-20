@@ -6,7 +6,7 @@
 <!-- Start Main Top -->
 <header class="main-header">
     <!-- Start Navigation -->
-    <nav class="shadow navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+    <nav class=" navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
 
         <!-- Start Header Navigation -->
         <div class="navbar-header">
