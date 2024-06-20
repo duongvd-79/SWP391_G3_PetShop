@@ -35,7 +35,7 @@
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div style="margin-top:125px;" style="z-index:2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
+            <div style="margin-top:125px;z-index: 2;background-color: transparent;" class="sidebar pe-4 pb-3 shadow-sm">
                 <nav class="navbar">
                     <div class="d-flex align-items-center ms-4 mb-4">
 
@@ -43,7 +43,7 @@
                     <div class="navbar-nav w-100 mb-1">
                         <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-item nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
+                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -57,7 +57,7 @@
                     <!-- Navbar End -->
 
 
-                    <div class="container-fluid rounded bg-white mt-4 mb-5 shadow-sm pb-1 px-2">
+                    <div class="container-fluid rounded bg-white mt-4 mb-5 pb-1 px-2">
                         <div style="margin-left:260px;" clas="row">
                         <div class="row d-flex align-items-center mb-3">
 
@@ -139,7 +139,7 @@
                             <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
                                 <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
                                 </c:forEach>
-                            <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
+                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
                         </ul>
                     </nav>
                     <div id="popup1" class="overlay">
@@ -170,6 +170,7 @@
                     </div>
                 </div>
             </div>
+                                    <jsp:include page="footer.jsp"></jsp:include>
         </div>
          
         <!-- Content End -->

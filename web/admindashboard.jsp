@@ -43,7 +43,7 @@
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0 ">
             <!-- Sidebar Start -->
-            <div style="margin-top:125px;z-index: 2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
+            <div style="margin-top:120px;z-index: 2;background-color: transparent;" class="sidebar pe-4 pb-3 shadow-sm">
                 <nav class="navbar">
                     <div class="d-flex align-items-center ms-4 mb-4">
 
@@ -51,7 +51,7 @@
                     <div class="navbar-nav w-100 mb-1">
                         <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
+                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -163,7 +163,7 @@
                                     <span class="card-title ms-2 h5 mb-0">New Customer</span>
                                 </div>
                                 <c:forEach items="${newCustomers}" var="c">
-                                    <a href="userdetails?id=${c.getId()}" style="height: 23%;" class="d-flex align-items-center mb-2">
+                                    <a href="userdetails?id=${c.getId()}" style="height: 97px;" class="d-flex align-items-center mb-2">
                                         <div class="ms-4">
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" class="rounded-circle" alt="User Image" style="width: 40px; height: 40px;">
                                         </div>
@@ -180,7 +180,7 @@
                                     <span class="card-title ms-2 h5 mb-0">Newly Buy Customer</span>
                                 </div>
                                 <c:forEach items="${newlyBuyCustomers}" var="c">
-                                    <a href="userdetails?id=${c.getId()}" style="height: 23%;" class="d-flex align-items-center mb-2">
+                                    <a href="userdetails?id=${c.getId()}" style="height: 97px;" class="d-flex align-items-center mb-2">
                                         <div class="ms-4">
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" class="rounded-circle" alt="User Image" style="width: 40px; height: 40px;">
                                         </div>
@@ -235,8 +235,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                                            
+                </div>  
+                                            <jsp:include page="footer.jsp"></jsp:include>
             </div>
                                         
                 <!-- Content End -->
@@ -409,15 +409,6 @@
                         const customDateRange = document.getElementById('custom-date-range');
                         customDateRange.style.display = 'none';
                         window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}' + "&year=" + this.value;
-                    });
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const averageRating = 3.7;
-                        const widthPercentage = (averageRating / 5) * 100;
-                        const starRatingElement = document.getElementById('starRating');ng
-                        starRatingElement.style.setProperty('--rating-width', `${widthPercentage}%`);
-                        starRatingElement.style.width = `${widthPercentage}%`;
                     });
                 </script>
                 </body>

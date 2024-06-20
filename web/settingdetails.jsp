@@ -39,7 +39,7 @@
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div style="margin-top:125px;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
+            <div style="margin-top:125px;background-color: transparent;" class="sidebar pe-4 pb-3shadow-sm">
                 <nav style="padding: 10px 20px;" class="navbar">
                     <div class="d-flex align-items-center ms-4 mb-4">
 
@@ -50,7 +50,7 @@
                         <div class="border-0 mb-1">
                             <a style="margin-left: 41%; " href="#" class="nav-item active h7">Setting Details</a>
                         </div>
-                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
+                        <a href="userlist" class="nav-item nav-link h6"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                     </div>
                 </nav>
             </div>
@@ -65,7 +65,7 @@
 
 
                 <c:set value="${sessionScope.detail}" var="detail"/>
-                <div class="container-fluid rounded bg-white shadow-sm d-flex justify-content-center">
+                <div class="container-fluid rounded bg-white d-flex justify-content-center">
                     <div style="margin-left:260px;" class="row">
                     <div style="width:60vw;" class="p-2 pb-5 pt-1">
 
@@ -142,7 +142,8 @@
                         </div>
                     </div>
                 </div>
-                </div>     
+                </div>   
+                                    <jsp:include page="footer.jsp"></jsp:include>
             </div>
 
             <!-- Content End -->

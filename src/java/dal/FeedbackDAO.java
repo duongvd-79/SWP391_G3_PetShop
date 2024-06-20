@@ -54,7 +54,7 @@ public class FeedbackDAO extends DBContext {
         String sql = "SELECT COUNT(*) AS count\n"
                 + "FROM product_feedback as pf\n"
                 + " JOIN product as p ON p.id = pf.product_id\n";
-        if (pcategory != null) {
+        if (pcategory != null && !pcategory.isEmpty()) {
             sql += "WHERE p.category_id = '" + pcategory + "'";
         }
         try {
@@ -75,7 +75,7 @@ public class FeedbackDAO extends DBContext {
                 + "FROM product_feedback as pf\n"
                 + " JOIN product as p ON p.id = pf.product_id\n"
                 + "where pf.created_date between '" + start + "' and '" + end + "'";
-        if (pcategory != null) {
+        if (pcategory != null && !pcategory.isEmpty()) {
             sql += "and p.category_id = '" + pcategory + "'";
         }
         try {
@@ -95,7 +95,7 @@ public class FeedbackDAO extends DBContext {
         String sql = "SELECT AVG(pf.star) AS averageRating "
                 + "FROM product_feedback as pf "
                 + "JOIN product as p ON p.id = pf.product_id";
-        if (pcategory != null) {
+        if (pcategory != null && !pcategory.isEmpty()) {
             sql += " AND p.category_id = '" + pcategory + "'";
         }
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
@@ -114,7 +114,7 @@ public class FeedbackDAO extends DBContext {
                 + "FROM product_feedback as pf "
                 + "JOIN product as p ON p.id = pf.product_id "
                 + "WHERE pf.created_date between '" + start + "' and '" + end + "'";
-        if (pcategory != null) {
+        if (pcategory != null && !pcategory.isEmpty()) {
             sql += " AND p.category_id = '" + pcategory + "'";
         }
         try (PreparedStatement sta = connection.prepareStatement(sql)) {

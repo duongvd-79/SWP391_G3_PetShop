@@ -1,6 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.User"%>
+<%@page import="model.Cart"%>
+<%@ page import="java.util.ArrayList" %>
 <!-- Start Main Top -->
 <header class="main-header">
     <!-- Start Navigation -->
@@ -91,7 +93,8 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                        <span class="badge">${requestScope.cartDetailList.size()}</span>
+                     
+                        <span class="badge">${sessionScope.size}</span>
                         <p style="font-weight: bold;">MY CART</p>
                     </a>
                 </li>

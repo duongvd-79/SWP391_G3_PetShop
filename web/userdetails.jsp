@@ -41,7 +41,7 @@
     <body>
         <div class="container-fluid position-relative bg-white d-flex p-0">
             <!-- Sidebar Start -->
-            <div style="margin-top:125px;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
+            <div style="margin-top:125px;background-color: transparent;" class="sidebar pe-4 pb-3 shadow-sm">
                 <nav class="navbar">
                     <div class="d-flex align-items-center ms-4 mb-4">
 
@@ -49,7 +49,7 @@
                     <div class="navbar-nav w-100 mb-1">
                         <a href="admindashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
+                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                         <div class="border-0 mb-1">
                             <a style="margin-left: 41%;" href="#" class="nav-item active h7">User Setting</a>
                         </div>
@@ -66,132 +66,137 @@
                     <!-- Navbar End -->
 
 
-                    <div class="container rounded bg-white mt-4 mb-5">
+                    <div class="container-fluid rounded bg-white shadow-sm d-flex justify-content-center">
                         <div style="width: 75vw;" class="row">
-                            <div class="row">
-                                <div class="col-md-3 border-right">
-                                    <div class="d-flex flex-column align-items-center text-center p-2 py-4">
-                                    <c:if test="${empty requestScope.u.getPfp()}">
-                                        <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
-                                    </c:if>
-                                    <c:if test="${not empty requestScope.u.getPfp()}">
-                                        <c:set var="pfp" scope="request" value="${requestScope.u.getPfp()}"></c:set>
-                                    </c:if>
-                                    <img class="rounded-circle mt-5" width="170px" height="170px" src="${requestScope.pfp}">
-                                    <span class="font-weight-bold mt-3"></span>
-                                    <span class="h5 text-black-20 mt-2">${requestScope.u.getEmail()}</span>
+                            <div style="width:85vw;margin-left:5%;" class="p-2 pb-5 pt-1">
+                                <div class="row">
+                                    <div class="col-md-3 border-right">
+                                        <div class="d-flex flex-column align-items-center text-center p-2 py-4">
+                                        <c:if test="${empty requestScope.u.getPfp()}">
+                                            <c:set var="pfp" scope="request" value="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg"></c:set>
+                                        </c:if>
+                                        <c:if test="${not empty requestScope.u.getPfp()}">
+                                            <c:set var="pfp" scope="request" value="${requestScope.u.getPfp()}"></c:set>
+                                        </c:if>
+                                        <img class="rounded-circle mt-5" width="170px" height="170px" src="${requestScope.pfp}">
+                                        <span class="font-weight-bold mt-3"></span>
+                                        <span class="h5 text-black-20 mt-2">${requestScope.u.getEmail()}</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8 ">
-                                <div class="p-2 py-2">
+                                <div class="col-md-9 ">
+                                    <div class="p-2 py-2">
 
-                                    <div class="row mt-3">
+                                        <div class="row mt-3">
 
-                                        <div class="col-md-12 mb-2"><label class="labels">Name</label><input type="text" class="form-control" value="${requestScope.u.getName()}" readonly=""></div>
-                                        <div class="col-md-12 mb-2"><label class="labels">Phone Number</label><input type="text" class="form-control" value="${requestScope.u.getPhone()}" readonly=""></div>
-                                        <div class="col-md-12 mb-2"><label class="labels">Address</label><input type="text" class="form-control" placeholder="" value="" readonly=""></div>
-                                        <div class="col-md-12 mb-2">
-                                            <label class="labels">Gender</label><br>
-                                            <div class="mt-2">
-                                                <div class="form-check custom-radio form-check-inline">
-                                                    <input class="form-check-input" type="radio" value="Male" id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
-                                                    <label class="form-check-label" for="male">
-                                                        Male
-                                                    </label>
-                                                </div>
-                                                <div class="form-check custom-radio form-check-inline">
-                                                    <input class="form-check-input" type="radio" value="Female" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
-                                                    <label class="form-check-label" for="female">
-                                                        Female
-                                                    </label>
+                                            <div class="col-md-12 mb-2"><label class="labels">Name</label><input type="text" class="form-control" value="${requestScope.u.getName()}" readonly=""></div>
+                                            <div class="col-md-12 mb-2"><label class="labels">Phone Number</label><input type="text" class="form-control" value="${requestScope.u.getPhone()}" readonly=""></div>
+                                            <div class="col-md-12 mb-2"><label class="labels">Address</label><input type="text" class="form-control" placeholder="" value="" readonly=""></div>
+                                            <div class="col-md-12 mb-2">
+                                                <label class="labels">Gender</label><br>
+                                                <div class="mt-2">
+                                                    <div class="form-check custom-radio form-check-inline">
+                                                        <input class="form-check-input" type="radio" value="Male" id="male" ${"Male".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                        <label class="form-check-label" for="male">
+                                                            Male
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check custom-radio form-check-inline">
+                                                        <input class="form-check-input" type="radio" value="Female" id="female" ${"Female".equals(requestScope.u.getGender()) ? 'checked' : ''} disabled>
+                                                        <label class="form-check-label" for="female">
+                                                            Female
+                                                        </label>
+                                                    </div>
+
                                                 </div>
 
                                             </div>
+                                            <form class="row col-md-12 pe-0" action="userdetails" method="get">
+                                                <input name="action" value="update" hidden>
+                                                <input name="id" value="${u.getId()}" hidden>
+                                                <div class="col-md-7"><label class="labels">Role</label>
+                                                    <select class="form-select" id="roles" name="roleid" ${u.getRoleId()==1 ? 'disabled' : ''}>
+                                                        <c:forEach items="${requestScope.rList}" var="r">
+                                                            <option value="${r.getId()}" ${r.getId() == u.getRoleId() ? 'selected' : ''}>${r.getName()}</option>
+                                                        </c:forEach>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-5 pe-0"><label class="labels">Status</label>
 
+                                                    <c:if test="${u.getRoleId() == 1}">
+                                                        <input type="text" class="form-control" value="${u.getStatus()}" readonly>
+                                                    </c:if> 
+                                                    <c:if test="${u.getRoleId() != 1}">
+                                                        <select class="form-select" id="status" name="status">
+                                                            <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
+                                                            <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
+                                                        </select>
+                                                    </c:if>
+
+
+                                                </div>
+
+
+                                                <div class="d-flex justify-content-center align-items-center mt-3">
+                                                    <div class="${u.getRoleId()==1 ? 'd-none' : ''} mt-3 me-3 text-center align-items-center"><button class="btn py-1 px-4 ms-2" type="button submit">Save Profile</button></div>
+                                                    <div class="mt-3 ms-3 d-flex justify-content-between align-items-center">
+                                                        <a href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form class="row col-md-12 pe-0" action="userdetails" method="get">
-                                            <input name="action" value="update" hidden>
-                                            <input name="id" value="${u.getId()}" hidden>
-                                            <div class="col-md-7"><label class="labels">Role</label>
-                                                <select class="form-select" id="roles" name="roleid" ${u.getRoleId()==1 ? 'disabled' : ''}>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="popup1" class="overlay">
+                                <div class="popup">
+                                    <h1 class="ms-3 mb-3">Add New User</h1>
+                                    <a class="close" href="#">&times;</a>
+                                    <div class="container-fluid">
+
+                                        <form method="post" action="adduser" class="row">
+                                            <input type="hidden" name="action" value="add">
+                                            <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
+                                            <div class="col-md-12 mb-2"><label class="labels">Password</label><input class="form-control" type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
+                                            <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
+                                            <div class="col-md-5"><label class="labels">Role</label>
+                                                <select class="form-select" id="roles" name="roleid">
                                                     <c:forEach items="${requestScope.rList}" var="r">
-                                                        <option value="${r.getId()}" ${r.getId() == u.getRoleId() ? 'selected' : ''}>${r.getName()}</option>
+                                                        <option value="${r.getId()}">${r.getName()}</option>
                                                     </c:forEach>
                                                 </select>
                                             </div>
-                                            <div class="col-md-5 pe-0"><label class="labels">Status</label>
+                                            <div class="col-md-12 mb-2"><label class="labels">Phone</label><input type="text" pattern="^[0-9]{10}$" title="Phone must contain 10 number" name="phone" class="form-control" placeholder="" value="" required></div>
+                                            <div class="col-md-12 mb-2">
+                                                <label class="labels">Gender</label><br>
+                                                <div class="mt-2">
+                                                    <div class="form-check custom-radio form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
+                                                        <label class="form-check-label" for="male">
+                                                            Male
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check custom-radio form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
+                                                        <label class="form-check-label" for="female">
+                                                            Female
+                                                        </label>
+                                                    </div>
 
-                                                <c:if test="${u.getRoleId() == 1}">
-                                                    <input type="text" class="form-control" value="${u.getStatus()}" readonly>
-                                                </c:if> 
-                                                <c:if test="${u.getRoleId() != 1}">
-                                                    <select class="form-select" id="status" name="status">
-                                                        <option value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Active</option>
-                                                        <option value="Inactive" ${"Inactive".equals(requestScope.u.getStatus()) ? 'selected' : ''}>Inactive</option>
-                                                    </select>
-                                                </c:if>
-
-
-                                            </div>
-
-
-                                            <div class="d-flex justify-content-center align-items-center mt-3">
-                                                <div class="${u.getRoleId()==1 ? 'd-none' : ''} mt-3 me-3 text-center align-items-center"><button class="btn py-1 px-4 ms-2" type="button submit">Save Profile</button></div>
-                                                <div class="mt-3 ms-3 d-flex justify-content-between align-items-center">
-                                                    <a href="#popup1" class="btn py-1 px-4 ms-2" type="button">Add New</a>
                                                 </div>
+
                                             </div>
+                                            <div class="d-flex justify-content-center">
+                                                <div class="mt-4"><button class="btn py-1 px-4 ms-2" type="button submit">Add</button></div>
+                                            </div>
+
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div id="popup1" class="overlay">
-                            <div class="popup">
-                                <h1 class="ms-3 mb-3">Add New User</h1>
-                                <a class="close" href="#">&times;</a>
-                                <div class="container-fluid">
-
-                                    <form method="post" action="adduser" class="row">
-                                        <input type="hidden" name="action" value="add">
-                                        <div class="col-md-12 mb-2"><label class="labels">Email</label><input type="email" name="email" class="form-control" placeholder="Enter email" required=""></div>
-                                        <div class="col-md-12 mb-2"><label class="labels">Password</label><input class="form-control" type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required></div>
-                                        <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
-                                        <div class="col-md-5"><label class="labels">Role</label>
-                                            <select class="form-select" id="roles" name="roleid">
-                                                <c:forEach items="${requestScope.rList}" var="r">
-                                                    <option value="${r.getId()}">${r.getName()}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-12 mb-2"><label class="labels">Phone</label><input type="text" pattern="^[0-9]{10}$" title="Phone must contain 10 number" name="phone" class="form-control" placeholder="" value="" required></div>
-                                        <div class="col-md-12 mb-2">
-                                            <label class="labels">Gender</label><br>
-                                            <div class="mt-2">
-                                                <div class="form-check custom-radio form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gender" value="Male" id="male" checked >
-                                                    <label class="form-check-label" for="male">
-                                                        Male
-                                                    </label>
-                                                </div>
-                                                <div class="form-check custom-radio form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="gender" value="Female" id="female" >
-                                                    <label class="form-check-label" for="female">
-                                                        Female
-                                                    </label>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                        <div class="d-flex justify-content-center">
-                                            <div class="mt-4"><button class="btn py-1 px-4 ms-2" type="button submit">Add</button></div>
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                </div>
+                                                                <jsp:include page="footer.jsp"></jsp:include>
             </div>
         </div>
 

@@ -6,6 +6,7 @@ package controller;
 
 import dal.CartDAO;
 import dal.ProductDAO;
+import jakarta.servlet.ServletContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.management.Query.value;
 import model.Cart;
 import model.Product;
 import model.User;
@@ -69,6 +71,7 @@ public class CartServlet extends HttpServlet {
         CartDAO cartdao = new CartDAO();
         ProductDAO productdao = new ProductDAO();
         HttpSession session = request.getSession();
+        ServletContext application = request.getServletContext();
         User user = (User) session.getAttribute("user");
         double grand_total = 0;
         try {
@@ -84,7 +87,7 @@ public class CartServlet extends HttpServlet {
                     c.setQuantity(pd.getQuantity());
                     }
                 }
-                request.setAttribute("cartDetailList", cartDetailList);
+                request.setAttribute("size", cartDetailList.size());
                 session.setAttribute("cartDetailList", cartDetailList);
                 request.setAttribute("grand_total", grand_total);
                 request.setAttribute("latestProductList", latestProductList);

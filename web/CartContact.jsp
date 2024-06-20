@@ -28,9 +28,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                            <li class="breadcrumb-item active">Cart</li>
+                        <ul style="background-color: transparent;" class="breadcrumb float-left">
+                            <li class="breadcrumb-item active"><a href="cart">MY CART</a></li>
+                            
+                            <li style="color:#b0b435;" class="breadcrumb-item active">CART CONTACT</li>
                         </ul>
                     </div>
                 </div>

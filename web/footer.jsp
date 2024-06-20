@@ -1,7 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- Start Footer  -->
-<footer>
+<footer style="z-index: 99;">
     <div class="footer-main">
         <div class="container">
             <div class="row">
