@@ -388,3 +388,68 @@
         loginPasswordInput.type = loginPasswordInput.type === 'text' ? 'password' : 'text';
     });
 </script>
+<!-- Toggle password  -->
+<script>
+    document.getElementById('togglePassword1').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password1');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword2').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password3');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword3').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password3');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword4').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password4');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword5').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password5');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword6').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password6');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword7').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password7');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword8').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password8');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
