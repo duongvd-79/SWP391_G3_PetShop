@@ -170,7 +170,7 @@
                                                         User user = (User) session.getAttribute("user");
                                                         if (user != null && user.getRoleId() == 5) {
                                                     %>
-                                                    <a class="cart" href="#">Add to Cart</a>
+                                                    <a class="cart" href="addcarthomepage?productid=${apr.id}&quantity=1">Add to Cart</a>
                                                     <%}%>
                                                 </div>
                                             </div>

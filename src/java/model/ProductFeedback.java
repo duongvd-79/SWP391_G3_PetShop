@@ -19,8 +19,8 @@ public class ProductFeedback {
     created_by INT,
     created_date DATETIME,
      */
-    int id, productId, userId, star;
-    String detail, image, status;
+    int id, productId, userId, star, feedback_image_id;
+    String detail, image, status, feedback_image;
 
     Date createdDate;
 
@@ -28,6 +28,31 @@ public class ProductFeedback {
     public ProductFeedback() {
     }
 
+    public ProductFeedback(int id, int userId, int feedback_image_id, String feedback_image) {
+        this.id = id;
+        this.userId = userId;
+        this.feedback_image_id = feedback_image_id;
+        this.feedback_image = feedback_image;
+    }
+
+    public int getFeedback_image_id() {
+        return feedback_image_id;
+    }
+
+    public void setFeedback_image_id(int feedback_image_id) {
+        this.feedback_image_id = feedback_image_id;
+    }
+
+    public String getFeedback_image() {
+        return feedback_image;
+    }
+
+    public void setFeedback_image(String feedback_image) {
+        this.feedback_image = feedback_image;
+    }
+
+    
+    
     public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate, String name, String pfp) {
         this.id = id;
         this.productId = productId;

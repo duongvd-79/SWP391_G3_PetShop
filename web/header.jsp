@@ -36,7 +36,7 @@
                         if (user == null) {
                     %>
                 <li class="dropdown">
-                    <a href="account" class="nav-link dropdown-toggle" data-toggle="dropdown">Account <i class="bi bi-caret-down-fill"></i></a>
+                    <a href="account" class="nav-link dropdown-toggle" data-toggle="dropdown">Account&ensp;<i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#login">Login</a></li>
                         <li><a href="#register">Register</a></li>
@@ -44,9 +44,10 @@
                 </li>
                 <%} else {%>
                 <li class="dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name} <i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name}&ensp;<i class="bi bi-caret-down-fill"></i></a>
+                    <ul class="dropdown-menu pb-1">
                         <li><a class="nav-link" href="#profile">User Profile</a></li>
+                        <li><a class="nav-link" href="#changepassword">Change password</a></li>
                             <c:if test="${user.getRoleId()==1}">
                             <li><a class="nav-link" href="admindashboard">Admin</a></li>
                             </c:if>
@@ -73,19 +74,10 @@
             <!-- End Register Popup -->
 
             <!-- Begin Verify email popup -->
-            <div id="verify" class="overlay">
-                <div class="popup">
-                    <h2 class="ms-3 mb-3">H2DV Petshop</h2>
-                    <a class="close" href="#">&times;</a>
-                    <div class="content container-fluid">
-                        <h2>A verification link had been sended to ${sessionScope.newuser.getEmail()}</h2>
-                    <h3>Check your email for verification!</h3>
-                </div>
-            </div>
-        </div>
-        <!-- End Verify email popup -->
+        <jsp:include page="verifyEmail.jsp"></jsp:include>
+            <!-- End Verify email popup -->
 
-        <!-- Begin Reset Password Popup -->
+            <!-- Begin Reset Password Popup -->
         <jsp:include page="resetPassword.jsp"></jsp:include>
             <!-- End Reset Password Popup -->
         <%}%>
@@ -99,14 +91,14 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                        <span class="badge">${requestScope.cartList.size()}</span>
-                        <p>My Cart</p>
+                        <span class="badge">${requestScope.cartDetailList.size()}</span>
+                        <p style="font-weight: bold;">MY CART</p>
                     </a>
                 </li>
             </ul>
         </div>
-        <!-- End Atribute Navigation -->
-        <%}%>
+        <%} 
+        %>
 
         <%
             if (user != null) {
@@ -122,11 +114,12 @@
 </header>
 <!-- End Main Top -->
 <style>
-    #togglePassword {
+    .toggle-password-button {
         position: absolute;
-        top: 55%;
-        right: 10px;
+        top: 75%;
+        right: 15px;
         cursor: pointer;
+        transform: translateY(-50%) scale(1.5);
     }
     .dropdown:hover .dropdown-menu {
         display: block;
@@ -180,6 +173,9 @@
     .dropdown-menu li:hover {
         background-color: lightgray;
     }
+    ::-ms-reveal {
+        display: none;
+    }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
@@ -200,8 +196,7 @@
                 session.removeAttribute("toastType");
     %>
         }
-    });
-</script>
+    });</script>
 <script>
     // Field guide popup
     const nameInput = document.getElementById('pfname');
@@ -210,43 +205,36 @@
     const emailInfo = document.getElementById('email-info');
     const phoneInput = document.getElementById('pfphone');
     const phoneInfo = document.getElementById('phone-info');
-
     nameInput.addEventListener('focus', () => {
         nameInfo.style.display = 'block';
     });
     nameInput.addEventListener('blur', () => {
         nameInfo.style.display = 'none';
     });
-
     emailInput.addEventListener('mouseover', () => {
         emailInfo.style.display = 'block';
     });
     emailInput.addEventListener('mouseout', () => {
         emailInfo.style.display = 'none';
     });
-
     phoneInput.addEventListener('focus', () => {
         phoneInfo.style.display = 'block';
     });
     phoneInput.addEventListener('blur', () => {
         phoneInfo.style.display = 'none';
     });
-
     // Render cites & districts
     var cities = document.getElementById("pfcity");
     var districts = document.getElementById("pfdistrict");
-
     var Parameter = {
         url: "js/data.json",
         method: "GET",
         responseType: "application/json",
     };
-
     var promise = axios(Parameter);
     promise.then(function (result) {
         renderCity(result.data);
     });
-
     function renderCity(data) {
         for (const city of data) {
             const option = new Option(city.Name);
@@ -261,13 +249,10 @@
         cities.onchange = function () {
             renderDistrict(this.value, data);
         };
-
         function renderDistrict(selectedCityName, data) {
             districts.length = 1;
-
             if (selectedCityName !== "") {
                 const selectedCity = data.find(city => city.Name === selectedCityName);
-
                 for (const district of selectedCity.Districts) {
                     const option = new Option(district.Name);
                     option.value = district.Name;
@@ -287,8 +272,8 @@
         var fileName = this.files[0].name;
         document.getElementById('file-name').textContent = fileName;
     });
-    
-    // Handle umage size
+
+    // Handle image size
     file.addEventListener('change', function (e) {
         var reader = new FileReader();
         var file1 = this.files[0];
@@ -296,7 +281,7 @@
 
         if (file1.size > maxSize) {
             fileSizeWarning.style.display = 'block';
-            
+
             // Clear the file input
             this.value = '';
             previewImage.src = '';
@@ -354,18 +339,15 @@
 <script>
     var cities2 = document.getElementById("city");
     var districts2 = document.getElementById("district");
-
     var Parameter2 = {
         url: "js/data.json",
         method: "GET",
         responseType: "application/json",
     };
-
     var promise2 = axios(Parameter2);
     promise2.then(function (result2) {
         renderCity2(result2.data);
     });
-
     function renderCity2(data) {
         for (const city of data) {
             cities2.options[cities2.options.length] = new Option(city.Name);
@@ -373,10 +355,8 @@
 
         cities2.onchange = function () {
             districts2.length = 1;
-
             if (this.value !== "") {
                 const selectedCity = data.find(city => city.Name === this.value);
-
                 for (const district of selectedCity.Districts) {
                     districts2.options[districts2.options.length] = new Option(district.Name);
                 }

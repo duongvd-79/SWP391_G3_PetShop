@@ -247,7 +247,7 @@ public class UserDAO extends DBContext {
         sta.setString(2, u.getPassword());
         sta.setString(3, u.getName());
         sta.setBoolean(4, (u.getGender().equals("Male")));
-        sta.setString(5, u.getStatus());
+        sta.setString(5, "Active");
         sta.setInt(6, u.getRoleId());
         sta.setString(7, u.getPhone());
         sta.executeUpdate();
@@ -399,10 +399,38 @@ public class UserDAO extends DBContext {
 
     }
 
+    public User getUserByID(int uid) throws SQLException {
+        String sql = "select * from user where id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, uid);
+        ResultSet rs = sta.executeQuery();
+        User u = new User();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+        }
+        return u;
+    }
+
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
-        User user = u.login("sale@gmail.com", "827ccb0eea8a706c4c34a16891f84e7b");
-        System.out.println(user.getLastLog());
-    }
+//        for(User s : u.getAllUser()){
+//            System.out.println(s.getId() + s.getPfp());
+//        }
+//        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+//        u.changePassword("hoangdz512@gmail.com","123456" );
+        for (User user : u.getTop4NewlyBuyCutomers()) {
+            System.out.println(user.getName());
+        }
+
 
 }

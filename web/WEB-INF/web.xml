@@ -104,6 +104,46 @@
         <servlet-name>AddCartPageServlet</servlet-name>
         <servlet-class>controller.AddCartPageServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CartContactServlet</servlet-name>
+        <servlet-class>controller.CartContactServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddressPopupServlet</servlet-name>
+        <servlet-class>controller.AddressPopupServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ConfirmAddressServlet</servlet-name>
+        <servlet-class>controller.ConfirmAddressServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddressDetailServlet</servlet-name>
+        <servlet-class>controller.AddressDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAddressServlet</servlet-name>
+        <servlet-class>controller.UpdateAddressServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddAddressServlet</servlet-name>
+        <servlet-class>controller.AddAddressServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteAddressServlet</servlet-name>
+        <servlet-class>controller.DeleteAddressServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddFeedbackServlet</servlet-name>
+        <servlet-class>controller.AddFeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <servlet-class>controller.FeedbackServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddCartHomepageServlet</servlet-name>
+        <servlet-class>controller.AddCartHomepageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -207,5 +247,45 @@
     <servlet-mapping>
         <servlet-name>AddCartPageServlet</servlet-name>
         <url-pattern>/addcartpage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CartContactServlet</servlet-name>
+        <url-pattern>/cartcontact</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddressPopupServlet</servlet-name>
+        <url-pattern>/addresspopup</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ConfirmAddressServlet</servlet-name>
+        <url-pattern>/confirmaddress</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddressDetailServlet</servlet-name>
+        <url-pattern>/addressdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAddressServlet</servlet-name>
+        <url-pattern>/updateaddress</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddAddressServlet</servlet-name>
+        <url-pattern>/addaddress</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteAddressServlet</servlet-name>
+        <url-pattern>/deleteaddress</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddFeedbackServlet</servlet-name>
+        <url-pattern>/addfeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackServlet</servlet-name>
+        <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCartHomepageServlet</servlet-name>
+        <url-pattern>/addcarthomepage</url-pattern>
     </servlet-mapping>
 </web-app>

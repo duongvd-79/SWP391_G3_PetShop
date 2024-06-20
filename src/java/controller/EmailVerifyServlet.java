@@ -70,16 +70,19 @@ public class EmailVerifyServlet extends HttpServlet {
         AddressDAO aDAO = new AddressDAO();
         User u = (User) session.getAttribute("newuser");
         Address a = (Address) session.getAttribute("address");
+        long creationTime = session.getCreationTime();
+        long currentTime = System.currentTimeMillis();
+        long maxInactiveInterval = 180 * 1000;
         //nếu khớp key gửi qua email
-        if (key.equals((String) session.getAttribute("key"))) {
+        if (key.equals((String) session.getAttribute("key")) && currentTime - creationTime < maxInactiveInterval ) {
             try {
                 uDAO.addNewUser(u);
                 aDAO.addNew(a.getCity(), a.getDistrict(), a.getDetail());
                 aDAO.addNewUserAddress();
-                alert = "Account is created successfully. Please login.";
+                alert = "Account is created successfully. Please Sign In.";
             } catch (SQLException ex) {
             }
-        } else if (session.getAttribute("key") == null) {
+        } else if (session.getAttribute("key") == null || currentTime - creationTime > maxInactiveInterval) {
             alert = "Link had been expired";
         } else {
             alert = "Not authorize access";

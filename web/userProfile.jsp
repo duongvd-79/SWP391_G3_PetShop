@@ -29,7 +29,7 @@
                                 <div class="row mt-2">
                                     <div class="col-md-12">
                                         <label class="labels">Name</label>
-                                        <input type="text" class="form-control" name="pfname" id="pfname" pattern="^[A-Za-z]+( [A-Za-z]+)*$" placeholder="Enter Name" value="${sessionScope.user.name}" required>
+                                        <input type="text" class="form-control" name="pfname" id="pfname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" placeholder="Enter Name" value="${sessionScope.user.name}" required>
                                         <span id="name-info" class="info-popup">Letters only, max 50 characters</span>
                                     </div>
                                 </div>

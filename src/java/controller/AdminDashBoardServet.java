@@ -82,6 +82,7 @@ public class AdminDashBoardServet extends HttpServlet {
             double revenues = 0;
             int numOfFb = 0;
             int numOfCustomers = 0;
+            double avgRating = 0;
             String year = request.getParameter("year");
             if (year == null) {
                 year = getCurrentYear();
@@ -98,9 +99,10 @@ public class AdminDashBoardServet extends HttpServlet {
                 if (start != null) {
                     interval = start + " - " + end;
                     numOfOrders = oDAO.getCountOrder(start, end);
-                    revenues = odDAO.getRevenue(start, end);
+                    revenues = odDAO.getRevenue(start, end,pcategory);
                     numOfFb = fDAO.getCountFeedback(start, end, pcategory);
                     numOfCustomers = uDAO.getCountCustomer(start, end);
+                    avgRating = fDAO.getAverageRating(start, end, pcategory);
                     orderList.add(oDAO.countOrderByStatus("success", start, end));
                     orderList.add(oDAO.countOrderByStatus("submitted", start, end));
                     orderList.add(oDAO.countOrderByStatus("cancelled", start, end));
@@ -110,25 +112,28 @@ public class AdminDashBoardServet extends HttpServlet {
             } // overview statistics for all time 
             if (interval.equals("ALL TIME")) {
                 numOfOrders = oDAO.getCountOrder();
-                revenues = odDAO.getRevenue();
+                revenues = odDAO.getRevenue(pcategory);
                 numOfFb = fDAO.getCountFeedback(pcategory);
                 numOfCustomers = uDAO.getCountCustomer();
+                avgRating = fDAO.getAverageRating(pcategory);
                 orderList.add(oDAO.countOrderByStatus("success"));
                 orderList.add(oDAO.countOrderByStatus("submitted"));
                 orderList.add(oDAO.countOrderByStatus("cancelled"));
             } else if (interval.equals("LAST 7 DAYS")) {//last 7 day
                 numOfOrders = oDAO.getCountOrder(getDateXBefore(7), getCurrentDate());
-                revenues = odDAO.getRevenue(getDateXBefore(7), getCurrentDate());
+                revenues = odDAO.getRevenue(getDateXBefore(7), getCurrentDate(),pcategory);
                 numOfFb = fDAO.getCountFeedback(getDateXBefore(7), getCurrentDate(), pcategory);
                 numOfCustomers = uDAO.getCountCustomer(getDateXBefore(7), getCurrentDate());
+                avgRating = fDAO.getAverageRating(getDateXBefore(7), getCurrentDate(), pcategory);
                 orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(7), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(7), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(7), getCurrentDate()));
             } else if (interval.equals("LAST 30 DAYS")) {//last 30 day
                 numOfOrders = oDAO.getCountOrder(getDateXBefore(30), getCurrentDate());
-                revenues = odDAO.getRevenue(getDateXBefore(30), getCurrentDate());
+                revenues = odDAO.getRevenue(getDateXBefore(30), getCurrentDate(),pcategory);
                 numOfFb = fDAO.getCountFeedback(getDateXBefore(30), getCurrentDate(), pcategory);
                 numOfCustomers = uDAO.getCountCustomer(getDateXBefore(30), getCurrentDate());
+                avgRating = fDAO.getAverageRating(getDateXBefore(30), getCurrentDate(), pcategory);
                 orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(30), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(30), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(30), getCurrentDate()));
@@ -150,6 +155,7 @@ public class AdminDashBoardServet extends HttpServlet {
                 pCategoryList = sDAO.getAllProductCategory();
             } catch (SQLException ex) {
             }
+           
             //filter
             request.setAttribute("interval", interval);
             request.setAttribute("start", start);
@@ -157,10 +163,12 @@ public class AdminDashBoardServet extends HttpServlet {
             request.setAttribute("pcategory", pcategory);
             request.setAttribute("pCategoryList", pCategoryList);
             request.setAttribute("year", year);
+            request.setAttribute("curyear", getCurrentYear());
             //số liệu tổng quan
             request.setAttribute("numOfOrders", numOfOrders);
             request.setAttribute("revenues", revenues);
             request.setAttribute("numOfFb", numOfFb);
+            request.setAttribute("avgRating", avgRating);
             request.setAttribute("numOfCustomers", numOfCustomers);
             //bảng customer
             request.setAttribute("newCustomers", newCustomers);

@@ -17,13 +17,15 @@
                     <label for="email">Email</label>
                     <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
                 </div>
-                <div class="form-group last mb-2">
+                <div class="form-group last mb-2 position-relative">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
+                    <input type="password" class="form-control" id="login-password2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" required="">
+                    <span id="togglePassword2" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
-                <div class="form-group last mb-2">
+                <div class="form-group last mb-2 position-relative">
                     <label for="password">Confirm password</label>
-                    <input type="password" class="form-control" id="cfpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
+                    <input type="password" class="form-control" id="login-password3" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
+                    <span id="togglePassword3" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-2">
                     <label for="fullname">Full Name</label>
@@ -65,7 +67,7 @@
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>
-            <span class="text-danger">${sessionScope.alert}</span>
+            <span class="text-danger">${sessionScope.alert}</span>   
             <div class="social-login text-center mt-2">
                 <span>Already had an account? </span>
                 <a href="#login"><strong>Sign In</strong></a>
