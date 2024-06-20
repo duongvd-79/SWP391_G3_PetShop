@@ -136,6 +136,10 @@
         <servlet-name>FeedbackServlet</servlet-name>
         <servlet-class>controller.FeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddCartHomepageServlet</servlet-name>
+        <servlet-class>controller.AddCartHomepageServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -271,5 +275,9 @@
     <servlet-mapping>
         <servlet-name>FeedbackServlet</servlet-name>
         <url-pattern>/feedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCartHomepageServlet</servlet-name>
+        <url-pattern>/addcarthomepage</url-pattern>
     </servlet-mapping>
 </web-app>

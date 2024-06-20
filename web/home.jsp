@@ -188,7 +188,7 @@
                                                         User user = (User) session.getAttribute("user");
                                                         if (user != null) {
                                                     %>
-                                                    <a class="cart" href="#">Add to Cart</a>
+                                                    <a class="cart" href="addcarthomepage?productid=${apr.id}&quantity=1">Add to Cart</a>
                                                     <%}%>
                                                 </div>
                                             </div>
