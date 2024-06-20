@@ -99,6 +99,7 @@ public class ProductDetailServlet extends HttpServlet {
             request.setAttribute("reviewTotal", flist.size());
             request.setAttribute("relatedlist", productList);
             request.setAttribute("imageList", imageList);
+            request.setAttribute("length", feedbackList.size()-1);
             request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);
