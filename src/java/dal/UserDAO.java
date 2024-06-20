@@ -420,6 +420,21 @@ public class UserDAO extends DBContext {
         }
         return u;
     }
+    public String getRoleStatus(int id) {
+        String sql = "SELECT s.status as status FROM user as u join setting as s"
+                + " on s.id=u.role_id where u.id = ?";
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta.setInt(1, id);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getString("status");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
