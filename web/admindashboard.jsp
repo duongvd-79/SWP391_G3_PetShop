@@ -411,14 +411,5 @@
                         window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}' + "&year=" + this.value;
                     });
                 </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const averageRating = 3.7;
-                        const widthPercentage = (averageRating / 5) * 100;
-                        const starRatingElement = document.getElementById('starRating');ng
-                        starRatingElement.style.setProperty('--rating-width', `${widthPercentage}%`);
-                        starRatingElement.style.width = `${widthPercentage}%`;
-                    });
-                </script>
                 </body>
                 </html>

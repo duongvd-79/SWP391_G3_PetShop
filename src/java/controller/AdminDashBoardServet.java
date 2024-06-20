@@ -94,7 +94,7 @@ public class AdminDashBoardServet extends HttpServlet {
             List<Double> monthlyRevenueList = new ArrayList<>();
             List<Double> monthlyProfitList = new ArrayList<>();
 
-            if (interval == null) {
+            if (interval == null || interval.isEmpty() ) {
                 // custom date range
                 if (start != null) {
                     interval = start + " - " + end;

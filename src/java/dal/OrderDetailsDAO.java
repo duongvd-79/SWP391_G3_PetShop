@@ -52,9 +52,9 @@ public class OrderDetailsDAO extends DBContext {
     public double getRevenue(String pcategory) {
         try {
             String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
-                    + "JOIN product AS p ON p.id = od.product_id";
-            if (pcategory != null) {
-                sql += " where p.category_id = '" + pcategory + "'";
+                    + "JOIN product AS p ON p.id = od.product_id join `order` as o on o.id = od.order_id where o.status='success'";
+            if (pcategory != null && !pcategory.isEmpty()) {
+                sql += " and p.category_id = '" + pcategory + "'";
             }
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -67,7 +67,7 @@ public class OrderDetailsDAO extends DBContext {
     }
 
     public double getProfit() {
-        String sql = "SELECT SUM((sell_price - import_price) * quantity) AS totalProfit FROM order_details";
+        String sql = "SELECT SUM((sell_price - import_price) * quantity) AS totalProfit FROM order_details as od join `oder` as o on o.id = od.order_id where o.status='success'";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -82,8 +82,8 @@ public class OrderDetailsDAO extends DBContext {
     public double getRevenue(String start, String end, String pcategory) {
         String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
                 + "JOIN `order` as o ON o.id = od.order_id JOIN product AS p ON p.id = od.product_id "
-                + "WHERE ordered_date between '" + start + "' and '" + end + "'";
-        if (pcategory != null) {
+                + "WHERE o.status='success' and ordered_date between '" + start + "' and '" + end + "'";
+        if (pcategory != null && !pcategory.isEmpty()) {
             sql += "and p.category_id = '" + pcategory + "'";
         }
         try {
@@ -101,7 +101,7 @@ public class OrderDetailsDAO extends DBContext {
     // Method to calculate revenue in a specific month of a year
     public double getMonthlyRevenue(int month, String year) {
         String sql = "SELECT SUM(sell_price * quantity) AS totalRevenue FROM order_details as od"
-                + " JOIN `order` as o ON o.id = od.order_id where MONTH(ordered_date) = ? and YEAR(ordered_date)=?";
+                + " JOIN `order` as o ON o.id = od.order_id where o.status='success' and MONTH(ordered_date) = ? and YEAR(ordered_date)=?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, month);
@@ -119,7 +119,7 @@ public class OrderDetailsDAO extends DBContext {
     public double getMonthlyProfit(int month, String year) {
         String sql = "SELECT SUM((sell_price - import_price) * quantity) AS totalProfit"
                 + " FROM order_details as od JOIN `order` as o ON o.id = od.order_id"
-                + " where MONTH(ordered_date) = ? and YEAR(ordered_date)=?";
+                + " where o.status='success' and MONTH(ordered_date) = ? and YEAR(ordered_date)=?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, month);
@@ -153,7 +153,7 @@ public class OrderDetailsDAO extends DBContext {
 
     public static void main(String[] args) {
         OrderDetailsDAO oDAO = new OrderDetailsDAO();
-        System.out.println(oDAO.getRevenue("10"));
+        System.out.println(oDAO.getRevenue("2024-05-21","2024-06-20",null));
         System.out.println("hehe");
     }
 }
