@@ -1,3 +1,4 @@
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
@@ -65,27 +66,16 @@ public class BlogListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO dao = new PostDAO();
-//    SettingDAO dao1 = new SettingDAO();
-//    String search = request.getParameter("search");
-//    String categoryId = request.getParameter("categoryID");
-//    search = search == null ? "" : search;
-//    categoryId = categoryId == null ? "" : categoryId;
-//    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
-//    List<Setting> listS = dao1.getPostCategory();
-//    request.setAttribute("listp", listp);
-//    request.setAttribute("listC", listS);
-//    request.getRequestDispatcher("bloglist.jsp").forward(request, response);
-        SettingDAO dao1 = new SettingDAO();
-        String search = request.getParameter("search");
-        String categoryId = request.getParameter("categoryID");
-        search = search == null ? "" : search;
-        categoryId = categoryId == null ? "" : categoryId;
-        ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
-        List<Setting> listS = dao1.getPostCategory();
-        request.setAttribute("listp", listp);
-        request.setAttribute("sList", listS);
-        request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
-        request.getRequestDispatcher("bloglist.jsp").forward(request, response);
+    SettingDAO dao1 = new SettingDAO();
+    String search = request.getParameter("search");
+    String categoryId = request.getParameter("categoryID");
+    search = search == null ? "" : search;
+    categoryId = categoryId == null ? "" : categoryId;
+    ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+    List<Setting> listS = dao1.getPostCategory();
+    request.setAttribute("listp", listp);
+    request.setAttribute("listC", listS);
+    request.getRequestDispatcher("PostList.jsp").forward(request, response);
     }
 
     /**
