@@ -1,4 +1,3 @@
-1
 <%-- 
     Document   : admindashboard
     Created on : Jun 11, 2024, 12:27:50 AM
@@ -40,29 +39,24 @@
         <link href="css/admin.css" rel="stylesheet">
         <title>Sale DASHBOARD</title>
     </head>
+    <jsp:include page="header.jsp"></jsp:include> 
 
-    <body>
-        <div class="container-fluid position-relative bg-white d-flex p-0 ">
-            <!-- Sidebar Start -->
-            <div style="margin-top:125px;z-index: 2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
-                <nav class="navbar">
-                    <div class="d-flex align-items-center ms-4 mb-4">
-
+        <body>
+            <div class="container-fluid position-relative bg-white d-flex p-0 ">
+                <div class="row">
+                <!-- Sidebar Start -->
+                <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
+                    <div style="top:130px;" class="w-100 mb-1 sticky-top">
+                        <div class="navbar-nav w-100 mb-1">
+                            <a href="SaleDashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                            <a href="BlogManager" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>BLOG LIST</a>
+                        </div>
                     </div>
-                    <div class="navbar-nav w-100 mb-1">
-                        <a href="SaleDashboard" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
-                    </div>
-                </nav>
-            </div>
-            <!-- Sidebar End -->
-            <!-- Content Start -->
-            <div class="content m-0 w-100">
-                <!-- Header  Start-->
-                <jsp:include page="SaleNav.jsp"></jsp:include>
-                    <!-- Header End -->
-                    <div class="container-fluid rounded bg-white mt-4 mb-5 px-3">
-                        <div style="margin-left:260px;"  class="row">
-
+                </div>
+                <!-- Sidebar End -->
+                <!-- Content Start -->
+                    <div class="col-10 container-fluid rounded bg-white mt-4 mb-5 px-3">
+                        <div class="row">
                             <div class="card col-sm-3 p-0">
                                 <div class="bg-danger rounded-top" style="height: 12px;"></div> 
                                 <div class="card-body">
@@ -132,9 +126,9 @@
                         </div>
                     </div>
                 </div>
-
+                                            <jsp:include page="footer.jsp"></jsp:include>
             </div>
-
+        </div>
             <!-- Content End -->
 
             <!-- JavaScript Libraries -->
