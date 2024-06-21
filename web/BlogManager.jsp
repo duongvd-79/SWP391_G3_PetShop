@@ -1,3 +1,4 @@
+1
 <%-- 
     Document   : BlogManager
     Created on : Jun 17, 2024, 12:32:15 AM
@@ -5,6 +6,7 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -48,21 +50,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-1 function"><a  href="#popup1" class="btn btn-primary" type="button">Add New</a></div
-                    <form>
-                        <div class="col-md-3 function">
-                            <label>Sort Blogs By: </label>
-                            <select name="type" class="form-select" id="type" onchange="if (this.value)
-                                        window.location.href = this.value">
-                                <option value="BlogManager">All Blogs</option>
-                                <option value="sortblog?order_by=post.title"}>Title</option>
-                                <option value="sortblog?order_by=setting.name"}>Category</option>
-                                <option value="sortblog?order_by=user.name"}>Author</option>
-                                <option value="sortblog?order_by=post.status"}>Status</option>
-                            </select>
-
-                        </div>
-                    </form>
+                    <div class="col-md-1 function"><a  href="#popup1" class="btn btn-primary" type="button">Add New</a></div>
 
 
                 </div>
@@ -86,7 +74,16 @@
                                         <tr>
                                             <td>${u.id}</td>
                                             <td>${u.title}</td>
-                                            <td><img height="200px" src="${u.thumbnail}" alt="" /></td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${fn:startsWith(u.thumbnail, 'https')}">
+                                                        <img src="${u.thumbnail}" alt="alt" height="200px"/>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <img src="./images/${u.thumbnail}" alt="alt" height="200px"/>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td>${u.createdDate}</td>
                                             <td>${u.user.name}</td>
                                             <td>${u.setting.name}</td>
@@ -126,10 +123,10 @@
                 <a class="close" href="#">&times;</a>
                 <div class="content container-fluid">
 
-                    <form method="post" action="addblog" class="row">
+                    <form method="post" action="addblog" class="row" enctype="multipart/form-data">
                         <input type="hidden" name="action" value="add">
                         <div class="col-md-12 mb-2"><label class="labels">Title</label><input type="text" name="title" class="form-control" placeholder="Enter title..." required=""></div>
-                        <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input type="text" name="thumbnail" class="form-control" placeholder="Enter thumbnail..." required></div>
+                        <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input type="file" name="file" class="form-control"></div>
                         <div class="col-md-7 mb-2"><label class="labels">Detail</label><input type="text" name="detail" class="form-control" placeholder="Enter your content..." value="" required></div>
                         <div class="col-md-5"><label class="labels">Category</label>
                             <select class="form-select" id="roles" name="category">

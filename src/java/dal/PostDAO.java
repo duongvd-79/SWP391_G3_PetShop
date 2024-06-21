@@ -89,7 +89,7 @@ public class PostDAO extends DBContext {
 
     public ArrayList<Post> getAllPosts(String search, String cateID) {
     //sưa postdao
-    public ArrayList<Post> getAllPosts(String search) {
+    
         ArrayList<Post> listp = new ArrayList<>();
         String sql = "SELECT \n"
                 + "    post.id ,\n"
