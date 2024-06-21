@@ -35,7 +35,7 @@ public class OrderDAO extends DBContext {
         return o;
     }
 
-    public List<Order> getAll(String status, int userId,int page,int num) {
+    public List<Order> getAll(String status, int userId, int page, int num) {
         String sql = "SELECT * FROM `order` where status=? and customer_id=? "
                 + "order by ordered_date desc limit ?,?";
         try {
@@ -43,7 +43,7 @@ public class OrderDAO extends DBContext {
             stm = connection.prepareStatement(sql);
             stm.setString(1, status);
             stm.setInt(2, userId);
-            stm.setInt(3, (page-1)*num);
+            stm.setInt(3, (page - 1) * num);
             stm.setInt(4, num);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -117,21 +117,21 @@ public class OrderDAO extends DBContext {
     }
 
     //count product for each order
-    public List<Integer> getRemainNumOfProductEachOrder(String status,int uid,int page,int num) {
+    public List<Integer> getRemainNumOfProductEachOrder(String status, int uid, int page, int num) {
         List<Integer> list = new ArrayList<>();
         String sql = "SELECT COUNT(product_id) AS count\n"
                 + "FROM order_details as od join `order` as o on o.id= od.order_id \n"
                 + "WHERE o.customer_id = ? and o.status =?\n"
-                + "GROUP BY order_id order by ordered_date desc";
+                + "GROUP BY order_id order by ordered_date desc limit ?,?";
         try {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, uid);
             stm.setString(2, status);
-            stm.setInt(3, (page-1)*num);
+            stm.setInt(3, (page - 1) * num);
             stm.setInt(4, num);
             rs = stm.executeQuery();
             while (rs.next()) {
-                list.add(rs.getInt("count")-1);
+                list.add(rs.getInt("count") - 1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,7 +141,7 @@ public class OrderDAO extends DBContext {
 
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
-        for (Order o : oDAO.getAll("submitted", 6,0,4)) {
+        for (Order o : oDAO.getAll("submitted", 6, 0, 4)) {
             System.out.println(o.getId());
         }
     }

@@ -1,8 +1,12 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controller;
 
 import dal.AddressDAO;
+import dal.CartDAO;
 import dal.UserDAO;
-import helper.MD5;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -10,14 +14,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Address;
+import model.Cart;
 import model.User;
 
 /**
  *
- * @author duongvu
+ * @author Admin
  */
-public class LoginServlet extends HttpServlet {
+public class CartContactServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,10 +45,10 @@ public class LoginServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet LoginServlet</title>");
+            out.println("<title>Servlet CartContactServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet LoginServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CartContactServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -57,14 +66,32 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String logoutRequest = request.getParameter("logout");
-        HttpSession session = request.getSession(false);
-        if (session == null || logoutRequest == null) {
-            response.sendRedirect("home#login");
-        } else {
-            session.invalidate();
-            response.sendRedirect("home");
+        UserDAO userdao = new UserDAO();
+        CartDAO cartdao = new CartDAO();
+        AddressDAO addressdao = new AddressDAO();
+        HttpSession session = request.getSession();
+        User u = (User) session.getAttribute("user");
+        double total_cost = 0;
+        try {
+            if (u != null) {
+                User user = userdao.getUserByID(u.getId());
+                Address address = addressdao.getDefaultAddress(u.getId(), 1);
+                ArrayList<Cart> cartDetailList = cartdao.getCartDetail(u.getId());
+                for(Cart c : cartDetailList){
+                total_cost += c.getQuantity()*c.getList_price();
+                }
+                request.setAttribute("userinfor", user);
+                request.setAttribute("defaultAddress", address);
+                request.setAttribute("cartDetailList", cartDetailList);
+                request.setAttribute("total_cost", total_cost);
+                request.getRequestDispatcher("CartContact.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("home");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CartContactServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     /**
@@ -78,39 +105,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        UserDAO userDAO = new UserDAO();
-        AddressDAO addressDAO = new AddressDAO();
-
-        String email = request.getParameter("email").trim();
-        String password = request.getParameter("password");
-
-        User user = userDAO.login(email, MD5.getMD5(password));
-
-        if (user != null) {
-            if (!user.getStatus().equalsIgnoreCase("Active") 
-                    || !userDAO.getRoleStatus(user.getId()).equalsIgnoreCase("Active")) {
-                String error = "You are not allow to login!";
-                HttpSession session = request.getSession(true);
-                session.setAttribute("error", error);
-                response.sendRedirect("home#login");
-            } else {
-                HttpSession session = request.getSession(true);
-                Address address = addressDAO.getAddress(user.getId());
-
-                // Get previous page
-                String page = request.getParameter("page");
-
-                session.setAttribute("user", user);
-                session.setAttribute("address", address);
-                response.sendRedirect("home");
-            }
-        } else {
-            String error = "Wrong email or password!";
-            HttpSession session = request.getSession(true);
-            session.setAttribute("error", error);
-            session.setAttribute("username", email);
-            response.sendRedirect("home#login");
-        }
+        processRequest(request, response);
     }
 
     /**

@@ -3,7 +3,6 @@
 package controller;
 
 import dal.ProductDAO;
-import dal.SettingDAO;
 import dal.SliderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +14,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import model.Product;
-import model.Setting;
 import model.Slider;
 
 /**
@@ -72,40 +70,92 @@ public class ProductListServlet extends HttpServlet {
         List<Slider> sliderList = sliderDAO.getActive();
         request.setAttribute("slider", sliderList);
 
-        // Get product category list
-        SettingDAO settingDAO = new SettingDAO();
-        List<Setting> productCateList = settingDAO.getActiveByType("Product Category");
-        request.setAttribute("prcategory", productCateList);
-
         // Get attributes
         String categoryRaw = request.getParameter("category");
-        String minPriceRaw = request.getParameter("minPrice");
-        String maxPriceRaw = request.getParameter("maxPrice");
+        String minPriceRaw = null;
+        String maxPriceRaw = null;
+        String priceOption = request.getParameter("priceOption");
+        if (priceOption != null && !priceOption.equals("")) {
+            switch (priceOption) {
+                case "price1" -> {
+                    minPriceRaw = "0";
+                    maxPriceRaw = "100000";
+                }
+                case "price2" -> {
+                    minPriceRaw = "100000";
+                    maxPriceRaw = "350000";
+                }
+                case "price3" -> {
+                    minPriceRaw = "350000";
+                    maxPriceRaw = "600000";
+                }
+                case "price4" -> {
+                    minPriceRaw = "600000";
+                    maxPriceRaw = null;
+                }
+                case "customPrice" -> {
+                    minPriceRaw = request.getParameter("minPrice");
+                    maxPriceRaw = request.getParameter("maxPrice");
+                }
+                default -> {
+                    minPriceRaw = null;
+                    maxPriceRaw = null;
+                }
+            }
+        }
+        request.setAttribute("priceOption", priceOption);
         String search = request.getParameter("search");
+        String sort = request.getParameter("sort");
+        request.setAttribute("search", search);
+        
+        // Handle search by category
+        String[] searchArray = new String[0];
+        if (search != null) {
+            searchArray = search.split("Category: ");
+
+            if (searchArray.length > 1) {
+                search = searchArray[1].trim();
+                request.setAttribute("search", "Category: " + search);
+            } else {
+                search = request.getParameter("search");
+            }
+        }
+        request.setAttribute("categoryName", search);
+        
         if (categoryRaw != null && !categoryRaw.equals("")) {
             int category = Integer.parseInt(categoryRaw);
 
             // Highlight category in next page
             request.setAttribute("category", category);
         }
+        
+        if (searchArray.length > 1) {
+            request.setAttribute("category", "");
+        }
+
+        // Display page index
         String pageIndexRaw = request.getParameter("page");
         int pageIndex = 1;
         if (pageIndexRaw != null && !pageIndexRaw.equals("")) {
             pageIndex = Integer.parseInt(pageIndexRaw);
         }
         request.setAttribute("page", pageIndex);
-        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, null);
-        request.setAttribute("allproduct", productList);
 
-        // Display searched query on searchbar
-        request.setAttribute("search", search);
+        // Remember price range
         request.setAttribute("minPrice", minPriceRaw);
         request.setAttribute("maxPrice", maxPriceRaw);
 
-        // Sort
-        String sort = request.getParameter("sort");
-        productList = productDAO.filter(true, categoryRaw, minPriceRaw, maxPriceRaw, search, pageIndex, sort);
+        if (searchArray.length > 1) {
+            productList = productDAO.getActive(true, null,
+                    minPriceRaw, maxPriceRaw, search, sort, pageIndex);
+        } else {
+            productList = productDAO.getActive(true, categoryRaw,
+                    minPriceRaw, maxPriceRaw, search, sort, pageIndex);
+        }
         request.setAttribute("allproduct", productList);
+        int resultSize = productList.size();
+        request.setAttribute("resultSize", resultSize);
+
         // Remember sort type
         request.setAttribute("sort", sort);
 
@@ -118,16 +168,25 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("oneMonthAgo", oneMonthAgo);
 
         // Get latest product
-        allProduct = productDAO.getActive(false, 0, "Latest");
+        allProduct = productDAO.getActive(false, null, null, null, null, "Latest", 0);
         request.setAttribute("latestproduct", allProduct);
-        
+
         // Pagination
-        int totalProduct = allProduct.size();
-        int maxPage = totalProduct / 8;
-        if (totalProduct % 8 != 0) {
+        int totalProduct;
+        // Get total product
+        allProduct = productDAO.getActive(false, categoryRaw,
+                minPriceRaw, maxPriceRaw, search, sort, 0);
+        totalProduct = allProduct.size();
+        int maxPage = totalProduct / 12;
+        if (totalProduct % 12 != 0) {
             maxPage++;
         }
         request.setAttribute("totalPage", maxPage);
+
+        // For all product in search popup
+        allProduct = productDAO.getActive(false, categoryRaw,
+                minPriceRaw, maxPriceRaw, null, sort, 0);
+        request.setAttribute("allSearchList", allProduct);
 
         request.getRequestDispatcher("productlist.jsp").forward(request, response);
     }

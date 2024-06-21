@@ -23,8 +23,6 @@ import model.Setting;
  */
 
 public class SortBlogServlet extends HttpServlet {
-
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,9 +70,7 @@ public class SortBlogServlet extends HttpServlet {
         ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
         List<Setting> listS = dao1.getPostCategory();
         request.setAttribute("listp", listp);
-
         request.getRequestDispatcher("bloglist.jsp").forward(request, response);
-
     }
 
     /**

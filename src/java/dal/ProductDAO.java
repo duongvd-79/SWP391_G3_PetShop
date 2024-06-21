@@ -49,41 +49,83 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<Product> getActive(boolean isPaginated, int index, String sortType) {
-        String order = "";
-        String paging = "";
+    public List<Product> getActive(boolean isPaginated, String categoryRaw,
+            String minPriceRaw, String maxPriceRaw,
+            String search, String sortType, int index) {
+        String sqlCategory = "";
+        String sqlMinPrice = "";
+        String sqlMaxPrice = "";
+        String sqlSearch = "";
+        String sqlOrder = "";
+        String sqlPaging = "";
         if (isPaginated) {
-            paging = " LIMIT 8 OFFSET ?";
+            sqlPaging = " LIMIT 12 OFFSET ?";
         }
-        if (sortType != null) {
+        if (categoryRaw != null && !categoryRaw.equals("")) {
+            sqlCategory = "AND category_id = ? ";
+        }
+        if (minPriceRaw != null && !minPriceRaw.equals("")) {
+            sqlMinPrice = "AND list_price >= ? ";
+        }
+        if (maxPriceRaw != null && !maxPriceRaw.equals("")) {
+            sqlMaxPrice = "AND list_price <= ? ";
+        }
+        if (search != null && !search.equals("")) {
+            sqlSearch = "AND s.name LIKE ? OR pr.title LIKE ? ";
+        }
+        if (sortType != null && !sortType.equals("")) {
             switch (sortType) {
                 case "Latest" -> {
-                    order = "pr.created_date DESC,";
+                    sqlOrder = "pr.created_date DESC,";
                 }
                 case "Oldest" -> {
-                    order = "pr.created_date ASC,";
+                    sqlOrder = "pr.created_date ASC,";
                 }
                 case "Price Asc" -> {
-                    order = "pr.list_price ASC,";
+                    sqlOrder = "pr.list_price ASC,";
                 }
                 case "Price Desc" -> {
-                    order = "pr.list_price DESC,";
+                    sqlOrder = "pr.list_price DESC,";
                 }
                 default -> {
-                    order = "";
+                    sqlOrder = "";
                 }
             }
         }
         String sql = "SELECT pr.id, pr.title, pr.description, pr.import_price, "
                 + "pr.list_price, pr.status, pr.is_featured, pr.thumbnail, "
-                + "pr.created_date, pr.quantity, pr.category_id\n"
+                + "pr.created_date, pr.quantity, pr.category_id, s.name\n"
                 + "FROM petshop.product pr JOIN petshop.setting s ON pr.category_id = s.id\n"
-                + "WHERE s.status = 'Active' ORDER BY " + order + " pr.id " + paging;
+                + "WHERE s.status = 'Active' " + sqlCategory + sqlMinPrice + sqlMaxPrice + sqlSearch
+                + " ORDER BY " + sqlOrder + " pr.status, pr.id " + sqlPaging;
         try {
             productList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
+            int count = 1;
+            if (categoryRaw != null && !categoryRaw.equals("")) {
+                int cateId = Integer.parseInt(categoryRaw);
+                stm.setInt(count, cateId);
+                count++;
+            }
+            if (minPriceRaw != null && !minPriceRaw.equals("")) {
+                double minPrice = Double.parseDouble(minPriceRaw) / 1000;
+                stm.setDouble(count, minPrice);
+                count++;
+            }
+            if (maxPriceRaw != null && !maxPriceRaw.equals("")) {
+                double maxPrice = Double.parseDouble(maxPriceRaw) / 1000;
+                stm.setDouble(count, maxPrice);
+                count++;
+            }
+            if (search != null && !search.equals("")) {
+                search = "%" + search + "%";
+                stm.setString(count, search);
+                count++;
+                stm.setString(count, search);
+                count++;
+            }
             if (isPaginated) {
-                stm.setInt(1, (index - 1) * 8);
+                stm.setInt(count, (index - 1) * 12);
             }
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -98,7 +140,7 @@ public class ProductDAO extends DBContext {
     }
 
     public List<Product> getActiveFeatured() {
-        productList = getActive(false, 0, null);
+        productList = getActive(false, null, null, null, null, null, 0);
         productList.removeIf(p -> !p.isIsFeatured());
         return productList;
     }
@@ -115,47 +157,6 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
         }
         return null;
-    }
-
-    private List<Product> getActiveByCategoryId(int cateId) {
-        productList = getActive(false, 0, null);
-        productList.removeIf(p -> p.getCategoryId() != cateId);
-        return productList;
-    }
-
-    private List<Product> getActiveByPrice(double minPrice, double maxPrice) {
-        productList = getActive(false, 0, null);
-        productList.removeIf(p -> p.getListPrice() > maxPrice || p.getListPrice() < minPrice);
-        return productList;
-    }
-
-    private List<Product> search(String query) {
-        productList = getActive(false, 0, null);
-        SettingDAO sdao = new SettingDAO();
-        productList.removeIf(p -> !p.getTitle().toLowerCase().contains(query)
-                && !sdao.getActiveById(p.getCategoryId()).toLowerCase().contains(query));
-        return productList;
-    }
-
-    public List<Product> filter(boolean flag, String categoryRaw, String minPriceRaw, String maxPriceRaw, String searchQuery, int index, String sortType) {
-        if (flag) {
-            productList = getActive(true, index, sortType);
-        } else {
-            productList = getActive(false, 0, null);
-        }
-        if (categoryRaw != null && !categoryRaw.equals("")) {
-            int category = Integer.parseInt(categoryRaw);
-            productList = getActiveByCategoryId(category);
-        }
-        if (minPriceRaw != null && !minPriceRaw.equals("") && maxPriceRaw != null && !maxPriceRaw.equals("")) {
-            double minPrice = Double.parseDouble(minPriceRaw) / 1000;
-            double maxPrice = Double.parseDouble(maxPriceRaw) / 1000;
-            productList = getActiveByPrice(minPrice, maxPrice);
-        }
-        if (searchQuery != null && !searchQuery.equals("")) {
-            productList = search(searchQuery);
-        }
-        return productList;
     }
 
     public List<Product> getRelatedProduct(int id) {
@@ -185,7 +186,7 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-    public List<Product> getProductForEachOrder(int uid, String status,int page,int num) {
+    public List<Product> getProductForEachOrder(int uid, String status, int page, int num) {
         String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
                 + "JOIN `order` o ON od.order_id = o.id\n"
                 + "WHERE o.customer_id = ? AND o.status = ? AND (od.order_id, od.product_id) IN (\n"
@@ -198,7 +199,7 @@ public class ProductDAO extends DBContext {
             stm = connection.prepareStatement(sql);
             stm.setInt(1, uid);
             stm.setString(2, status);
-            stm.setInt(3, (page-1)*num);
+            stm.setInt(3, (page - 1) * num);
             stm.setInt(4, num);
             rs = stm.executeQuery();
             while (rs.next()) {
@@ -231,8 +232,9 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        for (Product pr : p.getActive(true, 1, "Latest")) {
-            System.out.println(pr.getId());
+        List<Product> productList = p.getActive(true, "", "", "", "dry", "", 1);
+        for (Product pr : productList) {
+            System.out.println(pr.getTitle());
         }
     }
 }

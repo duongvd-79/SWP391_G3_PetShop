@@ -7,6 +7,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Address;
 
 /**
@@ -92,6 +93,100 @@ public class AddressDAO extends DBContext {
             stm.setString(3, address.getDetail());
             stm.setInt(4, address.getId());
             stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public Address getDefaultAddress(int uid, int def) throws SQLException {
+        String sql = "select a.* from user u join user_address ua on u.id = ua.customer_id\n"
+                + "join address a on ua.address_id = a.id where u.id = ? and is_default = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, uid);
+        sta.setInt(2, def);
+        ResultSet rs = sta.executeQuery();
+        Address a = new Address();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String district = rs.getString("district");
+            String city = rs.getString("city");
+            String detail = rs.getString("detail");
+            boolean is_default = rs.getBoolean("is_default");
+            a = new Address(id, district, city, detail, is_default);
+        }
+        return a;
+    }
+
+    public Address getChosenAddress(int aid) throws SQLException {
+        String sql = "select * from address where id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, aid);
+        ResultSet rs = sta.executeQuery();
+        Address a = new Address();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String district = rs.getString("district");
+            String city = rs.getString("city");
+            String detail = rs.getString("detail");
+            boolean is_default = rs.getBoolean("is_default");
+            a = new Address(id, district, city, detail, is_default);
+        }
+        return a;
+    }
+
+    public ArrayList<Address> getAddressList(int uid) throws SQLException {
+        String sql = "select a.* from user_address ua join address a on ua.address_id = a.id where ua.customer_id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, uid);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<Address> al = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String district = rs.getString("district");
+            String city = rs.getString("city");
+            String detail = rs.getString("detail");
+            boolean is_default = rs.getBoolean("is_default");
+            Address a = new Address(id, district, city, detail, is_default);
+            al.add(a);
+        }
+        return al;
+    }
+
+    public void addNewAddress(String city, String district, String detail) throws SQLException {
+        try {
+            String strSelect = "insert into address(detail,city,district,is_default) values (?,?,?,0) ";
+            stm = connection.prepareStatement(strSelect);
+            stm.setString(1, detail);
+            stm.setString(2, city);
+            stm.setString(3, district);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void AddUserAddress(int cid, int aid) throws SQLException {
+        String sql = "insert into user_address(customer_id, address_id) values (?,?);";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, cid);
+            sta.setInt(2, aid);
+            sta.executeUpdate();
+        }
+    }
+
+    public void deleteAddress(int id) throws SQLException {
+        String sql = "DELETE FROM address WHERE id = ?";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, id);
+            sta.executeUpdate();
+        }
+    }
+
+    public void deleteUserAddress(int aid, int uid) throws SQLException {
+        String sql = "DELETE FROM user_address WHERE address_id = ? and customer_id = ?";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, aid);
+            sta.setInt(2, uid);
+            sta.executeUpdate();
         } catch (SQLException e) {
         }
     }

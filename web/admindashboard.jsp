@@ -21,14 +21,16 @@
         <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
+        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="css/admin.css">
         <!-- Toastr -->
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
         <style>
@@ -36,36 +38,27 @@
                 display:none !important;
             }
         </style>
-        <link href="css/admin.css" rel="stylesheet">
         <title>ADMIN DASHBOARD</title>
     </head>
+    <jsp:include page="header.jsp"></jsp:include>
+        <body>
+            <div class="container-fluid position-relative bg-white d-flex p-0 ">
+                <div class="row">
 
-    <body>
-        <div class="container-fluid position-relative bg-white d-flex p-0 ">
-            <!-- Sidebar Start -->
-            <div style="margin-top:125px;z-index: 2;" class="sidebar pe-4 pb-3 bg-white shadow-sm">
-                <nav class="navbar">
-                    <div class="d-flex align-items-center ms-4 mb-4">
-
+                    <!-- Sidebar Start -->
+                    <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
+                        <div style="top:130px;" class="w-100 mb-1 sticky-top">
+                            <a href="#" class="nav-link active"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                            <a href="setting" class="nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                            <a href="userlist" class="nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
+                        </div>
                     </div>
-                    <div class="navbar-nav w-100 mb-1">
-                        <a href="#" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
-                        <a href="setting" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-item nav-link"><i class="bi bi-gear-fill me-2"></i>USER LIST</a>
-                    </div>
-                </nav>
-            </div>
-            <!-- Sidebar End -->
+                    <!-- Sidebar End -->
 
 
-            <!-- Content Start -->
-            <div class="content m-0 w-100">
-                <!-- Header  Start-->
-                <jsp:include page="adminheader.jsp"></jsp:include>
-                <jsp:include page="userProfile.jsp"></jsp:include>
-                    <!-- Header End -->
-                    <div class="container-fluid rounded bg-white mt-4 mb-5 px-3">
-                        <div style="margin-left:260px;"  class="row">
+                    <!-- Content Start -->
+                    <div class="col-10 container-fluid rounded bg-white mt-4 mb-5 px-3">
+                        <div class="row px-3">
                             <div class="row">
                                 <div class="col-3 mb-3">
                                 <c:set var="compareinterval" value="${requestScope.start} - ${requestScope.end}" />
@@ -153,7 +146,7 @@
                                 </div>
                                 <h1 class="mt-1 mb-3">${numOfFb} &emsp;&emsp;Rating:${avgRating}</h1>
                                 <span class="h6 text-uppercase d-block">${interval}&emsp;${pname}</span>
-                                
+
                             </div>
                         </div>
                         <!--customer--> 
@@ -163,7 +156,7 @@
                                     <span class="card-title ms-2 h5 mb-0">New Customer</span>
                                 </div>
                                 <c:forEach items="${newCustomers}" var="c">
-                                    <a href="userdetails?id=${c.getId()}" style="height: 23%;" class="d-flex align-items-center mb-2">
+                                    <a href="userdetails?id=${c.getId()}" style="height: 97px;" class="d-flex align-items-center mb-2">
                                         <div class="ms-4">
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" class="rounded-circle" alt="User Image" style="width: 40px; height: 40px;">
                                         </div>
@@ -180,7 +173,7 @@
                                     <span class="card-title ms-2 h5 mb-0">Newly Buy Customer</span>
                                 </div>
                                 <c:forEach items="${newlyBuyCustomers}" var="c">
-                                    <a href="userdetails?id=${c.getId()}" style="height: 23%;" class="d-flex align-items-center mb-2">
+                                    <a href="userdetails?id=${c.getId()}" style="height: 97px;" class="d-flex align-items-center mb-2">
                                         <div class="ms-4">
                                             <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" class="rounded-circle" alt="User Image" style="width: 40px; height: 40px;">
                                         </div>
@@ -235,190 +228,197 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                                            
+                </div> 
+            <jsp:include page="footer.jsp"></jsp:include>  
             </div>
-                                        
-                <!-- Content End -->
+            </div>
 
-                <!-- JavaScript Libraries -->
-                <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-                <!--<script src="lib/chart/chart.min.js"></script>-->
-                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                <script src="lib/easing/easing.min.js"></script>
-                <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-                <!-- Template Javascript -->
-                <script src="js/admin.js"></script>
-                <script>
-                    var data = [];
-                    <c:forEach items="${requestScope.orderList}" var="val" varStatus="loop">
-                    data.push(${val});
-                    </c:forEach>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        // Doughnut chart
-                        new Chart(document.getElementById("orderstatuschart"), {
-                            type: "doughnut",
-                            data: {
-                                labels: ["Success", "Submitted", "Cancelled"],
-                                datasets: [{
-                                        data: data,
-                                        backgroundColor: [
-                                            '#28a745', // Success color
-                                            '#007bff', // Primary color
-                                            '#dc3545', // Danger color
-                                        ],
-                                        borderWidth: 5,
-                                        borderColor: '#ffffff' // Use white color directly
-                                    }]
+            <!-- Content End -->
+
+            <!-- JavaScript Libraries -->
+            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+            <!--<script src="lib/chart/chart.min.js"></script>-->
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="lib/easing/easing.min.js"></script>
+            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+            <!-- Template Javascript -->
+            <script src="js/admin.js"></script>
+            <script>
+                var data = [];
+            <c:forEach items="${requestScope.orderList}" var="val" varStatus="loop">
+                data.push(${val});
+            </c:forEach>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Doughnut chart
+                    new Chart(document.getElementById("orderstatuschart"), {
+                        type: "doughnut",
+                        data: {
+                            labels: ["Success", "Submitted", "Cancelled"],
+                            datasets: [{
+                                    data: data,
+                                    backgroundColor: [
+                                        '#28a745', // Success color
+                                        '#007bff', // Primary color
+                                        '#dc3545', // Danger color
+                                    ],
+                                    borderWidth: 5,
+                                    borderColor: '#ffffff' // Use white color directly
+                                }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'ORDER STATUS FOR ${interval}',
+
+                                    font: {
+                                        size: 18
+                                    },
+                                    color: '#5bc0de'
+                                }
                             },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    legend: {
+                            cutout: '70%' // Cutout percentage for doughnut chart
+                        }
+                    });
+                });
+
+
+        </script>
+        <script>
+            var revenues = [];
+            var profits = [];
+            <c:forEach items="${requestScope.monthlyRevenueList}" var="val" varStatus="loop">
+            revenues.push(${val});
+            </c:forEach>
+            <c:forEach items="${requestScope.monthlyProfitList}" var="val" varStatus="loop">
+            profits.push(${val});
+            </c:forEach>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Define window.theme if not already defined
+                window.theme = window.theme || {};
+                window.theme.color = window.theme.color || 'rgba(75, 192, 192, 1)';
+
+                // Bar chart
+                new Chart(document.getElementById("chartjs-bar"), {
+                    type: "bar",
+                    data: {
+                        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                        datasets: [{
+                                label: "Revenue",
+                                backgroundColor: '#007bff',
+                                borderColor: '#007bff',
+                                hoverBackgroundColor: '#007bff',
+                                hoverBorderColor: '#007bff',
+                                data: revenues,
+                                barPercentage: .75,
+                                categoryPercentage: .5
+                            }, {
+                                label: "Profit",
+                                backgroundColor: '#28a745',
+                                borderColor: '#28a745',
+                                hoverBackgroundColor: '#28a745',
+                                hoverBorderColor: '#28a745',
+                                data: profits,
+                                barPercentage: .75,
+                                categoryPercentage: .5
+                            }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: true
+                        },
+                        scales: {
+                            yAxes: [{
+                                    gridLines: {
                                         display: false
                                     },
-                                    title: {
-                                        display: true,
-                                        text: 'ORDER STATUS FOR ${interval}',
-
-                                        font: {
-                                            size: 18
-                                        },
-                                        color: '#5bc0de'
+                                    stacked: false,
+                                    ticks: {
+                                        stepSize: 0
                                     }
-                                },
-                                cutout: '70%' // Cutout percentage for doughnut chart
-                            }
-                        });
-                    });
-
-
-                </script>
-                <script>
-                    var revenues = [];
-                    var profits = [];
-                    <c:forEach items="${requestScope.monthlyRevenueList}" var="val" varStatus="loop">
-                    revenues.push(${val});
-                    </c:forEach>
-                    <c:forEach items="${requestScope.monthlyProfitList}" var="val" varStatus="loop">
-                    profits.push(${val});
-                    </c:forEach>
-                    document.addEventListener("DOMContentLoaded", function () {
-                        // Define window.theme if not already defined
-                        window.theme = window.theme || {};
-                        window.theme.color = window.theme.color || 'rgba(75, 192, 192, 1)';
-
-                        // Bar chart
-                        new Chart(document.getElementById("chartjs-bar"), {
-                            type: "bar",
-                            data: {
-                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                                datasets: [{
-                                        label: "Revenue",
-                                        backgroundColor: '#007bff',
-                                        borderColor: '#007bff',
-                                        hoverBackgroundColor: '#007bff',
-                                        hoverBorderColor: '#007bff',
-                                        data: revenues,
-                                        barPercentage: .75,
-                                        categoryPercentage: .5
-                                    }, {
-                                        label: "Profit",
-                                        backgroundColor: '#28a745',
-                                        borderColor: '#28a745',
-                                        hoverBackgroundColor: '#28a745',
-                                        hoverBorderColor: '#28a745',
-                                        data: profits,
-                                        barPercentage: .75,
-                                        categoryPercentage: .5
-                                    }]
-                            },
-                            options: {
-                                maintainAspectRatio: false,
-                                legend: {
-                                    display: true
-                                },
-                                scales: {
-                                    yAxes: [{
-                                            gridLines: {
-                                                display: false
-                                            },
-                                            stacked: false,
-                                            ticks: {
-                                                stepSize: 0
-                                            }
-                                        }],
-                                    xAxes: [{
-                                            barPercentage: 1.0,
-                                            stacked: false,
-                                            gridLines: {
-                                                color: "transparent"
-                                            }
-                                        }]
-                                }
-                            }
-                        });
-                    });
-                </script>
-                <script>
-                    document.getElementById('date-range').addEventListener('change', function () {
-                        const customDateRange = document.getElementById('custom-date-range');
-                        if (this.value === 'others') {
-                            customDateRange.style.display = 'flex';
-                        } else {
-                            customDateRange.style.display = 'none';
-                            window.location = "admindashboard?interval=" + this.value + "&pcategory=" + '${pcategory}';
+                                }],
+                            xAxes: [{
+                                    barPercentage: 1.0,
+                                    stacked: false,
+                                    gridLines: {
+                                        color: "transparent"
+                                    }
+                                }]
                         }
-                    });
-                    document.getElementById('date-range').addEventListener('click', function () {
-                        const customDateRange = document.getElementById('custom-date-range');
-                        if (this.value === 'others') {
-                            customDateRange.style.display = 'flex';
-                        }
-                    });
+                    }
+                });
+            });
+        </script>
+        <script>
+            document.getElementById('date-range').addEventListener('change', function () {
+                const customDateRange = document.getElementById('custom-date-range');
+                if (this.value === 'others') {
+                    customDateRange.style.display = 'flex';
+                } else {
+                    customDateRange.style.display = 'none';
+                    window.location = "admindashboard?interval=" + this.value + "&pcategory=" + '${pcategory}';
+                }
+            });
+            document.getElementById('date-range').addEventListener('click', function () {
+                const customDateRange = document.getElementById('custom-date-range');
+                if (this.value === 'others') {
+                    customDateRange.style.display = 'flex';
+                }
+            });
 
-                </script>
-                <script>
-                    document.getElementById('product-category').addEventListener('change', function () {
-                        if ('${start}' === 'null' || '${start}' === '') {
-                            window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + this.value;
-                        } else {
-                            window.location = "admindashboard?start=" + '${start}' + "&end=" + '${end}' + "&pcategory=" + this.value;
-                        }
+        </script>
+        <script>
+            document.getElementById('product-category').addEventListener('change', function () {
+                if ('${start}' === 'null' || '${start}' === '') {
+                    window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + this.value;
+                } else {
+                    window.location = "admindashboard?start=" + '${start}' + "&end=" + '${end}' + "&pcategory=" + this.value;
+                }
 
-                    });
-                </script>
+            });
+        </script>
 
-                <script>
-                    document.getElementById('custom-date-range').addEventListener('submit', function (event) {
-                        const startDate = document.getElementById('start-date').value;
-                        const endDate = document.getElementById('end-date').value;
+        <script>
+            document.getElementById('custom-date-range').addEventListener('submit', function (event) {
+                const startDate = document.getElementById('start-date').value;
+                const endDate = document.getElementById('end-date').value;
 
-                        if (startDate >= endDate) {
-                            event.preventDefault();
-                            toastr.options.progressBar = true;
-                            toastr.warning('Start date must be before end date');
-                        }
-                    });
-                </script>
-                <script>
-                    document.getElementById('year-choose').addEventListener('change', function () {
-                        const customDateRange = document.getElementById('custom-date-range');
-                        customDateRange.style.display = 'none';
-                        window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}' + "&year=" + this.value;
-                    });
-                </script>
-                <script>
-                    document.addEventListener('DOMContentLoaded', () => {
-                        const averageRating = 3.7;
-                        const widthPercentage = (averageRating / 5) * 100;
-                        const starRatingElement = document.getElementById('starRating');ng
-                        starRatingElement.style.setProperty('--rating-width', `${widthPercentage}%`);
-                        starRatingElement.style.width = `${widthPercentage}%`;
-                    });
-                </script>
-                </body>
-                </html>
+                if (startDate >= endDate) {
+                    event.preventDefault();
+                    toastr.options.progressBar = true;
+                    toastr.warning('Start date must be before end date');
+                }
+            });
+        </script>
+        <script>
+            document.getElementById('year-choose').addEventListener('change', function () {
+                const customDateRange = document.getElementById('custom-date-range');
+                customDateRange.style.display = 'none';
+                window.location = "admindashboard?interval=" + '${interval}' + "&pcategory=" + '${pcategory}' + "&year=" + this.value;
+            });
+        </script>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- ALL PLUGINS -->
+        <script src="js/jquery.superslides.min.js"></script>
+        <script src="js/bootstrap-select.js"></script>
+        <script src="js/inewsticker.js"></script>
+        <script src="js/bootsnav.js."></script>
+        <script src="js/images-loded.min.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/baguetteBox.min.js"></script>
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/contact-form-script.js"></script>
+        <script src="js/custom.js"></script>
+    </body>
+</html>

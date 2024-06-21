@@ -23,8 +23,6 @@ import model.Setting;
  * @author Acer
  */
 public class BlogListServlet extends HttpServlet {
-
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -78,7 +76,6 @@ public class BlogListServlet extends HttpServlet {
     request.setAttribute("listp", listp);
     request.setAttribute("listC", listS);
     request.getRequestDispatcher("PostList.jsp").forward(request, response);
-    
     }
 
     /**

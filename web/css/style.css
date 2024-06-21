@@ -1552,6 +1552,7 @@ ul.cart-list > li.total > .btn:hover{
 }
 .all-title-box .breadcrumb{
     background: #b0b435;
+    font-weight: 700;
     margin: 0px;
     display: inline-block;
     border-radius: 0px;
@@ -1559,15 +1560,18 @@ ul.cart-list > li.total > .btn:hover{
 }
 .all-title-box .breadcrumb li{
     display: inline-block;
-    color: #000000;
-    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    font-size: 23px;
 }
 .all-title-box .breadcrumb li a{
-    color: #ffffff;
-    font-size: 16px;
+    color: white ;
+    font-weight: 700;
+    font-size: 23px;
 }
 .all-title-box .breadcrumb-item + .breadcrumb-item::before{
-    color: #000000;
+    font-weight: 700;
+    color: white;
 }
 .about-box-main{
     padding: 70px 0px;

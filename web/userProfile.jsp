@@ -10,6 +10,7 @@
                         <h2 class="text-right"><strong>Profile Picture</strong></h2>
                         <img class="rounded-circle my-3" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}" onerror="this.src='images/userpfp/default.png';this.onerror='';">
                         <input id="file-upload" type="file" name="profilepfp" accept="image/*">
+                        <p id="file-size-warning" style="color: red; display: none;">File size exceeds 50MB</p>
                         <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
                         <span id="file-name"></span>
                     </div>

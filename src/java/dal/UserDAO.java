@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import model.Setting;
 import model.User;
 
@@ -284,18 +283,18 @@ public class UserDAO extends DBContext {
                 user.setRoleId(rs.getInt("role_id"));
                 user.setGender(rs.getBoolean("gender"));
                 user.setCreateDate(rs.getDate("create_date"));
-                
+
                 // Set last login time
                 Date currentDate = new Date();
                 user.setLastLog(currentDate);
-                
+
                 // Update last login time in database
                 sql = "UPDATE user SET last_log = ? WHERE id = ?";
                 stm = connection.prepareStatement(sql);
                 stm.setTimestamp(1, new Timestamp(currentDate.getTime()));
                 stm.setInt(2, user.getId());
                 stm.executeUpdate();
-                
+
                 return user;
             }
         } catch (SQLException e) {
@@ -400,10 +399,53 @@ public class UserDAO extends DBContext {
 
     }
 
-    public static void main(String[] args) throws SQLException {
-        UserDAO u = new UserDAO();
-        User user = u.login("sale@gmail.com", "827ccb0eea8a706c4c34a16891f84e7b");
-        System.out.println(user.getLastLog());
+    public User getUserByID(int uid) throws SQLException {
+        String sql = "select * from user where id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, uid);
+        ResultSet rs = sta.executeQuery();
+        User u = new User();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+        }
+        return u;
+    }
+    public String getRoleStatus(int id) {
+        String sql = "SELECT s.status as status FROM user as u join setting as s"
+                + " on s.id=u.role_id where u.id = ?";
+        try {
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta.setInt(1, id);
+            ResultSet rs = sta.executeQuery();
+            if (rs.next()) {
+                return rs.getString("status");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
+    public static void main(String[] args) throws SQLException {
+        UserDAO u = new UserDAO();
+//        for(User s : u.getAllUser()){
+//            System.out.println(s.getId() + s.getPfp());
+//        }
+//        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
+//        u.changePassword("hoangdz512@gmail.com","123456" );
+        for (User user : u.getTop4NewlyBuyCutomers()) {
+            System.out.println(user.getName());
+        }
+
+    }
 }

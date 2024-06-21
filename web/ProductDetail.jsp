@@ -1,4 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.User"%>
 <!DOCTYPE html>
@@ -61,8 +62,59 @@
                     <div class="col-xl-7 col-lg-7 col-md-6">
                         <div class="single-product-details">
                             <h2>${requestScope.product.title}</h2>
-                            <h5><del>${requestScope.product.listPrice + 100}00 đ</del>&nbsp;&nbsp;${requestScope.product.listPrice}00 đ</h5>
-                            <p class="available-stock"><span> <a href="#">8 sold</a></span><p>
+                            <div class="price-with-rating">
+                                <h5>
+                                    <del>${requestScope.product.listPrice + 100}00 đ </del>${requestScope.product.listPrice}00 đ
+                                    <c:if test="${star == 1}">
+                                        <span class="product-rating">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                        </span>
+                                    </c:if>
+                                    <c:if test="${star == 2}">
+                                        <span class="product-rating">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                        </span>
+                                    </c:if>
+                                    <c:if test="${star == 3}">
+                                        <span class="product-rating">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star"></i>
+                                            <i class="bi bi-star"></i>
+                                        </span>
+                                    </c:if>
+                                    <c:if test="${star == 4}">
+                                        <span class="product-rating">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star"></i>
+                                        </span>
+                                    </c:if>
+                                    <c:if test="${star == 5}">
+                                        <span class="product-rating">
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        </span>
+                                    </c:if>
+                                    (${requestScope.reviewTotal} reviews)
+                                </h5>
+                            </div>
+                            <p class="available-stock"><span> <a href="#">${requestScope.product.quantity} remains</a></span><p>
+                         
                             <h4>Description:</h4>
                             <p>${requestScope.product.description}</p>
                             <%
@@ -73,7 +125,7 @@
                                 <li>
                                     <div class="form-group quantity-box">
                                         <label class="control-label">Quantity</label>
-                                        <input class="form-control" id="quantity" name="quantity" value="1" min="0" max="20" type="number">
+                                        <input class="form-control" id="quantity" name="quantity" value="1" min="1" max="150" step="1" type="number">
                                     </div>
                                 </li>
                             </ul>
@@ -84,7 +136,10 @@
                                 %>
                                 <div class="cart-and-bay-btn">
                                     <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-                                    <a id="addToCartLink" class="btn hvr-hover" data-fancybox-close="" href="#" onclick="updateHref()">Add to cart</a>
+                                    <a id="addToCartLink" class="btn hvr-hover" data-fancybox-close="" href="#" onclick="return updateHref()">Add to cart</a>
+                                </div>
+                                <div>
+                                    <p id="msg" style="color: red;"></p>
                                 </div>
                                 <%} else {%>
                                 <a class="btn hvr-hover" data-fancybox-close="" href="#loginpopup">Login to Buy</a>
@@ -93,13 +148,25 @@
 
                             <script>
                                 function updateHref() {
-                                    var quantity = document.getElementById("quantity").value;
-                                    var productid = "${requestScope.product.id}";
-                                    var href = "addcart?productid=" + productid + "&quantity=" + quantity + "&currentid=" + productid;
-                                    document.getElementById("addToCartLink").href = href;
+                                    var quantity = parseInt(document.getElementById("quantity").value);
+                                    var remains = parseInt('${requestScope.product.quantity}');
+
+                                    if (quantity > remains) {
+                                        // Hiển thị thông báo lỗi
+                                        document.getElementById("msg").innerText = "Sorry, the quantity exceeds available stock.";
+                                        return false; // Ngăn chặn thực hiện thay đổi href
+                                    } else {
+                                        // Nếu quantity hợp lệ, cập nhật href cho nút "Add to cart"
+                                        var productid = "${requestScope.product.id}";
+                                        var href = "addcart?productid=" + productid + "&quantity=" + quantity + "&currentid=" + productid;
+                                        document.getElementById("addToCartLink").href = href;
+                                        document.getElementById("msg").innerText = ""; // Xóa thông báo lỗi nếu có
+                                        return true; // Cho phép thực hiện chuyển hướng
+                                    }
                                 }
                             </script>
                             <% } %>
+
                         </div>
                     </div>
                 </div>
@@ -113,14 +180,66 @@
                             <c:set var="fl" value="${requestScope.feedbackList}"/>
                             <c:choose>
                                 <c:when test="${not empty fl}">
-                                    <c:forEach items="${fl}" var="f">
-                                        <div class="media mb-3">
+                                    <c:forEach begin="0" end="${length}" var="i" step="1">
+
+                                        <div class="media mb-3 border-bottom">
                                             <div class="mr-2"> 
                                                 <img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
                                             </div>
                                             <div class="media-body">
-                                                <p>${f.detail}</p>
-                                                <small class="text-muted">Posted by ${f.name} on ${f.createdDate}</small>
+                                                 <small class="text-muted">Posted by ${fl[i].name} on ${fl[i].createdDate} <c:if test="${fl[i].star == 1}">
+                                                        <span class="product-rating">
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                        </span>
+                                                    </c:if>
+                                                    <c:if test="${fl[i].star == 2}">
+                                                        <span class="product-rating">
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                        </span>
+                                                    </c:if>
+                                                    <c:if test="${fl[i].star == 3}">
+                                                        <span class="product-rating">
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star"></i>
+                                                            <i class="bi bi-star"></i>
+                                                        </span>
+                                                    </c:if> 
+                                                    <c:if test="${fl[i].star == 4}">
+                                                        <span class="product-rating">
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star"></i>
+                                                        </span>
+                                                    </c:if> 
+                                                    <c:if test="${fl[i].star == 5}">
+                                                        <span class="product-rating">
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                            <i class="bi bi-star-fill text-warning"></i>
+                                                        </span>
+                                                    </c:if> 
+                                                </small>
+                                                <p>${fl[i].detail}</p>
+                                                <div>
+                                                    <c:forEach items="${imageList[i]}" var="im">
+                                                        <img class="border  p-1 mr-2" src="${im.feedback_image}" style="width: 75px; height: 75px; object-fit: cover;" alt="User Image">
+                                                    </c:forEach>
+                                                </div>
+                                               
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -134,7 +253,11 @@
                             <c:if test="${not empty fl}">
                                 <a href="#" class="btn hvr-hover">See more</a>
                             </c:if>
-                            <a href="#" class="btn hvr-hover">Leave a Review</a>
+                            <%
+                                       if (user != null) {
+                            %>
+                            <a href="feedback?productid=${requestScope.product.id}" class="btn hvr-hover">Leave a Review</a>
+                            <% } %>
                         </div>
                     </div>
                 </div>
@@ -180,6 +303,9 @@
 <style>
     nav.navbar .navbar-brand img.logo {
         width: 250px; /* Đặt kích thước tối đa cho chiều ngang */
+    }
+    .product-rating {
+        margin-left: 50px; /* Thay đổi giá trị để điều chỉnh khoảng cách theo ý muốn */
     }
 </style>
 

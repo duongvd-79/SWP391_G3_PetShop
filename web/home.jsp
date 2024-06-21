@@ -48,11 +48,18 @@
             #featured-list {
                 transition:  0.5s ease-in-out;
             }
+            .blog-box {
+                border-top: solid lightgray 1px;
+                border-bottom: solid lightgray 1px;
+                border-radius: 5px;
+            }
             .latest-blog-img {
                 width: 33%;
                 float: left;
                 position: relative;
-                margin-top: 2px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border: solid lightgray 1px;
             }
             .latest-blog-content {
                 width: 67%;
@@ -62,21 +69,13 @@
             .latest-blog-content h3 a {
                 font-size: 20px;
             }
+            .latest-blog-content div h3 {
+                padding-top: 10px;
+            }
         </style>
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-
-            <!-- Start Top Search -->
-            <div class="container-fluid form-control mb-2">
-                <div class="row">
-                    <div class="col-12">
-                        <input type="search" placeholder="Search" style="width: 100%">
-                    </div>
-                </div>
-            </div>
-            <!-- End Top Search -->
-
             <!-- Start Slider -->
             <div id="slides-shop" class="cover-slides">
                 <ul class="slides-container">
@@ -115,7 +114,7 @@
                             <c:forEach items="${requestScope.latestblog}" var="lb" begin="0" end="2">
                                 <div class="col-12 blog-box" title="${lb.title}"
                                      onclick="window.location.href = 'blogdetail?id=${lb.id}'" style="cursor: pointer">
-                                    <div class="blog-box" style="margin-bottom: 20px;">
+                                    <div style="margin-bottom: 20px;">
                                         <div class="latest-blog-img">
                                             <img class="img-fluid" src="${lb.thumbnail}" alt="" />
                                         </div>
@@ -150,7 +149,7 @@
                                 <div class="col-lg-12">
                                     <div class="special-menu text-center">
                                         <div class="button-group filter-button-group">
-                                            <button data-filter=".top-featured">Featured</button>
+                                            <button>Featured</button>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +158,7 @@
                             <div class="row" id="featured-list">
                                 <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
                                     <div class="col-lg-3 col-md-6 ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
-                                        <div class="products-single fix">
+                                        <div class="products-single fix" style="border: solid lightgray 1px;border-radius: 5px">
                                             <div class="box-img-hover">
                                                 <div class="type-lb">
                                                     <p class="sale">Hot</p>
@@ -171,7 +170,7 @@
                                                         User user = (User) session.getAttribute("user");
                                                         if (user != null && user.getRoleId() == 5) {
                                                     %>
-                                                    <a class="cart" href="#">Add to Cart</a>
+                                                    <a class="cart" href="addcarthomepage?productid=${apr.id}&quantity=1">Add to Cart</a>
                                                     <%}%>
                                                 </div>
                                             </div>

@@ -1,10 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.User"%>
+<%@page import="model.Cart"%>
+<%@ page import="java.util.ArrayList" %>
 <!-- Start Main Top -->
 <header class="main-header">
     <!-- Start Navigation -->
-    <nav class="shadow navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+    <nav class=" navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
 
         <!-- Start Header Navigation -->
         <div class="navbar-header">
@@ -25,7 +27,7 @@
                     <a href="productlist" class="nav-link dropdown-toggle" data-toggle="dropdown">Product <i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="productlist">All Products</a></li>
-                            <c:forEach items="${requestScope.prcategory}" var="prcate">
+                            <c:forEach items="${applicationScope.prcategory}" var="prcate">
                             <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
                             </c:forEach>
                     </ul>
@@ -91,14 +93,15 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                        <span class="badge">${requestScope.cartDetailList.size()}</span>
+                     
+                        <span class="badge">${sessionScope.size}</span>
                         <p style="font-weight: bold;">MY CART</p>
                     </a>
                 </li>
             </ul>
         </div>
-        <!-- End Atribute Navigation -->
-        <%}%>
+        <%} 
+        %>
 
         <%
             if (user != null) {
@@ -178,24 +181,24 @@
     }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
     $(document).ready(function () {
-    var toastMessage = '${sessionScope.successnoti}';
-    var toastType = '${sessionScope.toastType}';
-    if (toastMessage) {
-    if (toastType === 'success') {
-    toastr.success(toastMessage);
-    } else if (toastType === 'error') {
-    toastr.error(toastMessage);
-    }
+        var toastMessage = '${sessionScope.noti}';
+        var toastType = '${sessionScope.toastType}';
+        if (toastMessage) {
+            if (toastType === 'success') {
+                toastr.success(toastMessage);
+            } else if (toastType === 'error') {
+                toastr.error(toastMessage);
+            }
     <% 
-                session.removeAttribute("successnoti");
+                session.removeAttribute("noti");
                 session.removeAttribute("toastType");
     %>
-    }
+        }
     });</script>
 <script>
     // Field guide popup
@@ -206,331 +209,250 @@
     const phoneInput = document.getElementById('pfphone');
     const phoneInfo = document.getElementById('phone-info');
     nameInput.addEventListener('focus', () => {
-    nameInfo.style.display = 'block';
+        nameInfo.style.display = 'block';
     });
     nameInput.addEventListener('blur', () => {
-    nameInfo.style.display = 'none';
+        nameInfo.style.display = 'none';
     });
     emailInput.addEventListener('mouseover', () => {
-    emailInfo.style.display = 'block';
+        emailInfo.style.display = 'block';
     });
     emailInput.addEventListener('mouseout', () => {
-    emailInfo.style.display = 'none';
+        emailInfo.style.display = 'none';
     });
     phoneInput.addEventListener('focus', () => {
-    phoneInfo.style.display = 'block';
+        phoneInfo.style.display = 'block';
     });
     phoneInput.addEventListener('blur', () => {
-    phoneInfo.style.display = 'none';
+        phoneInfo.style.display = 'none';
     });
     // Render cites & districts
     var cities = document.getElementById("pfcity");
     var districts = document.getElementById("pfdistrict");
     var Parameter = {
-    url: "js/data.json",
-            method: "GET",
-            responseType: "application/json",
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
     };
     var promise = axios(Parameter);
     promise.then(function (result) {
-    renderCity(result.data);
+        renderCity(result.data);
     });
     function renderCity(data) {
-    for (const city of data) {
-    const option = new Option(city.Name);
-    option.value = city.Name;
-    option.selected = city.Name === '${sessionScope.address.getCity()}';
-    cities.add(option);
-    }
+        for (const city of data) {
+            const option = new Option(city.Name);
+            option.value = city.Name;
+            option.selected = city.Name === '${sessionScope.address.getCity()}';
+            cities.add(option);
+        }
 
-    if (cities.value !== "") {
-    renderDistrict(cities.value, data);
-    }
-    cities.onchange = function () {
-    renderDistrict(this.value, data);
-    };
-    function renderDistrict(selectedCityName, data) {
-    districts.length = 1;
-    if (selectedCityName !== "") {
-    const selectedCity = data.find(city => city.Name === selectedCityName);
-    for (const district of selectedCity.Districts) {
-    const option = new Option(district.Name);
-    option.value = district.Name;
-    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
-    districts.add(option);
-    }
-    }
-    }
+        if (cities.value !== "") {
+            renderDistrict(cities.value, data);
+        }
+        cities.onchange = function () {
+            renderDistrict(this.value, data);
+        };
+        function renderDistrict(selectedCityName, data) {
+            districts.length = 1;
+            if (selectedCityName !== "") {
+                const selectedCity = data.find(city => city.Name === selectedCityName);
+                for (const district of selectedCity.Districts) {
+                    const option = new Option(district.Name);
+                    option.value = district.Name;
+                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
+                    districts.add(option);
+                }
+            }
+        }
     }
 
     // Image upload
     var file = document.getElementById('file-upload');
     var previewImage = document.getElementById('preview-img');
+    var fileSizeWarning = document.getElementById('file-size-warning');
+
     file.addEventListener('change', function () {
-    var fileName = this.files[0].name;
-    document.getElementById('file-name').textContent = fileName;
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
     });
-    file.addEventListener('change', (e) => {
-    var reader = new FileReader();
-    reader.onload = (event) => {
-    previewImage.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
+
+    // Handle image size
+    file.addEventListener('change', function (e) {
+        var reader = new FileReader();
+        var file1 = this.files[0];
+        const maxSize = 50 * 1024 * 1024;
+
+        if (file1.size > maxSize) {
+            fileSizeWarning.style.display = 'block';
+
+            // Clear the file input
+            this.value = '';
+            previewImage.src = '';
+            document.getElementById('file-name').textContent = '';
+        } else {
+            fileSizeWarning.style.display = 'none';
+            reader.onload = (event) => {
+                previewImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file1);
+        }
     });
+
+
     // Toggle save button on changes
     document.addEventListener('DOMContentLoaded', function () {
-    var name = document.getElementById('pfname');
-    var phone = document.getElementById('pfphone');
-    var male = document.getElementById('pfmale')
-            var female = document.getElementById('pffemale')
-            var city = document.getElementById('pfcity');
-    var district = document.getElementById('pfdistrict');
-    var detailaddress = document.getElementById('pfdetailaddress');
-    var saveButton = document.getElementById('save-button');
-    const originalName = '${sessionScope.user.name}';
-    const originalPhone = '${sessionScope.user.phone}';
-    const originalGender = '${sessionScope.user.gender}';
-    const originalCity = '${sessionScope.address.city}';
-    const originalDistrict = '${sessionScope.address.district}';
-    const originalDetailAddress = '${sessionScope.address.detail}';
-    function toggleButton() {
-    if (name.value !== originalName || phone.value !== originalPhone
-            || (originalGender === 'Male' && female.checked)
-            || (originalGender === 'Female' && male.checked)
-            || file.value !== '' || city.value !== originalCity
-            || district.value !== originalDistrict
-            || detailaddress.value !== originalDetailAddress) {
-    saveButton.disabled = false;
-    } else {
-    saveButton.disabled = true;
-    }
-    }
-    ;
-    name.addEventListener('input', toggleButton);
-    phone.addEventListener('input', toggleButton);
-    male.addEventListener('change', toggleButton);
-    female.addEventListener('change', toggleButton);
-    file.addEventListener('change', toggleButton);
-    city.addEventListener('change', toggleButton);
-    district.addEventListener('change', toggleButton);
-    detailaddress.addEventListener('input', toggleButton);
-    });</script>
+        var name = document.getElementById('pfname');
+        var phone = document.getElementById('pfphone');
+        var male = document.getElementById('pfmale')
+        var female = document.getElementById('pffemale')
+        var city = document.getElementById('pfcity');
+        var district = document.getElementById('pfdistrict');
+        var detailaddress = document.getElementById('pfdetailaddress');
+        var saveButton = document.getElementById('save-button');
+        const originalName = '${sessionScope.user.name}';
+        const originalPhone = '${sessionScope.user.phone}';
+        const originalGender = '${sessionScope.user.gender}';
+        const originalCity = '${sessionScope.address.city}';
+        const originalDistrict = '${sessionScope.address.district}';
+        const originalDetailAddress = '${sessionScope.address.detail}';
+
+        function toggleButton() {
+            if (name.value !== originalName || phone.value !== originalPhone
+                    || (originalGender === 'Male' && female.checked)
+                    || (originalGender === 'Female' && male.checked)
+                    || file.value !== '' || city.value !== originalCity
+                    || district.value !== originalDistrict
+                    || detailaddress.value !== originalDetailAddress) {
+                saveButton.disabled = false;
+            } else {
+                saveButton.disabled = true;
+            }
+        }
+        ;
+        name.addEventListener('input', toggleButton);
+        phone.addEventListener('input', toggleButton);
+        male.addEventListener('change', toggleButton);
+        female.addEventListener('change', toggleButton);
+        file.addEventListener('change', toggleButton);
+        city.addEventListener('change', toggleButton);
+        district.addEventListener('change', toggleButton);
+        detailaddress.addEventListener('input', toggleButton);
+    });
+</script>
 <script>
     var cities2 = document.getElementById("city");
     var districts2 = document.getElementById("district");
     var Parameter2 = {
-    url: "js/data.json",
-            method: "GET",
-            responseType: "application/json",
+        url: "js/data.json",
+        method: "GET",
+        responseType: "application/json",
     };
     var promise2 = axios(Parameter2);
     promise2.then(function (result2) {
-    renderCity2(result2.data);
+        renderCity2(result2.data);
     });
     function renderCity2(data) {
-    for (const city of data) {
-    cities2.options[cities2.options.length] = new Option(city.Name);
-    }
+        for (const city of data) {
+            cities2.options[cities2.options.length] = new Option(city.Name);
+        }
 
-    cities2.onchange = function () {
-    districts2.length = 1;
-    if (this.value !== "") {
-    const selectedCity = data.find(city => city.Name === this.value);
-    for (const district of selectedCity.Districts) {
-    districts2.options[districts2.options.length] = new Option(district.Name);
-    }
-    }
-    };
+        cities2.onchange = function () {
+            districts2.length = 1;
+            if (this.value !== "") {
+                const selectedCity = data.find(city => city.Name === this.value);
+                for (const district of selectedCity.Districts) {
+                    districts2.options[districts2.options.length] = new Option(district.Name);
+                }
+            }
+        };
     }
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const currentPage = window.location.pathname;
-    const navLinks = document.querySelectorAll('.nav-link');
-    navLinks.forEach(link => {
-    if (currentPage.includes(link.getAttribute('href'))) {
-    link.parentElement.classList.add('active');
-    }
-    });
-    const path = document.getElementById('pathName');
-    path.value = window.location.pathname.split('/').pop();
-    });</script>
-<script>
-    // Field guide popup
-    const nameInput = document.getElementById('pfname');
-    const nameInfo = document.getElementById('name-info');
-    const emailInput = document.getElementById('pfemail');
-    const emailInfo = document.getElementById('email-info');
-    const phoneInput = document.getElementById('pfphone');
-    const phoneInfo = document.getElementById('phone-info');
-    nameInput.addEventListener('focus', () => {
-    nameInfo.style.display = 'block';
-    });
-    nameInput.addEventListener('blur', () => {
-    nameInfo.style.display = 'none';
-    });
-    emailInput.addEventListener('mouseover', () => {
-    emailInfo.style.display = 'block';
-    });
-    emailInput.addEventListener('mouseout', () => {
-    emailInfo.style.display = 'none';
-    });
-    phoneInput.addEventListener('focus', () => {
-    phoneInfo.style.display = 'block';
-    });
-    phoneInput.addEventListener('blur', () => {
-    phoneInfo.style.display = 'none';
-    });
-    // Render cites & districts
-    var cities = document.getElementById("pfcity");
-    var districts = document.getElementById("pfdistrict");
-    var Parameter = {
-    url: "js/data.json",
-            method: "GET",
-            responseType: "application/json",
-    };
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-    renderCity(result.data);
-    });
-    function renderCity(data) {
-    for (const city of data) {
-    const option = new Option(city.Name);
-    option.value = city.Name;
-    option.selected = city.Name === '${sessionScope.address.getCity()}';
-    cities.add(option);
-    }
+        const currentPage = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
 
-    if (cities.value !== "") {
-    renderDistrict(cities.value, data);
-    }
-    cities.onchange = function () {
-    renderDistrict(this.value, data);
-    };
-    function renderDistrict(selectedCityName, data) {
-    districts.length = 1;
-    if (selectedCityName !== "") {
-    const selectedCity = data.find(city => city.Name === selectedCityName);
-    for (const district of selectedCity.Districts) {
-    const option = new Option(district.Name);
-    option.value = district.Name;
-    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
-    districts.add(option);
-    }
-    }
-    }
-    }
+        navLinks.forEach(link => {
+            if (currentPage.includes(link.getAttribute('href'))) {
+                link.parentElement.classList.add('active');
+            }
+        });
 
-    // Image upload
-    var file = document.getElementById('file-upload');
-    var previewImage = document.getElementById('preview-img');
-    file.addEventListener('change', function () {
-    var fileName = this.files[0].name;
-    document.getElementById('file-name').textContent = fileName;
+        // Get page path for login
+        const path = document.getElementById('pathName');
+        path.value = window.location.pathname.split('/').pop() + window.location.search;
     });
-    file.addEventListener('change', (e) => {
-    var reader = new FileReader();
-    reader.onload = (event) => {
-    previewImage.src = event.target.result;
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    });
-    // Toggle save button on changes
-    document.addEventListener('DOMContentLoaded', function () {
-    var name = document.getElementById('pfname');
-    var phone = document.getElementById('pfphone');
-    var male = document.getElementById('pfmale')
-            var female = document.getElementById('pffemale')
-            var city = document.getElementById('pfcity');
-    var district = document.getElementById('pfdistrict');
-    var detailaddress = document.getElementById('pfdetailaddress');
-    var saveButton = document.getElementById('save-button');
-    const originalName = '${sessionScope.user.name}';
-    const originalPhone = '${sessionScope.user.phone}';
-    const originalGender = '${sessionScope.user.gender}';
-    const originalCity = '${sessionScope.address.city}';
-    const originalDistrict = '${sessionScope.address.district}';
-    const originalDetailAddress = '${sessionScope.address.detail}';
-    function toggleButton() {
-    if (name.value !== originalName || phone.value !== originalPhone
-            || (originalGender === 'Male' && female.checked)
-            || (originalGender === 'Female' && male.checked)
-            || file.value !== '' || city.value !== originalCity
-            || district.value !== originalDistrict
-            || detailaddress.value !== originalDetailAddress) {
-    saveButton.disabled = false;
-    } else {
-    saveButton.disabled = true;
-    }
-    };
-    name.addEventListener('input', toggleButton);
-    phone.addEventListener('input', toggleButton);
-    male.addEventListener('change', toggleButton);
-    female.addEventListener('change', toggleButton);
-    file.addEventListener('change', toggleButton);
-    city.addEventListener('change', toggleButton);
-    district.addEventListener('change', toggleButton);
-    detailaddress.addEventListener('input', toggleButton);
+
+    const showLoginPwBtn = document.getElementById('togglePassword');
+    const loginPasswordInput = document.getElementById('login-password');
+    showLoginPwBtn.addEventListener('click', () => {
+        this.classList.toggle('bi-eye');
+        this.classList.toggle('bi-eye-slash');
+        loginPasswordInput.type = loginPasswordInput.type === 'text' ? 'password' : 'text';
     });
 </script>
-
 <!-- Toggle password  -->
 <script>
     document.getElementById('togglePassword1').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password1');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword2').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password2');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword3').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password3');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword4').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password4');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword5').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password5');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword6').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password6');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword7').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password7');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });</script>
-<script>
-    document.getElementById('togglePassword8').addEventListener('click', function (e) {
-    const password = document.getElementById('login-password8');
-    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-    password.setAttribute('type', type);
-    this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+        const password = document.getElementById('login-password1');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
 </script>
-
-
+<script>
+    document.getElementById('togglePassword2').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password3');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword3').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password3');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword4').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password4');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword5').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password5');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword6').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password6');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword7').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password7');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>
+<script>
+    document.getElementById('togglePassword8').addEventListener('click', function (e) {
+        const password = document.getElementById('login-password8');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+</script>

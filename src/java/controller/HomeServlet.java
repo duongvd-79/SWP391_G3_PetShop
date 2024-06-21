@@ -62,7 +62,7 @@ public class HomeServlet extends HttpServlet {
             throws ServletException, IOException {
         // Get product list
         ProductDAO productDAO = new ProductDAO();
-        List<Product> allProduct = productDAO.getActive(false, 0, null);
+        List<Product> allProduct = productDAO.getActive(false, null, null, null, null, "Latest", 0);
         List<Product> featuredProduct = productDAO.getActiveFeatured();
         request.setAttribute("allproduct", allProduct);
         request.setAttribute("featuredproduct", featuredProduct);
@@ -82,7 +82,7 @@ public class HomeServlet extends HttpServlet {
         // Get product category list
         SettingDAO settingDAO = new SettingDAO();
         List<Setting> prCategory = settingDAO.getActiveByType("Product Category");
-        request.setAttribute("prcategory", prCategory);
+        getServletContext().setAttribute("prcategory", prCategory);
 
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
