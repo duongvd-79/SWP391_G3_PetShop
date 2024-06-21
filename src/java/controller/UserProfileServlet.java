@@ -155,10 +155,10 @@ public class UserProfileServlet extends HttpServlet {
                 session.setAttribute("user", user);
 
                 // Update address
-                Address address = addressDAO.getAddress(user.getId());
+                Address address = addressDAO.getAddressByUserId(user.getId());
                 if (address == null) {
                     addressDAO.addAddress(city, district, detailAddress, user.getId());
-                    address = addressDAO.getAddress(user.getId());
+                    address = addressDAO.getAddressByUserId(user.getId());
                 }
                 address.setCity(city);
                 address.setDistrict(district);

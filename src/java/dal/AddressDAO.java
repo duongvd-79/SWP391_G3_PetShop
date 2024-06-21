@@ -58,28 +58,25 @@ public class AddressDAO extends DBContext {
         return id;
     }
 
-    public Address getAddress(int userId) {
-        String sql1 = "SELECT * FROM user_address WHERE customer_id = ?";
+    public Address getAddressByUserId(int userId) {
+        String sql = "SELECT a.* FROM user_address ua JOIN address a "
+                + "ON ua.address_id = a.id "
+                + "WHERE ua.customer_id = ? AND a.is_default = 1";
         try {
-            stm = connection.prepareStatement(sql1);
+            stm = connection.prepareStatement(sql);
             stm.setInt(1, userId);
             rs = stm.executeQuery();
             if (rs.next()) {
-                String sql2 = "SELECT * FROM address WHERE id = ? AND is_default = 1";
-                stm = connection.prepareStatement(sql2);
-                stm.setInt(1, rs.getInt("address_id"));
-                rs = stm.executeQuery();
-                if (rs.next()) {
-                    Address address = new Address();
-                    address.setId(rs.getInt("id"));
-                    address.setCity(rs.getString("city"));
-                    address.setDistrict(rs.getString("district"));
-                    address.setDetail(rs.getString("detail"));
-                    address.setIsDefault(rs.getBoolean("is_default"));
-                    return address;
-                }
+                Address address = new Address();
+                address.setId(rs.getInt("id"));
+                address.setCity(rs.getString("city"));
+                address.setDistrict(rs.getString("district"));
+                address.setDetail(rs.getString("detail"));
+                address.setIsDefault(rs.getBoolean("is_default"));
+                return address;
             }
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -214,6 +211,6 @@ public class AddressDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         AddressDAO aDAO = new AddressDAO();
-        aDAO.addAddress("hn", "aa", "ddd", 4);
+        System.out.println(aDAO.getAddressByUserId(5).getId());
     }
 }

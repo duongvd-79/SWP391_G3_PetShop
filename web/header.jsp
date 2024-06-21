@@ -93,7 +93,6 @@
                 <li class="side-menu">
                     <a href="cart">
                         <i class="bi bi-basket3"></i>
-                     
                         <span class="badge">${sessionScope.size}</span>
                         <p style="font-weight: bold;">MY CART</p>
                     </a>

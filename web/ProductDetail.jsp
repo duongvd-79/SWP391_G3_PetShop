@@ -31,7 +31,33 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-
+        <style>
+            .out-of-stock-img {
+                -webkit-filter: grayscale(100%);
+                filter: grayscale(100%);
+            }
+            .img-overlay {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 100%;
+                height: 20%;
+                z-index:8;
+            }
+            .img-overlay-text {
+                display: flex;
+                background: rgba(0, 0, 0, 0.5);
+                color: #ffffff;
+                padding: 2px 10px;
+                font-weight: 700;
+                height: 100%;
+                justify-content: center;
+                align-items: center;
+                text-transform: uppercase;
+                font-size: 150%;
+            }
+        </style>
     </head>
 
     <body>
@@ -41,7 +67,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-12">
-                            <h2>Shop Detail</h2>
+                            <h2>Product Detail</h2>
                         </div>
                     </div>
                 </div>
@@ -54,8 +80,13 @@
                     <div class="row">
                         <div class="col-xl-5 col-lg-5 col-md-6">
                             <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
-                                <div class="carousel-inner" role="listbox">
-                                    <div class="carousel-item active"> <img class="d-block w-100" src=${product.thumbnail}> </div>
+                                <div class="carousel-inner position-relative" role="listbox">
+                                    <div class="carousel-item active"><img class="d-block w-100 ${product.status eq 'Out of Stock' ? 'out-of-stock-img' : ''}" src=${product.thumbnail}></div>
+                                    <c:if test="${product.status eq 'Out of Stock'}">
+                                    <div class="img-overlay">
+                                        <div class="img-overlay-text">Out of Stock</div>
+                                    </div>
+                                </c:if>
                             </div>
                         </div>
                     </div>
@@ -114,9 +145,9 @@
                                 </h5>
                             </div>
                             <p class="available-stock"><span> <a href="#">${requestScope.product.quantity} remains</a></span><p>
-                         
+
                             <h4>Description:</h4>
-                            <p>${requestScope.product.description}</p>
+                            <div>${requestScope.product.description}</div>
                             <%
                                 User user = (User) session.getAttribute("user");
                                 if (user != null) {
@@ -187,7 +218,7 @@
                                                 <img class="rounded-circle border p-1" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2264%22%20height%3D%2264%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_160c142c97c%20text%20%7B%20fill%3Argba(255%2C255%2C255%2C.75)%3Bfont-weight%3Anormal%3Bfont-family%3AHelvetica%2C%20monospace%3Bfont-size%3A10pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_160c142c97c%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23777%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2213.5546875%22%20y%3D%2236.5%22%3E64x64%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Generic placeholder image">
                                             </div>
                                             <div class="media-body">
-                                                 <small class="text-muted">Posted by ${fl[i].name} on ${fl[i].createdDate} <c:if test="${fl[i].star == 1}">
+                                                <small class="text-muted">Posted by ${fl[i].name} on ${fl[i].createdDate} <c:if test="${fl[i].star == 1}">
                                                         <span class="product-rating">
                                                             <i class="bi bi-star-fill text-warning"></i>
                                                             <i class="bi bi-star"></i>
@@ -239,7 +270,7 @@
                                                         <img class="border  p-1 mr-2" src="${im.feedback_image}" style="width: 75px; height: 75px; object-fit: cover;" alt="User Image">
                                                     </c:forEach>
                                                 </div>
-                                               
+
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -301,9 +332,6 @@
 <jsp:include page="footer.jsp"></jsp:include>
 
 <style>
-    nav.navbar .navbar-brand img.logo {
-        width: 250px; /* Đặt kích thước tối đa cho chiều ngang */
-    }
     .product-rating {
         margin-left: 50px; /* Thay đổi giá trị để điều chỉnh khoảng cách theo ý muốn */
     }

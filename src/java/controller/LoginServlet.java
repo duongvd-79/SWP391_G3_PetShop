@@ -94,14 +94,14 @@ public class LoginServlet extends HttpServlet {
                 response.sendRedirect("home#login");
             } else {
                 HttpSession session = request.getSession(true);
-                Address address = addressDAO.getAddress(user.getId());
+                Address address = addressDAO.getAddressByUserId(user.getId());
 
                 // Get previous page
                 String page = request.getParameter("page");
 
                 session.setAttribute("user", user);
                 session.setAttribute("address", address);
-                response.sendRedirect("home");
+                response.sendRedirect(page);
             }
         } else {
             String error = "Wrong email or password!";

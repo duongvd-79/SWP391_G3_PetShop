@@ -84,7 +84,7 @@ public class BlogListServlet extends HttpServlet {
         List<Setting> listS = dao1.getPostCategory();
         request.setAttribute("listp", listp);
         request.setAttribute("sList", listS);
-        request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
+//        request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
         request.getRequestDispatcher("bloglist.jsp").forward(request, response);
     }
 

@@ -10,6 +10,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -105,32 +107,37 @@ public class ProductListServlet extends HttpServlet {
         }
         request.setAttribute("priceOption", priceOption);
         String search = request.getParameter("search");
-        String sort = request.getParameter("sort");
         request.setAttribute("search", search);
         
         // Handle search by category
         String[] searchArray = new String[0];
         if (search != null) {
+            search = URLDecoder.decode(search, "UTF-8");
             searchArray = search.split("Category: ");
 
+            // Handle non-UTF-8 search string
             if (searchArray.length > 1) {
                 search = searchArray[1].trim();
-                request.setAttribute("search", "Category: " + search);
+                request.setAttribute("search", URLEncoder.encode(search, "UTF-8"));
+                request.setAttribute("searchCategory", "Category: " + search);
             } else {
                 search = request.getParameter("search");
+                request.setAttribute("search", URLEncoder.encode(search, "UTF-8"));
+                request.setAttribute("searchCategory", search);
             }
         }
         request.setAttribute("categoryName", search);
-        
-        if (categoryRaw != null && !categoryRaw.equals("")) {
+
+        if (categoryRaw != null && !categoryRaw.equals("") && searchArray.length > 1) {
             int category = Integer.parseInt(categoryRaw);
 
             // Highlight category in next page
             request.setAttribute("category", category);
-        }
-        
-        if (searchArray.length > 1) {
-            request.setAttribute("category", "");
+        } else if (categoryRaw != null && !categoryRaw.equals("")) {
+            int category = Integer.parseInt(categoryRaw);
+
+            // Highlight category in next page
+            request.setAttribute("cateList", category);
         }
 
         // Display page index
@@ -141,6 +148,10 @@ public class ProductListServlet extends HttpServlet {
         }
         request.setAttribute("page", pageIndex);
 
+        // Get and remember sort type
+        String sort = request.getParameter("sort");
+        request.setAttribute("sort", sort);
+        
         // Remember price range
         request.setAttribute("minPrice", minPriceRaw);
         request.setAttribute("maxPrice", maxPriceRaw);
@@ -155,9 +166,6 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("allproduct", productList);
         int resultSize = productList.size();
         request.setAttribute("resultSize", resultSize);
-
-        // Remember sort type
-        request.setAttribute("sort", sort);
 
         // Product date
         Date today = new Date();
@@ -185,7 +193,7 @@ public class ProductListServlet extends HttpServlet {
 
         // For all product in search popup
         allProduct = productDAO.getActive(false, categoryRaw,
-                minPriceRaw, maxPriceRaw, null, sort, 0);
+                minPriceRaw, maxPriceRaw, search, sort, 0);
         request.setAttribute("allSearchList", allProduct);
 
         request.getRequestDispatcher("productlist.jsp").forward(request, response);

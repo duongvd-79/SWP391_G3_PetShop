@@ -8,7 +8,7 @@
         <meta content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>PetShop Home Page</title>
+        <title>PetShop Products List</title>
 
         <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -59,14 +59,14 @@
                         <div class="container-fluid sticky-top" style="top: 126px;z-index: 2;">
                             <div class="row">
                                 <div class="col-12 text-center mt-3">
-                                    <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter${category}</h3>
+                                    <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
                                 </div>
                             </div>
                             <form action="productlist" method="get">
                                 <input name="category" value="${category}" hidden>
                             <div class="row border-top pt-3">
                                 <div class="col-12 input-group mb-3">
-                                    <input type="text" class="form-control" id="search" name="search" placeholder="Search" value="${search}" list="searchList">
+                                    <input type="text" class="form-control" id="search" name="search" placeholder="Search" value="${searchCategory}" list="searchList">
                                     <button type="button" class="input-group-text btn" id="clearSearchInput">&times;</button>
                                     <button type="submit" class="input-group-text btn"><i class="bi bi-search"></i></button>
                                     <datalist id="searchList">
@@ -90,16 +90,18 @@
                                                 </h3>
                                             </div>
                                         </div>
-                                        <c:choose>
-                                            <c:when test="${pcate.name == categoryName}">
-                                                <a class="input-group-text text-danger reset-button"
-                                                   href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
-                                            </c:when>
-                                            <c:when test="${pcate.id == category}">
-                                                <a class="input-group-text text-danger reset-button"
-                                                   href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
-                                            </c:when>
-                                        </c:choose>
+                                        <div style="margin-top: 5px">
+                                            <c:choose>
+                                                <c:when test="${pcate.name == categoryName}">
+                                                    <a class="input-group-text text-danger reset-button"
+                                                       href="?priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
+                                                </c:when>
+                                                <c:when test="${pcate.id == cateList}">
+                                                    <a class="input-group-text text-danger reset-button"
+                                                       href="?search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}">&times;</a>
+                                                </c:when>
+                                            </c:choose>
+                                        </div>
                                     </div>
                                 </c:forEach>
                                 <div class="col-12 mb-3 blog-box pt-2">
@@ -178,8 +180,27 @@
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="title-all">
-                                        <h1>All Products</h1>
-                                        <p>Explore products on Pet Shop.</p>
+                                        <c:choose>
+                                            <c:when test="${search != null && search != '' 
+                                                            || minPrice != null && minPrice != '' 
+                                                            || maxPrice != null && maxPrice != ''}">
+                                                    <h1>Search results</h1>
+                                                    <p>Product based on your reference.</p>
+                                            </c:when>
+                                            <c:when test="${cateList != null && cateList != ''}">
+                                                <c:forEach items="${applicationScope.prcategory}" var="apr">
+                                                    <c:if test="${apr.id == cateList}">
+                                                        <h1>Explore products on <span style="background: #b0b435;color: white;
+                                                                                      padding: 0 10px 5px;">${apr.name}</span></h1>
+                                                        <p>Explore products on Pet Shop.</p>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h1>All Products</h1>
+                                                <p>Explore products on Pet Shop.</p>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                                 <div class="col-md-2 d-flex align-items-center justify-content-end">
@@ -313,7 +334,7 @@
                                          });
         </script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', () => {
                 const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
                 const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
                 const customPriceInputs = document.querySelectorAll('.display input');
@@ -330,26 +351,27 @@
                 updateStates();
 
                 predefinedPrices.forEach(price => {
-                    price.addEventListener('change', function () {
+                    price.addEventListener('change', () => {
                         updateStates();
                     });
                 });
-                customPriceRadio.addEventListener('change', function () {
+                customPriceRadio.addEventListener('change', () => {
                     updateStates();
                 });
             });
         </script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('DOMContentLoaded', () => {
                 const selectedId = '<%= request.getParameter("category") %>'.trim();
-                const selectedName = '<%= request.getParameter("categoryName") %>'.trim();
+                const selectedName = '${categoryName}'.trim();
 
                 if (selectedName || selectedId) {
                     const cates = document.querySelectorAll('.product-content a');
 
                     cates.forEach(cate => {
-                        const matchesName = selectedName && cate.innerText.trim() === selectedName;
-                        const matchesId = selectedId && cate.getAttribute('href').includes('category=' + selectedId);
+                        const matchesName = selectedName != null && cate.innerText.trim() === selectedName;
+                        const matchesId = selectedId != null && selectedId !== ''
+                                && cate.getAttribute('href').includes('category=' + selectedId);
 
                         if (matchesName || matchesId) {
                             cate.parentElement.parentElement.parentElement.parentElement.style.transform = 'scale(1.1) translateX(20px)';
