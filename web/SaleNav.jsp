@@ -1,3 +1,4 @@
+1
 <%-- 
     Document   : adminheader
     Created on : Jun 10, 2024, 11:33:07 PM
@@ -5,7 +6,7 @@
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<nav style="z-index:99; min-height: 132px; width: 100vw;background-color: #F8F9FA;" class="navbar navbar-expand sticky-top px-2 py-0 shadow-sm">
+<nav style="z-index:99; min-height: 132px; width: 100vw" class="navbar bg-white navbar-expand sticky-top px-2 py-0 shadow-sm">
     <div class="navbar-header">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-list"></i>
@@ -29,7 +30,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-start bg-light border-0 rounded-0 rounded-bottom m-0">
                 <a href="productlist" class="dropdown-item ">All Products</a></li>
-                <c:forEach items="${applicationScope.prcategory}" var="prcate">
+                <c:forEach items="${requestScope.prcategory}" var="prcate">
                     <a class="dropdown-item" href="productlist?category=${prcate.id}">${prcate.name}</a>
                     </c:forEach>
             </div>

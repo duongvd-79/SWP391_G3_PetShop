@@ -5,14 +5,6 @@
         <servlet-class>controller.HomeServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>BlogListServlet</servlet-name>
-        <servlet-class>controller.BlogListServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>BlogDetailServlet</servlet-name>
-        <servlet-class>controller.BlogDetailServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ProductDetailServlet</servlet-name>
         <servlet-class>controller.ProductDetailServlet</servlet-class>
     </servlet>
@@ -121,6 +113,18 @@
         <servlet-class>controller.AddCartPageServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>SaleDashboardServlet</servlet-name>
+        <servlet-class>controller.SaleDashboardServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogListServlet</servlet-name>
+        <servlet-class>controller.BlogListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <servlet-class>controller.BlogDetailServlet</servlet-class>
+        </servlet>
+        <servlet>
         <servlet-name>CartContactServlet</servlet-name>
         <servlet-class>controller.CartContactServlet</servlet-class>
     </servlet>
@@ -167,14 +171,6 @@
     <servlet-mapping>
         <servlet-name>SettingServlet</servlet-name>
         <url-pattern>/setting</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BlogListServlet</servlet-name>
-        <url-pattern>/bloglist</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>BlogDetailServlet</servlet-name>
-        <url-pattern>/blogdetail</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProductDetailServlet</servlet-name>
@@ -280,6 +276,18 @@
         <servlet-name>AddCartPageServlet</servlet-name>
         <url-pattern>/addcartpage</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SaleDashboardServlet</servlet-name>
+        <url-pattern>/SaleDashboard</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogListServlet</servlet-name>
+        <url-pattern>/bloglist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>BlogDetailServlet</servlet-name>
+        <url-pattern>/blogdetail</url-pattern>
+        </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CartContactServlet</servlet-name>
         <url-pattern>/cartcontact</url-pattern>

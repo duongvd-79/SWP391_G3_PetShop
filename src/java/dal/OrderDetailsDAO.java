@@ -97,6 +97,22 @@ public class OrderDetailsDAO extends DBContext {
         }
         return 0;
     }
+    
+    public double getRevenue(String start, String end) {
+        String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
+                + "JOIN `order` as o ON o.id = od.order_id JOIN product AS p ON p.id = od.product_id "
+                + "WHERE ordered_date between '" + start + "' and '" + end + "'";
+        try {
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("totalRevenue");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+        return 0; 
+    }
 
     // Method to calculate revenue in a specific month of a year
     public double getMonthlyRevenue(int month, String year) {
@@ -133,6 +149,42 @@ public class OrderDetailsDAO extends DBContext {
             e.printStackTrace();
         }
         return 0;
+    }
+        // Method to calculate revenue in a specific month of a year
+    public double getDailyRevenue(int day, int month) {
+        String sql = "SELECT SUM(sell_price * quantity) AS totalRevenue FROM order_details as od"
+                + " JOIN `order` as o ON o.id = od.order_id where MONTH(ordered_date) = ? and DAY(ordered_date)=?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, month);
+            stm.setInt(2, day);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("totalRevenue");
+            }
+        } catch (SQLException e) {
+        }
+        return 0; 
+    }
+
+    // Method to calculate profit in a specific month of a year
+    public double getDailyProfit(int day, int month) {
+        String sql = "SELECT SUM((sell_price - import_price) * quantity) AS totalProfit"
+                + " FROM order_details as od JOIN `order` as o ON o.id = od.order_id"
+                +" where MONTH(ordered_date) = ? and DAY(ordered_date)=?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, month);
+            stm.setInt(2, day);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("totalProfit");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); 
+        }
+        return 0; 
     }
 
     // get product quantity
