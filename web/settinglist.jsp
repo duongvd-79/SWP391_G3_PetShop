@@ -35,26 +35,30 @@
         <body>
             <div class="container-fluid position-relative bg-white d-flex p-0">
                 <div class="row">
-                    <!-- Sidebar Start -->
-                    <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
-                        <div style="top:130px;" class="w-100 mb-1 sticky-top">
-                            <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
-                            <a href="setting" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                            <a href="userlist" class="nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
-                        </div>
+                   
+                <!-- Sidebar Start -->
+                <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm mt-4">
+                    <form style="border:2px #cccccc solid;" id="search-form" class="d-none d-md-flex ms-4" action="setting" method="get">
+                        <input class="form-control border-0" type="search" placeholder="Search" name="search" value="${requestScope.sName}">
+                </form>
+                    <div style="top:130px;" class="w-100 mb-1 sticky-top">
+                        <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
+                        <a href="setting" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
+                        <a href="userlist" class="nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                     </div>
-                    <!-- Sidebar End -->
+                </div>
+                <!-- Sidebar End -->
 
 
-                    <!-- Content Start -->
-                    <div class="col-10 container-fluid rounded bg-white mt-4 mb-5 pb-1 px-4">
-                        <div clas="row">
-                            <div class="row d-flex align-items-center mb-3">
+                <!-- Content Start -->
+                <div class="col-10 container-fluid rounded bg-white mt-4 mb-5 pb-1 px-4">
+                    <div clas="row">
+                        <div class="row d-flex align-items-center mb-3">
 
-                                <div class="col-md-3 function">
-                                    <select name="type" class="form-select" id="type" onchange="if (this.value)
+                            <div class="col-md-3 function">
+                                <select name="type" class="form-select" id="type" onchange="if (this.value)
                                                 window.location.href = this.value">
-                                        <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
+                                    <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
                                     <c:forEach items="${requestScope.types}" var="t">
                                         <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
                                     </c:forEach>                          
@@ -164,15 +168,15 @@
             </div>
         </div>
 
-            <!-- Content End -->
+        <!-- Content End -->
 
-            <!-- JavaScript Libraries -->
-            <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="lib/chart/chart.min.js"></script>
-            <script src="lib/easing/easing.min.js"></script>
-            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-            <!-- ALL PLUGINS -->
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <!-- ALL PLUGINS -->
         <script src="js/jquery.superslides.min.js"></script>
         <script src="js/bootstrap-select.js"></script>
         <script src="js/inewsticker.js"></script>
@@ -184,7 +188,7 @@
         <script src="js/form-validator.min.js"></script>
         <script src="js/contact-form-script.js"></script>
         <script src="js/custom.js"></script>
-            <!-- Template Javascript -->
-            <script src="js/admin.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/admin.js"></script>
     </body>
 </html>

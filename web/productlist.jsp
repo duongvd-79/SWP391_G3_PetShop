@@ -235,7 +235,7 @@
                                                         if (user != null && user.getRoleId() == 5) {
                                                     %>
                                                     <c:if test="${apr.status eq 'Available'}">
-                                                        <a class="cart" href="#">Add to Cart</a>
+                                                        <a class="cart" href="addcartproductlist?productid=${apr.id}&quantity=1">Add to Cart</a>
                                                     </c:if>
                                                     <%}%>
                                                 </div>
