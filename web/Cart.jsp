@@ -66,7 +66,7 @@
                                     <h4>Your Cart is Empty!</h4>
                                     <p>It looks like you haven't added any products to your cart yet.</p>
                                     <p>Explore our latest products and start adding items to your cart!</p>
-                                    <a href="shop.html" class="btn hvr-hover btn-black">Continue Shopping</a>
+                                    <a href="productlist" class="btn hvr-hover btn-black">Continue Shopping</a>
                                 </div>
                             </div>
                         </div>

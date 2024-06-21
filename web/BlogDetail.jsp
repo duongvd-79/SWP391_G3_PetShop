@@ -11,19 +11,28 @@
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link rel="shortcut icon" href="images/icon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+        <!-- Bootstrap CSS -->
+                <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <!-- Icon CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <!-- Site CSS -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Responsive CSS -->
+        <link rel="stylesheet" href="css/responsive.css">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/custom.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title></title>
     </head>
+    <jsp:include page="header.jsp"></jsp:include>
     <body>
         <div class="container rounded bg-white mt-5 mb-5 shadow-sm">
             <div class="row">
-                <nav class="mt-4 ps-5" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-                    <ol class=" h5 breadcrumb">
-                        <li class="breadcrumb-item"><a class="root" href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a class="root" href="BlogManager">Blog List</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Blog Settings</li>
-                    </ol>
-                </nav>
                 <div class="mb-3" style="padding-left:47px;">
                     <h3 class="text-right">Blog Settings</h4>
                 </div>
@@ -85,6 +94,7 @@
             </form>
         </div>
     </body>
+        <jsp:include page="footer.jsp"></jsp:include>
     <style>
         body {
             background: #EEEEEE

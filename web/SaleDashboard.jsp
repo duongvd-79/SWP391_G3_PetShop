@@ -48,8 +48,7 @@
                 <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
                     <div style="top:130px;" class="w-100 mb-1 sticky-top">
                         <div class="navbar-nav w-100 mb-1">
-                            <a href="SaleDashboard" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
-                            <a href="BlogManager" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>BLOG LIST</a>
+                            <a href="SaleDashboard" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>SALE DASHBOARD</a>
                         </div>
                     </div>
                 </div>

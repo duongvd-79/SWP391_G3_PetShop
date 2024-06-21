@@ -53,6 +53,9 @@
                             <c:if test="${user.getRoleId()==1}">
                             <li><a class="nav-link" href="admindashboard">Admin</a></li>
                             </c:if>
+                            <c:if test="${user.getRoleId()==3}">
+                            <li><a class="nav-link" href="SaleDashboard">Sale</a></li>
+                            </c:if>
                             <c:if test="${user.getRoleId()==5}">
                             <li><a class="nav-link" href="myorders">My Orders</a></li>
                             </c:if>
