@@ -2,6 +2,7 @@
  */
 package controller;
 
+import dal.FeedbackDAO;
 import dal.ProductDAO;
 import dal.SliderDAO;
 import java.io.IOException;
@@ -12,10 +13,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import model.Product;
+import model.ProductFeedback;
 import model.Slider;
 
 /**
@@ -108,7 +112,7 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("priceOption", priceOption);
         String search = request.getParameter("search");
         request.setAttribute("search", search);
-        
+
         // Handle search by category
         String[] searchArray = new String[0];
         if (search != null) {
@@ -151,7 +155,7 @@ public class ProductListServlet extends HttpServlet {
         // Get and remember sort type
         String sort = request.getParameter("sort");
         request.setAttribute("sort", sort);
-        
+
         // Remember price range
         request.setAttribute("minPrice", minPriceRaw);
         request.setAttribute("maxPrice", maxPriceRaw);
@@ -178,6 +182,24 @@ public class ProductListServlet extends HttpServlet {
         // Get latest product
         allProduct = productDAO.getActive(false, null, null, null, null, "Latest", 0);
         request.setAttribute("latestproduct", allProduct);
+
+        // Get star rating
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        List<ProductFeedback> feedbackList;
+        try {
+            List<Integer> starList = new ArrayList<>();
+            for (Product p : productList) {
+                int sum = 0;
+                feedbackList = feedbackDAO.getFeedbackByProductID(p.getId());
+                for (ProductFeedback pf : feedbackList) {
+                    sum += pf.getStar();
+                }
+                int star = (int) Math.round((double) sum / feedbackList.size());
+                starList.add(star);
+            }
+            request.setAttribute("starList", starList);
+        } catch (SQLException e) {
+        }
 
         // Pagination
         int totalProduct;

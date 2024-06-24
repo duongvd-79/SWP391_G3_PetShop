@@ -25,7 +25,7 @@
                 <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
                 <li class="dropdown">
                     <a href="productlist" class="nav-link dropdown-toggle" data-toggle="dropdown">Product <i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="border: solid lightgray 1px;border-radius: 5px;box-shadow: 0 5px 10px 0;">
                         <li><a href="productlist">All Products</a></li>
                             <c:forEach items="${applicationScope.prcategory}" var="prcate">
                             <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
@@ -38,7 +38,7 @@
                         if (user == null) {
                     %>
                 <li class="dropdown">
-                    <a href="account" class="nav-link dropdown-toggle" data-toggle="dropdown">Account&ensp;<i class="bi bi-caret-down-fill"></i></a>
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account&ensp;<i class="bi bi-caret-down-fill"></i></a>
                     <ul class="dropdown-menu">
                         <li><a href="#login">Login</a></li>
                         <li><a href="#register">Register</a></li>
