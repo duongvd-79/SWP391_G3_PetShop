@@ -24,19 +24,6 @@
     <body>
 
         <jsp:include page="header.jsp"></jsp:include>
-        <div class="all-title-box">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul style="background-color: transparent;" class="breadcrumb float-left">
-                            <li class="breadcrumb-item active"><a href="cart">MY CART</a></li>
-                            
-                            <li style="color:#b0b435;" class="breadcrumb-item active">CART CONTACT</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
 
             <div class="cart-box-main">
                 <div class="container">
@@ -552,7 +539,7 @@
             }
         </script>
 
-        <script>
+<!--        <script>
             function validateAddNewAddress() {
                 var detailAddress = document.getElementById('inputDetailAddress').value;
                 var city = document.getElementById('newcity').value;
@@ -579,7 +566,7 @@
 
                 return true;
             }
-        </script>
+        </script>-->
 
         <script>
             function confirmRemove(addressId, event) {
