@@ -4,8 +4,12 @@
  */
 package controller;
 
-import dal.UserDAO;
-import helper.MD5;
+import dal.AddressDAO;
+import dal.OrderDAO;
+import dal.OrderDetailsDAO;
+import dal.ProductDAO;
+import model.Order;
+import model.Address;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,13 +17,18 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.User;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.OrderDetails;
+import model.Product;
 
 /**
  *
  * @author ACER
  */
-public class ChangePassword extends HttpServlet {
+public class OrderInformationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +47,10 @@ public class ChangePassword extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ChangePassword</title>");
+            out.println("<title>Servlet OrderInformationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ChangePassword at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderInformationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,7 +68,33 @@ public class ChangePassword extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        ProductDAO pDAO = new ProductDAO();
+        OrderDAO oDAO = new OrderDAO();
+        OrderDetailsDAO odDAO = new OrderDetailsDAO();
+        AddressDAO aDAO = new AddressDAO();
+        List<Product> lastestProduct = null;
+        List<Product> orderProduct = null;
+        List<OrderDetails> orderDetails = null;
+        Address address = null;
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        Order order = oDAO.getOrderById(id);
+        try {
+            address = aDAO.getChosenAddress(order.getAddressId());
+            orderProduct = pDAO.getAllByOrderId(id);
+            orderDetails = odDAO.getByOrderId(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        lastestProduct = pDAO.getActive(false, null, null, null, null, "Latest", 0);
+
+        request.setAttribute("order", order);
+        request.setAttribute("address", address);
+        request.setAttribute("latestproduct", lastestProduct);
+        request.setAttribute("orderProduct", orderProduct);
+        request.setAttribute("orderDetails", orderDetails);
+        request.setAttribute("length", orderDetails.size() - 1);
+        request.getRequestDispatcher("orderinformation.jsp").forward(request, response);
     }
 
     /**
@@ -72,39 +107,19 @@ public class ChangePassword extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException {      
         HttpSession session = request.getSession();
-        if (session.getAttribute("user") != null) {
-            UserDAO uDAO = new UserDAO();
-            String alert="";
-            String oldpassword = request.getParameter("oldpassword");
-            String newpassword = request.getParameter("newpassword");
-            String cfnewpassword = request.getParameter("cfnewpassword");
-            
-            User user = (User)session.getAttribute("user");
-            String currentpassword = user.getPassword();
-            //old password not correct
-            if(!MD5.getMD5(oldpassword).equals(currentpassword)){
-                session.setAttribute("alert", "Old password not corect");
-                response.sendRedirect("home#changepassword");
-            } else if(!newpassword.equals(cfnewpassword)){
-                session.setAttribute("alert", "New password and confirm not match");
-                response.sendRedirect("home#changepassword");
-            }else if(MD5.getMD5(newpassword).equals(currentpassword)){
-                session.setAttribute("alert", "New password can not concide with old password");
-                response.sendRedirect("home#changepassword");
-            }else {
-            uDAO.changePassword(user.getEmail(), newpassword);
-            user.setPassword(MD5.getMD5(newpassword));
-            String Noti = "Change successfully!";
+        int oid = 0;
+        OrderDAO oDAO = new OrderDAO();
+        try {
+            oid = Integer.parseInt(request.getParameter("cancelid"));
+        } catch (Exception e) {
+        }
+        oDAO.cancelOrder(oid);
+        String Noti = "Order cancelled success!";
                     session.setAttribute("noti", Noti);
                     session.setAttribute("toastType", "success");
-            session.removeAttribute("user");
-            response.sendRedirect("home#login");
-            }
-        } else {
-            response.sendRedirect("404.html");
-        }
+                    response.sendRedirect("myorders");
     }
 
     /**

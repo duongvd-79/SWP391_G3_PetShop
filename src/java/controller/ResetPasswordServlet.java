@@ -115,9 +115,12 @@ public class ResetPasswordServlet extends HttpServlet {
         }
         else {
             uDAO.changePassword(email,password);
-            alert = "Password changed success. Please login.";
+            String Noti = "Password changed success. Please login.!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+            alert = "";
             session.setAttribute("alert1", alert);
-            response.sendRedirect("home#enterreset");
+            response.sendRedirect("home#login");
         }
     }
 

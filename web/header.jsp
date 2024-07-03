@@ -458,17 +458,4 @@
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
 </script>
-    <%
-        String alertMessage = (String) session.getAttribute("alert");
-        if ("Change success".equals(alertMessage)) {
-    %>
-    ${sessionScope.alert}
-    <script>
-        toastr.options.progressBar = true;
-        toastr.success('Change success');
-    </script>
-    <%       
-            }        
-            session.removeAttribute("alert");
-    %>         
 

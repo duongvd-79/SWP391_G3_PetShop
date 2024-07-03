@@ -25,6 +25,7 @@ public class OrderDAO extends DBContext {
         try {
             o.setId(rs.getInt("id"));
             o.setCustomerId(rs.getInt("customer_id"));
+            o.setAddressId(rs.getInt("address_id"));
             o.setOrderedDate(rs.getDate("ordered_date"));
             o.setStatus(rs.getString("status"));
             o.setIsDelivered(rs.getBoolean("is_delivered"));
@@ -54,6 +55,21 @@ public class OrderDAO extends DBContext {
         } catch (SQLException e) {
         }
         return null;
+    }
+    
+    public Order getOrderById(int id){
+        String sql = "SELECT * from `order` where id=?";
+        Order p=null;
+        try{
+            stm=connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                p = setOrder(rs);
+            }
+        }catch (SQLException e) {
+        }
+        return p;
     }
 
     public int countOrderByStatus(String status) {
@@ -138,11 +154,25 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
+    
+    public void cancelOrder(int oid){
+        String sql = "UPDATE `order` SET status = 'Cancelled' WHERE id = ?";
+        try{ 
+        PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, oid);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
 
     public static void main(String[] args) {
         OrderDAO oDAO = new OrderDAO();
-        for (Order o : oDAO.getAll("submitted", 6, 0, 4)) {
-            System.out.println(o.getId());
-        }
+//        for (Order o : oDAO.getAll("submitted", 10, 0, 4)) {
+//            System.out.println(o.getId());
+//        }
+                    System.out.println(oDAO.getOrderById(1).getOrderedDate());
     }
 }
