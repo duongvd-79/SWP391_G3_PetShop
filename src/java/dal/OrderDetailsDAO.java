@@ -202,10 +202,30 @@ public class OrderDetailsDAO extends DBContext {
         }
         return 0;
     }
+    
+    public List<OrderDetails> getByOrderId(int oid){
+        String sql = "SELECT * FROM order_details where order_id=?";
+        try {
+            List<OrderDetails> orderList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1,oid);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                OrderDetails p = setOrderDetails(rs);
+                orderList.add(p);
+            }
+            return orderList;
+        } catch (SQLException e) {
+        }
+        return null;
+    }
 
     public static void main(String[] args) {
         OrderDetailsDAO oDAO = new OrderDetailsDAO();
-        System.out.println(oDAO.getRevenue("2024-05-21","2024-06-20",null));
-        System.out.println("hehe");
+//        System.out.println(oDAO.getRevenue("2024-05-21","2024-06-20",null));
+//        System.out.println("hehe");
+        for(OrderDetails od: oDAO.getByOrderId(1)){
+            System.out.println(od.getProductId());
+        }
     }
 }

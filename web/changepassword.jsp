@@ -13,6 +13,7 @@
                 <h2>Change Password</h2>
                 <a class="close" href="#">&times;</a>
             </div>
+            
             <form action="changepassword" method="post">
                 <div class="form-group first mb-1 position-relative">
                     <label for="password">Old Password</label>
@@ -31,7 +32,7 @@
                 </div>
                 <div class="mb-3 text-danger">${sessionScope.alert}</div> 
                 <%
-                        session.removeAttribute("alert");
+                        //session.removeAttribute("alert");
                 %>
                 <input type="submit" value="Save" class="btn btn-pill text-white btn-block btn-primary">
             </form>
