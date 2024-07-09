@@ -176,6 +176,10 @@
         <servlet-name>AddCartProductListServlet</servlet-name>
         <servlet-class>controller.AddCartProductListServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OnlinePaymentServlet</servlet-name>
+        <servlet-class>controller.OnlinePaymentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -343,5 +347,9 @@
     <servlet-mapping>
         <servlet-name>AddCartProductListServlet</servlet-name>
         <url-pattern>/addcartproductlist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OnlinePaymentServlet</servlet-name>
+        <url-pattern>/onlinepayment</url-pattern>
     </servlet-mapping>
 </web-app>
