@@ -9,9 +9,13 @@ import dal.SettingDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import model.Post;
@@ -21,6 +25,7 @@ import model.Setting;
  *
  * @author Acer
  */
+@MultipartConfig
 public class EditBlogServlet extends HttpServlet {
 
     /**
@@ -40,7 +45,7 @@ public class EditBlogServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditBlogServlet</title>");            
+            out.println("<title>Servlet EditBlogServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet EditBlogServlet at " + request.getContextPath() + "</h1>");
@@ -65,17 +70,18 @@ public class EditBlogServlet extends HttpServlet {
         SettingDAO sDAO = new SettingDAO();
         List<Setting> sList;
         List<Post> uList;
-        uList = pDAO.getAllPosts("", "");
+        uList = pDAO.getAllPosts("", "","","");
         sList = sDAO.getPostCategory();
         request.setAttribute("sList", sList);
         Post u = null;
         int id = Integer.parseInt(request.getParameter("id"));
         for (Post user : uList) {
-            if(user.getId()==id)
-                u=user;
+            if (user.getId() == id) {
+                u = user;
+            }
         }
         request.setAttribute("u", u);
-        request.getRequestDispatcher("BlogDetail.jsp").forward(request, response);
+        request.getRequestDispatcher("PostDetail.jsp").forward(request, response);
     }
 
     /**
@@ -94,11 +100,25 @@ public class EditBlogServlet extends HttpServlet {
         if (action != null && action.equals("update")) {
             int id = Integer.parseInt(request.getParameter("id"));
             String title = request.getParameter("title");
-            String thumbnail = request.getParameter("thumbnail");
+            String applicationPath = request.getServletContext().getRealPath("");
+            String uploadFilePath = applicationPath + File.separator + "images";
+            File uploadDir = new File(uploadFilePath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+            String fileName = "";
+            try {
+                Part part = request.getPart("file");
+                if (part != null) {
+                    fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                    part.write(uploadFilePath + File.separator + fileName);
+                }
+            } catch (Exception e) {
+            }
             String detail = request.getParameter("detail");
             String status = request.getParameter("status");
             String category = request.getParameter("category");
-            pDAO.updateBlog(id, title, thumbnail, detail, status, category);
+            pDAO.updateBlog(id, title, fileName, detail, status, category);
             response.sendRedirect("BlogManager");
         }
     }
