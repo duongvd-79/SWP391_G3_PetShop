@@ -180,6 +180,10 @@
         <servlet-name>OnlinePaymentServlet</servlet-name>
         <servlet-class>controller.OnlinePaymentServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <servlet-class>controller.OrderInformationServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -351,5 +355,9 @@
     <servlet-mapping>
         <servlet-name>OnlinePaymentServlet</servlet-name>
         <url-pattern>/onlinepayment</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderInformationServlet</servlet-name>
+        <url-pattern>/orderinformation</url-pattern>
     </servlet-mapping>
 </web-app>

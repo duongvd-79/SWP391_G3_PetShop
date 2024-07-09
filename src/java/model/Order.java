@@ -17,7 +17,7 @@ public class Order {
     delivered_date DATETIME,
     total DECIMAL(10, 2),
      */
-    int id,customerId;
+    int id,customerId,addressId;
     String status;
     double total;
     boolean isDelivered;
@@ -26,9 +26,10 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int customerId, String status, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
+    public Order(int id, int customerId,int addressId, String status, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
         this.id = id;
         this.customerId = customerId;
+        this.addressId = addressId;
         this.status = status;
         this.total = total;
         this.isDelivered = isDelivered;
@@ -51,6 +52,15 @@ public class Order {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
+    
 
     public String getStatus() {
         return status;

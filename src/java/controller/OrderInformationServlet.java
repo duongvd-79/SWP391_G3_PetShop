@@ -4,29 +4,31 @@
  */
 package controller;
 
-import dal.PostDAO;
-import dal.SettingDAO;
+import dal.AddressDAO;
+import dal.OrderDAO;
+import dal.OrderDetailsDAO;
+import dal.ProductDAO;
+import model.Order;
+import model.Address;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.List;
-import model.Post;
-import model.Setting;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.OrderDetails;
+import model.Product;
 
 /**
  *
- * @author Acer
+ * @author ACER
  */
-@MultipartConfig
-public class EditBlogServlet extends HttpServlet {
+public class OrderInformationServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,10 +47,10 @@ public class EditBlogServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EditBlogServlet</title>");
+            out.println("<title>Servlet OrderInformationServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EditBlogServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderInformationServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -66,22 +68,33 @@ public class EditBlogServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PostDAO pDAO = new PostDAO();
-        SettingDAO sDAO = new SettingDAO();
-        List<Setting> sList;
-        List<Post> uList;
-        uList = pDAO.getAllPosts("", "","","");
-        sList = sDAO.getPostCategory();
-        request.setAttribute("sList", sList);
-        Post u = null;
+        ProductDAO pDAO = new ProductDAO();
+        OrderDAO oDAO = new OrderDAO();
+        OrderDetailsDAO odDAO = new OrderDetailsDAO();
+        AddressDAO aDAO = new AddressDAO();
+        List<Product> lastestProduct = null;
+        List<Product> orderProduct = null;
+        List<OrderDetails> orderDetails = null;
+        Address address = null;
+
         int id = Integer.parseInt(request.getParameter("id"));
-        for (Post user : uList) {
-            if (user.getId() == id) {
-                u = user;
-            }
+        Order order = oDAO.getOrderById(id);
+        try {
+            address = aDAO.getChosenAddress(order.getAddressId());
+            orderProduct = pDAO.getAllByOrderId(id);
+            orderDetails = odDAO.getByOrderId(id);
+        } catch (SQLException ex) {
+            Logger.getLogger(OrderInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        request.setAttribute("u", u);
-        request.getRequestDispatcher("PostDetail.jsp").forward(request, response);
+        lastestProduct = pDAO.getActive(false, null, null, null, null, "Latest", 0);
+
+        request.setAttribute("order", order);
+        request.setAttribute("address", address);
+        request.setAttribute("latestproduct", lastestProduct);
+        request.setAttribute("orderProduct", orderProduct);
+        request.setAttribute("orderDetails", orderDetails);
+        request.setAttribute("length", orderDetails.size() - 1);
+        request.getRequestDispatcher("orderinformation.jsp").forward(request, response);
     }
 
     /**
@@ -94,33 +107,19 @@ public class EditBlogServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        PostDAO pDAO = new PostDAO();
-        String action = request.getParameter("action");
-        if (action != null && action.equals("update")) {
-            int id = Integer.parseInt(request.getParameter("id"));
-            String title = request.getParameter("title");
-            String applicationPath = request.getServletContext().getRealPath("");
-            String uploadFilePath = applicationPath + File.separator + "images";
-            File uploadDir = new File(uploadFilePath);
-            if (!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-            String fileName = "";
-            try {
-                Part part = request.getPart("file");
-                if (part != null) {
-                    fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                    part.write(uploadFilePath + File.separator + fileName);
-                }
-            } catch (Exception e) {
-            }
-            String detail = request.getParameter("detail");
-            String status = request.getParameter("status");
-            String category = request.getParameter("category");
-            pDAO.updateBlog(id, title, fileName, detail, status, category);
-            response.sendRedirect("BlogManager");
+            throws ServletException, IOException {      
+        HttpSession session = request.getSession();
+        int oid = 0;
+        OrderDAO oDAO = new OrderDAO();
+        try {
+            oid = Integer.parseInt(request.getParameter("cancelid"));
+        } catch (Exception e) {
         }
+        oDAO.cancelOrder(oid);
+        String Noti = "Order cancelled success!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+                    response.sendRedirect("myorders");
     }
 
     /**

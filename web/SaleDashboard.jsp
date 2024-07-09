@@ -110,11 +110,6 @@
                         <div class="col-lg-12 mt-3 ps-0">
                             <div class="card">
                                 <div class="position-relative w-25 right-0 mt-2 ms-2">
-                                    <select id="year-choose" class="form-select">
-                                        <c:forEach begin="2024" end="${2024+(curyear-2024)}" step="1" var="y">
-                                            <option value="${y}" ${(requestScope.year == y) ? 'selected':''}>${y}</option>
-                                        </c:forEach>
-                                    </select>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart">

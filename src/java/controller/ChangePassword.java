@@ -96,8 +96,11 @@ public class ChangePassword extends HttpServlet {
             }else {
             uDAO.changePassword(user.getEmail(), newpassword);
             user.setPassword(MD5.getMD5(newpassword));
-            session.setAttribute("alert", "Change success");
-            response.sendRedirect("home#changepassword");
+            String Noti = "Change successfully!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+            session.removeAttribute("user");
+            response.sendRedirect("home#login");
             }
         } else {
             response.sendRedirect("404.html");

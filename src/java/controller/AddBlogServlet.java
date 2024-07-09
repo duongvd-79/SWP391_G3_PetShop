@@ -8,14 +8,19 @@ import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 
 /**
  *
  * @author Acer
  */
+@MultipartConfig
 public class AddBlogServlet extends HttpServlet {
 
     /**
@@ -72,11 +77,27 @@ public class AddBlogServlet extends HttpServlet {
             throws ServletException, IOException {
         PostDAO uDAO = new PostDAO();
         String title = request.getParameter("title");
-        String thumbnail = request.getParameter("thumbnail");
         String detail = request.getParameter("detail");
         String status = request.getParameter("status");
         String category = request.getParameter("category");
-        uDAO.addBlog(title, thumbnail, detail, status, "2", category);
+        String applicationPath = request.getServletContext().getRealPath("");
+        String uploadFilePath = applicationPath + File.separator + "images";
+
+        // Creates the directory if it does not exist.
+        File uploadDir = new File(uploadFilePath);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+        String fileName = "";
+        try {
+            Part part = request.getPart("file");
+            if (part != null) {
+                fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                part.write(uploadFilePath + File.separator + fileName);
+            }
+        } catch (Exception e) {
+        }
+        uDAO.addBlog(title, fileName, detail, status, "2", category);
         response.sendRedirect("BlogManager");
     }
 

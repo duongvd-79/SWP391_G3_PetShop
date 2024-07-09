@@ -56,6 +56,9 @@
                             <c:if test="${user.getRoleId()==3}">
                             <li><a class="nav-link" href="SaleDashboard">Sale</a></li>
                             </c:if>
+                            <c:if test="${user.getRoleId()==2}">
+                            <li><a class="nav-link" href="BlogManager">Marketing Dashboard</a></li>
+                            </c:if>
                             <c:if test="${user.getRoleId()==5}">
                             <li><a class="nav-link" href="myorders">My Orders</a></li>
                             </c:if>
@@ -458,17 +461,4 @@
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
 </script>
-    <%
-        String alertMessage = (String) session.getAttribute("alert");
-        if ("Change success".equals(alertMessage)) {
-    %>
-    ${sessionScope.alert}
-    <script>
-        toastr.options.progressBar = true;
-        toastr.success('Change success');
-    </script>
-    <%       
-            }        
-            session.removeAttribute("alert");
-    %>         
 
