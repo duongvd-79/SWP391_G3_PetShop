@@ -166,7 +166,6 @@
                                     if (user != null && user.getRoleId() == 5) {
                                 %>
                                 <div class="cart-and-bay-btn">
-                                    <a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
                                     <a id="addToCartLink" class="btn hvr-hover" data-fancybox-close="" href="#" onclick="return updateHref()">Add to cart</a>
                                 </div>
                                 <div>

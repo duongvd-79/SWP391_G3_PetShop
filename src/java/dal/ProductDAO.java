@@ -224,10 +224,29 @@ public class ProductDAO extends DBContext {
         }
         return productList;
     }
+    
+    public List<Product> getAllByOrderId(int oid){
+        String sql = "SELECT * FROM product AS p JOIN order_details "
+                + "ON id = product_id WHERE order_id = ?";
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, oid);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getActive(true, "", "", "", "dry", "", 1);
+        List<Product> productList = p.getAllByOrderId(15);
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
         }

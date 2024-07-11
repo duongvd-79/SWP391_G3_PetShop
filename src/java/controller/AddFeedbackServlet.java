@@ -70,7 +70,7 @@ public class AddFeedbackServlet extends HttpServlet {
                 }
                
             }
-            response.sendRedirect("home");
+            response.sendRedirect("productdetail?id="+pid);
         } catch (SQLException ex) {
             Logger.getLogger(AddFeedbackServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

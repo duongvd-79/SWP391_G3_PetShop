@@ -452,3 +452,4 @@
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
 </script>
+

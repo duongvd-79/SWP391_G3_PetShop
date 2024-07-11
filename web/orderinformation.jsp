@@ -22,9 +22,13 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-                <link rel="stylesheet" href="css/public/productList.css">
+        <link rel="stylesheet" href="css/public/productList.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <title>JSP Page</title>
         <style>
+            a:hover{
+                color:white;
+            }
             .status{
                 width:15%;
                 font-size: 16px;
@@ -51,6 +55,9 @@
             #clearSearchInput {
                 display: none;
             }
+            #toast-container > .toast {
+                opacity: 1 !important;
+            }
         </style>
     </head>
     <jsp:include page="header.jsp"></jsp:include>
@@ -61,7 +68,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <ul style="font-weight:bold;background-color: transparent;" class="breadcrumb float-left">
-                                <li style="color:#b0b435;" class="breadcrumb-item active">MY ORDERS</li>
+                                <li style="color:#b0b435;" class="breadcrumb-item active">ORDER INFORMATION</li>
                             </ul>
                         </div>
                     </div>
@@ -76,10 +83,10 @@
                                 <div class="row">
                                     <div class="col-12 text-center mt-3">
                                         <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
+                                    </div>
                                 </div>
-                            </div>
-                            <form action="productlist" method="get">
-                                <input name="category" value="${category}" hidden>
+                                <form action="productlist" method="get">
+                                    <input name="category" value="${category}" hidden>
                                 <div class="row border-top pt-3">
                                     <div class="col-12 input-group mb-3">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Search" value="${search}" list="searchList">
@@ -176,60 +183,47 @@
                         <!-- End Sidebar  -->
                     </div>
                     <div class="col-sm-9">
-                        <div style="margin-top:38px;" class="row">
-                            <ul class="nav nav-tabs w-100">
-                                <li class="nav-item status">
-                                    <a style="border-bottom:#0D6EFD solid 0px;" class="nav-link text-primary ${'submitted'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=submitted">Submitted</a>
-                                </li> 
-                                <li class="nav-item status">
-                                    <a style="border-bottom:#198754 solid 0px;" class="nav-link text-success ${'success'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=success">Success</a>
-                                </li>
-                                <li class="nav-item status">
-                                    <a style="border-bottom:#DC3545 solid 0px;" class="nav-link text-danger ${'cancelled'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=cancelled">Cancelled</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div style="max-height: 670px;background-color: #f9f9f9;border: #dadada solid 1px;position: relative;padding-bottom: 71px;" class="row d-flex">
-
-                            <%-- List of My order--%>
-                            <c:if test="${length >= 0 }">
+                        <div class="row">
+                            <div style="margin-top: 41px;margin-bottom: 35px;" class="col-10 d-flex align-items-baseline flex-column ms-4">
+                                <div style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()}</div>
+                                <div class="h6 ">${order.getOrderedDate()}</div>
+                            </div>
+                            <div style="margin-top: 41px;margin-bottom: 35px;" class="col-2 d-flex align-items-center ">
+                                <a style="${'Submitted'.equals(order.getStatus())?'':'display:none;'}" id="cancel-order-btn" class="btn btn-apply bg-danger" href="">Cancel Order</a>
+                            </div>
+                            <div style="border-left:#b0b435 4px solid;" class="col-6">
+                                <div class="h5">RECEIVER</div>
+                                <div>Information : ${sessionScope.user.getName()},&emsp; ${user.getGender()}</div>
+                                <div>Contact : ${sessionScope.user.getEmail()},&emsp; ${sessionScope.user.getPhone()}</div>
+                            </div>
+                            <div style="border-left:#b0b435 4px solid;" class="col-6">
+                                <div class="h5">ADDRESS</div>
+                                <div>${address.getDistrict()} - ${address.getCity()}</div>
+                                <div>${address.getDetail()}</div>
+                            </div>
+                            <div style="background-color: #f9f9f9;color:black;font-size: 20px;border: #dadada solid 1px;padding-bottom: 74px;" class="col-12 mt-3">
                                 <c:forEach begin="0" end="${length}" var="i" step="1">
-                                    <div style="height:150px; color: black;font-size: 20px;border-bottom: #dadada solid 1px;" class="row col-12 p-0 m-0">
-                                        <div class="col-2 d-flex flex-column justify-content-center ">
-                                            <div>Order ID : ${oList[i].id}</div>
-                                            <div>Date : ${oList[i].orderedDate}</div>
+                                    <div style="min-height: 200px;border-bottom:#dadada 1px solid; " class="row">
+                                        <div class="col-sm-2 d-flex justify-content-center align-items-center">
+                                            <img class="mx-4" height="170" src="${orderProduct[i].thumbnail}" alt="alt"/>
                                         </div>
-                                        <div class="col-8 d-flex align-items-center">
-                                            <img class="mx-4" height="100" src="${pList[i].thumbnail}" alt="alt"/>
-                                            <div >
-                                                <div>${pList[i].title} x ${pQuantity[i]}</div>
-                                                <div>And ${remainNum[i]} more product <a class="text-primary" href="orderinformation?id=${oList[i].id}">VIEW DETAILS HERE</a></div>
-                                            </div>
+                                        <div class="col-sm-7">
+                                            <div style="font-size: 20px;" class="mt-2">${orderProduct[i].title} x ${orderDetails[i].quantity}</div>
+                                            <div class="mt-1 mb-4">Price : ${orderProduct[i].listPrice}</div>
+                                            <a style="line-height: 1rem;color:white; ${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}" id="rebuy-btn" class="btn btn-apply mt-4 mr-3" href="productdetail?id=${orderProduct[i].id}">Re-buy</a>
+                                            <a style="line-height: 1rem;color:white;${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}" class="btn btn-apply mt-4" href="feedback?productid=${orderProduct[i].id}">Leave a feedback</a>
                                         </div>
-                                        <div class="col-2 d-flex align-items-center">
-                                            <div><b>Total Cost: ${oList[i].total}</b></div>
+                                        <div class="col-sm-3 d-flex align-items-center">
+                                            <c:set var="total" value="${orderProduct[i].listPrice * orderDetails[i].quantity}"></c:set>
+                                            <div><b>Total ${total}</b></div>
                                         </div>
                                     </div>
                                 </c:forEach>
-                                <nav style="position: absolute;bottom: 5px; left:10px;" aria-label="setting list paging">
-                                    <ul class="pagination d-flex justify-content-end mb-2">
-                                        <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="myorders?status=${status}&page=${page-1}" >Previous</a></li>
-                                            <c:forEach begin="1" end="${requestScope.pageNum}" step="1" var="i">
-                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${i}">${i}</a></li>
-                                            </c:forEach>
-                                        <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="myorders?status=${status}&page=${page+1}">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </c:if>
+                                <div style="font-size: 20px;color:black;position: absolute;bottom: 18px; left:50px;"><b>TOTAL : ${order.getTotal()}</b></div>
+                            </div>
 
-                            <%-- Empty List --%>
-                            <c:if test="${length < 0}">
-                                <div class="col-12 d-flex justify-content-between align-items-center p-0">
-                                    <img style="width:47%;margin: 20px auto 0px;" src="images/no-order.svg" alt="alt"/>
-                                </div>
-                                <div class="col-12 d-flex justify-content-center mb-5 h5">No Order Here</div>
-                            </c:if>
                         </div>
+
                     </div>
 
                 </div>
@@ -238,47 +232,48 @@
         </div>
     </body>
     <jsp:include page="footer.jsp"></jsp:include>
-    <script src="js/jquery-3.2.1.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <!-- ALL PLUGINS -->
-    <script src="js/jquery.superslides.min.js"></script>
-    <script src="js/bootstrap-select.js"></script>
-    <script src="js/inewsticker.js"></script>
-    <script src="js/bootsnav.js."></script>
-    <script src="js/images-loded.min.js"></script>
-    <script src="js/isotope.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/baguetteBox.min.js"></script>
-    <script src="js/form-validator.min.js"></script>
-    <script src="js/contact-form-script.js"></script>
-    <script src="js/custom.js"></script>
-    <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
-                const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
-                const customPriceInputs = document.querySelectorAll('.display input');
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <!-- ALL PLUGINS -->
+        <script src="js/jquery.superslides.min.js"></script>
+        <script src="js/bootstrap-select.js"></script>
+        <script src="js/inewsticker.js"></script>
+        <script src="js/bootsnav.js."></script>
+        <script src="js/images-loded.min.js"></script>
+        <script src="js/isotope.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/baguetteBox.min.js"></script>
+        <script src="js/form-validator.min.js"></script>
+        <script src="js/contact-form-script.js"></script>
+        <script src="js/custom.js"></script>
+        <script>
+                                                 document.addEventListener('DOMContentLoaded', function () {
+                                                     const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
+                                                     const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
+                                                     const customPriceInputs = document.querySelectorAll('.display input');
 
-                function updateStates() {
-                    if (customPriceRadio.checked) {
-                        customPriceInputs.forEach(input => input.disabled = false);
-                    } else {
-                        customPriceInputs.forEach(input => input.disabled = true);
-                    }
-                }
+                                                     function updateStates() {
+                                                         if (customPriceRadio.checked) {
+                                                             customPriceInputs.forEach(input => input.disabled = false);
+                                                         } else {
+                                                             customPriceInputs.forEach(input => input.disabled = true);
+                                                         }
+                                                     }
 
-                // Initial state check
-                updateStates();
+                                                     // Initial state check
+                                                     updateStates();
 
-                predefinedPrices.forEach(price => {
-                    price.addEventListener('change', function () {
-                        updateStates();
-                    });
-                });
-                customPriceRadio.addEventListener('change', function () {
-                    updateStates();
-                });
-            });
+                                                     predefinedPrices.forEach(price => {
+                                                         price.addEventListener('change', function () {
+                                                             updateStates();
+                                                         });
+                                                     });
+                                                     customPriceRadio.addEventListener('change', function () {
+                                                         updateStates();
+                                                     });
+                                                 });
         </script>
         <script>
             // Clear search button
@@ -307,4 +302,33 @@
                 clearButton.style.display = 'none';
             });
         </script>
+        <script>
+            document.getElementById('cancel-order-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default link behavior
+            toastr.clear();
+            toastr.warning('<div class="d-flex"><div>Are you sure you want to cancel the order?</div><button id="yes-btn" class="btn btn-danger">Yes</button></div>', 'Confirm', {
+                closeButton: true,
+                preventDuplicates: true,
+                timeOut: 0,
+                extendedTimeOut: 0,
+                onShown: function () {
+                    document.getElementById('yes-btn').addEventListener('click', function () {
+                        // Create and submit a form with the POST method
+                        var form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = 'orderinformation';
+                        
+                        var hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = 'cancelid';
+                        hiddenField.value = `${order.getId()}`;
+                        form.appendChild(hiddenField);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    });
+                }
+            });
+        });
+    </script>
 </html>

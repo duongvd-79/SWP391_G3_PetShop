@@ -67,10 +67,14 @@ public class BlogManagerServlet extends HttpServlet {
         String categoryId = request.getParameter("categoryID");
         search = search == null ? "" : search;
         categoryId = categoryId == null ? "" : categoryId;
-        ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+        String from = request.getParameter("startDate");
+        String to = request.getParameter("endDate");
+        from = from == null? "":from;
+        to = to == null? "":to;
+        ArrayList<Post> listp = dao.getAllPosts(search, categoryId,from,to);
         List<Setting> listS = dao1.getPostCategory();
         request.setAttribute("listp", listp);
-        request.setAttribute("sList", listS);
+        request.setAttribute("listC", listS);
         request.getRequestDispatcher("BlogManager.jsp").forward(request, response);
     }
 
