@@ -104,25 +104,20 @@ public class ProductDAO extends DBContext {
             int count = 1;
             if (categoryRaw != null && !categoryRaw.equals("")) {
                 int cateId = Integer.parseInt(categoryRaw);
-                stm.setInt(count, cateId);
-                count++;
+                stm.setInt(count++, cateId);
             }
             if (minPriceRaw != null && !minPriceRaw.equals("")) {
                 double minPrice = Double.parseDouble(minPriceRaw) / 1000;
-                stm.setDouble(count, minPrice);
-                count++;
+                stm.setDouble(count++, minPrice);
             }
             if (maxPriceRaw != null && !maxPriceRaw.equals("")) {
                 double maxPrice = Double.parseDouble(maxPriceRaw) / 1000;
-                stm.setDouble(count, maxPrice);
-                count++;
+                stm.setDouble(count++, maxPrice);
             }
             if (search != null && !search.equals("")) {
                 search = "%" + search + "%";
-                stm.setString(count, search);
-                count++;
-                stm.setString(count, search);
-                count++;
+                stm.setString(count++, search);
+                stm.setString(count++, search);
             }
             if (isPaginated) {
                 stm.setInt(count, (index - 1) * 12);

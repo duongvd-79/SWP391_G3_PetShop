@@ -1,5 +1,6 @@
 package controller;
 
+import dal.FeedbackDAO;
 import dal.PostDAO;
 import dal.ProductDAO;
 import dal.SettingDAO;
@@ -10,9 +11,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.Post;
 import model.Product;
+import model.ProductFeedback;
 import model.Setting;
 import model.Slider;
 
@@ -66,6 +70,24 @@ public class HomeServlet extends HttpServlet {
         List<Product> featuredProduct = productDAO.getActiveFeatured();
         request.setAttribute("allproduct", allProduct);
         request.setAttribute("featuredproduct", featuredProduct);
+
+        // Get star rating
+        FeedbackDAO feedbackDAO = new FeedbackDAO();
+        List<ProductFeedback> feedbackList;
+        try {
+            List<Integer> starList = new ArrayList<>();
+            for (Product p : featuredProduct) {
+                int sum = 0;
+                feedbackList = feedbackDAO.getFeedbackByProductID(p.getId());
+                for (ProductFeedback pf : feedbackList) {
+                    sum += pf.getStar();
+                }
+                int star = (int) Math.round((double) sum / feedbackList.size());
+                starList.add(star);
+            }
+            request.setAttribute("starList", starList);
+        } catch (SQLException e) {
+        }
 
         // Get blog list
         PostDAO postDAO = new PostDAO();

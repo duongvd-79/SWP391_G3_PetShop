@@ -32,7 +32,7 @@
 		inherit_width_from: '.cover-slides',
 		inherit_height_from: '.cover-slides',
 		play: 5000,
-		animation: 'fade',
+		animation: 'fade'
 	});
 
 	$(".cover-slides ul li").append("<div class='overlay-background'></div>");
@@ -213,7 +213,7 @@
 	   ................................................. */
 
 	$(".brand-box").niceScroll({
-		cursorcolor: "#9b9b9c",
+		cursorcolor: "#9b9b9c"
 	});
 
 

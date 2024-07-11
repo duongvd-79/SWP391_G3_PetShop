@@ -2,122 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page import="model.User"%>
 <%@page import="model.Cart"%>
-<%@ page import="java.util.ArrayList" %>
-<!-- Start Main Top -->
-<header class="main-header">
-    <!-- Start Navigation -->
-    <nav class=" navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
-
-        <!-- Start Header Navigation -->
-        <div class="navbar-header">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-            </button>
-            <a class="navbar-brand" href="home"><img height="100" src="images/logo.jpg" class="logo" alt=""></a>
-            <span class="h5">H2DV PETSHOP</span>
-        </div>
-        <!-- End Header Navigation -->
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="navbar-menu">
-            <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                <li class="dropdown">
-                    <a href="productlist" class="nav-link dropdown-toggle" data-toggle="dropdown">Product <i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu" style="border: solid lightgray 1px;border-radius: 5px;box-shadow: 0 5px 10px 0;">
-                        <li><a href="productlist">All Products</a></li>
-                            <c:forEach items="${applicationScope.prcategory}" var="prcate">
-                            <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
-                            </c:forEach>
-                    </ul>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="bloglist">Blog</a></li>
-                    <%
-                        User user = (User) session.getAttribute("user");
-                        if (user == null) {
-                    %>
-                <li class="dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account&ensp;<i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#login">Login</a></li>
-                        <li><a href="#register">Register</a></li>
-                    </ul>
-                </li>
-                <%} else {%>
-                <li class="dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name}&ensp;<i class="bi bi-caret-down-fill"></i></a>
-                    <ul class="dropdown-menu pb-1">
-                        <li><a class="nav-link" href="#profile">User Profile</a></li>
-                        <li><a class="nav-link" href="#changepassword">Change password</a></li>
-                            <c:if test="${user.getRoleId()==1}">
-                            <li><a class="nav-link" href="admindashboard">Admin</a></li>
-                            </c:if>
-                            <c:if test="${user.getRoleId()==3}">
-                            <li><a class="nav-link" href="SaleDashboard">Sale</a></li>
-                            </c:if>
-                            <c:if test="${user.getRoleId()==5}">
-                            <li><a class="nav-link" href="myorders">My Orders</a></li>
-                            </c:if>
-                        <li><a class="text-danger" href="login?logout=true">Logout</a></li>
-                    </ul>
-                </li>
-                <%}%>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-
-        <%
-            if (user == null) {
-        %>
-        <!-- Login Popup -->
-        <jsp:include page="login.jsp"></jsp:include>
-            <!-- End Login Popup -->
-
-            <!-- Begin Register Popup -->
-        <jsp:include page="register.jsp"></jsp:include>
-            <!-- End Register Popup -->
-
-            <!-- Begin Verify email popup -->
-        <jsp:include page="verifyEmail.jsp"></jsp:include>
-            <!-- End Verify email popup -->
-
-            <!-- Begin Reset Password Popup -->
-        <jsp:include page="resetPassword.jsp"></jsp:include>
-            <!-- End Reset Password Popup -->
-        <%}%>
-
-        <%
-            if (user != null && user.getRoleId() == 5) {
-        %>
-        <!-- Start Atribute Navigation -->
-        <div class="attr-nav">
-            <ul>
-                <li class="side-menu">
-                    <a href="cart">
-                        <i class="bi bi-basket3"></i>
-                        <span class="badge">${sessionScope.size}</span>
-                        <p style="font-weight: bold;">MY CART</p>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <%} 
-        %>
-
-        <%
-            if (user != null) {
-        %>
-        <!-- Begin User Profile -->
-        <jsp:include page="userProfile.jsp"></jsp:include>
-            <!-- End User Profile -->
-        <jsp:include page="changepassword.jsp"></jsp:include>
-            <!-- End User Profile -->
-        <%}%>
-    </nav>
-    <!-- End Navigation -->
-</header>
-<!-- End Main Top -->
+<%@page import="java.util.ArrayList"%>
 <style>
     .toggle-password-button {
         position: absolute;
@@ -182,6 +67,149 @@
         display: none;
     }
 </style>
+<!-- Start Main Top -->
+<header class="main-header">
+    <!-- Start Navigation -->
+    <nav class=" navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+
+        <!-- Start Header Navigation -->
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand" href="home"><img height="100" src="images/logo.jpg" class="logo" alt=""></a>
+            <span class="h5">H2DV PETSHOP</span>
+        </div>
+        <!-- End Header Navigation -->
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse row" id="navbar-menu">
+            <div class="col-xl-6 col-12 px-5">
+                <form action="productlist" method="get">
+                    <input type="text" class="form-control" id="headerSearch" name="search" placeholder="Search" value="" list="searchList" style="display: none;max-width: 100%;">
+                    <datalist id="searchList">
+                        <c:forEach items="${allSearchList}" var="asl">
+                            <option value="${asl.title}"></option>
+                        </c:forEach>
+                        <c:forEach items="${applicationScope.prcategory}" var="cate">
+                            <option value="Category: ${cate.name}"></option>
+                        </c:forEach>
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-xl-6 col-12">
+                <ul class="nav navbar-nav justify-content-end" data-in="fadeInDown" data-out="fadeOutUp">
+                    <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="dropdown">
+                        <a href="productlist" class="nav-link dropdown-toggle" data-toggle="dropdown">Product <i class="bi bi-caret-down-fill"></i></a>
+                        <ul class="dropdown-menu" style="border: solid lightgray 1px;border-radius: 5px;">
+                            <li><a href="productlist">All Products</a></li>
+                                <c:forEach items="${applicationScope.prcategory}" var="prcate">
+                                <li><a href="productlist?category=${prcate.id}">${prcate.name}</a></li>
+                                </c:forEach>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="bloglist">Blog</a></li>
+                        <%
+                            User user = (User) session.getAttribute("user");
+                            if (user == null) {
+                        %>
+                    <li class="dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Account&ensp;<i class="bi bi-caret-down-fill"></i></a>
+                        <ul class="dropdown-menu" style="right: 0;border: solid lightgray 1px;border-radius: 5px;">
+                            <li><a href="#login">Login</a></li>
+                            <li><a href="#register">Register</a></li>
+                        </ul>
+                    </li>
+                    <%} else {%>
+                    <li class="dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown">${user.name}&ensp;<i class="bi bi-caret-down-fill"></i></a>
+                        <ul class="dropdown-menu pb-1" style="right: 0;border: solid lightgray 1px;border-radius: 5px;">
+                            <li><a class="nav-link" href="#profile">User Profile</a></li>
+                            <li><a class="nav-link" href="#changepassword">Change password</a></li>
+                                <c:if test="${user.getRoleId()==1}">
+                                <li><a class="nav-link" href="admindashboard">Admin</a></li>
+                                </c:if>
+                                <c:if test="${user.getRoleId()==2}">
+                                <li><a class="nav-link" href="customerlist">Marketing</a></li>
+                                </c:if>
+                                <c:if test="${user.getRoleId()==3}">
+                                <li><a class="nav-link" href="SaleDashboard">Sale</a></li>
+                                </c:if>
+                                <c:if test="${user.getRoleId()==5}">
+                                <li><a class="nav-link" href="myorders">My Orders</a></li>
+                                </c:if>
+                            <li><a class="text-danger" href="login?logout=true">Logout</a></li>
+                        </ul>
+                    </li>
+                    <%}%>
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+
+        <%
+            if (user == null) {
+        %>
+        <!-- Login Popup -->
+        <jsp:include page="login.jsp"></jsp:include>
+            <!-- End Login Popup -->
+
+            <!-- Begin Register Popup -->
+        <jsp:include page="register.jsp"></jsp:include>
+            <!-- End Register Popup -->
+
+            <!-- Begin Verify email popup -->
+        <jsp:include page="verifyEmail.jsp"></jsp:include>
+            <!-- End Verify email popup -->
+
+            <!-- Begin Reset Password Popup -->
+        <jsp:include page="resetPassword.jsp"></jsp:include>
+            <!-- End Reset Password Popup -->
+        <%}%>
+
+        <%
+            if (user != null && user.getRoleId() == 5) {
+        %>
+        <!-- Start Atribute Navigation -->
+        <div class="attr-nav">
+            <ul>
+                <li class="side-menu">
+                    <a href="cart">
+                        <i class="bi bi-basket3"></i>
+                        <span class="badge">${sessionScope.size}</span>
+                        <p style="font-weight: bold;">MY CART</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <%} 
+        %>
+
+        <%
+            if (user != null) {
+        %>
+        <!-- Begin User Profile -->
+        <jsp:include page="userProfile.jsp"></jsp:include>
+            <!-- End User Profile -->
+
+            <!-- Begin Change Password -->
+        <jsp:include page="changepassword.jsp"></jsp:include>
+            <!-- End Change Password -->
+        <%}%>
+    </nav>
+    <!-- End Navigation -->
+</header>
+<!-- End Main Top -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (document.location.href.split('/').pop().split('?')[0] == 'productdetail') {
+            document.getElementById('headerSearch').style.display = 'block';
+        }
+    });
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -201,33 +229,9 @@
                 session.removeAttribute("toastType");
     %>
         }
-    });</script>
+    });
+</script>
 <script>
-    // Field guide popup
-    const nameInput = document.getElementById('pfname');
-    const nameInfo = document.getElementById('name-info');
-    const emailInput = document.getElementById('pfemail');
-    const emailInfo = document.getElementById('email-info');
-    const phoneInput = document.getElementById('pfphone');
-    const phoneInfo = document.getElementById('phone-info');
-    nameInput.addEventListener('focus', () => {
-        nameInfo.style.display = 'block';
-    });
-    nameInput.addEventListener('blur', () => {
-        nameInfo.style.display = 'none';
-    });
-    emailInput.addEventListener('mouseover', () => {
-        emailInfo.style.display = 'block';
-    });
-    emailInput.addEventListener('mouseout', () => {
-        emailInfo.style.display = 'none';
-    });
-    phoneInput.addEventListener('focus', () => {
-        phoneInfo.style.display = 'block';
-    });
-    phoneInput.addEventListener('blur', () => {
-        phoneInfo.style.display = 'none';
-    });
     // Render cites & districts
     var cities = document.getElementById("pfcity");
     var districts = document.getElementById("pfdistrict");
@@ -239,6 +243,7 @@
     var promise = axios(Parameter);
     promise.then(function (result) {
         renderCity(result.data);
+        renderDistrict(cities.value, result.data);
     });
     function renderCity(data) {
         for (const city of data) {
@@ -247,23 +252,19 @@
             option.selected = city.Name === '${sessionScope.address.getCity()}';
             cities.add(option);
         }
-
-        if (cities.value !== "") {
-            renderDistrict(cities.value, data);
-        }
         cities.onchange = function () {
             renderDistrict(this.value, data);
         };
-        function renderDistrict(selectedCityName, data) {
-            districts.length = 1;
-            if (selectedCityName !== "") {
-                const selectedCity = data.find(city => city.Name === selectedCityName);
-                for (const district of selectedCity.Districts) {
-                    const option = new Option(district.Name);
-                    option.value = district.Name;
-                    option.selected = district.Name === '${sessionScope.address.getDistrict()}';
-                    districts.add(option);
-                }
+    }
+    function renderDistrict(selectedCityName, data) {
+        districts.length = 1;
+        if (selectedCityName !== "") {
+            const selectedCity = data.find(city => city.Name === selectedCityName);
+            for (const district of selectedCity.Districts) {
+                const option = new Option(district.Name);
+                option.value = district.Name;
+                option.selected = district.Name === '${sessionScope.address.getDistrict()}';
+                districts.add(option);
             }
         }
     }
@@ -289,7 +290,6 @@
 
             // Clear the file input
             this.value = '';
-            previewImage.src = '';
             document.getElementById('file-name').textContent = '';
         } else {
             fileSizeWarning.style.display = 'none';
@@ -371,6 +371,7 @@
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Active current link
         const currentPage = window.location.pathname;
         const navLinks = document.querySelectorAll('.nav-link');
 
@@ -395,63 +396,56 @@
 </script>
 <!-- Toggle password  -->
 <script>
-    document.getElementById('togglePassword1').addEventListener('click', function (e) {
+    document.getElementById('togglePassword1').addEventListener('click', function () {
         const password = document.getElementById('login-password1');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword2').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword2').addEventListener('click', function () {
+        const password = document.getElementById('login-password2');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+
+    document.getElementById('togglePassword3').addEventListener('click', function () {
         const password = document.getElementById('login-password3');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword3').addEventListener('click', function (e) {
-        const password = document.getElementById('login-password3');
-        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-        password.setAttribute('type', type);
-        this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
-    });
-</script>
-<script>
-    document.getElementById('togglePassword4').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword4').addEventListener('click', function () {
         const password = document.getElementById('login-password4');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword5').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword5').addEventListener('click', function () {
         const password = document.getElementById('login-password5');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword6').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword6').addEventListener('click', function () {
         const password = document.getElementById('login-password6');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword7').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword7').addEventListener('click', function () {
         const password = document.getElementById('login-password7');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-</script>
-<script>
-    document.getElementById('togglePassword8').addEventListener('click', function (e) {
+
+    document.getElementById('togglePassword8').addEventListener('click', function () {
         const password = document.getElementById('login-password8');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
         password.setAttribute('type', type);

@@ -334,7 +334,6 @@
             <script src="js/jquery.superslides.min.js"></script>
             <script src="js/bootstrap-select.js"></script>
             <script src="js/inewsticker.js"></script>
-            <script src="js/bootsnav.js"></script>
             <script src="js/images-loded.min.js"></script>
             <script src="js/isotope.min.js"></script>
             <script src="js/owl.carousel.min.js"></script>
@@ -349,8 +348,8 @@
                                                      + '&search=${search.replace(" ", "+")}'
                                                      + '&priceOption=${priceOption}'
                                                      + '&minPrice=${minPrice}'
-                                                     + '&maxPrice=${maxPrice}&sort=' + selectedValue +
-                                                     '&page=${page}';
+                                                     + '&maxPrice=${maxPrice}&sort=' + selectedValue
+                                                     + '&page=${page}';
                                          });
         </script>
         <script>

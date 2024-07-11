@@ -6,10 +6,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import model.Setting;
 import model.User;
 
 public class UserDAO extends DBContext {
+
+    private static User setUser(ResultSet rs) {
+        User u = new User();
+        try {
+            u.setId(rs.getInt("id"));
+            u.setEmail(rs.getString("email"));
+            u.setPassword(rs.getString("password"));
+            u.setName(rs.getString("name"));
+            u.setStatus(rs.getString("status"));
+            u.setPhone(rs.getString("phone"));
+            u.setPfp(rs.getString("pfp"));
+            u.setRoleId(rs.getInt("role_id"));
+            u.setGender(rs.getBoolean("gender"));
+            u.setCreateDate(rs.getDate("create_date"));
+        } catch (SQLException e) {
+        }
+        return u;
+    }
 
     public ArrayList<User> getAllUser() throws SQLException {
         String sql = "select * from user";
@@ -264,6 +283,87 @@ public class UserDAO extends DBContext {
         return id;
     }
 
+    public List<User> getAllCustomer(boolean isPaginated, String status, String gender, String search, String sort, int index) {
+        String sqlStatus = "";
+        String sqlGender = "";
+        String sqlSearch = "";
+        String sqlSort = "";
+        String sqlPaging = "";
+        if (isPaginated) {
+            sqlPaging = " LIMIT 4 OFFSET ?";
+        }
+        if (status != null && !status.isEmpty()) {
+            sqlStatus = " AND status = ? ";
+        }
+        if (gender != null && !gender.isEmpty()) {
+            sqlGender = switch (gender) {
+                case "Male" ->
+                    " AND gender = 1 ";
+                case "Female" ->
+                    " AND gender = 0 ";
+                default ->
+                    "";
+            };
+        }
+        if (search != null && !search.isEmpty()) {
+            sqlSearch = " AND name LIKE ? OR email LIKE ? OR phone LIKE ? ";
+        }
+        if (sort != null && !sort.isEmpty()) {
+            sqlSort = switch (sort) {
+                case "Name ASC" ->
+                    " name ASC,";
+                case "Name DESC" ->
+                    " name DESC,";
+                case "Email ASC" ->
+                    " email ASC,";
+                case "Email DESC" ->
+                    " email DESC,";
+                case "Gender ASC" ->
+                    " gender ASC,";
+                case "Gender DESC" ->
+                    " gender DESC,";
+                case "Phone ASC" ->
+                    " phone ASC,";
+                case "Phone DESC" ->
+                    " phone DESC,";
+                case "Status ASC" ->
+                    " status ASC,";
+                case "Status DESC" ->
+                    " status DESC,";
+                default ->
+                    "";
+            };
+        }
+        String sql = "SELECT * FROM petshop.user WHERE role_id = 5 " + sqlStatus
+                + sqlGender + sqlSearch + " ORDER BY " + sqlSort + " id " + sqlPaging;
+        try {
+            List<User> customerList = new ArrayList<>();
+            PreparedStatement stm = connection.prepareStatement(sql);
+            int count = 1;
+            if (status != null && !status.isEmpty()) {
+                stm.setString(count++, status);
+            }
+            if (search != null && !search.isEmpty()) {
+                search = "%" + search + "%";
+                stm.setString(count++, search);
+                stm.setString(count++, search);
+                stm.setString(count++, search);
+            }
+            if (isPaginated) {
+                stm.setInt(count, (index - 1) * 4);
+            }
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                User user = setUser(rs);
+                customerList.add(user);
+            }
+            return customerList;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
     public User login(String email, String password) {
         String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
         try {
@@ -272,17 +372,7 @@ public class UserDAO extends DBContext {
             stm.setString(2, password);
             ResultSet rs = stm.executeQuery();
             if (rs.next()) {
-                User user = new User();
-                user.setId(rs.getInt("id"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setName(rs.getString("name"));
-                user.setStatus(rs.getString("status"));
-                user.setPhone(rs.getString("phone"));
-                user.setPfp(rs.getString("pfp"));
-                user.setRoleId(rs.getInt("role_id"));
-                user.setGender(rs.getBoolean("gender"));
-                user.setCreateDate(rs.getDate("create_date"));
+                User user = setUser(rs);
 
                 // Set last login time
                 Date currentDate = new Date();
@@ -303,7 +393,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public void updateUserProfile(User user) {
+    public void updateUserProfile(User user, String description) {
         String sql = "UPDATE user SET name = ?, gender = ?, phone = ?, pfp = ? WHERE id = ?";
         try {
             PreparedStatement stm;
@@ -314,7 +404,16 @@ public class UserDAO extends DBContext {
             stm.setString(4, user.getPfp());
             stm.setInt(5, user.getId());
             stm.executeUpdate();
+            sql = "INSERT INTO update_record (updated_by, updated_date, description, user_id)"
+                    + "values (?, ?, ?, ?)";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, user.getId());
+            stm.setTimestamp(2, new Timestamp(new Date().getTime()));
+            stm.setString(3, description);
+            stm.setInt(4, user.getId());
+            stm.executeUpdate();
         } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -420,6 +519,7 @@ public class UserDAO extends DBContext {
         }
         return u;
     }
+
     public String getRoleStatus(int id) {
         String sql = "SELECT s.status as status FROM user as u join setting as s"
                 + " on s.id=u.role_id where u.id = ?";
@@ -436,16 +536,11 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public static void main(String[] args) throws SQLException {
-        UserDAO u = new UserDAO();
-//        for(User s : u.getAllUser()){
-//            System.out.println(s.getId() + s.getPfp());
-//        }
-//        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
-//        u.changePassword("hoangdz512@gmail.com","123456" );
-        for (User user : u.getTop4NewlyBuyCutomers()) {
-            System.out.println(user.getName());
+    public static void main(String[] args) {
+        UserDAO udao = new UserDAO();
+        List<User> list = udao.getAllCustomer(false, "", "", "", "", 0);
+        for (User u : list) {
+            System.out.println(u.getName());
         }
-
     }
 }

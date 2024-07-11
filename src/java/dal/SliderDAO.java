@@ -22,6 +22,8 @@ public class SliderDAO extends DBContext {
             sl.setBackLink(rs.getString("back_link"));
             sl.setStatus(rs.getString("status"));
             sl.setDescription(rs.getString("description"));
+            sl.setCreatedBy(rs.getInt("created_by"));
+            sl.setCreatedDate(rs.getDate("created_date"));
         } catch (SQLException e) {
         }
         return sl;

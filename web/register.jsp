@@ -24,12 +24,12 @@
                 </div>
                 <div class="form-group last mb-2 position-relative">
                     <label for="password">Confirm password</label>
-                    <input type="password" class="form-control" id="login-password3" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
+                    <input type="password" class="form-control" id="login-password3" name="cfpassword" placeholder="Confirm your password" required="">
                     <span id="togglePassword3" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-2">
                     <label for="fullname">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" name="name" required="" placeholder="Enter fullname" value="${newuser.getName()}">
+                    <input type="text" class="form-control" id="fullname" name="name" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+){0,4}$" required="" placeholder="Enter fullname" value="${newuser.getName()}">
                 </div>
                 <div class="form-group last mb-1">
                     <label for="phone">Phone</label>
@@ -37,13 +37,13 @@
                 </div>
                 <div class="row">
                     <div class="col-4 form-group mt-2 mb-1">
-                        <input type="radio" name="gender" id="male" value="Male" checked>
+                        <input type="radio" name="gender" id="male" value="Male" checked required>
                         <label for="male">
                             Male
                         </label>
                     </div>
                     <div class="col-3 form-group mt-2 mb-0">
-                        <input type="radio" name="gender" value="Female" id="female" >
+                        <input type="radio" name="gender" value="Female" id="female" required>
                         <label for="female">
                             Female
                         </label>
@@ -63,7 +63,7 @@
                             </select>
                         </div>
                     </div>
-                    <input value="${address.getDetail()}" type="text" class="form-control" id="address" name="address" required="" placeholder="Your address">
+                    <input value="${address.getDetail()}" type="text" pattern="^[\w\d\s]{1,255}$" class="form-control" id="address" name="address" required placeholder="Your address">
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>

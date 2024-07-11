@@ -146,12 +146,25 @@ public class UserProfileServlet extends HttpServlet {
                 String detailAddress = getValueFromPart(detailaddressPart);
 
                 // Update user
+                String oldName = user.getName();
+                String oldGender = user.getGender();
+                String oldPhone = user.getPhone();
+                String description = "";
                 user.setName(name);
                 if (gender != null) {
                     user.setGender(gender.equals("Male"));
                 }
                 user.setPhone(phone);
-                userDAO.updateUserProfile(user);
+                if (name != null && !name.isEmpty()) {
+                    description += "Updated name from '" + oldName + "' to '" + user.getName() + "'.\\n";
+                }
+                if (gender != null && !gender.isEmpty()) {
+                    description += "Updated gender from '" + oldGender + "' to '" + user.getGender() + "'.\\n";
+                }
+                if (phone != null && !phone.isEmpty()) {
+                    description += "Updated phone from '" + oldPhone + "' to '" + user.getPhone() + "'.\\n";
+                }
+                userDAO.updateUserProfile(user, description);
                 session.setAttribute("user", user);
 
                 // Update address

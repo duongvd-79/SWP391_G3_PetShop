@@ -156,6 +156,7 @@
                             </div>
 
                             <div class="row" id="featured-list">
+                                <% int i = 0; %>
                                 <c:forEach items="${requestScope.featuredproduct}" var="apr" begin="0" end="7">
                                     <div class="col-lg-3 col-md-6 ${(apr.isFeatured) ? "top-featured" : "best-seller"}">
                                         <div class="products-single fix" style="border: solid lightgray 1px;border-radius: 5px">
@@ -175,11 +176,30 @@
                                                 </div>
                                             </div>
                                             <div class="why-text row" style="min-height: 150px">
-                                                <div class="col-12" style="max-height: 71.9px;">
+                                                <div class="col-12" style="max-height: 71.9px;min-height: 71.9px;">
                                                     <h4>${apr.title}</h4>
                                                 </div>
                                                 <div class="col-12">
-                                                    <h5>${apr.listPrice}00 đ</h5>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h5>${apr.listPrice}00 đ</h5>
+                                                        </div>
+                                                        <c:forEach items="${starList}" var="star" begin="<%= i %>" end="<%= i++ %>">
+                                                            <div class="col-12 d-flex justify-content-between">
+                                                                <div>
+                                                                    <span class="product-rating">
+                                                                        <i class="bi ${star >= 1 ? 'bi-star-fill text-warning' : 'bi-star'}"></i>
+                                                                        <i class="bi ${star >= 2 ? 'bi-star-fill text-warning' : 'bi-star'}"></i>
+                                                                        <i class="bi ${star >= 3 ? 'bi-star-fill text-warning' : 'bi-star'}"></i>
+                                                                        <i class="bi ${star >= 4 ? 'bi-star-fill text-warning' : 'bi-star'}"></i>
+                                                                        <i class="bi ${star == 5 ? 'bi-star-fill text-warning' : 'bi-star'}"></i>
+                                                                    </span>
+                                                                    <span>&bull;    (${star})</span>
+                                                                </div>
+                                                                <div>Sold 15</div>
+                                                            </div>
+                                                        </c:forEach>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -242,7 +262,6 @@
         <script src="js/jquery.superslides.min.js"></script>
         <script src="js/bootstrap-select.js"></script>
         <script src="js/inewsticker.js"></script>
-        <script src="js/bootsnav.js."></script>
         <script src="js/images-loded.min.js"></script>
         <script src="js/isotope.min.js"></script>
         <script src="js/owl.carousel.min.js"></script>

@@ -83,7 +83,7 @@ public class ProductDetailServlet extends HttpServlet {
                 sum += pf.getStar();
             }
             int star = (int) Math.round((double) sum / flist.size());
-            
+
             // to pick out the image of each customer in feedback
             ArrayList<ProductFeedback> topList = feedbackDAO.getFeedbackByProductIDTop3(id);
             ArrayList<ArrayList> imageList = new ArrayList<>();
@@ -99,7 +99,12 @@ public class ProductDetailServlet extends HttpServlet {
             request.setAttribute("reviewTotal", flist.size());
             request.setAttribute("relatedlist", productList);
             request.setAttribute("imageList", imageList);
-            request.setAttribute("length", feedbackList.size()-1);
+            request.setAttribute("length", feedbackList.size() - 1);
+
+            List<Product> allProduct = productDAO.getActive(false, null,
+                    null, null, null, null, 0);
+            request.setAttribute("allSearchList", allProduct);
+
             request.getRequestDispatcher("ProductDetail.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(ProductDetailServlet.class.getName()).log(Level.SEVERE, null, ex);

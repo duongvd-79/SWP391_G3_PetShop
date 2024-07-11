@@ -2,7 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="css/header/userProfile.css">
 <div id="profile" class="overlay">
-    <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
+    <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4" style="max-height: 100vh;overflow-y: auto">
         <form action="userprofile" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-4 border-right">
@@ -19,7 +19,7 @@
                     <div class="p-3 pt-5 pb-3">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h2 class="text-right"><strong>User Profile</strong></h2>
-                            <a class="close" href="#">&times;</a>
+                            <a class="close" href="#!">&times;</a>
                         </div>
                         <div class="row">
                             <div class="col-md-12 col-lg-6 border-left border-right">
@@ -30,7 +30,7 @@
                                     <div class="col-md-12">
                                         <label class="labels">Name</label>
                                         <input type="text" class="form-control" name="pfname" id="pfname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" placeholder="Enter Name" value="${sessionScope.user.name}" required>
-                                        <span id="name-info" class="info-popup">Letters only, max 50 characters</span>
+                                        <span id="name-info" class="info-popup">Letters only, max 50 characters. Each word is separated by only 1 space.</span>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -45,11 +45,11 @@
                                         <label class="labels">Gender</label>
                                     </div>
                                     <div class="col-md-3">
-                                        <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender eq 'Male' ? "checked" : ""}>
+                                        <input type="radio" name="pfgender" id="pfmale" value="Male" ${sessionScope.user.gender eq 'Male' ? "checked" : ""} required>
                                         <label class="form-check-label">Male</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="radio" name="pfgender" id="pffemale" value="Female" ${sessionScope.user.gender eq 'Female' ? "checked" : ""}>
+                                        <input type="radio" name="pfgender" id="pffemale" value="Female" ${sessionScope.user.gender eq 'Female' ? "checked" : ""} required>
                                         <label class="form-check-label">Female</label>
                                     </div>
                                 </div>
@@ -61,15 +61,15 @@
                                 <div class="row mt-1">
                                     <div class="col-md-6">
                                         <label class="labels">City</label>
-                                        <select class="form-select p-2" name="pfcity" id="pfcity" style="max-width: 150px" required>
-                                            <option ${sessionScope.address.getCity() == null ? 'selected' : ''}>City</option>
+                                        <select class="form-select p-2" name="pfcity" id="pfcity" style="max-width: 100%;min-width:100%;" required>
+                                            <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">City</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">District</label>
                                         <br>
-                                        <select class="form-select p-2" name="pfdistrict" id="pfdistrict" style="max-width: 120px" required>
-                                            <option ${sessionScope.address.getCity() == null ? 'selected' : ''}>District</option>
+                                        <select class="form-select p-2" name="pfdistrict" id="pfdistrict" style="max-width: 100%;min-width:100%;" required>
+                                            <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">District</option>
                                         </select>
                                     </div>
                                 </div>

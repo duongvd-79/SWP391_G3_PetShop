@@ -87,7 +87,7 @@ public class LoginServlet extends HttpServlet {
         User user = userDAO.login(email, MD5.getMD5(password));
 
         if (user != null) {
-            if (!user.getStatus().equalsIgnoreCase("Active") 
+            if (!user.getStatus().equalsIgnoreCase("Active")
                     || !userDAO.getRoleStatus(user.getId()).equalsIgnoreCase("Active")) {
                 String error = "You are not allow to login!";
                 HttpSession session = request.getSession(true);
@@ -109,7 +109,10 @@ public class LoginServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("error", error);
             session.setAttribute("username", email);
-            response.sendRedirect("home#login");
+
+            // Get previous page
+            String page = request.getParameter("page");
+            response.sendRedirect(page);
         }
     }
 

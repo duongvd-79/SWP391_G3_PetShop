@@ -4,7 +4,7 @@
         <div class="form-block">
             <div class="mb-4">
                 <h3>Sign In to <strong>PetShop</strong></h3>
-                <a class="close" id="login-close" href="#">&times;</a>
+                <a class="close" id="login-close" href="#!">&times;</a>
             </div>
             <form action="login" method="post">
                 <div class="form-group first">

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author duongvu
@@ -14,19 +16,22 @@ public class Slider {
     status VARCHAR(50),
     description TEXT
      */
-    int id;
+    int id ,createdBy;
     String title, image, backLink, status, description;
+    Date createdDate;
 
     public Slider() {
     }
 
-    public Slider(int id, String title, String image, String backLink, String status, String description) {
+    public Slider(int id, int createdBy, String title, String image, String backLink, String status, String description, Date createdDate) {
         this.id = id;
+        this.createdBy = createdBy;
         this.title = title;
         this.image = image;
         this.backLink = backLink;
         this.status = status;
         this.description = description;
+        this.createdDate = createdDate;
     }
 
     public int getId() {
@@ -35,6 +40,14 @@ public class Slider {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(int createdBy) {
+        this.createdBy = createdBy;
     }
 
     public String getTitle() {
@@ -77,4 +90,12 @@ public class Slider {
         this.description = description;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+    
 }
