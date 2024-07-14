@@ -67,7 +67,7 @@ public class SortBlogServlet extends HttpServlet {
         String categoryId = request.getParameter("categoryID");
         search = search == null ? "" : search;
         categoryId = categoryId == null ? "" : categoryId;
-        ArrayList<Post> listp = dao.getAllPosts(search, categoryId);
+        ArrayList<Post> listp = dao.getAllPosts(search, categoryId,"","");
         List<Setting> listS = dao1.getPostCategory();
         request.setAttribute("listp", listp);
         request.getRequestDispatcher("bloglist.jsp").forward(request, response);

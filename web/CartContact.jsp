@@ -24,19 +24,6 @@
     <body>
 
         <jsp:include page="header.jsp"></jsp:include>
-        <div class="all-title-box">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <ul style="background-color: transparent;" class="breadcrumb float-left">
-                            <li class="breadcrumb-item active"><a href="cart">MY CART</a></li>
-                            
-                            <li style="color:#b0b435;" class="breadcrumb-item active">CART CONTACT</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
 
             <div class="cart-box-main">
                 <div class="container">
@@ -87,8 +74,7 @@
                                 <div class="form-row mt-4">
                                     <div class="form-group col-md-12 d-flex justify-content-between">
                                         <p><a href="cart" class="link-opacity-10-hover" id="back-to-cart">Back to cart</a></p>
-                                        <button type="submit" class="btn btn-luxury ml-auto">Continue to payment method</button>
-                                    </div>
+                                        <a href="onlinepayment" class="btn btn-luxury ml-auto">Continue to payment method</a>                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -552,34 +538,34 @@
             }
         </script>
 
-        <script>
-            function validateAddNewAddress() {
-                var detailAddress = document.getElementById('inputDetailAddress').value;
-                var city = document.getElementById('newcity').value;
-                var district = document.getElementById('newdistrict').value;
-
-                if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
-                    alert("Please fill in all fields.");
-                    return false;
-                }
-                return true;
-            }
-        </script>
-
-        <script>
-            function validateAddNewAddress() {
-                var detailAddress = document.getElementById('inputDetailAddress').value;
-                var city = document.getElementById('newcity').value;
-                var district = document.getElementById('newdistrict').value;
-
-                if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
-                    alert("Please fill in the information.");
-                    return false;
-                }
-
-                return true;
-            }
-        </script>
+        <!--        <script>
+                    function validateAddNewAddress() {
+                        var detailAddress = document.getElementById('inputDetailAddress').value;
+                        var city = document.getElementById('newcity').value;
+                        var district = document.getElementById('newdistrict').value;
+        
+                        if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
+                            alert("Please fill in all fields.");
+                            return false;
+                        }
+                        return true;
+                    }
+                </script>
+        
+                <script>
+                    function validateAddNewAddress() {
+                        var detailAddress = document.getElementById('inputDetailAddress').value;
+                        var city = document.getElementById('newcity').value;
+                        var district = document.getElementById('newdistrict').value;
+        
+                        if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
+                            alert("Please fill in the information.");
+                            return false;
+                        }
+        
+                        return true;
+                    }
+                </script>-->
 
         <script>
             function confirmRemove(addressId, event) {
