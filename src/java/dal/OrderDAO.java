@@ -4,6 +4,7 @@
  */
 package dal;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class OrderDAO extends DBContext {
             o.setId(rs.getInt("id"));
             o.setCustomerId(rs.getInt("customer_id"));
             o.setAddressId(rs.getInt("address_id"));
-            o.setOrderedDate(rs.getDate("ordered_date"));
+            o.setOrderedDate(rs.getString("ordered_date"));
             o.setStatus(rs.getString("status"));
             o.setIsDelivered(rs.getBoolean("is_delivered"));
             o.setDeliveredDate(rs.getDate("delivered_date"));
@@ -56,18 +57,18 @@ public class OrderDAO extends DBContext {
         }
         return null;
     }
-    
-    public Order getOrderById(int id){
+
+    public Order getOrderById(int id) {
         String sql = "SELECT * from `order` where id=?";
-        Order p=null;
-        try{
-            stm=connection.prepareStatement(sql);
+        Order p = null;
+        try {
+            stm = connection.prepareStatement(sql);
             stm.setInt(1, id);
             rs = stm.executeQuery();
             if (rs.next()) {
                 p = setOrder(rs);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
         }
         return p;
     }
@@ -154,11 +155,11 @@ public class OrderDAO extends DBContext {
         }
         return list;
     }
-    
-    public void cancelOrder(int oid){
+
+    public void cancelOrder(int oid) {
         String sql = "UPDATE `order` SET status = 'Cancelled' WHERE id = ?";
-        try{ 
-        PreparedStatement stm;
+        try {
+            PreparedStatement stm;
             stm = connection.prepareStatement(sql);
             stm.setInt(1, oid);
             stm.executeUpdate();
@@ -168,11 +169,93 @@ public class OrderDAO extends DBContext {
         }
     }
 
-    public static void main(String[] args) {
+    public int getTotalOrderBySaleID(int saleID) {
+        String sql = "SELECT COUNT(*) \n"
+                + "FROM `order` \n"
+                + "WHERE sale_id = ?;";
+        try {
+            int totalOrder = 0;
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, saleID);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                totalOrder = rs.getInt(1);
+            }
+            return totalOrder;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public void addNewOrder(Order o) throws SQLException {
+        String sql = "INSERT INTO `order` (customer_id, ordered_date, status, address_id, is_delivered, delivered_date, total, sale_id, sale_note, payment_method, is_paid)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, o.getCustomerId());
+        sta.setString(2, o.getOrderedDate());
+        sta.setString(3, o.getStatus());
+        sta.setInt(4, o.getAddressId());
+        sta.setBoolean(5, o.isIsDelivered());
+        sta.setDate(6, (Date) o.getDeliveredDate());
+        sta.setDouble(7, o.getTotal());
+        sta.setInt(8, o.getSaleId());
+        sta.setString(9, o.getSale_note());
+        sta.setString(10, o.getPayment_method());
+        sta.setBoolean(11, o.isIsPaid());
+        sta.executeUpdate();
+    }
+
+    public Order getLatestOrder() {
+        String sql = "SELECT * FROM `order` ORDER BY ordered_date DESC LIMIT 1;";
+        Order latestOrder = null;
+
+        try (PreparedStatement stm = connection.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
+
+            if (rs.next()) {
+                int id = rs.getInt("id");
+                int customerId = rs.getInt("customer_id");
+                int addressId = rs.getInt("address_id");
+                int saleId = rs.getInt("sale_id");
+                String status = rs.getString("status");
+                String saleNote = rs.getString("sale_note");
+                String paymentMethod = rs.getString("payment_method");
+                double total = rs.getDouble("total");
+                boolean isDelivered = rs.getBoolean("is_delivered");
+                boolean isPaid = rs.getBoolean("is_paid");
+                String orderedDate = rs.getString("ordered_date");
+                Date deliveredDate = rs.getDate("delivered_date");
+
+                latestOrder = new Order(id, customerId, addressId, saleId, status, saleNote, paymentMethod, total, isDelivered, isPaid, orderedDate, deliveredDate);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return latestOrder;
+    }
+
+    public void addOrderDetail(int order_id, int product_id, int quantity, double import_price, double sell_price) throws SQLException {
+        String sql = "insert into order_details (order_id, product_id, quantity, import_price, sell_price) VALUES (?, ?, ?, ?, ?);";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, order_id);
+        sta.setInt(2, product_id);
+        sta.setInt(3, quantity);
+        sta.setDouble(4, import_price);
+        sta.setDouble(5, sell_price);
+        sta.executeUpdate();
+    }
+
+    public static void main(String[] args) throws SQLException {
         OrderDAO oDAO = new OrderDAO();
 //        for (Order o : oDAO.getAll("submitted", 10, 0, 4)) {
 //            System.out.println(o.getId());
 //        }
-                    System.out.println(oDAO.getOrderById(1).getOrderedDate());
+
+        int total = oDAO.getTotalOrderBySaleID(2);
+        Order o = oDAO.getLatestOrder();
+
+        oDAO.addOrderDetail(100, 1, 2, 300.00, 400.00);
+        System.out.println(o.getOrderedDate());
     }
 }

@@ -19,10 +19,22 @@ public class Cart {
     int userId;
     
     String thumbnail, title;
-    double list_price;
+    double list_price, import_price;
 
     public Cart() {
     }
+
+    public Cart(int id, int productId, int quantity , String thumbnail, String title, double list_price, double import_price) {
+        this.id = id;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.thumbnail = thumbnail;
+        this.title = title;
+        this.list_price = list_price;
+        this.import_price = import_price;
+    }
+    
+    
 
     public Cart(int id,int productId, int quantity, String thumbnail, String title, double list_price) {
         this.id = id;
@@ -41,6 +53,15 @@ public class Cart {
         this.userId = userId;
     }
 
+    public double getImport_price() {
+        return import_price;
+    }
+
+    public void setImport_price(double import_price) {
+        this.import_price = import_price;
+    }
+
+    
     public String getThumbnail() {
         return thumbnail;
     }

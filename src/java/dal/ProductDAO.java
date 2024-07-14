@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Product;
+import model.User;
 
 public class ProductDAO extends DBContext {
 
@@ -249,6 +250,18 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
+     public void updateQuantity(int pid, int quan) {
+        String sql = "UPDATE product SET quantity = ? WHERE id = ?";
+        try {
+            PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, quan);
+            stm.setInt(2, pid);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+    
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
         List<Product> productList = p.getAllByOrderId(15);

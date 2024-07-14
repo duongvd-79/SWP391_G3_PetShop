@@ -2,6 +2,8 @@
 <html lang="en">
     <%@page contentType="text/html" pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@page import="model.User"%>
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +20,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
         <style>
-             .btn-luxury {
+            .btn-luxury {
                 background-color: #f39c12;
                 color: #ffffff;
                 border-color: #f39c12;
@@ -109,45 +111,44 @@
                         <div class="col-lg-7 mb-3">
                             <div class="sticky-top" style="top: 150px; z-index: 2;">
                                 <form class="mt-3">
-                                    <h1>PawPaw Petshop</h1>
+                                    <h1>H2DV Petshop</h1>
                                     <div class="order-success">
                                         <div class="order-message">
                                             <img src="images/success.png" alt="Success Icon">
                                             <div>
                                                 <h2>Đặt hàng thành công</h2>
-                                                <p>Mã đơn hàng PAW142075</p>
-                                                <p>Cám ơn bạn đã mua hàng!</p>
-                                            </div>
-                                        </div>
-                                        <p>Chúng tôi đã gởi thông tin đơn hàng đến email sfsd@gmail.com, vui lòng theo dõi đơn hàng.</p>
-                                        <div class="order-details">
-                                            <h3>Thông tin đơn hàng</h3>
-                                            <p>Thông tin giao hàng:</p>
-                                            <p>g</p>
-                                            <p>094583245</p>
-                                            <p>ựetr</p>
-                                            <p>Xã Tiên Kiều</p>
-                                            <p>Huyện Bắc Quang</p>
-                                            <p>Hà Giang</p>
-                                            <p>Vietnam</p>
-                                            <p>Phương thức thanh toán:</p>
-                                            <p>Chuyển khoản qua ngân hàng</p>
-                                        </div>
-                                        <div class="form-row mt-4">
-                                            <div class="form-group col-md-12 d-flex justify-content-between">
-                                                <p>Cần hỗ trợ? <a href="cart" class="link-opacity-10-hover" id="back-to-cart">Liên hệ chúng tôi</a></p>
-                                                <button type="submit" class="btn btn-luxury ml-auto">Tiếp tục mua hàng</button>
-                                            </div>
+                                                <p>Mã đơn hàng (${orderID})</p>
+                                            <p>Cám ơn bạn đã mua hàng!</p>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
+                                    <p>Chúng tôi đã gửi thông tin đơn hàng đến email ${sessionScope.user.email}, vui lòng theo dõi đơn hàng.</p>
+                                    <div class="order-details">
+                                        <h3>Thông tin đơn hàng</h3>
+                                        <p>Thông tin giao hàng:</p>
+                                        <p>${sessionScope.user.name}</p>
+                                        <p>${sessionScope.user.phone}</p>
+                                        <p>${address.detail}</p>
+                                        <p>${address.district}</p>
+                                        <p>${address.city}</p>
+                                        <p>Vietnam</p>
+                                        <p>Phương thức thanh toán:</p>
+                                        <p>${payment_method}</p>
+                                    </div>
+                                    <div class="form-row mt-4">
+                                        <div class="form-group col-md-12 d-flex justify-content-between">
+                                            <p>Cần hỗ trợ? <a href="cart" class="link-opacity-10-hover" id="back-to-cart">Liên hệ chúng tôi</a></p>
+                                            <a href="home" class="btn btn-luxury ml-auto">Tiếp tục mua hàng</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="col-lg-5 mb-3 rounded p-2 bg-light">
-                            <div class="title-left">
-                                <h3>Cart information</h3>
-                            </div>
-                            <div class="rounded p-2 bg-light">
+                    </div>
+                    <div class="col-lg-5 mb-3 rounded p-2 bg-light">
+                        <div class="title-left">
+                            <h3>Cart information</h3>
+                        </div>
+                        <div class="rounded p-2 bg-light">
                             <c:forEach items="${cartDetailList}" var="c">
                                 <div class="media mb-2 border-bottom">
                                     <img src="${c.thumbnail}" class="mr-3" alt="Product Image" style="width: 100px;">
@@ -178,6 +179,7 @@
         </div>
 
         <jsp:include page="footer.jsp"></jsp:include>
+
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
         <script src="js/jquery-2.2.4.min.js"></script>

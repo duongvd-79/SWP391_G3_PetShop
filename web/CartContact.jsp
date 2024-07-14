@@ -33,7 +33,7 @@
                                 <div class="title-left">
                                     <h3>Delivery Information</h3>
                                 </div>
-                                <form class="mt-3">
+                                <form class="mt-3" action="onlinepayment" method="get">
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <label for="InputName" class="mb-0">Fullname</label>
@@ -57,6 +57,7 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-12">
                                             <label for="InputAddress" class="mb-0">Detail Address</label>
+                                            <input type="hidden" name="address_id" value="${defaultAddress.getId()}">
                                             <input type="text" class="form-control" id="InputAddress" value="${defaultAddress.getDetail()}" readonly>
                                         </div>
                                     </div>
@@ -74,7 +75,8 @@
                                 <div class="form-row mt-4">
                                     <div class="form-group col-md-12 d-flex justify-content-between">
                                         <p><a href="cart" class="link-opacity-10-hover" id="back-to-cart">Back to cart</a></p>
-                                        <a href="onlinepayment" class="btn btn-luxury ml-auto">Continue to payment method</a>                                    </div>
+                                        <button type="submit" class="btn btn-luxury ml-auto">Continue to payment method</button> 
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -538,7 +540,7 @@
             }
         </script>
 
-        <!--        <script>
+                <script>
                     function validateAddNewAddress() {
                         var detailAddress = document.getElementById('inputDetailAddress').value;
                         var city = document.getElementById('newcity').value;
@@ -565,7 +567,7 @@
         
                         return true;
                     }
-                </script>-->
+                </script>
 
         <script>
             function confirmRemove(addressId, event) {

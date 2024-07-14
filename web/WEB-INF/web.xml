@@ -184,6 +184,10 @@
         <servlet-name>OrderInformationServlet</servlet-name>
         <servlet-class>controller.OrderInformationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CompletionServlet</servlet-name>
+        <servlet-class>controller.CompletionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -359,5 +363,9 @@
     <servlet-mapping>
         <servlet-name>OrderInformationServlet</servlet-name>
         <url-pattern>/orderinformation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CompletionServlet</servlet-name>
+        <url-pattern>/completion</url-pattern>
     </servlet-mapping>
 </web-app>

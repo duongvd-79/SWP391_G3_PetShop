@@ -21,13 +21,20 @@ public class User {
     pfp TEXT,
      */
     String email, password, name, status, phone, pfp;
-    int roleId, id;
+    int roleId, id, totsalSale;
     boolean gender;
     Date lastLog, createDate;
 
     public User() {
     }
 
+    public User(int id, int totsalSale) {
+        this.id = id;
+        this.totsalSale = totsalSale;
+    }
+
+    
+    
     public User(String email,String password, String name, String status, String phone, String pfp, boolean gender,int roleId) {
         this.email = email;
         this.password = password;
@@ -52,6 +59,15 @@ public class User {
         this.lastLog = lastLog;
     }
 
+    public int getTotsalSale() {
+        return totsalSale;
+    }
+
+    public void setTotsalSale(int totsalSale) {
+        this.totsalSale = totsalSale;
+    }
+
+    
     public String getEmail() {
         return email;
     }

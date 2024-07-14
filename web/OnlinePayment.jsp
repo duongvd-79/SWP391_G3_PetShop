@@ -115,12 +115,12 @@
                             <div style="font-size: 16px; font-weight: 700; margin-bottom: 20px">
                                 <h3>Delivery Method</h3>
                             </div>
-                            <form class="mt-3" id="order-form" onsubmit="return validateForm()">
+                            <form class="mt-3" id="order-form" onsubmit="return validateForm()" action="completion" method="get">
                                 <div class="delivery-method">
                                     <div class="form-row">
                                         <div class="form-group col-md-1">
                                             <label>
-                                                <input type="radio" name="delivery" value="standard" checked>
+                                                <input type="radio"  checked>
                                             </label>
                                         </div>
                                         <div class="form-group col-md-9">
@@ -139,21 +139,21 @@
                                     <div class="form-row">
                                         <div class="form-group col-md-1">
                                             <label>
-                                                <input type="radio" name="payment" value="credit-card" onclick="showPaymentInstructions('credit-card-instructions')">
+                                                <input type="radio" name="payment" value="COD" onclick="showPaymentInstructions('credit-card-instructions')">
                                             </label>
                                         </div>
                                         <div class="form-group col-md-11">
-                                            <label for="credit-card">Pay after receiving products (COD)</label>
+                                            <label for="COD">Pay after receiving products (COD)</label>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-1">
                                             <label>
-                                                <input type="radio" name="payment" value="paypal" onclick="showPaymentInstructions('paypal-instructions')">
+                                                <input type="radio" name="payment" value="Banking" onclick="showPaymentInstructions('paypal-instructions')">
                                             </label>
                                         </div>
                                         <div class="form-group col-md-11">
-                                            <label for="paypal">Online bank transfer</label>
+                                            <label for="Banking">Online bank transfer</label>
                                         </div>
                                     </div>
                                 </div>

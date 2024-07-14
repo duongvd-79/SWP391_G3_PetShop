@@ -435,6 +435,29 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+    
+    public ArrayList<User> getUserByRoleID(int roleID) throws SQLException {
+        String sql = "SELECT * FROM user where role_id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1,roleID);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String fullname = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
 
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
