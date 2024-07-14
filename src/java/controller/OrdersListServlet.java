@@ -7,6 +7,7 @@ package controller;
 import dal.OrderDAO;
 import dal.OrderDetailsDAO;
 import dal.ProductDAO;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,8 +15,11 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Order;
 import model.Product;
 import model.User;
@@ -24,7 +28,7 @@ import model.User;
  *
  * @author ACER
  */
-public class MyOrdersServlet extends HttpServlet {
+public class OrdersListServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +47,10 @@ public class MyOrdersServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MyOrdersServlet</title>");
+            out.println("<title>Servlet OrdersListServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet MyOrdersServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrdersListServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,52 +69,79 @@ public class MyOrdersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 5) {
+        User user = (User) session.getAttribute("user");
+        if (session.getAttribute("user") != null && (user.getRoleId() == 3 || user.getRoleId() == 4)) {
             OrderDAO oDAO = new OrderDAO();
             ProductDAO pDAO = new ProductDAO();
             OrderDetailsDAO odDAO = new OrderDetailsDAO();
+            UserDAO uDAO = new UserDAO();
+            //paging
             int page = 1;
             int num = 4;
             try {
                 page = Integer.parseInt(request.getParameter("page"));
             } catch (Exception e) {
             }
-            String status = request.getParameter("status");
-            if (request.getParameter("status") == null) {
-                status = "submitted";
-            }
+            //search
+            String searchby = request.getParameter("searchby");
+            String search = request.getParameter("search");
 
-            User user = (User) session.getAttribute("user");
+            //get parameter
+            String sortby = request.getParameter("sortby");
+            String order = request.getParameter("order");
+            String status = request.getParameter("status");
+            String start = request.getParameter("start");
+            String end = request.getParameter("end");
+            int saleid = 0;
+            try{
+            saleid = Integer.parseInt(request.getParameter("saleid"));
+            if(saleid!=0){
+                user = uDAO.getUserByID(saleid);
+            }
+            }catch(Exception e){}
+
+            //Initialize
             List<Order> oList;
             List<Product> pList;
             List<Integer> remainNum;
             List<Integer> pQuantity = new ArrayList<>();
-            List<Product> lastestProduct;
+            List<User> saleList = new ArrayList<>();
 
-            oList = oDAO.getAll(status, user.getId(), page, num);
-            pList = pDAO.getProductForEachOrder(((User) session.getAttribute("user")).getId(), status, page, num);
-            remainNum = oDAO.getRemainNumOfProductEachOrder(status, user.getId(), page, num);
+            //get data
+            oList = oDAO.getAll(user, page, num, search, searchby, sortby, order, status, start, end);
+            pList = pDAO.getProductForEachOrder(user, page, num, search, searchby, sortby, order, status, start, end);
+            remainNum = oDAO.getRemainNumOfProductEachOrder(user, page, num, search, searchby, sortby, order, status, start, end);
             for (int i = 0; i < oList.size(); i++) {
                 pQuantity.add(odDAO.getQuantity(pList.get(i).getId(), oList.get(i).getId()));
             }
-            int size = oDAO.getAll(status, user.getId(), 1, Integer.MAX_VALUE).size();
-            // Get latest product
-            lastestProduct = pDAO.getActive(false, null, null, null, null, "Latest", 0);
-            request.setAttribute("latestproduct", lastestProduct);
+            int size = oDAO.getAll(user, 1, Integer.MAX_VALUE, search, searchby, sortby, order, status, start, order).size();
+            try {
+                saleList = uDAO.getAllSale();
+            } catch (SQLException ex) {
+            }
+            
+            //set attribute
+            request.setAttribute("search", search);
+            request.setAttribute("searchby", searchby);
+            request.setAttribute("sortby", sortby);
+            request.setAttribute("order", order);
+            request.setAttribute("status", status);
+            request.setAttribute("start", start);
+            request.setAttribute("end", end);
             request.setAttribute("page", page);
             request.setAttribute("pageNum", ((size % num == 0) ? (size / num) : (size / num + 1)));
             request.setAttribute("oList", oList);
             request.setAttribute("pList", pList);
-            request.setAttribute("status", status);
             request.setAttribute("pQuantity", pQuantity);
             request.setAttribute("remainNum", remainNum);
             request.setAttribute("length", oList.size() - 1);
+            request.setAttribute("saleList", saleList);
+            request.setAttribute("saleid", saleid);
 
-            request.getRequestDispatcher("myorders.jsp").forward(request, response);
+            request.getRequestDispatcher("orderslist.jsp").forward(request, response);
         } else {
             response.sendRedirect("404.html");
         }
-
     }
 
     /**

@@ -17,8 +17,8 @@ public class Order {
     delivered_date DATETIME,
     total DECIMAL(10, 2),
      */
-    int id,customerId,addressId;
-    String status;
+    int id,customerId,addressId,saleId;
+    String status,customerName,saleNote;
     double total;
     boolean isDelivered;
     Date orderedDate, deliveredDate;
@@ -26,11 +26,14 @@ public class Order {
     public Order() {
     }
 
-    public Order(int id, int customerId,int addressId, String status, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
+    public Order(int id, int customerId,int addressId,int saleId, String status,String customerName,String saleNote, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
         this.id = id;
         this.customerId = customerId;
         this.addressId = addressId;
+        this.saleId = saleId;
         this.status = status;
+        this.customerName = customerName;
+        this.saleNote = saleNote;
         this.total = total;
         this.isDelivered = isDelivered;
         this.orderedDate = orderedDate;
@@ -60,8 +63,15 @@ public class Order {
     public void setAddressId(int addressId) {
         this.addressId = addressId;
     }
-    
 
+    public int getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
+    }
+   
     public String getStatus() {
         return status;
     }
@@ -70,6 +80,22 @@ public class Order {
         this.status = status;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getSaleNote() {
+        return saleNote;
+    }
+
+    public void setSaleNote(String saleNote) {
+        this.saleNote = saleNote;
+    }
+    
     public double getTotal() {
         return total;
     }

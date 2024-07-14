@@ -180,6 +180,14 @@
         <servlet-name>OrderInformationServlet</servlet-name>
         <servlet-class>controller.OrderInformationServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrdersListServlet</servlet-name>
+        <servlet-class>controller.OrdersListServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <servlet-class>controller.OrderDetailsServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -351,5 +359,13 @@
     <servlet-mapping>
         <servlet-name>OrderInformationServlet</servlet-name>
         <url-pattern>/orderinformation</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrdersListServlet</servlet-name>
+        <url-pattern>/orderslist</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrderDetailsServlet</servlet-name>
+        <url-pattern>/orderdetails</url-pattern>
     </servlet-mapping>
 </web-app>

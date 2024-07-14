@@ -435,6 +435,28 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
+    
+    public ArrayList<User> getAllSale() throws SQLException {
+        String sql = "select * from user where role_id=3";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
 
     public static void main(String[] args) throws SQLException {
         UserDAO u = new UserDAO();
@@ -443,9 +465,10 @@ public class UserDAO extends DBContext {
 //        }
 //        u.addNewUser(new User("hoang@gmail.com","conbuonxing","taivisao","Pending","6677028",null,true,1));
 //        u.changePassword("hoangdz512@gmail.com","123456" );
-        for (User user : u.getTop4NewlyBuyCutomers()) {
+        for (User user : u.getAllSale()) {
             System.out.println(user.getName());
         }
+        System.out.println(u.getUserByID(2).getPfp());
 
     }
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Product;
+import model.User;
 
 public class ProductDAO extends DBContext {
 
@@ -212,6 +213,52 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
+    public List<Product> getProductForEachOrder(User sale, int page, int num, String search, String searchby, String sortby, String order, String status, String start, String end) {
+        String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
+                + "JOIN `order` o ON od.order_id = o.id\n"
+                + " JOIN user u on u.id = customer_id WHERE o.sale_id = ?";
+        if (sale.getRoleId()==4) {
+            sql += " or o.sale_id != "+sale.getId();
+        }
+        if (status != null && !status.isEmpty()) {
+            sql += " and o.status='" + status + "'";
+        }
+        if (search != null && !search.isEmpty()) {
+            if (!searchby.equals("id")) {
+                sql += " and " + searchby + " like '%" + search + "%'";
+            } else {
+                sql += " and o." + searchby + " = '" + search + "'";
+            }
+        }
+        if (start != null && !start.isEmpty()) {
+            sql += " and ordered_date between '" + start + "' AND '" + end + "'";
+        }
+        sql += " AND (od.order_id, od.product_id) IN (\n"
+                + "SELECT order_id, MIN(product_id) FROM order_details \n"
+                + "GROUP BY order_id\n"
+                + ")\n";
+        if (sortby != null && !sortby.isEmpty()) {
+            sql += " order by " + sortby + " " + order + " limit ?,?";
+        } else {
+            sql += " order by ordered_date desc limit ?,?";
+        }
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, sale.getId());
+            stm.setInt(2, (page - 1) * num);
+            stm.setInt(3, num);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            return productList;
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
     public List<Product> getLatestProductList() {
         String sql = "SELECT * FROM product\n"
                 + "ORDER BY created_date DESC\n"
@@ -229,8 +276,8 @@ public class ProductDAO extends DBContext {
         }
         return productList;
     }
-    
-    public List<Product> getAllByOrderId(int oid){
+
+    public List<Product> getAllByOrderId(int oid) {
         String sql = "SELECT * FROM product AS p JOIN order_details "
                 + "ON id = product_id WHERE order_id = ?";
         try {
