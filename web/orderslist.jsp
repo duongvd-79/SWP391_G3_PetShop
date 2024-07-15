@@ -144,7 +144,11 @@
                                     <div class="row">
                                         <div class="d-flex col-7 p-0 ms-3">
                                             <div class="ms-3 mb-2">Order ID : ${oList[i].id},
-                                                <span class="${'Submitted'.equals(oList[i].status)?'text-primary':''}"> ${oList[i].status}</span> </div>
+                                                <span style="color:${'Submitted'.equals(oList[i].status)?'#007bff':''}
+                                     ${'Success'.equals(oList[i].status)?'#28a745':''}
+                                     ${'Confirmed'.equals(oList[i].status)?'#17a2b8':''}
+                                     ${'Shipping'.equals(oList[i].status)?'#ffc107':''}
+                                     ${'Cancelled'.equals(oList[i].status)?'#dc3545':''}"> ${oList[i].status}</span> </div>
                                         </div>
                                         <div class="d-flex justify-content-center col-4 ms-3">
                                             <div>${oList[i].orderedDate}</div>

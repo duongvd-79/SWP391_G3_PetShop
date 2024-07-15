@@ -249,12 +249,13 @@ public class OrderDAO extends DBContext {
         return list;
     }
 
-    public void cancelOrder(int oid) {
-        String sql = "UPDATE `order` SET status = 'Cancelled' WHERE id = ?";
+    public void changeStatus(int oid,String status) {
+        String sql = "UPDATE `order` SET status = ? WHERE id = ?";
         try {
             PreparedStatement stm;
             stm = connection.prepareStatement(sql);
-            stm.setInt(1, oid);
+            stm.setString(1,status);
+            stm.setInt(2, oid);
             stm.executeUpdate();
 
         } catch (SQLException e) {
@@ -339,19 +340,24 @@ public class OrderDAO extends DBContext {
         sta.setDouble(5, sell_price);
         sta.executeUpdate();
     }
+    
+    public void changeSaleNote(String note,int id) {
+        try{
+        String sql = "UPDATE `order` SET sale_note = ? where id = ? ";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setString(1,note);
+        sta.setInt(2,id);
+        sta.executeUpdate();
+        } catch (SQLException e){}
+    }
 
     public static void main(String[] args) throws SQLException {
         OrderDAO oDAO = new OrderDAO();
 //        for (Order o : oDAO.getAll(2, 1, 6, "1", "id", "name", "desc", null, "2023-05-04", "2024-07-04")) {
 //            System.out.println(o.getCustomerName());
 //        }
-
-
-        int total = oDAO.getTotalOrderBySaleID(2);
-        Order o = oDAO.getLatestOrder();
-
-        oDAO.addOrderDetail(100, 1, 2, 300.00, 400.00);
-        System.out.println(o.getOrderedDate());
+oDAO.changeSaleNote("jirnvrv", 16);
+        System.out.println();
 
     }
 }
