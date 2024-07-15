@@ -18,7 +18,7 @@ public class Order {
     total DECIMAL(10, 2),
      */
     int id, customerId, addressId, saleId;
-    String status, sale_note, payment_method, orderedDate;
+    String status,customer_name, sale_note, payment_method, orderedDate;
     double total;
     boolean isDelivered, isPaid;
     Date deliveredDate;
@@ -48,9 +48,7 @@ public class Order {
         this.deliveredDate = deliveredDate;
     }
 
-    
-    
-    public Order(int id, int customerId, int addressId, int saleId, String status, String sale_note, String payment_method, double total, boolean isDelivered, boolean isPaid, String orderedDate, Date deliveredDate) {
+    public Order(int id, int customerId,int addressId,int saleId, String status,String customerName,String saleNote, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
         this.id = id;
         this.customerId = customerId;
         this.addressId = addressId;
@@ -58,6 +56,8 @@ public class Order {
         this.status = status;
         this.sale_note = sale_note;
         this.payment_method = payment_method;
+        this.customerName = customerName;
+        this.saleNote = saleNote;
         this.total = total;
         this.isDelivered = isDelivered;
         this.isPaid = isPaid;
@@ -97,6 +97,14 @@ public class Order {
         this.saleId = saleId;
     }
 
+    public int getSaleId() {
+        return saleId;
+    }
+
+    public void setSaleId(int saleId) {
+        this.saleId = saleId;
+    }
+   
     public String getStatus() {
         return status;
     }
@@ -121,6 +129,22 @@ public class Order {
         this.payment_method = payment_method;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getSaleNote() {
+        return saleNote;
+    }
+
+    public void setSaleNote(String saleNote) {
+        this.saleNote = saleNote;
+    }
+    
     public double getTotal() {
         return total;
     }
@@ -161,6 +185,5 @@ public class Order {
         this.deliveredDate = deliveredDate;
     }
 
-    
     
 }
