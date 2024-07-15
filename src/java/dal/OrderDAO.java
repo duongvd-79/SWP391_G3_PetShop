@@ -31,8 +31,11 @@ public class OrderDAO extends DBContext {
             o.setAddressId(rs.getInt("address_id"));
             o.setOrderedDate(rs.getString("ordered_date"));
             o.setStatus(rs.getString("status"));
+            o.setSaleNote(rs.getString("sale_note"));
+            o.setPayment_method(rs.getString("payment_method"));
             o.setSaleId(rs.getInt("sale_id"));
             o.setIsDelivered(rs.getBoolean("is_delivered"));
+            o.setIsPaid(rs.getBoolean("is_paid"));
             o.setDeliveredDate(rs.getDate("delivered_date"));
             o.setTotal(rs.getDouble("total"));
         } catch (SQLException e) {
@@ -303,7 +306,7 @@ public class OrderDAO extends DBContext {
         sta.setDate(6, (Date) o.getDeliveredDate());
         sta.setDouble(7, o.getTotal());
         sta.setInt(8, o.getSaleId());
-        sta.setString(9, o.getSale_note());
+        sta.setString(9, o.getSaleNote());
         sta.setString(10, o.getPayment_method());
         sta.setBoolean(11, o.isIsPaid());
         sta.executeUpdate();
@@ -316,20 +319,8 @@ public class OrderDAO extends DBContext {
         try (PreparedStatement stm = connection.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
 
             if (rs.next()) {
-                int id = rs.getInt("id");
-                int customerId = rs.getInt("customer_id");
-                int addressId = rs.getInt("address_id");
-                int saleId = rs.getInt("sale_id");
-                String status = rs.getString("status");
-                String saleNote = rs.getString("sale_note");
-                String paymentMethod = rs.getString("payment_method");
-                double total = rs.getDouble("total");
-                boolean isDelivered = rs.getBoolean("is_delivered");
-                boolean isPaid = rs.getBoolean("is_paid");
-                String orderedDate = rs.getString("ordered_date");
-                Date deliveredDate = rs.getDate("delivered_date");
 
-                latestOrder = new Order(id, customerId, addressId, saleId, status, saleNote, paymentMethod, total, isDelivered, isPaid, orderedDate, deliveredDate);
+                latestOrder = setOrder(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();

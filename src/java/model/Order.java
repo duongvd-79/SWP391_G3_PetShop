@@ -18,7 +18,7 @@ public class Order {
     total DECIMAL(10, 2),
      */
     int id, customerId, addressId, saleId;
-    String status,customer_name, sale_note, payment_method, orderedDate;
+    String status,customerName, saleNote, payment_method, orderedDate;
     double total;
     boolean isDelivered, isPaid;
     Date deliveredDate;
@@ -34,30 +34,30 @@ public class Order {
         this.isPaid = isPaid;
     }
 
-    public Order(int customerId, int addressId, int saleId, String status, String sale_note, String payment_method, double total, boolean isDelivered, boolean isPaid, String orderedDate, Date deliveredDate) {
-        this.customerId = customerId;
-        this.addressId = addressId;
-        this.saleId = saleId;
-        this.status = status;
-        this.sale_note = sale_note;
-        this.payment_method = payment_method;
-        this.total = total;
-        this.isDelivered = isDelivered;
-        this.isPaid = isPaid;
-        this.orderedDate = orderedDate;
-        this.deliveredDate = deliveredDate;
-    }
-
-    public Order(int id, int customerId,int addressId,int saleId, String status,String customerName,String saleNote, double total, boolean isDelivered, Date orderedDate, Date deliveredDate) {
+    public Order(int id, int customerId, int addressId, int saleId, String status, String customerName, String saleNote, String payment_method, String orderedDate, double total, boolean isDelivered, boolean isPaid, Date deliveredDate) {
         this.id = id;
         this.customerId = customerId;
         this.addressId = addressId;
         this.saleId = saleId;
         this.status = status;
-        this.sale_note = sale_note;
-        this.payment_method = payment_method;
         this.customerName = customerName;
         this.saleNote = saleNote;
+        this.payment_method = payment_method;
+        this.orderedDate = orderedDate;
+        this.total = total;
+        this.isDelivered = isDelivered;
+        this.isPaid = isPaid;
+        this.deliveredDate = deliveredDate;
+    }
+    
+
+    public Order(int customerId,int addressId,int saleId, String status,String payment_method, double total, boolean isDelivered,boolean isPaid, String orderedDate, Date deliveredDate) {
+        this.id = id;
+        this.customerId = customerId;
+        this.addressId = addressId;
+        this.saleId = saleId;
+        this.status = status;
+        this.payment_method = payment_method;
         this.total = total;
         this.isDelivered = isDelivered;
         this.isPaid = isPaid;
@@ -96,14 +96,6 @@ public class Order {
     public void setSaleId(int saleId) {
         this.saleId = saleId;
     }
-
-    public int getSaleId() {
-        return saleId;
-    }
-
-    public void setSaleId(int saleId) {
-        this.saleId = saleId;
-    }
    
     public String getStatus() {
         return status;
@@ -111,14 +103,6 @@ public class Order {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getSale_note() {
-        return sale_note;
-    }
-
-    public void setSale_note(String sale_note) {
-        this.sale_note = sale_note;
     }
 
     public String getPayment_method() {

@@ -49,6 +49,7 @@
                     <div style="top:130px;" class="w-100 mb-1 sticky-top">
                         <div class="navbar-nav w-100 mb-1">
                             <a href="SaleDashboard" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>SALE DASHBOARD</a>
+                             <a href="orderslist" class="nav-item nav-link "><i class="fas fa-file-alt me-2"></i>ORDERS LIST</a>
                         </div>
                     </div>
                 </div>

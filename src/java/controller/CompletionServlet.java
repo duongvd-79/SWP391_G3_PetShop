@@ -110,7 +110,7 @@ public class CompletionServlet extends HttpServlet {
                 }
 
                 // add new order to order table
-                Order newOrder = new Order(o.getCustomerId(), o.getAddressId(), minUser.getId(), "Submitted", null, payment_method, total_cost, o.isIsDelivered(), o.isIsPaid(), currentDateStr, o.getDeliveredDate());
+                Order newOrder = new Order(o.getCustomerId(), o.getAddressId(), minUser.getId(), "Submitted", payment_method, total_cost, o.isIsDelivered(), o.isIsPaid(), currentDateStr, o.getDeliveredDate());
                 orderdao.addNewOrder(newOrder);
 
                 // add new order detail
