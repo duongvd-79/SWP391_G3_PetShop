@@ -9,6 +9,7 @@ import dal.CartDAO;
 import dal.OrderDAO;
 import dal.ProductDAO;
 import dal.UserDAO;
+import helper.SendMailOrder;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -118,17 +119,25 @@ public class CompletionServlet extends HttpServlet {
                 for (Cart cart : cartDetailList) {
                     orderdao.addOrderDetail(latestOrder.getId(), cart.getProductId(), cart.getQuantity(), cart.getImport_price(), cart.getList_price());
                 }
-
+                
+                // get address by address id
+                Address address = addressdao.getChosenAddress(latestOrder.getAddressId());
+                
+                //send mail to user to confirm and complete purchasing progress
+                boolean check = false;
+                if(payment_method.equalsIgnoreCase("Banking")){
+                check = true;
+                }
+                SendMailOrder.sendMailOrder(u.getEmail(), "Order Confirmation Notice From H2DV Petshop", latestOrder.getId(), u.getName(), address.getCity(), address.getDistrict(), address.getDetail(), payment_method, cartDetailList, total_cost, check);
+                
                 // decrease the quantity in warehouse
                 for (Cart c : cartDetailList) {
                     Product p = productdao.getProductById(c.getProductId());
                     productdao.updateQuantity(p.getId(), p.getQuantity() - c.getQuantity());
                 }
-                
+
                 // delete all the product in the cart
                 cartdao.deleteAllItemOfUser(u.getId());
-
-                Address address = addressdao.getChosenAddress(latestOrder.getAddressId());
 
                 request.setAttribute("payment_method", payment_method);
                 request.setAttribute("orderID", latestOrder.getId());
