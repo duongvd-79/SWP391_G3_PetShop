@@ -52,7 +52,6 @@ public class Order {
     
 
     public Order(int customerId,int addressId,int saleId, String status,String payment_method, double total, boolean isDelivered,boolean isPaid, String orderedDate, Date deliveredDate) {
-        this.id = id;
         this.customerId = customerId;
         this.addressId = addressId;
         this.saleId = saleId;

@@ -310,7 +310,7 @@ public class ProductDAO extends DBContext {
     
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getAllByOrderId(15);
+        List<Product> productList = p.getAllByOrderId(3);
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
         }
