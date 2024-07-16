@@ -313,13 +313,12 @@ public class OrderDAO extends DBContext {
     }
 
     public Order getLatestOrder() {
-        String sql = "SELECT * FROM `order` ORDER BY ordered_date DESC LIMIT 1;";
+        String sql = "SELECT * FROM `order` o join USER u on u.id = o.customer_id ORDER BY ordered_date DESC LIMIT 1;";
         Order latestOrder = null;
 
-        try (PreparedStatement stm = connection.prepareStatement(sql); ResultSet rs = stm.executeQuery()) {
-
+        try (PreparedStatement stm = connection.prepareStatement(sql); 
+                ResultSet rs = stm.executeQuery()) {
             if (rs.next()) {
-
                 latestOrder = setOrder(rs);
             }
         } catch (SQLException e) {
@@ -342,16 +341,8 @@ public class OrderDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         OrderDAO oDAO = new OrderDAO();
-//        for (Order o : oDAO.getAll(2, 1, 6, "1", "id", "name", "desc", null, "2023-05-04", "2024-07-04")) {
-//            System.out.println(o.getCustomerName());
-//        }
-
-
-        int total = oDAO.getTotalOrderBySaleID(2);
-        Order o = oDAO.getLatestOrder();
-
-        oDAO.addOrderDetail(100, 1, 2, 300.00, 400.00);
-        System.out.println(o.getOrderedDate());
+       Order hehe = oDAO.getLatestOrder();
+        System.out.println(hehe.getAddressId());
 
     }
 }

@@ -12,11 +12,11 @@ public class AuthFilter implements Filter {
         HttpServletResponse res = (HttpServletResponse) response;
 
         // Check if the user is trying to access a JSP directly
-        String uri = req.getRequestURI();
-        if (uri.endsWith(".jsp")) {
-            res.sendRedirect("404.html");
-            return;
-        }
+//        String uri = req.getRequestURI();
+//        if (uri.endsWith(".jsp")) {
+//            res.sendRedirect("404.html");
+//            return;
+//        }
 
         chain.doFilter(request, response);
     }

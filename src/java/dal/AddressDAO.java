@@ -211,6 +211,7 @@ public class AddressDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         AddressDAO aDAO = new AddressDAO();
-        System.out.println(aDAO.getAddressByUserId(5).getId());
+        Address a = aDAO.getChosenAddress(8);
+        System.out.println(a.getCity());
     }
 }

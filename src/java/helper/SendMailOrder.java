@@ -53,7 +53,7 @@ public class SendMailOrder {
                        .append("<p style='font-size: 16px; line-height: 1.5;'>Cảm ơn bạn đã mua hàng ở PawPaw Petshop!</p>")
                        .append("<p style='font-size: 16px; line-height: 1.5;'>Xin chào <strong>").append(customerName).append("</strong>, PawPaw đã nhận được đơn đặt hàng của bạn và đã sẵn sàng để vận chuyển. PawPaw sẽ thông báo cho bạn khi đơn hàng được gửi đi.</p>")
                        .append("<div style='text-align: center; margin: 20px 0;'>")
-                       .append("<a href='http://localhost:9999/SWP391_G3_PetShop/myorder' style='display: inline-block; background-color: #FF6600; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px;'>Xem đơn hàng</a>")
+                       .append("<a href='http://localhost:9999/SWP391_G3_PetShop/myorders' style='display: inline-block; background-color: #FF6600; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px;'>Xem đơn hàng</a>")
                        .append("<a href='http://localhost:9999/SWP391_G3_PetShop/home' style='display: inline-block; margin-left: 10px; padding: 10px 20px; border-radius: 5px; text-decoration: none; font-size: 16px; color: #FF6600; border: 1px solid #FF6600;'>Đến cửa hàng của PawPaw</a>")
                        .append("</div>")
                        .append("<h3 style='border-bottom: 1px solid #ddd; padding-bottom: 5px;'>Thông tin đơn hàng</h3>")
@@ -84,7 +84,7 @@ public class SendMailOrder {
                            .append("<p style='font-size: 16px; line-height: 1.5;'><strong>Tên chủ tài khoản:</strong> Nguyễn Quý Dương</p>")
                            .append("<p style='font-size: 16px; line-height: 1.5;'><strong>Với nội dung chuyển khoản là Họ tên + mã đơn hàng</strong></p>")
                            .append("<p style='font-size: 16px; line-height: 1.5;'><strong>Hoặc bạn có thể chuyển khoản qua mã QR dưới đây:</strong></p>")
-                           .append("<div style='text-align: center; margin: 20px 0;'><img src='https://randomqr.com/assets/images/randomqr-256.png' alt='QR Code' style='width: 150px; border-radius: 5px;'/></div>");
+                           .append("<div style='text-align: center; margin: 20px 0;'><img src='https://i.ibb.co/44GFSvh/QR.jpg' alt='QR Code' style='width: 150px; border-radius: 5px;'/></div>");
             }
 
             htmlContent.append("<p style='color: #999; font-size: 14px;'>Nếu bạn có bất kỳ thắc mắc nào, đừng ngần ngại liên hệ với PawPaw tại <a href='mailto:pawpawpetshop@gmail.com' style='color: #FF6600;'>pawpawpetshop@gmail.com</a></p>")
