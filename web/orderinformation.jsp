@@ -185,7 +185,11 @@
                     <div class="col-sm-9">
                         <div class="row">
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-10 d-flex align-items-baseline flex-column ms-4">
-                                <div style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()}</div>
+                                <div style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} - <span style="color: ${'Submitted'.equals(order.getStatus())?'#007bff':''}
+                                                                                                                          ${'Success'.equals(order.getStatus())?'#28a745':''}
+                                                                                                                          ${'Confirmed'.equals(order.getStatus())?'#17a2b8':''}
+                                                                                                                          ${'Shipping'.equals(order.getStatus())?'#ffc107':''}
+                                                                                                                          ${'Cancelled'.equals(order.getStatus())?'#dc3545':''}">${order.getStatus()}</span></div>
                                 <div class="h6 ">${order.getOrderedDate()}</div>
                             </div>
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-2 d-flex align-items-center ">
@@ -201,25 +205,36 @@
                                 <div>${address.getDistrict()} - ${address.getCity()}</div>
                                 <div>${address.getDetail()}</div>
                             </div>
-                            <div style="background-color: #f9f9f9;color:black;font-size: 20px;border: #dadada solid 1px;padding-bottom: 74px;" class="col-12 mt-3">
+                            <div style="background-color: #f9f9f9;color:black;font-size: 20px;border: #dadada solid 1px;" class="col-12 mt-3">
                                 <c:forEach begin="0" end="${length}" var="i" step="1">
                                     <div style="min-height: 200px;border-bottom:#dadada 1px solid; " class="row">
                                         <div class="col-sm-2 d-flex justify-content-center align-items-center">
-                                            <img class="mx-4" height="170" src="${orderProduct[i].thumbnail}" alt="alt"/>
+                                            <img class="mx-4" height="170" src="${pList[i].thumbnail}" alt="alt"/>
                                         </div>
                                         <div class="col-sm-7">
-                                            <div style="font-size: 20px;" class="mt-2">${orderProduct[i].title} x ${orderDetails[i].quantity}</div>
-                                            <div class="mt-1 mb-4">Price : ${orderProduct[i].listPrice}</div>
-                                            <a style="line-height: 1rem;color:white; ${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}" id="rebuy-btn" class="btn btn-apply mt-4 mr-3" href="productdetail?id=${orderProduct[i].id}">Re-buy</a>
-                                            <a style="line-height: 1rem;color:white;${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}" class="btn btn-apply mt-4" href="feedback?productid=${orderProduct[i].id}">Leave a feedback</a>
+                                            <div style="font-size: 20px;" class="mt-2">${pList[i].title} x ${odList[i].quantity}</div>
+                                            <div class="mt-1 mb-4">Unit Price : ${pList[i].listPrice}</div>
+                                            <a style="line-height: 1rem;color:white; ${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}" 
+                                               class="btn btn-apply mt-4 mr-3" href="productdetail?id=${pList[i].id}">Re-buy</a>
+                                            <a style="line-height: 1rem;color:white;${'Submitted'.equals(order.getStatus())? 'pointer-events: none;background-color: #9da13a;' : ''}
+                                               ${fbList[i] == -1 ? '':'pointer-events: none;background-color: #9da13a;'}" 
+                                               class="btn btn-apply mt-4" href="feedback?productid=${pList[i].id}">Leave a feedback</a>
                                         </div>
                                         <div class="col-sm-3 d-flex align-items-center">
-                                            <c:set var="total" value="${orderProduct[i].listPrice * orderDetails[i].quantity}"></c:set>
+                                            <c:set var="total" value="${pList[i].listPrice * odList[i].quantity}"></c:set>
                                             <div><b>Total ${total}</b></div>
                                         </div>
                                     </div>
                                 </c:forEach>
-                                <div style="font-size: 20px;color:black;position: absolute;bottom: 18px; left:50px;"><b>TOTAL : ${order.getTotal()}</b></div>
+                                <div style="height:100px" class="row">
+                                    <div style="font-size: 20px;color:black;" class="col-sm-2 d-flex justify-content-center align-items-center"><b>TOTAL : ${order.getTotal()}</b></div>
+                                    <div class="col-sm-7"></div>
+                                    <div class="col-sm-3">
+                                        <c:if test="${'Submitted'.equals(order.getStatus())}">
+                                            <a style="line-height: 1rem;color:white;"class="btn btn-apply mt-4 mr-3 bg-primary" href="#"><b>Pay Now</b></a>
+                                        </c:if>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -249,31 +264,31 @@
         <script src="js/contact-form-script.js"></script>
         <script src="js/custom.js"></script>
         <script>
-                                                 document.addEventListener('DOMContentLoaded', function () {
-                                                     const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
-                                                     const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
-                                                     const customPriceInputs = document.querySelectorAll('.display input');
+                                             document.addEventListener('DOMContentLoaded', function () {
+                                                 const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
+                                                 const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
+                                                 const customPriceInputs = document.querySelectorAll('.display input');
 
-                                                     function updateStates() {
-                                                         if (customPriceRadio.checked) {
-                                                             customPriceInputs.forEach(input => input.disabled = false);
-                                                         } else {
-                                                             customPriceInputs.forEach(input => input.disabled = true);
-                                                         }
+                                                 function updateStates() {
+                                                     if (customPriceRadio.checked) {
+                                                         customPriceInputs.forEach(input => input.disabled = false);
+                                                     } else {
+                                                         customPriceInputs.forEach(input => input.disabled = true);
                                                      }
+                                                 }
 
-                                                     // Initial state check
-                                                     updateStates();
+                                                 // Initial state check
+                                                 updateStates();
 
-                                                     predefinedPrices.forEach(price => {
-                                                         price.addEventListener('change', function () {
-                                                             updateStates();
-                                                         });
-                                                     });
-                                                     customPriceRadio.addEventListener('change', function () {
+                                                 predefinedPrices.forEach(price => {
+                                                     price.addEventListener('change', function () {
                                                          updateStates();
                                                      });
                                                  });
+                                                 customPriceRadio.addEventListener('change', function () {
+                                                     updateStates();
+                                                 });
+                                             });
         </script>
         <script>
             // Clear search button
@@ -303,32 +318,32 @@
             });
         </script>
         <script>
-            document.getElementById('cancel-order-btn').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the default link behavior
-            toastr.clear();
-            toastr.warning('<div class="d-flex"><div>Are you sure you want to cancel the order?</div><button id="yes-btn" class="btn btn-danger">Yes</button></div>', 'Confirm', {
-                closeButton: true,
-                preventDuplicates: true,
-                timeOut: 0,
-                extendedTimeOut: 0,
-                onShown: function () {
-                    document.getElementById('yes-btn').addEventListener('click', function () {
-                        // Create and submit a form with the POST method
-                        var form = document.createElement('form');
-                        form.method = 'POST';
-                        form.action = 'orderinformation';
-                        
-                        var hiddenField = document.createElement('input');
-                        hiddenField.type = 'hidden';
-                        hiddenField.name = 'cancelid';
-                        hiddenField.value = `${order.getId()}`;
-                        form.appendChild(hiddenField);
+            document.getElementById('cancel-order-btn').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default link behavior
+                toastr.clear();
+                toastr.warning('<div class="d-flex"><div>Are you sure you want to cancel the order?</div><button id="yes-btn" class="btn btn-danger">Yes</button></div>', 'Confirm', {
+                    closeButton: true,
+                    preventDuplicates: true,
+                    timeOut: 0,
+                    extendedTimeOut: 0,
+                    onShown: function () {
+                        document.getElementById('yes-btn').addEventListener('click', function () {
+                            // Create and submit a form with the POST method
+                            var form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = 'orderinformation';
 
-                        document.body.appendChild(form);
-                        form.submit();
-                    });
-                }
+                            var hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'cancelid';
+                            hiddenField.value = `${order.getId()}`;
+                            form.appendChild(hiddenField);
+
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    }
+                });
             });
-        });
     </script>
 </html>

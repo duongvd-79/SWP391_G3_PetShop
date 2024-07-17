@@ -53,7 +53,7 @@ public class CartDAO extends DBContext {
     }
 
     public ArrayList<Cart> getCartDetail(int uid) throws SQLException {
-        String sql = "select c.id, c.product_id, p.title, p.thumbnail, p.list_price, c.quantity from cart c join product p on c.product_id = p.id  where c.user_id = ?";
+        String sql = "select c.id, c.product_id, p.title, p.thumbnail, p.list_price,p.import_price, c.quantity from cart c join product p on c.product_id = p.id  where c.user_id = ?";
         PreparedStatement sta = connection.prepareStatement(sql);
         sta.setInt(1, uid);
         ResultSet rs = sta.executeQuery();
@@ -64,8 +64,9 @@ public class CartDAO extends DBContext {
             String title = rs.getString("title");
             String thumbnail = rs.getString("thumbnail");
             double list_price = rs.getDouble("list_price");
+            double import_price = rs.getDouble("import_price");
             int quantity = rs.getInt("quantity");
-            Cart c = new Cart(id, pid, quantity, thumbnail, title, list_price);
+            Cart c = new Cart(id, pid, quantity, thumbnail, title, list_price, import_price);
             lst.add(c);
         }
         return lst;
@@ -75,6 +76,15 @@ public class CartDAO extends DBContext {
         String sql = "DELETE FROM cart WHERE id = ?";
         try (PreparedStatement sta = connection.prepareStatement(sql)) {
             sta.setInt(1, id);
+            sta.executeUpdate();
+        }
+    }
+
+    public void deleteAllItemOfUser(int uid) throws SQLException {
+        String sql = "DELETE FROM cart\n"
+                + "WHERE user_id = ?;";
+        try (PreparedStatement sta = connection.prepareStatement(sql)) {
+            sta.setInt(1, uid);
             sta.executeUpdate();
         }
     }

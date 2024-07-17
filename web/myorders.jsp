@@ -182,11 +182,19 @@
                                     <a style="border-bottom:#0D6EFD solid 0px;" class="nav-link text-primary ${'submitted'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=submitted">Submitted</a>
                                 </li> 
                                 <li class="nav-item status">
+                                    <a style="border-bottom:#17a2b8 solid 0px; color:#17a2b8; " class="nav-link ${'confirmed'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=confirmed">Confirmed</a>
+                                </li>
+                                <li class="nav-item status">
+                                    <a style="border-bottom:#ffc107 solid 0px; color:#ffc107; " class="nav-link ${'shipping'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=shipping">Shipping</a>
+                                </li>
+                                <li class="nav-item status">
                                     <a style="border-bottom:#198754 solid 0px;" class="nav-link text-success ${'success'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=success">Success</a>
                                 </li>
                                 <li class="nav-item status">
                                     <a style="border-bottom:#DC3545 solid 0px;" class="nav-link text-danger ${'cancelled'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=cancelled">Cancelled</a>
                                 </li>
+                                
+                                
                             </ul>
                         </div>
                         <div style="max-height: 670px;background-color: #f9f9f9;border: #dadada solid 1px;position: relative;padding-bottom: 71px;" class="row d-flex">

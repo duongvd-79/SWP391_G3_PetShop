@@ -9,8 +9,7 @@ import dal.FeedbackDAO;
 import dal.OrderDAO;
 import dal.OrderDetailsDAO;
 import dal.ProductDAO;
-import model.Address;
-import model.User;
+import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -23,15 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Address;
 import model.Order;
 import model.OrderDetails;
 import model.Product;
+import model.User;
 
 /**
  *
  * @author ACER
  */
-public class OrderInformationServlet extends HttpServlet {
+public class OrderDetailsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,10 +51,10 @@ public class OrderInformationServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet OrderInformationServlet</title>");
+            out.println("<title>Servlet OrderDetailsServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet OrderInformationServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet OrderDetailsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,43 +74,77 @@ public class OrderInformationServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 5) {
+        if (session.getAttribute("user") != null && (user.getRoleId() == 3 || user.getRoleId() == 4)) {
             ProductDAO pDAO = new ProductDAO();
             OrderDAO oDAO = new OrderDAO();
             OrderDetailsDAO odDAO = new OrderDetailsDAO();
-            //thông tin khách hàng
             AddressDAO aDAO = new AddressDAO();
-            // order chỉ được feedback 1 lần
-            FeedbackDAO fbDAO = new FeedbackDAO();
+            UserDAO uDAO = new UserDAO();
 
             List<Product> lastestProduct = new ArrayList<>();
             List<Product> pList = new ArrayList<>();
             List<OrderDetails> odList = new ArrayList<>();
             List<Integer> fbList = new ArrayList<>();
+            List<User> saleList = new ArrayList<>();
+            User customer = null;
             Address address = null;
-
-            int id = Integer.parseInt(request.getParameter("id"));
-            Order order = oDAO.getOrderById(id);
+            User sale = null;
+            int saleid = 0;
+            int id = 0;
             try {
+                id = Integer.parseInt(request.getParameter("id"));
+            } catch (NumberFormatException e) {
+            }
+            if (request.getParameter("changesale") != null && !request.getParameter("changesale").isEmpty()) {
+                saleid = Integer.parseInt(request.getParameter("changesale"));
+            }
+            String note = (String) request.getParameter("note");
+            if (note != null && !note.isEmpty()) {
+                oDAO.changeSaleNote(note, id);
+            }
+            String changestatus = (String) request.getParameter("changestatus");
+            if (changestatus != null && !changestatus.isEmpty()) {
+                oDAO.changeStatus(id, changestatus);
+                if (changestatus.equals("Cancelled")) {
+                    List<Product> pListUpdate = new ArrayList<>();
+                    List<OrderDetails> odListUpdate = new ArrayList<>();
+                    
+                    pListUpdate = pDAO.getAllByOrderId(id);
+                    odListUpdate = odDAO.getByOrderId(id);
+                    
+                    for (int i = 0; i < pListUpdate.size(); i++) {
+                        pDAO.updateQuantity(pListUpdate.get(i).getId(), pListUpdate.get(i).getQuantity() + odListUpdate.get(i).getQuantity());
+                    }
+                }
+            }
+            Order order = oDAO.getOrderById(id);
+            if (saleid != 0) {
+                order.setSaleId(saleid);
+                oDAO.changeSale(order.getId(), saleid);
+            }
+
+            try {
+                customer = uDAO.getUserByID(order.getCustomerId());
                 address = aDAO.getChosenAddress(order.getAddressId());
+                sale = uDAO.getUserByID(order.getSaleId());
                 pList = pDAO.getAllByOrderId(id);
                 odList = odDAO.getByOrderId(id);
-                for (OrderDetails od : odList) {
-                    fbList.add(fbDAO.getFeedbackID(od.getProductId(), user.getId()));
-                }
+                saleList = uDAO.getAllSale();
             } catch (SQLException ex) {
                 Logger.getLogger(OrderInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             lastestProduct = pDAO.getActive(false, null, null, null, null, "Latest", 0);
 
             request.setAttribute("order", order);
+            request.setAttribute("customer", customer);
             request.setAttribute("address", address);
+            request.setAttribute("sale", sale);
+            request.setAttribute("saleList", saleList);
             request.setAttribute("latestproduct", lastestProduct);
             request.setAttribute("pList", pList);
             request.setAttribute("odList", odList);
-            request.setAttribute("fbList", fbList);
             request.setAttribute("length", odList.size() - 1);
-            request.getRequestDispatcher("orderinformation.jsp").forward(request, response);
+            request.getRequestDispatcher("orderdetails.jsp").forward(request, response);
         } else {
             response.sendRedirect("404.html");
         }
@@ -126,31 +161,7 @@ public class OrderInformationServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        int oid = 0;
-        ProductDAO pDAO = new ProductDAO();
-        OrderDetailsDAO odDAO = new OrderDetailsDAO();
-        OrderDAO oDAO = new OrderDAO();
-
-        List<Product> pList = new ArrayList<>();
-        List<OrderDetails> odList = new ArrayList<>();
-        try {
-            oid = Integer.parseInt(request.getParameter("cancelid"));
-        } catch (Exception e) {
-        }
-        pList = pDAO.getAllByOrderId(oid);
-        odList = odDAO.getByOrderId(oid);
-        
-        for(int i=0;i<pList.size();i++){
-            pDAO.updateQuantity(pList.get(i).getId(), pList.get(i).getQuantity()+ odList.get(i).getQuantity());
-        }
-
-        oDAO.changeStatus(oid, "Cancelled");
-
-        String Noti = "Order cancelled success!";
-        session.setAttribute("noti", Noti);
-        session.setAttribute("toastType", "success");
-        response.sendRedirect("myorders");
+        processRequest(request, response);
     }
 
     /**
