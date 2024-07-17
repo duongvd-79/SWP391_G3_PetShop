@@ -30,6 +30,23 @@ public class UserDAO extends DBContext {
         return u;
     }
 
+    public List<User> getAll() {
+        String sql = "SELECT * FROM user";
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            List<User> list = new ArrayList<>();
+            while (rs.next()) {
+                User u = setUser(rs);
+                list.add(u);
+            }
+            return list;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
     public ArrayList<User> getAllUser() throws SQLException {
         String sql = "select * from user";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -364,6 +381,19 @@ public class UserDAO extends DBContext {
         return null;
     }
 
+    public void updateCustomer(String status, int id) {
+        try {
+            String sql = "UPDATE user SET status = ? WHERE id = ?";
+            PreparedStatement stm;
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, status);
+            stm.setInt(2, id);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public User login(String email, String password) {
         String sql = "SELECT * FROM user WHERE email = ? AND password = ?";
         try {
@@ -393,7 +423,7 @@ public class UserDAO extends DBContext {
         return null;
     }
 
-    public void updateUserProfile(User user, String description) {
+    public void updateUserProfile(User user) {
         String sql = "UPDATE user SET name = ?, gender = ?, phone = ?, pfp = ? WHERE id = ?";
         try {
             PreparedStatement stm;
@@ -403,14 +433,6 @@ public class UserDAO extends DBContext {
             stm.setString(3, user.getPhone());
             stm.setString(4, user.getPfp());
             stm.setInt(5, user.getId());
-            stm.executeUpdate();
-            sql = "INSERT INTO update_record (updated_by, updated_date, description, user_id)"
-                    + "values (?, ?, ?, ?)";
-            stm = connection.prepareStatement(sql);
-            stm.setInt(1, user.getId());
-            stm.setTimestamp(2, new Timestamp(new Date().getTime()));
-            stm.setString(3, description);
-            stm.setInt(4, user.getId());
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

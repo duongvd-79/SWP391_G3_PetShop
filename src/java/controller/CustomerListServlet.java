@@ -4,7 +4,9 @@ package controller;
 
 import dal.AddressDAO;
 import dal.RecordDAO;
+import dal.SettingDAO;
 import dal.UserDAO;
+import helper.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,11 +15,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import model.Address;
 import model.User;
 import model.Record;
+import model.Setting;
 
 /**
  *
@@ -63,71 +68,114 @@ public class CustomerListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        HttpSession session = request.getSession(false);
-//        if (session != null) {
-//            User user = (User) session.getAttribute("user");
-//            if (user != null && user.getRoleId() == 2) {
-        // Get customer list
-        UserDAO userDAO = new UserDAO();
-        List<User> customerList;
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null && user.getRoleId() == 2) {
+                // Get customer list
+                UserDAO udao = new UserDAO();
+                List<User> customerList;
 
-        // Get attributes
-        String status = request.getParameter("status");
-        request.setAttribute("status", status);
-        String gender = request.getParameter("gender");
-        request.setAttribute("gender", gender);
-        String search = request.getParameter("search");
-        request.setAttribute("search", search);
-        String sort = request.getParameter("sort");
-        request.setAttribute("sort", sort);
+                // Enable/Disable account
+                RecordDAO rdao = new RecordDAO();
+                String idRaw = request.getParameter("id");
+                if (idRaw != null) {
+                    int id = Integer.parseInt(idRaw);
+                    String cStatus = request.getParameter("cstatus");
+                    if (cStatus != null && cStatus.equals("Active")) {
+                        udao.updateCustomer("Inactive", id);
+                        rdao.addNewRecord(user.getId(), "Disabled Account.", id);
+                    } else if (cStatus != null && (cStatus.equals("Inactive") || cStatus.equals("Pending"))) {
+                        udao.updateCustomer("Active", id);
+                        rdao.addNewRecord(user.getId(), "Enabled Account.", id);
+                    }
+                }
 
-        // Get page
-        String pageIndexRaw = request.getParameter("page");
-        int pageIndex = 1;
-        if (pageIndexRaw != null && !pageIndexRaw.equals("")) {
-            pageIndex = Integer.parseInt(pageIndexRaw);
-        }
-        request.setAttribute("page", pageIndex);
+                // Get attributes
+                String status = request.getParameter("status");
+                request.setAttribute("status", status);
+                String gender = request.getParameter("gender");
+                request.setAttribute("gender", gender);
+                String search = request.getParameter("search");
+                request.setAttribute("search", search);
+                String sort = request.getParameter("sort");
+                request.setAttribute("sort", sort);
 
-        customerList = userDAO.getAllCustomer(true, status, gender, search, sort, pageIndex);
-        request.setAttribute("customerList", customerList);
-        request.setAttribute("size", customerList.size());
+                // Get page
+                String pageIndexRaw = request.getParameter("page");
+                int pageIndex = 1;
+                if (pageIndexRaw != null && !pageIndexRaw.equals("")) {
+                    pageIndex = Integer.parseInt(pageIndexRaw);
+                }
+                request.setAttribute("page", pageIndex);
 
-        // Get address for each user
-        AddressDAO addressDAO = new AddressDAO();
-        List<Address> addressList;
-        try {
-            for (User u : customerList) {
-                addressList = addressDAO.getAddressList(u.getId());
-                request.setAttribute("addressList" + u.getId(), addressList);
+                customerList = udao.getAllCustomer(true, status, gender, search, sort, pageIndex);
+                request.setAttribute("customerList", customerList);
+                request.setAttribute("size", customerList.size());
+
+                // Get address for each user
+                AddressDAO addressDAO = new AddressDAO();
+                List<Address> addressList;
+                try {
+                    for (User u : customerList) {
+                        addressList = addressDAO.getAddressList(u.getId());
+                        request.setAttribute("addressList" + u.getId(), addressList);
+                    }
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+
+                // Pagination
+                int totalCustomer;
+                // Get total product
+                customerList = udao.getAllCustomer(false, status, gender, search, sort, 0);
+                totalCustomer = customerList.size();
+                int maxPage = totalCustomer / 4;
+                if (totalCustomer % 4 != 0) {
+                    maxPage++;
+                }
+                request.setAttribute("totalPage", maxPage);
+
+                // Get update record
+                Map<User, List<Record>> recordMap = rdao.getAll();
+                request.setAttribute("recordMap", recordMap);
+
+                // Sort record
+                String recordSort = request.getParameter("recordSort");
+                if (recordSort != null && !recordSort.trim().isEmpty()) {
+                    if (recordSort.equalsIgnoreCase("Date ASC")) {
+                        recordMap.forEach((key, value) -> {
+                            value.sort((r1, r2) -> r1.getUpdatedDate().compareTo(r2.getUpdatedDate()));
+                        });
+                    } else if (recordSort.equalsIgnoreCase("Date DESC")) {
+                        recordMap.forEach((key, value) -> {
+                            value.sort((r1, r2) -> r2.getUpdatedDate().compareTo(r1.getUpdatedDate()));
+                        });
+                    }
+                    request.setAttribute("recordSort", recordSort);
+                }
+                request.setAttribute("recordMap", recordMap);
+
+                // For updated by collumn
+                List<User> userList = udao.getAll();
+                request.setAttribute("userList", userList);
+                SettingDAO sdao = new SettingDAO();
+                Map<Integer, String> roleMap = new HashMap<>();
+                List<Setting> roleList = sdao.getAll();
+                roleList.removeIf(s -> s.getTypeId() != 3);
+                for (Setting s : roleList) {
+                    roleMap.put(s.getId(), s.getName().toUpperCase().charAt(0)
+                            + s.getName().substring(1).toLowerCase());
+                }
+                request.setAttribute("roleMap", roleMap);
+
+                request.getRequestDispatcher("customerList.jsp").forward(request, response);
+            } else {
+                response.sendRedirect("404.html");
             }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+        } else {
+            response.sendRedirect("404.html");
         }
-
-        // Get update record
-        RecordDAO recordDAO = new RecordDAO();
-        Map<User, List<Record>> recordMap = recordDAO.getAll();
-        request.setAttribute("recordMap", recordMap);
-
-        // Pagination
-        int totalCustomer;
-        // Get total product
-        customerList = userDAO.getAllCustomer(false, status, gender, search, sort, 0);
-        totalCustomer = customerList.size();
-        int maxPage = totalCustomer / 4;
-        if (totalCustomer % 4 != 0) {
-            maxPage++;
-        }
-        request.setAttribute("totalPage", maxPage);
-
-        request.getRequestDispatcher("customerList.jsp").forward(request, response);
-//            } else {
-//                response.sendRedirect("404.html");
-//            }
-//        } else {
-//            response.sendRedirect("404.html");
-//        }
     }
 
     /**
@@ -141,7 +189,64 @@ public class CustomerListServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
 
+        // Get param
+        String email = request.getParameter("email");
+        String pw = request.getParameter("password");
+        String name = request.getParameter("name");
+        String gender = request.getParameter("gender");
+        String city = request.getParameter("city");
+        String district = request.getParameter("district");
+        String detail = request.getParameter("detailaddress");
+        String phone = request.getParameter("phone");
+
+        UserDAO udao = new UserDAO();
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(pw);
+        user.setName(name);
+        user.setRoleId(5);
+        user.setGender(gender.equalsIgnoreCase("Male"));
+        user.setPhone(phone);
+        user.setCreateDate(new Date());
+
+        AddressDAO adao = new AddressDAO();
+        adao.addNew(city, district, detail);
+        adao.addNewUserAddress();
+
+        boolean flag = false;
+        try {
+            for (User u : udao.getAll()) {
+                if (u.getEmail().equals(email)) {
+                    flag = true;
+                    break;
+                }
+            }
+            if (flag) {
+                session.setAttribute("noti", "The email had been registered!");
+                session.setAttribute("toastType", "error");
+
+                session.setAttribute("email", email);
+                session.setAttribute("name", name);
+                session.setAttribute("gender", gender);
+                session.setAttribute("city", city);
+                session.setAttribute("district", district);
+                session.setAttribute("district", district);
+                session.setAttribute("detail", detail);
+                session.setAttribute("phone", phone);
+                response.sendRedirect("customerlist#addNewCustomer");
+            } else {
+                udao.addNewUser(user);
+                SendMail.sendMail(email, "Your account has been created using this email.", "Your password: " + pw);
+                session.setAttribute("noti", "Customer created successfully!");
+                session.setAttribute("toastType", "success");
+                response.sendRedirect("customerlist#addNewCustomer");
+            }
+        } catch (SQLException e) {
+            PrintWriter out = response.getWriter();
+            out.print(e.getMessage());
+        }
     }
 
     /**

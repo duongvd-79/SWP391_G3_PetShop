@@ -112,7 +112,7 @@ public class LoginServlet extends HttpServlet {
 
             // Get previous page
             String page = request.getParameter("page");
-            response.sendRedirect(page);
+            response.sendRedirect(page + "#login");
         }
     }
 

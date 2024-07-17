@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div id="register" class="overlay">
-    <div class="popup2">
+    <div class="popup2" style="overflow-y: auto;max-height: 95%">
         <div class="form-block">
             <div class="mb-1">
                 <h3><strong>Register</strong></h3>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="form-group last mb-2 position-relative">
                     <label for="password">Confirm password</label>
-                    <input type="password" class="form-control" id="login-password3" name="cfpassword" placeholder="Confirm your password" required="">
+                    <input type="password" class="form-control" id="login-password3" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
                     <span id="togglePassword3" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-2">
@@ -63,7 +63,7 @@
                             </select>
                         </div>
                     </div>
-                    <input value="${address.getDetail()}" type="text" pattern="^[\w\d\s]{1,255}$" class="form-control" id="address" name="address" required placeholder="Your address">
+                    <input value="${address.getDetail()}" type="text" pattern="^.{1,255}$" class="form-control" id="address" name="address" required placeholder="Your address">
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>

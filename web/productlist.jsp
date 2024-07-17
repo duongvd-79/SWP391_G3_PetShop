@@ -249,7 +249,7 @@
                                                         </div>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <img src="${apr.thumbnail}" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
+                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';"" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%
@@ -297,19 +297,33 @@
                                 <div class="row justify-content-end mr-1">
                                     <nav>
                                         <ul class="pagination">
-                                            <c:if test="${page - 2 >= 0}">
+                                            <c:if test="${page > 1}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
+                                                    <a class="page-link" href="?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page - 1}">Previous</a>
                                                 </li>
                                             </c:if>
+                                            <c:set var="ellipsis" value="false" />
                                             <c:forEach begin="1" end="${totalPage}" var="i">
-                                                <li class="page-item ${page == i ? "active" : ""}">
-                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${i}">${i}</a>
-                                                </li>
+                                                <c:choose>
+                                                    <c:when test="${i <= 2 or i >= totalPage - 1 or (i >= page - 1 and i <= page + 1)}">
+                                                        <li class="page-item ${page == i ? 'active' : ''}">
+                                                            <a class="page-link" href="?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${i}">${i}</a>
+                                                        </li>
+                                                        <c:set var="showEllipsis" value="true" />
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:if test="${!ellipsis}">
+                                                            <li class="page-item disabled">
+                                                                <a class="page-link">...</a>
+                                                            </li>
+                                                            <c:set var="ellipsis" value="true" />
+                                                        </c:if>
+                                                    </c:otherwise>
+                                                </c:choose>
                                             </c:forEach>
-                                            <c:if test="${page + 1 <= totalPage}">
+                                            <c:if test="${page < totalPage}">
                                                 <li class="page-item">
-                                                    <a class="page-link" href="productlist?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
+                                                    <a class="page-link" href="?category=${category}&search=${search.replace(" ", "+")}&priceOption=${priceOption}&minPrice=${minPrice}&maxPrice=${maxPrice}&sort=${sort.replace(" ", "%20")}&page=${page + 1}">Next</a>
                                                 </li>
                                             </c:if>
                                         </ul>
@@ -344,7 +358,7 @@
             <script>
                                          document.getElementById('sort').addEventListener('change', function () {
                                              var selectedValue = this.value;
-                                             window.location.href = 'productlist?category=${category}'
+                                             window.location.href = '?category=${category}'
                                                      + '&search=${search.replace(" ", "+")}'
                                                      + '&priceOption=${priceOption}'
                                                      + '&minPrice=${minPrice}'

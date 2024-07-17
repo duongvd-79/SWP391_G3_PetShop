@@ -1,6 +1,7 @@
 package controller;
 
 import dal.AddressDAO;
+import dal.RecordDAO;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -103,8 +104,11 @@ public class UserProfileServlet extends HttpServlet {
                 // Error flag
                 boolean changeFlag = true;
 
-                UserDAO userDAO = new UserDAO();
-                AddressDAO addressDAO = new AddressDAO();
+                // Update record description
+                String description = "";
+
+                UserDAO udao = new UserDAO();
+                AddressDAO adao = new AddressDAO();
 
                 // Create path components to save the file
                 String uploadPath = getServletContext().getRealPath("/") + "images\\userpfp";
@@ -124,6 +128,7 @@ public class UserProfileServlet extends HttpServlet {
                     // Generate URL for the uploaded file
                     String fileUrl = "images\\userpfp\\" + fileName;
                     user.setPfp(fileUrl);
+                    description += "Updated Profile Picture.\\n";
                 }
 
                 // Handle text inputs
@@ -149,48 +154,65 @@ public class UserProfileServlet extends HttpServlet {
                 String oldName = user.getName();
                 String oldGender = user.getGender();
                 String oldPhone = user.getPhone();
-                String description = "";
                 user.setName(name);
                 if (gender != null) {
                     user.setGender(gender.equals("Male"));
                 }
                 user.setPhone(phone);
-                if (name != null && !name.isEmpty()) {
-                    description += "Updated name from '" + oldName + "' to '" + user.getName() + "'.\\n";
+                if (name != null && !name.isEmpty() && !user.getName().equals(oldName)) {
+                    description += "Updated name from <strong>" + oldName + "</strong> to <strong>" + user.getName() + "</strong>.\\n";
                 }
-                if (gender != null && !gender.isEmpty()) {
-                    description += "Updated gender from '" + oldGender + "' to '" + user.getGender() + "'.\\n";
+                if (gender != null && !gender.isEmpty() && !user.getGender().equals(oldGender)) {
+                    description += "Updated gender from <strong>" + oldGender + "</strong> to <strong>" + user.getGender() + "</strong>.\\n";
                 }
-                if (phone != null && !phone.isEmpty()) {
-                    description += "Updated phone from '" + oldPhone + "' to '" + user.getPhone() + "'.\\n";
+                if (phone != null && !phone.isEmpty() && !user.getPhone().equals(oldPhone)) {
+                    description += "Updated phone from <strong>" + oldPhone + "</strong> to <strong>" + user.getPhone() + "</strong>.\\n";
                 }
-                userDAO.updateUserProfile(user, description);
+                udao.updateUserProfile(user);
                 session.setAttribute("user", user);
 
                 // Update address
-                Address address = addressDAO.getAddressByUserId(user.getId());
+                Address address = adao.getAddressByUserId(user.getId());
                 if (address == null) {
-                    addressDAO.addAddress(city, district, detailAddress, user.getId());
-                    address = addressDAO.getAddressByUserId(user.getId());
+                    adao.addAddress(city, district, detailAddress, user.getId());
+                    address = adao.getAddressByUserId(user.getId());
                 }
+                String oldCity = address.getCity();
+                String oldDistrict = address.getDistrict();
+                String oldDetail = address.getDetail();
                 address.setCity(city);
                 address.setDistrict(district);
                 address.setDetail(detailAddress);
-                addressDAO.updateUserAddress(address);
+                if (city != null && !city.isEmpty() && !address.getCity().equals(oldCity)) {
+                    description += "Updated city from <strong>" + oldCity + "</strong> to <strong>" + address.getCity() + "</strong>.\\n";
+                }
+                if (district != null && !district.isEmpty() && !address.getDistrict().equals(oldDistrict)) {
+                    description += "Updated district from <strong>" + oldDistrict + "</strong> to <strong>" + address.getDistrict() + "</strong>.\\n";
+                }
+                if (detailAddress != null && !detailAddress.isEmpty() && !address.getDetail().equals(oldDetail)) {
+                    description += "Updated detailed address from <strong>" + oldDetail + "</strong> to <strong>" + address.getDetail() + "</strong>.\\n";
+                }
+                adao.updateUserAddress(address);
                 session.setAttribute("address", address);
+
+                // Add new update record
+                RecordDAO rdao = new RecordDAO();
+                rdao.addNewRecord(user.getId(), description, user.getId());
 
                 // Display notification
                 if (changeFlag) {
-                    String Noti = "Updated successfully!";
-                    session.setAttribute("noti", Noti);
+                    String noti = "Updated successfully!";
+                    session.setAttribute("noti", noti);
                     session.setAttribute("toastType", "success");
                 } else {
-                    String Noti = "Updated failed!";
-                    session.setAttribute("noti", Noti);
+                    String noti = "Updated failed!";
+                    session.setAttribute("noti", noti);
                     session.setAttribute("toastType", "error");
                 }
 
-                response.sendRedirect("#profile");
+                // Get previous page
+                String page = request.getParameter("page");
+                response.sendRedirect(page + "#profile");
             }
         }
     }

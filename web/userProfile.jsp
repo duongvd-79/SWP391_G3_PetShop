@@ -8,7 +8,7 @@
                 <div class="col-md-4 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <h2 class="text-right"><strong>Profile Picture</strong></h2>
-                        <img class="rounded-circle my-3" id="preview-img" width="150px" height="150px" src="${sessionScope.user.pfp}" onerror="this.src='images/userpfp/default.png';this.onerror='';">
+                        <img class="rounded-circle my-3" id="preview-img" style="width: 150px;height: 150px;object-fit: cover" src="${sessionScope.user.pfp}" onerror="this.src='images/userpfp/default.png';this.onerror='';">
                         <input id="file-upload" type="file" name="profilepfp" accept="image/*">
                         <p id="file-size-warning" style="color: red; display: none;">File size exceeds 50MB</p>
                         <label for="file-upload" class="custom-file-upload mt-2">Upload Image</label>
@@ -76,7 +76,7 @@
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <label class="labels">Detailed Address</label>
-                                        <input type="text" class="form-control" name="pfdetailaddress" id="pfdetailaddress" placeholder="Enter address" value="${sessionScope.address.getDetail()}" required>
+                                        <input type="text" class="form-control" name="pfdetailaddress" id="pfdetailaddress" pattern="^.{1,255}$" placeholder="Enter address" value="${sessionScope.address.getDetail()}" required>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
@@ -93,6 +93,7 @@
                     </div>
                 </div>
             </div>
+            <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
             <div class="mt-3 text-center">
                 <button class="btn btn-primary" id="save-button" type="submit" disabled>Save Profile</button>
             </div>

@@ -4,8 +4,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import model.Product;
+import model.Setting;
 
 public class ProductDAO extends DBContext {
 
@@ -43,6 +46,131 @@ public class ProductDAO extends DBContext {
                 productList.add(p);
             }
             return productList;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public boolean addProduct(Product product) {
+        String sql = "INSERT INTO product (title, description, thumbnail, quantity, status, import_price, list_price, is_featured, category_id)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, product.getTitle());
+            stm.setString(2, product.getDescription());
+            stm.setString(3, product.getThumbnail());
+            stm.setInt(4, product.getQuantity());
+            stm.setString(5, product.getStatus());
+            stm.setDouble(6, product.getImportPrice());
+            stm.setDouble(7, product.getListPrice());
+            stm.setBoolean(8, product.isIsFeatured());
+            stm.setInt(9, product.getCategoryId());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE product SET title = ?, description = ?, thumbnail = ?,"
+                + "quantity = ?, status = ?, import_price = ?, list_price = ?,"
+                + "is_featured = ?, category_id = ? WHERE id = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, product.getTitle());
+            stm.setString(2, product.getDescription());
+            stm.setString(3, product.getThumbnail());
+            stm.setInt(4, product.getQuantity());
+            stm.setString(5, product.getStatus());
+            stm.setDouble(6, product.getImportPrice());
+            stm.setDouble(7, product.getListPrice());
+            stm.setBoolean(8, product.isIsFeatured());
+            stm.setInt(9, product.getCategoryId());
+            stm.setInt(10, product.getId());
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    public List<Product> getAllPaginated(int page, int size, String search, String category, String status,
+            String isFeatured, String sort) {
+        String sql = "SELECT * FROM product";
+        try {
+            productList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Product p = setProduct(rs);
+                productList.add(p);
+            }
+            if (search != null && !search.trim().isEmpty()) {
+                productList.removeIf(p -> !p.getDescription().contains(search) && !p.getTitle().contains(search));
+            }
+            if (category != null && !category.trim().isEmpty()) {
+                List<Setting> cateList = new SettingDAO().getAllProductCategory();
+                for (Setting s : cateList) {
+                    if (s.getName().equals(category)) {
+                        productList.removeIf(p -> p.getCategoryId() != s.getId());
+                        break;
+                    }
+                }
+            }
+            if (status != null && !status.trim().isEmpty()) {
+                productList.removeIf(p -> !p.getStatus().equals(status));
+            }
+            if (isFeatured != null && !isFeatured.trim().isEmpty()) {
+                if (isFeatured.equals("Is Featured")) {
+                    productList.removeIf(p -> !p.isIsFeatured());
+                } else {
+                    productList.removeIf(p -> p.isIsFeatured());
+                }
+            }
+            if (sort != null && !sort.trim().isEmpty()) {
+                switch (sort) {
+                    case "Title ASC" ->
+                        productList.sort(Comparator.comparing(Product::getTitle));
+                    case "Title DESC" ->
+                        productList.sort(Comparator.comparing(Product::getTitle).reversed());
+                    case "Category ASC" ->
+                        productList.sort(Comparator.comparing(Product::getTitle));
+                    case "Category DESC" ->
+                        productList.sort(Comparator.comparing(Product::getTitle).reversed());
+                    case "Import Price ASC" ->
+                        productList.sort(Comparator.comparing(Product::getImportPrice));
+                    case "Import Price DESC" ->
+                        productList.sort(Comparator.comparing(Product::getImportPrice).reversed());
+                    case "List Price ASC" ->
+                        productList.sort(Comparator.comparing(Product::getListPrice));
+                    case "List Price DESC" ->
+                        productList.sort(Comparator.comparing(Product::getListPrice).reversed());
+                    case "Featured ASC" ->
+                        productList.sort(Comparator.comparing(Product::isIsFeatured));
+                    case "Featured DESC" ->
+                        productList.sort(Comparator.comparing(Product::isIsFeatured).reversed());
+                    case "Status ASC" ->
+                        productList.sort(Comparator.comparing(Product::getStatus));
+                    case "Status DESC" ->
+                        productList.sort(Comparator.comparing(Product::getStatus).reversed());
+                    default ->
+                        productList.sort(Comparator.comparing(Product::getId));
+                }
+            }
+
+            // Pagination logic
+            int begin = (page - 1) * size;
+            int end = Math.min(begin + size, productList.size());
+
+            if (begin >= productList.size() || begin < 0) {
+                return new ArrayList<>(); // Return empty list if page is out of range
+            }
+
+            return productList.subList(begin, end);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -96,7 +224,7 @@ public class ProductDAO extends DBContext {
                 + "pr.list_price, pr.status, pr.is_featured, pr.thumbnail, "
                 + "pr.created_date, pr.quantity, pr.category_id, s.name\n"
                 + "FROM petshop.product pr JOIN petshop.setting s ON pr.category_id = s.id\n"
-                + "WHERE s.status = 'Active' " + sqlCategory + sqlMinPrice + sqlMaxPrice + sqlSearch
+                + "WHERE NOT pr.status = 'Hidden' AND s.status = 'Active' " + sqlCategory + sqlMinPrice + sqlMaxPrice + sqlSearch
                 + " ORDER BY " + sqlOrder + " pr.status, pr.id " + sqlPaging;
         try {
             productList = new ArrayList<>();
@@ -138,6 +266,56 @@ public class ProductDAO extends DBContext {
         productList = getActive(false, null, null, null, null, null, 0);
         productList.removeIf(p -> !p.isIsFeatured());
         return productList;
+    }
+
+    public void featureProduct(int productId) {
+        try {
+            String sql = "UPDATE product SET is_featured = 1 WHERE id = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public void unfeatureProduct(int productId) {
+        try {
+            String sql = "UPDATE product SET is_featured = 0 WHERE id = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public void hideProduct(int productId) {
+        try {
+            String sql = "UPDATE product SET status = ? WHERE id = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "Hidden");
+            stm.setInt(2, productId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+        }
+    }
+
+    public void showProduct(int productId) {
+        try {
+            int quantity = getProductById(productId).getQuantity();
+            String sql = "UPDATE product SET status = ? WHERE id = ?";
+            stm = connection.prepareStatement(sql);
+            String status;
+            if (quantity > 0) {
+                status = "Available";
+            } else {
+                status = "Out of Stock";
+            }
+            stm.setString(1, status);
+            stm.setInt(2, productId);
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public Product getProductById(int id) {
@@ -224,8 +402,8 @@ public class ProductDAO extends DBContext {
         }
         return productList;
     }
-    
-    public List<Product> getAllByOrderId(int oid){
+
+    public List<Product> getAllByOrderId(int oid) {
         String sql = "SELECT * FROM product AS p JOIN order_details "
                 + "ON id = product_id WHERE order_id = ?";
         try {
@@ -246,9 +424,11 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getAllByOrderId(15);
+        List<Product> productList = p.getAllPaginated(1, 20, "hạt", "", "", "", "List Price ASC");
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
         }
+        p.showProduct(1);
+        p.updateProduct(new Product(32, 50, 6, "haha", "Available", "haha", "haha", 0, 0, new Date(), false));
     }
 }

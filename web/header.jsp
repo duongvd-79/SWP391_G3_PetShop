@@ -225,8 +225,8 @@
                 toastr.error(toastMessage);
             }
     <% 
-                session.removeAttribute("noti");
-                session.removeAttribute("toastType");
+                request.getSession().removeAttribute("noti");
+                request.getSession().removeAttribute("toastType");
     %>
         }
     });
@@ -299,7 +299,6 @@
             reader.readAsDataURL(file1);
         }
     });
-
 
     // Toggle save button on changes
     document.addEventListener('DOMContentLoaded', function () {
