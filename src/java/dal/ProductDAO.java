@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import model.Product;
 import model.Setting;
+import model.User;
 
 public class ProductDAO extends DBContext {
 
