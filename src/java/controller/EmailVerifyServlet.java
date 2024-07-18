@@ -79,16 +79,22 @@ public class EmailVerifyServlet extends HttpServlet {
                 uDAO.addNewUser(u);
                 aDAO.addNew(a.getCity(), a.getDistrict(), a.getDetail());
                 aDAO.addNewUserAddress();
+                String Noti = "Account is created successfully. Please Sign In.";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
                 alert = "Account is created successfully. Please Sign In.";
+                response.sendRedirect("home#login");
             } catch (SQLException ex) {
             }
         } else if (session.getAttribute("key") == null || currentTime - creationTime > maxInactiveInterval) {
             alert = "Link had been expired";
+            session.setAttribute("alert", alert);
+        response.sendRedirect("home#register");
         } else {
             alert = "Not authorize access";
-        }
-        session.setAttribute("alert", alert);
+            session.setAttribute("alert", alert);
         response.sendRedirect("home#register");
+        }
 
     }
 

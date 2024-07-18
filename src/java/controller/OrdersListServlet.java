@@ -116,7 +116,7 @@ public class OrdersListServlet extends HttpServlet {
             }
             int size = oDAO.getAll(user, 1, Integer.MAX_VALUE, search, searchby, sortby, order, status, start, order).size();
             try {
-                saleList = uDAO.getAllSale();
+                saleList = uDAO.getUserByRoleID(3);
             } catch (SQLException ex) {
             }
             

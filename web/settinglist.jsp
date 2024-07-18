@@ -35,12 +35,12 @@
         <body>
             <div class="container-fluid position-relative bg-white d-flex p-0">
                 <div class="row">
-                   
-                <!-- Sidebar Start -->
-                <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm mt-4">
-                    <form style="border:2px #cccccc solid;" id="search-form" class="d-none d-md-flex ms-4" action="setting" method="get">
-                        <input class="form-control border-0" type="search" placeholder="Search" name="search" value="${requestScope.sName}">
-                </form>
+
+                    <!-- Sidebar Start -->
+                    <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm mt-4">
+                        <form style="border:2px #cccccc solid;" id="search-form" class="d-none d-md-flex ms-4" action="setting" method="get">
+                            <input class="form-control border-0" type="search" placeholder="Search" name="search" value="${requestScope.sName}">
+                    </form>
                     <div style="top:130px;" class="w-100 mb-1 sticky-top">
                         <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
@@ -57,7 +57,7 @@
 
                             <div class="col-md-3 function">
                                 <select name="type" class="form-select" id="type" onchange="if (this.value)
-                                                window.location.href = this.value">
+                                            window.location.href = this.value">
                                     <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}">All type</option>
                                     <c:forEach items="${requestScope.types}" var="t">
                                         <option value="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&type=${t}&status=${requestScope.status}" ${t.equals(requestScope.type) ? 'selected' : ''}>${t}</option></a>
@@ -129,10 +129,27 @@
                         <nav aria-label="setting list paging">
                             <ul class="pagination d-flex justify-content-end mb-2">
                                 <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
+                                <li class="page-item ${ 1 == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">1</a></li>
+                                <c:if test="${requestScope.page > 2}">
+                                    <li class="page-item"><a class="page-link" href="">...</a></li>
+                                </c:if>
+                                <c:choose>
+                                    <c:when test="${requestScope.page >= requestScope.pageNum-2}">
+                                        <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
+                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                        </c:forEach>
+                                    </c:when>
+                                    <c:when test="${requestScope.page >= 2}">
+                                        <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
+                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                        </c:forEach>
+                                    </c:when>
+                                </c:choose>
+                                <c:if test="${requestScope.page < requestScope.pageNum-2}">
+                                    <li class="page-item"><a class="page-link" href="">...</a></li>
+                                </c:if>
+                                <li class="page-item ${ requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${requestScope.pageNum}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${requestScope.pageNum}</a></li>
 
-                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
-                                    <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
-                                    </c:forEach>
                                 <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
                             </ul>
                         </nav>

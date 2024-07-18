@@ -73,7 +73,14 @@ public class OrderInformationServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 5) {
+        int uid=0;
+        try{
+        uid = Integer.parseInt(request.getParameter("uid")); 
+        } catch(NumberFormatException e){}
+        if(user.getId() != uid ){
+            response.sendRedirect("404.html");
+        }
+        else if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 5) {
             ProductDAO pDAO = new ProductDAO();
             OrderDAO oDAO = new OrderDAO();
             OrderDetailsDAO odDAO = new OrderDetailsDAO();
@@ -87,7 +94,12 @@ public class OrderInformationServlet extends HttpServlet {
             List<OrderDetails> odList = new ArrayList<>();
             List<Integer> fbList = new ArrayList<>();
             Address address = null;
-
+            
+            //success order
+            if(request.getParameter("cid")!= null && !request.getParameter("cid").isEmpty() ){
+                int cid = Integer.parseInt(request.getParameter("cid"));
+                oDAO.changeStatus(cid, "Success");
+            }
             int id = Integer.parseInt(request.getParameter("id"));
             Order order = oDAO.getOrderById(id);
             try {

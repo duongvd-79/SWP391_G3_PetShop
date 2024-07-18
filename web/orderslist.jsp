@@ -167,14 +167,30 @@
                             </c:forEach>
                             <nav style="position:relative; top:50px;right:100px;" aria-label="setting list paging">
                                 <ul class="pagination d-flex justify-content-end mb-2">
-                                    <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}"
-                                                             href="orderslist?page=${page-1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}" >Previous</a></li>
-                                        <c:forEach begin="1" end="${requestScope.pageNum}" step="1" var="i">
-                                        <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link"
-                                                                                                           href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
+                                    <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="orderslist?page=${page-1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">Previous</a></li>
+                                <li class="page-item ${ 1 == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=1&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">1</a></li>
+                                <c:if test="${requestScope.page > 2}">
+                                    <li class="page-item"><a class="page-link" href="">...</a></li>
+                                </c:if>
+                                <c:choose>
+                                    <c:when test="${requestScope.page >= requestScope.pageNum-2}">
+                                        <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
+                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
                                         </c:forEach>
-                                    <li class="page-item"><a class="page-link ${requestScope.page >= requestScope.pageNum ? 'd-none' : ''}"
-                                                             href="orderslist?page=${page+1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">Next</a></li>
+                                    </c:when>
+                                    <c:when test="${requestScope.page >= 2}">
+                                        <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
+                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
+                                        </c:forEach>
+                                    </c:when>
+                                </c:choose>
+                                <c:if test="${requestScope.page < requestScope.pageNum-2}">
+                                    <li class="page-item"><a class="page-link" href="">...</a></li>
+                                </c:if>
+                                <li class="page-item ${requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${requestScope.pageNum}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${requestScope.pageNum}</a></li>
+
+                                <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="orderslist?page=${page+1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">Next</a></li>
+                            
                                 </ul>
                             </nav>
                         </c:if>

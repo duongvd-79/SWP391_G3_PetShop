@@ -211,7 +211,7 @@
                                             <img class="mx-4" height="100" src="${pList[i].thumbnail}" alt="alt"/>
                                             <div >
                                                 <div>${pList[i].title} x ${pQuantity[i]}</div>
-                                                <div>And ${remainNum[i]} more product <a class="text-primary" href="orderinformation?id=${oList[i].id}">VIEW DETAILS HERE</a></div>
+                                                <div>And ${remainNum[i]} more product <a class="text-primary" href="orderinformation?id=${oList[i].id}&uid=${oList[i].customerId}">VIEW DETAILS HERE</a></div>
                                             </div>
                                         </div>
                                         <div class="col-2 d-flex align-items-center">

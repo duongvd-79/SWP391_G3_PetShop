@@ -191,9 +191,13 @@
                                                                                                                           ${'Shipping'.equals(order.getStatus())?'#ffc107':''}
                                                                                                                           ${'Cancelled'.equals(order.getStatus())?'#dc3545':''}">${order.getStatus()}</span></div>
                                 <div class="h6 ">${order.getOrderedDate()}</div>
+                                
                             </div>
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-2 d-flex align-items-center ">
                                 <a style="${'Submitted'.equals(order.getStatus())?'':'display:none;'}" id="cancel-order-btn" class="btn btn-apply bg-danger" href="">Cancel Order</a>
+                                <c:if test="${'Shipping'.equals(order.getStatus())}">
+                                    <a style="background-color: #b0b435" id="received-order-btn" class="btn btn-apply" href="">Received</a>
+                                </c:if>
                             </div>
                             <div style="border-left:#b0b435 4px solid;" class="col-6">
                                 <div class="h5">RECEIVER</div>
@@ -230,9 +234,7 @@
                                     <div style="font-size: 20px;color:black;" class="col-sm-2 d-flex justify-content-center align-items-center"><b>TOTAL : ${order.getTotal()}</b></div>
                                     <div class="col-sm-7"></div>
                                     <div class="col-sm-3">
-                                        <c:if test="${'Submitted'.equals(order.getStatus())}">
-                                            <a style="line-height: 1rem;color:white;"class="btn btn-apply mt-4 mr-3 bg-primary" href="#"><b>Pay Now</b></a>
-                                        </c:if>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -337,6 +339,48 @@
                             hiddenField.type = 'hidden';
                             hiddenField.name = 'cancelid';
                             hiddenField.value = `${order.getId()}`;
+                            form.appendChild(hiddenField);
+
+                            document.body.appendChild(form);
+                            form.submit();
+                        });
+                    }
+                });
+            });
+    </script>
+    <script>
+            document.getElementById('received-order-btn').addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent the default link behavior
+                toastr.clear();
+                toastr.success('<div><div>Are you sure confirmed order?</div><button id="yes-btn" class="btn btn-Success">Yes</button></div>', 'Confirm', {
+                    closeButton: true,
+                    preventDuplicates: true,
+                    timeOut: 0,
+                    extendedTimeOut: 0,
+                    onShown: function () {
+                        // id customerid cid
+                        document.getElementById('yes-btn').addEventListener('click', function () {
+                            // Create and submit a form with the POST method
+                            var form = document.createElement('form');
+                            form.method = 'GET';
+                            form.action = 'orderinformation';
+
+                            var hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'id';
+                            hiddenField.value = `${order.id}`;
+                            form.appendChild(hiddenField);
+                            
+                            var hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'uid';
+                            hiddenField.value = `${order.customerId}`;
+                            form.appendChild(hiddenField);
+                            
+                            var hiddenField = document.createElement('input');
+                            hiddenField.type = 'hidden';
+                            hiddenField.name = 'cid';
+                            hiddenField.value = `${order.id}`;
                             form.appendChild(hiddenField);
 
                             document.body.appendChild(form);

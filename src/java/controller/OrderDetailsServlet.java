@@ -129,7 +129,7 @@ public class OrderDetailsServlet extends HttpServlet {
                 sale = uDAO.getUserByID(order.getSaleId());
                 pList = pDAO.getAllByOrderId(id);
                 odList = odDAO.getByOrderId(id);
-                saleList = uDAO.getAllSale();
+                saleList = uDAO.getUserByRoleID(3);
             } catch (SQLException ex) {
                 Logger.getLogger(OrderInformationServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
