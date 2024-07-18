@@ -49,67 +49,51 @@
                         </ol>
                     </nav>
                     <div class="mb-3" style="padding-left:47px;">
-                        <h3 class="text-right">Blog Settings</h4>
+                        <h3 class="text-right">Slider Settings</h4>
                     </div>
                 </div>
-                <form class="row" action="editblog" method="post" enctype="multipart/form-data">
+                <form class="row" action="editslider" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-3 border-right">
-                            <c:choose>
-                                                        <c:when test="${fn:startsWith(u.thumbnail, 'https')}">
-                                                            <img style="border: 3px dashed blanchedalmond; margin-left: 2%;margin-top: 30%" width="250px" height="250px" src="${requestScope.u.getThumbnail()}">
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <img style="border: 3px dashed blanchedalmond; margin-left: 2%;margin-top: 30%" width="250px" height="250px" src="./images/${requestScope.u.getThumbnail()}">
-                                                        </c:otherwise>
-                                                    </c:choose>
+                        <c:choose>
+                            <c:when test="${fn:startsWith(u.image, 'https')}">
+                                <img style="border: 3px dashed blanchedalmond; margin-left: 2%;margin-top: 30%" width="250px" height="250px" src="${requestScope.u.image}">
+                            </c:when>
+                            <c:otherwise>
+                                <img style="border: 3px dashed blanchedalmond; margin-left: 2%;margin-top: 30%" width="250px" height="250px" src="./images/${requestScope.u.image}">
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="col-md-8 border-right">
                         <div class="p-2 py-5">
                             <div class="row mt-3">
-                                <div class="col-md-12 mb-2"><label class="labels">Title</label><input type="text" name="title" class="form-control" value="${requestScope.u.getTitle()}"></div>
-                            <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input style="display:block" type="file" name="file" class="form-control"></div>
-                                <div class="col-md-12 mb-2"><label class="labels">Detail</label><textarea name="detail" class="form-control">${requestScope.u.getDetail()}</textarea></div>
+                                <div class="col-md-12 mb-2"><label class="labels">Title</label><input type="text" name="title" class="form-control" value="${requestScope.u.title}"></div>
+                                <div class="col-md-12 mb-2"><label class="labels">Back Link</label><input type="text" name="backlink" class="form-control" value="${requestScope.u.backLink}"></div>
+                                <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input style="display:block" type="file" name="file" class="form-control"></div>
+                                <div class="col-md-12 mb-2"><label class="labels">Detail</label><textarea name="description" class="form-control">${requestScope.u.description}</textarea></div>
                                 <div class="col-md-12 mb-2">
                                     <label class="labels">Status</label><br>
                                     <div class="mt-2">
                                         <div class="form-check custom-radio form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" value="1" ${"1".equals(requestScope.u.getStatus()) ? 'checked' : ''}>
+                                            <input class="form-check-input" type="radio" name="status" value="Active" ${"Active".equals(requestScope.u.getStatus()) ? 'checked' : ''}>
                                             <label class="form-check-label" for="male">
                                                 Show
                                             </label>
                                         </div>
                                         <div class="form-check custom-radio form-check-inline">
-                                            <input class="form-check-input" type="radio" name="status" value="0" ${"0".equals(requestScope.u.getStatus()) ? 'checked' : ''}>
+                                            <input class="form-check-input" type="radio" name="status" value="Block" ${"Block".equals(requestScope.u.getStatus()) ? 'checked' : ''}>
                                             <label class="form-check-label" for="female">
                                                 Hide
                                             </label>
                                         </div>
-
                                     </div>
-
                                 </div>
-
                                 <input name="action" value="update" hidden>
-                                <input name="id" value="${u.getId()}" hidden>
-                                <div class="col-md-7"><label class="labels">Role</label>
-                                    <select class="form-select" id="roles" name="category">
-                                        <c:forEach items="${requestScope.sList}" var="s">
-                                            <option value="${s.getId()}" ${(requestScope.u.getSetting().getName().equals(requestScope.s.getName())) ? 'selected' : ''}>${s.getName()}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-
-
-
+                                <input name="id" value="${u.id}" hidden>
                                 <div class="d-flex justify-content-center align-items-center mt-3">
-                                    <div class="mt-3 me-3 text-center d-flex align-items-center"><button class="btn btn-primary set-button" type="submit">Save Blog</button></div>
+                                    <div class="mt-3 me-3 text-center d-flex align-items-center"><button class="btn btn-primary set-button" type="submit">Save Slider</button></div>
                                 </div>
-
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>

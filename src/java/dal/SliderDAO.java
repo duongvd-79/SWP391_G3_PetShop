@@ -59,6 +59,56 @@ public class SliderDAO extends DBContext {
         return null;
     }
 
+    public List<Slider> getSliders(String search) {
+        String sql = "SELECT * FROM slider WHERE title like ?";
+        try {
+            sliderList = new ArrayList<>();
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, "%" + search + "%");
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Slider sl = setSlider(rs);
+                sliderList.add(sl);
+            }
+            return sliderList;
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public Slider getSliderById(int id) {
+        String sql = "SELECT * FROM slider WHERE id = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                Slider sl = setSlider(rs);
+                return sl;
+            }
+            return null;
+        } catch (SQLException e) {
+        }
+        return null;
+    }
+
+    public void updateSlider(int id, String title, String thumbnail, String detail, String status, String back_link) {
+        try {
+            String sql = "UPDATE slider SET title = ?,image = ?,description = ?,status = ?,back_link = ? WHERE id = ?";
+            stm = connection.prepareStatement(sql);
+            stm.setString(1, title);
+            stm.setString(2, thumbnail);
+            stm.setString(3, detail);
+            stm.setString(4, status);
+            stm.setString(5, back_link);
+            stm.setInt(6, id);
+            stm.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         SliderDAO s = new SliderDAO();
         List<Slider> list = s.getActive();

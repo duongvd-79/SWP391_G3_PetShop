@@ -51,7 +51,7 @@
                 box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
             }
         </style>
-        <title>Marketing DASHBOARD</title>
+        <title>SLIDER DASHBOARD</title>
     </head>
     <jsp:include page="header.jsp"></jsp:include>
         <body>
@@ -59,11 +59,11 @@
                 <div class="row">
 
                     <!-- Sidebar Start -->
-                    <div style="z-index: 2;background-color: transparent;position: relative;" class="col-2 sidebar pe pb-3 shadow-sm">
+                    <div style="z-index: 2;background-color: transparent;position: relative;width: 520px" class="col-2 sidebar pe pb-3 shadow-sm">
                         <div style="top:130px;" class="w-100 mb-1 sticky-top">
                             <a href="#" class="nav-link "><i class="fa fa-tachometer-alt me-2"></i>MARKETING DASHBOARD</a>
                             <a href="BlogManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>BlOG LIST</a>
-                            <a href="SliderManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SLIDER LIST</a>
+                            <a href="BlogManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SLIDER LIST</a>
                             <a href="FeedbackManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>FEEDBACK LIST</a>
                         </div>
                     </div>
@@ -76,68 +76,47 @@
                             <div class="col-md-5 function">
                                 <div class="input-group d-flex ">
                                     <div class="search-container">
-                                        <form action="BlogManager" method="GET">
+                                        <form action="SliderManager" method="GET">
                                             <label>Từ khóa</label>
                                             <input type="text" name="search" placeholder="Search...">
-                                            <label>Thể loại</label>  
-                                            <select name="categoryID" id="categorySelect">
-                                                <option value="">All</option>
-                                            <c:forEach items="${listC}" var="category">
-                                                <option value="${category.id}">${category.name}</option>
-                                            </c:forEach>
-                                        </select>
-                                        <div>
-                                            <label for="startDate">From:</label>
-                                            <input type="date" id="startDate" name="startDate">
-                                            <label for="endDate">To:</label>
-                                            <input type="date" id="endDate" name="endDate">
-                                        </div>
                                         <button type="submit">Search</button>
                                     </form>
                                 </div>
-
                             </div>
                         </div>
-
-                        <div class="col-md-1 function"><a  href="#popup1" class="btn btn-primary" type="button">Add New</a></div>
-
 
                     </div>
                     <div class="container">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-12" style="width: 1100px">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>Title</th>
                                             <th>Thumbnail</th>
-                                            <th>Created Date</th>
-                                            <th>Created By</th>
-                                            <th>Category</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:forEach items="${listp}" var="u">
+                                        <c:forEach items="${slider}" var="u">
                                             <tr>
                                                 <td>${u.id}</td>
                                                 <td>${u.title}</td>
                                                 <td>
                                                     <c:choose>
-                                                        <c:when test="${fn:startsWith(u.thumbnail, 'https')}">
-                                                            <img src="${u.thumbnail}" alt="alt" height="200px" width="200px"/>
+                                                        <c:when test="${fn:startsWith(u.image, 'https')}">
+                                                            <img src="${u.image}" alt="alt" height="200px" width="200px"/>
                                                         </c:when>
                                                         <c:otherwise>
-                                                            <img src="./images/${u.thumbnail}" alt="alt" height="200px" width="200px"/>
+                                                            <img src="./images/${u.image}" alt="alt" height="200px" width="200px"/>
                                                         </c:otherwise>
                                                     </c:choose>
                                                 </td>
-                                                <td>${u.createdDate}</td>
-                                                <td>${u.user.name}</td>
-                                                <td>${u.setting.name}</td>
+                                                <td>${u.status}</td>
                                                 <td><div class="d-flex justify-content-evenly align-items-center py-2">
-                                                        <div class="me-4"><a href="editblog?id=${u.id}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                        <div class="me-4"><a href="editslider?id=${u.id}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -178,7 +157,7 @@
                 <form method="post" action="addblog" class="row" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="add">
                     <div class="col-md-12 mb-2"><label class="labels">Title</label><input type="text" name="title" class="form-control" placeholder="Enter title..." required=""></div>
-                    <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input style="display:block" type="file" name="file" class="form-control" required></div>
+                    <div class="col-md-12 mb-2"><label class="labels">Thumbnail</label><input type="file" name="file" class="form-control" required></div>
                     <div class="col-md-7 mb-2"><label class="labels">Detail</label><input type="text" name="detail" class="form-control" placeholder="Enter your content..." value="" required></div>
                     <div class="col-md-5"><label class="labels">Category</label>
                         <select class="form-select" id="roles" name="category">

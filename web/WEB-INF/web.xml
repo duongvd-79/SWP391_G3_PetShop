@@ -187,7 +187,7 @@
     <servlet>
         <servlet-name>CompletionServlet</servlet-name>
         <servlet-class>controller.CompletionServlet</servlet-class>
-        </servlet>
+    </servlet>
     <servlet>
         <servlet-name>OrdersListServlet</servlet-name>
         <servlet-class>controller.OrdersListServlet</servlet-class>
@@ -195,6 +195,18 @@
     <servlet>
         <servlet-name>OrderDetailsServlet</servlet-name>
         <servlet-class>controller.OrderDetailsServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SliderManager</servlet-name>
+        <servlet-class>controller.SliderManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditSliderServlet</servlet-name>
+        <servlet-class>controller.EditSliderServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedbackManager</servlet-name>
+        <servlet-class>controller.FeedbackManager</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -383,5 +395,17 @@
     <servlet-mapping>
         <servlet-name>OrderDetailsServlet</servlet-name>
         <url-pattern>/orderdetails</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SliderManager</servlet-name>
+        <url-pattern>/SliderManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditSliderServlet</servlet-name>
+        <url-pattern>/editslider</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackManager</servlet-name>
+        <url-pattern>/FeedbackManager</url-pattern>
     </servlet-mapping>
 </web-app>
