@@ -21,7 +21,7 @@ public class ProductFeedback {
      */
     int id, productId, userId, star, feedback_image_id;
     String detail, image, status, feedback_image;
-
+    String customerName, productName;
     Date createdDate;
 
     String name, pfp;
@@ -50,8 +50,6 @@ public class ProductFeedback {
     public void setFeedback_image(String feedback_image) {
         this.feedback_image = feedback_image;
     }
-
-    
     
     public ProductFeedback(int id, int productId, int userId, int star, String detail, String image, String status, Date createdDate, String name, String pfp) {
         this.id = id;
@@ -79,6 +77,22 @@ public class ProductFeedback {
         this.createdDate = createdDate;
     }
 
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+    
     public String getName() {
         return name;
     }

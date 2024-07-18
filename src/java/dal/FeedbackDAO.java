@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import model.ProductFeedback;
 
 public class FeedbackDAO extends DBContext {
@@ -233,4 +234,34 @@ public class FeedbackDAO extends DBContext {
         System.out.println(f.getAverageRating("6"));
     }
 
+    public List<ProductFeedback> getAllFeedback(String search,String sort,String orderBy) throws SQLException {
+        String sql = "SELECT * FROM petshop.product_feedback fb\n"
+                + "inner join product p on p.id = fb.product_id\n"
+                + "inner join user u on u.id = fb.user_id\n"
+                + "where fb.detail like ? or u.name like ? or p.id like ?\n";
+        if(!sort.equals("")){
+            sql = sql + ("order by "+sort+" "+orderBy);
+        }
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setString(1, "%"+ search + "%");
+        sta.setString(2, "%"+ search + "%");
+        sta.setString(3, "%"+ search + "%");
+        ResultSet rs = sta.executeQuery();
+        ArrayList<ProductFeedback> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int pid = rs.getInt("product_id");
+            int uid = rs.getInt("user_id");
+            String detail = rs.getString("detail");
+            int star = rs.getInt("star");
+            String image = rs.getString("image");
+            String status = rs.getString("status");
+            Date date = rs.getDate("created_date");
+            ProductFeedback pf = new ProductFeedback(id, pid, uid, star, detail, image, status, date);
+            pf.setCustomerName(rs.getString("name"));
+            pf.setProductName(rs.getString("title"));
+            lst.add(pf);
+        }
+        return lst;
+    }
 }
