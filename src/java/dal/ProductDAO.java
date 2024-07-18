@@ -486,7 +486,7 @@ public class ProductDAO extends DBContext {
         List<Product> productList = p.getAllPaginated(1, 20, "hạt", "", "", "", "List Price ASC");
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
-        }
+            }
         p.showProduct(1);
         p.updateProduct(new Product(32, 50, 6, "haha", "Available", "haha", "haha", 0, 0, new Date(), false));
     }

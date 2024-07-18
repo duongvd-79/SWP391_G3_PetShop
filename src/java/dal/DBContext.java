@@ -12,14 +12,14 @@ public class DBContext {
         try {
             String url = "jdbc:mysql://localhost:3306/petshop";
             String username = "root";
-            String password = "123456";
+            String password = "1234";
             Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println(ex);
         }
     }
-
+//
 //    public static void main(String[] args) {
 //        DBContext d = new DBContext();
 //        System.out.println(d.connection);

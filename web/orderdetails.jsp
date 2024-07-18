@@ -147,7 +147,7 @@
                                         <div style="border-left:#b0b435 4px solid;" class="d-flex align-items-center my-3 row">
                                             <img src="${s.getPfp()}" width="60" class="ms-3 col-2" alt="alt"/>
                                             <span class="h5 mb-0 col-6">Sale : ${s.getName()}</span>
-                                            <span class="h5 mb-0 col-3">BN orders</span>
+                                            <span class="h5 mb-0 col-3"></span>
                                         </div>
                                     </a>
                                 </c:forEach>
@@ -168,7 +168,19 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Template Javascript -->
     <script src="js/admin.js"></script>
+    <script>
+    $(document).ready(function () {
+        var toastMessage = `${sessionScope.noti}`;
+        if (toastMessage) {
+                toastr.success(toastMessage);
+                <% 
+                session.removeAttribute("noti");
+                %>
+        }
+    });
+    </script>
+    
 </html>

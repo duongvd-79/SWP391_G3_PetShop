@@ -173,7 +173,7 @@
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
                                 <c:choose>
-                                    <c:when test="${requestScope.page >= requestScope.pageNum-2}">
+                                    <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 3}">
                                         <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
                                             <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
                                         </c:forEach>
@@ -187,8 +187,9 @@
                                 <c:if test="${requestScope.page < requestScope.pageNum-2}">
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
+                                <c:if test="${requestScope.pageNum > 1}">
                                 <li class="page-item ${requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${requestScope.pageNum}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${requestScope.pageNum}</a></li>
-
+                                </c:if>
                                 <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="orderslist?page=${page+1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">Next</a></li>
                             
                                 </ul>
