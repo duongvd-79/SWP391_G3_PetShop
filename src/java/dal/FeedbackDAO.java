@@ -22,7 +22,7 @@ public class FeedbackDAO extends DBContext {
 
     public ArrayList<ProductFeedback> getNewFeedback(int newid) throws SQLException {
         String sql = "SELECT   p.id, p.product_id, p.user_id, u.name, u.pfp, p.detail, p.star, p.image, p.status, p.created_date\n"
-                + "FROM product_feedback p join user u on p.user_id = u.id\n where p.product_id = ? "
+                + "FROM product_feedback p join user u on p.user_id = u.id\n where p.product_id = ? and p.status='active'"
                 + "ORDER BY created_date desc\n"
                 + "limit 3;";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -263,5 +263,36 @@ public class FeedbackDAO extends DBContext {
             lst.add(pf);
         }
         return lst;
+    }
+    
+     public ProductFeedback getFeedbackByID(int fid) throws SQLException {
+        String sql = "select * from product_feedback where id = ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, fid);
+        ResultSet rs = sta.executeQuery();
+        ProductFeedback pf = new ProductFeedback();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            int pid = rs.getInt("product_id");
+            int uid = rs.getInt("user_id");
+            String detail = rs.getString("detail");
+            int star = rs.getInt("star");
+            String image = rs.getString("image");
+            String status = rs.getString("status");
+            Date date = rs.getDate("created_date");
+            pf = new ProductFeedback(id, pid, uid, star, detail, image, status, date);
+        }
+        return pf;
+    }
+     
+       public void updateStatusFeedback(String status, int id) {
+        try {
+            String sql = "UPDATE `product_feedback` SET status = ? where id = ? ";
+            PreparedStatement sta = connection.prepareStatement(sql);
+            sta.setString(1, status);
+            sta.setInt(2, id);
+            sta.executeUpdate();
+        } catch (SQLException e) {
+        }
     }
 }

@@ -195,8 +195,8 @@
     <servlet>
         <servlet-name>MarketingProductDetail</servlet-name>
         <servlet-class>controller.MarketingProductDetailServlet</servlet-class>
-        </servlet>
-        <servlet>
+    </servlet>
+    <servlet>
         <servlet-name>CompletionServlet</servlet-name>
         <servlet-class>controller.CompletionServlet</servlet-class>
     </servlet>
@@ -219,6 +219,14 @@
     <servlet>
         <servlet-name>FeedbackManager</servlet-name>
         <servlet-class>controller.FeedbackManager</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>FeedbackDetailServlet</servlet-name>
+        <servlet-class>controller.FeedbackDetailServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChangeStatusFeedbackServlet</servlet-name>
+        <servlet-class>controller.ChangeStatusFeedbackServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
@@ -407,8 +415,8 @@
     <servlet-mapping>
         <servlet-name>MarketingProductDetail</servlet-name>
         <url-pattern>/marketingproductdetail</url-pattern>
-        </servlet-mapping>
-        <servlet-mapping>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>CompletionServlet</servlet-name>
         <url-pattern>/completion</url-pattern>
     </servlet-mapping>
@@ -431,5 +439,13 @@
     <servlet-mapping>
         <servlet-name>FeedbackManager</servlet-name>
         <url-pattern>/FeedbackManager</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FeedbackDetailServlet</servlet-name>
+        <url-pattern>/feedbackdetail</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangeStatusFeedbackServlet</servlet-name>
+        <url-pattern>/changestatusfeedback</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -59,12 +59,13 @@
                 <div class="row">
 
                     <!-- Sidebar Start -->
-                    <div style="z-index: 2;background-color: transparent;position: relative;width: 520px" class="col-2 sidebar pe pb-3 shadow-sm">
-                        <div style="top:130px;" class="w-100 mb-1 sticky-top">
-                            <a href="#" class="nav-link "><i class="fa fa-tachometer-alt me-2"></i>MARKETING DASHBOARD</a>
-                            <a href="BlogManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>BlOG LIST</a>
-                            <a href="SliderManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SLIDER LIST</a>
-                            <a href="FeedbackManager" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>FEEDBACK LIST</a>
+                    <div class="container col-2 position-relative" >
+                        <div class="w-100 mb-1 sticky-top" style="top: 126px; z-index: 1; font-size: 18px">
+                            <a href="#" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
+                            <a href="customerlist" class="nav-link active"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
+                            <a href="FeedbackManager" class="nav-link"><i class="bi bi-chat-left-text-fill p-2 rounded-circle" style="background-color: lightgray"></i> FEEDBACKS</a>
+                            <a href="marketingproductlist" class="nav-link"><i class="bi bi-archive-fill p-2 rounded-circle" style="background-color: lightgray"></i> PRODUCTS</a>
+                            <a href="SliderManager" class="nav-link"><i class="bi bi-image p-2 rounded-circle" style="background-color: lightgray"></i> SLIDERS</a>
                         </div>
                     </div>
                     <!-- Sidebar End -->
@@ -108,7 +109,7 @@
                                                 <th>Customer</th>
                                                 <th>Detail</th>
                                                 <th>Status</th>
-                                                <<th>Rate</th>
+                                                <th>Rate</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -122,7 +123,7 @@
                                                 <td>${u.status}</td>
                                                 <td>${u.star} <img height="20" src="https://img.icons8.com/ios-filled/50/FFD700/star--v1.png"></td>
                                                 <td><div class="d-flex justify-content-evenly align-items-center py-2">
-                                                        <div class="me-4"><a href="?id=${u.id}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
+                                                        <div class="me-4"><a href="feedbackdetail?id=${u.id}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                     </div>
                                                 </td>
                                             </tr>
