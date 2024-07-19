@@ -4,26 +4,21 @@
  */
 package controller;
 
-import dal.AddressDAO;
-import dal.UserDAO;
+import dal.SliderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Address;
-import model.User;
+import java.util.List;
+import model.Slider;
 
 /**
  *
- * @author ACER
+ * @author trand
  */
-public class EmailVerifyServlet extends HttpServlet {
+public class SliderManager extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +37,10 @@ public class EmailVerifyServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EmailVerifyServlet</title>");
+            out.println("<title>Servlet SliderManager</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EmailVerifyServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SliderManager at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,39 +58,12 @@ public class EmailVerifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String key = request.getParameter("key");
-        String alert = "";
-        UserDAO uDAO = new UserDAO();
-        AddressDAO aDAO = new AddressDAO();
-        User u = (User) session.getAttribute("newuser");
-        Address a = (Address) session.getAttribute("address");
-        long creationTime = session.getCreationTime();
-        long currentTime = System.currentTimeMillis();
-        long maxInactiveInterval = 180 * 1000;
-        //nếu khớp key gửi qua email
-        if (key.equals((String) session.getAttribute("key")) && currentTime - creationTime < maxInactiveInterval ) {
-            try {
-                uDAO.addNewUser(u);
-                aDAO.addNew(a.getCity(), a.getDistrict(), a.getDetail());
-                aDAO.addNewUserAddress();
-                String Noti = "Account is created successfully. Please Sign In.";
-                    session.setAttribute("noti", Noti);
-                    session.setAttribute("toastType", "success");
-                alert = "Account is created successfully. Please Sign In.";
-                response.sendRedirect("home#login");
-            } catch (SQLException ex) {
-            }
-        } else if (session.getAttribute("key") == null || currentTime - creationTime > maxInactiveInterval) {
-            alert = "Link had been expired";
-            session.setAttribute("alert", alert);
-        response.sendRedirect("home#register");
-        } else {
-            alert = "Not authorize access";
-            session.setAttribute("alert", alert);
-        response.sendRedirect("home#register");
-        }
-
+        String search = request.getParameter("search");
+        search = search == null ? "" : search;
+        SliderDAO sliderDAO = new SliderDAO();
+        List<Slider> sliderList = sliderDAO.getSliders(search);
+        request.setAttribute("slider", sliderList);
+        request.getRequestDispatcher("SliderManager.jsp").forward(request, response);
     }
 
     /**

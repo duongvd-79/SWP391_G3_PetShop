@@ -134,7 +134,7 @@
                                 <c:if test="${user.getRoleId()==2}">
                                 <li><a class="nav-link" href="customerlist">Marketing</a></li>
                                 </c:if>
-                                <c:if test="${user.getRoleId()==3}">
+                                <c:if test="${user.getRoleId()==3 || user.getRoleId()==4}">
                                 <li><a class="nav-link" href="SaleDashboard">Sale</a></li>
                                 </c:if>
                                 <c:if test="${user.getRoleId()==5}">

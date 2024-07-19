@@ -65,14 +65,16 @@
                         <div class="row">
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-8 d-flex align-items-baseline flex-column ms-0">
                                 <span style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} </span>
-                                <select style="border: 0 !important;color:${'Submitted'.equals(order.status)?'#007bff':''}
-                                     ${'Success'.equals(order.status)?'#28a745':''}
+                                <select style="border: 0 !important;color:${'Success'.equals(order.getStatus())?'#28a745':''}
+                                     ${'Submitted'.equals(order.status)?'#007bff':''}
                                      ${'Confirmed'.equals(order.status)?'#17a2b8':''}
                                      ${'Shipping'.equals(order.status)?'#ffc107':''}
                                      ${'Cancelled'.equals(order.status)?'#dc3545':''}" class="form-select function w-25 mb-1" ${('Cancelled'.equals(order.status)||'Success'.equals(order.status))?'disabled':''} onchange="if (this.value)
                                         window.location.href = this.value">
+                                  <c:if test="${'Success'.equals(order.getStatus())}">
+                                    <option selected style="color: #007bff;">Success</option>
+                                  </c:if>
                                     <option ${'Submitted'.equals(order.status)?'selected':''} value="orderdetails?id=${order.getId()}&changestatus=Submitted" style="color: #007bff;">Submitted</option>
-                                    <option ${'Success'.equals(order.status)?'selected':''} value="orderdetails?id=${order.getId()}&changestatus=Success" style="color: #28a745;">Success</option>
                                     <option ${'Confirmed'.equals(order.status)?'selected':''} value="orderdetails?id=${order.getId()}&changestatus=Confirmed" style="color: #17a2b8;">Confirmed</option>
                                     <option ${'Shipping'.equals(order.status)?'selected':''} value="orderdetails?id=${order.getId()}&changestatus=Shipping" style="color: #ffc107;">Shipping</option>
                                     <option ${'Cancelled'.equals(order.status)?'selected':''} value="orderdetails?id=${order.getId()}&changestatus=Cancelled" style="color: #dc3545;">Cancelled</option>
@@ -145,7 +147,7 @@
                                         <div style="border-left:#b0b435 4px solid;" class="d-flex align-items-center my-3 row">
                                             <img src="${s.getPfp()}" width="60" class="ms-3 col-2" alt="alt"/>
                                             <span class="h5 mb-0 col-6">Sale : ${s.getName()}</span>
-                                            <span class="h5 mb-0 col-3">BN orders</span>
+                                            <span class="h5 mb-0 col-3"></span>
                                         </div>
                                     </a>
                                 </c:forEach>
@@ -166,7 +168,19 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="lib/easing/easing.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Template Javascript -->
     <script src="js/admin.js"></script>
+    <script>
+    $(document).ready(function () {
+        var toastMessage = `${sessionScope.noti}`;
+        if (toastMessage) {
+                toastr.success(toastMessage);
+                <% 
+                session.removeAttribute("noti");
+                %>
+        }
+    });
+    </script>
+    
 </html>

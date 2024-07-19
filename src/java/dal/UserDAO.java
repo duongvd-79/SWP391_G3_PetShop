@@ -277,7 +277,7 @@ public class UserDAO extends DBContext {
     }
 
     public void addNewUser(User u) throws SQLException {
-        String sql = "insert into user(email,password,name,gender,status,role_id,phone,create_date) values (?,MD5(?),?,?,?,?,?,NOW())";
+        String sql = "insert into user(email,password,name,gender,status,role_id,phone,create_date,pfp) values (?,MD5(?),?,?,?,?,?,NOW(),'images/userpfp/default.jpg')";
         PreparedStatement sta = connection.prepareStatement(sql);
         sta.setString(1, u.getEmail());
         sta.setString(2, u.getPassword());

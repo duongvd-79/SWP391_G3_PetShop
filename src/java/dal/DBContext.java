@@ -19,7 +19,7 @@ public class DBContext {
             System.out.println(ex);
         }
     }
-
+//
 //    public static void main(String[] args) {
 //        DBContext d = new DBContext();
 //        System.out.println(d.connection);
