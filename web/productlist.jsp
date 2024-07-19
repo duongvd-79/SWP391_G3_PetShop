@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="java.util.Date, java.util.Calendar"%>
 <%@page import="model.User"%>
 <!DOCTYPE html>
@@ -269,7 +270,10 @@
                                                 <div class="col-12">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <h5>${apr.listPrice}00 đ</h5>
+                                                            <c:set var="formattedPrice">
+                                                                <fmt:formatNumber value="${apr.listPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                            </c:set>
+                                                            <h5>${formattedPrice} đ</h5>
                                                         </div>
                                                         <c:forEach items="${starList}" var="star" begin="<%= i %>" end="<%= i++ %>">
                                                             <div class="col-12 d-flex justify-content-between">
@@ -283,7 +287,7 @@
                                                                     </span>
                                                                     <span>&bull;    (${star})</span>
                                                                 </div>
-                                                                <div>Sold 15</div>
+                                                                <div>Sold <fmt:formatNumber value="${soldMap[apr.id]}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/></div>
                                                             </div>
                                                         </c:forEach>
                                                     </div>

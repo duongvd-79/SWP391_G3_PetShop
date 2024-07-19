@@ -17,7 +17,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import model.Product;
 import model.ProductFeedback;
 import model.Slider;
@@ -200,6 +202,14 @@ public class ProductListServlet extends HttpServlet {
             request.setAttribute("starList", starList);
         } catch (SQLException e) {
         }
+
+        // Get total sold
+        Map<Integer, Double> soldMap = new HashMap<>();
+        for (Product p : allProduct) {
+            double totalSold = productDAO.getTotalSold(p.getId());
+            soldMap.put(p.getId(), totalSold);
+        }
+        request.setAttribute("soldMap", soldMap);
 
         // Pagination
         int totalProduct;

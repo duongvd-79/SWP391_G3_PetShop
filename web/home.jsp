@@ -1,5 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@page import="model.User"%>
 <!DOCTYPE html>
 <html>
@@ -196,7 +197,7 @@
                                                                     </span>
                                                                     <span>&bull;    (${star})</span>
                                                                 </div>
-                                                                <div>Sold 15</div>
+                                                                <div>Sold <fmt:formatNumber value="${soldMap[apr.id]}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/></div>
                                                             </div>
                                                         </c:forEach>
                                                     </div>

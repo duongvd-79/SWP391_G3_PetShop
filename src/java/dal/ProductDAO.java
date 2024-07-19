@@ -75,6 +75,22 @@ public class ProductDAO extends DBContext {
         return true;
     }
 
+    public double getTotalSold(int id) {
+        String sql = "SELECT SUM(quantity) AS total_sold FROM order_details "
+                + "WHERE product_id = ?";
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setInt(1, id);
+            rs = stm.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total_sold");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     public boolean updateProduct(Product product) {
         String sql = "UPDATE product SET title = ?, description = ?, thumbnail = ?,"
                 + "quantity = ?, status = ?, import_price = ?, list_price = ?,"
@@ -390,8 +406,8 @@ public class ProductDAO extends DBContext {
         String sql = "SELECT * FROM product p JOIN order_details od ON od.product_id = p.id\n"
                 + "JOIN `order` o ON od.order_id = o.id\n"
                 + " JOIN user u on u.id = customer_id WHERE o.sale_id = ?";
-        if (sale.getRoleId()==4) {
-            sql += " or o.sale_id != "+sale.getId();
+        if (sale.getRoleId() == 4) {
+            sql += " or o.sale_id != " + sale.getId();
         }
         if (status != null && !status.isEmpty()) {
             sql += " and o.status='" + status + "'";
@@ -469,7 +485,7 @@ public class ProductDAO extends DBContext {
         return null;
     }
 
-     public void updateQuantity(int pid, int quan) {
+    public void updateQuantity(int pid, int quan) {
         String sql = "UPDATE product SET quantity = ? WHERE id = ?";
         try {
             PreparedStatement stm;
@@ -480,7 +496,7 @@ public class ProductDAO extends DBContext {
         } catch (SQLException e) {
         }
     }
-    
+
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
         List<Product> productList = p.getAllPaginated(1, 20, "hạt", "", "", "", "List Price ASC");
