@@ -52,6 +52,9 @@
             #newemail:focus + .info-popup {
                 display: block;
             }
+            .sidebar .active{
+                color: #b0b435;
+            }
         </style>
     </head>
     <body>
@@ -62,7 +65,7 @@
                    
                    <!-- Sidebar Start -->
                     <div class="container col-2 position-relative" >
-                        <div class="w-100 mb-1 sticky-top" style="top: 126px; z-index: 1; font-size: 18px">
+                        <div class="w-100 mb-1 sticky-top sidebar" style="top: 126px;z-index: 1;font-size: 18px;font-weight: bold">
                             <a href="#" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
                             <a href="customerlist" class="nav-link active"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
                             <a href="FeedbackManager" class="nav-link"><i class="bi bi-chat-left-text-fill p-2 rounded-circle" style="background-color: lightgray"></i> FEEDBACKS</a>
@@ -79,7 +82,7 @@
                             <div class="row d-flex align-items-center mb-3">
                                 <div class="col-md-3">
                                     <form action="customerlist" method="get">
-                                        <input type="text" name="search" class="w-100" placeholder="Search..." value="${search}" style="min-height: 37.6px"/>
+                                        <input type="text" name="search" class="w-100 form-control" placeholder="Search..." value="${search}"/>
                                     <input type="text" name="status" value="${status}" hidden/>
                                     <input type="text" name="search" value="${search}" hidden/>
                                     <input type="text" name="sort" value="${sort}" hidden/>
@@ -87,7 +90,7 @@
                                 </form>
                             </div>
                             <div class="col-md-2">
-                                <select class="form-select py-2 w-100" id="status">
+                                <select class="form-control w-100" id="status">
                                     <option value="">All Status</option>
                                     <option value="Pending" ${status eq 'Pending' ? 'selected' : ''}>Pending</option>
                                     <option value="Active" ${status eq 'Active' ? 'selected' : ''}>Active</option>
@@ -95,7 +98,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2">
-                                <select class="form-select py-2 w-100" id="gender">
+                                <select class="form-control w-100" id="gender">
                                     <option value="">All Gender</option>
                                     <option value="Male" ${gender eq 'Male' ? 'selected' : ''}>Male</option>
                                     <option value="Female" ${gender eq 'Female' ? 'selected' : ''}>Female</option>
@@ -479,7 +482,7 @@
                                                         <div class="row mt-3">
                                                             <div class="col-md-12">
                                                                 <label class="labels"><strong>Name</strong> <span class="text-danger">(*)</span></label>
-                                                                <input type="text" class="form-control" name="name" id="newname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" placeholder="Enter Name" value="${sessionScope.name}" required>
+                                                                <input type="text" class="form-control" name="name" id="newname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" maxlength="50" placeholder="Enter Name" value="${sessionScope.name}" required>
                                                                 <span id="name-info" class="info-popup">Letters only, max 50 characters. Each word is separated by only 1 space.</span>
                                                                 <% request.getSession().removeAttribute("name"); %>
                                                             </div>
@@ -506,7 +509,7 @@
                                                         <div class="row mt-1">
                                                             <div class="col-md-6">
                                                                 <label class="labels"><strong>City</strong> <span class="text-danger">(*)</span></label>
-                                                                <select class="form-select p-2" name="city" id="newcity" style="max-width: 100%;min-width:100%;" required>
+                                                                <select class="form-control" name="city" id="newcity" style="max-width: 100%;min-width:100%;" required>
                                                                     <option ${sessionScope.city == null ? 'selected' : ''}value="">City</option>
                                                                 </select>
                                                                 <% request.getSession().removeAttribute("city"); %>
@@ -514,7 +517,7 @@
                                                             <div class="col-md-6">
                                                                 <label class="labels"><strong>District</strong> <span class="text-danger">(*)</span></label>
                                                                 <br>
-                                                                <select class="form-select p-2" name="district" id="newdistrict" style="max-width: 100%;min-width:100%;" required>
+                                                                <select class="form-control" name="district" id="newdistrict" style="max-width: 100%;min-width:100%;" required>
                                                                     <option ${sessionScope.district == null ? 'selected' : ''} value="">District</option>
                                                                 </select>
                                                                 <% request.getSession().removeAttribute("district"); %>

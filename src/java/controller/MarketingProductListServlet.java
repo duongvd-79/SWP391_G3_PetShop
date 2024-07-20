@@ -4,6 +4,7 @@ package controller;
 
 import dal.ProductDAO;
 import dal.SettingDAO;
+import helper.PartForm;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -186,15 +187,15 @@ public class MarketingProductListServlet extends HttpServlet {
         Part categoryPart = request.getPart("category");
 
         // Convert to string
-        String thumbURL = getValueFromPart(thumbURLPart);
-        String title = getValueFromPart(titlepPart);
-        String description = getValueFromPart(descriptionPart);
-        String quantityRaw = getValueFromPart(quantityPart);
-        String status = getValueFromPart(statusPart);
-        String importPriceRaw = getValueFromPart(importPricePart);
-        String listPriceRaw = getValueFromPart(listPricePart);
-        String featured = getValueFromPart(featuredPart);
-        String categoryRaw = getValueFromPart(categoryPart);
+        String thumbURL = PartForm.getValueFromPart(thumbURLPart);
+        String title = PartForm.getValueFromPart(titlepPart);
+        String description = PartForm.getValueFromPart(descriptionPart);
+        String quantityRaw = PartForm.getValueFromPart(quantityPart);
+        String status = PartForm.getValueFromPart(statusPart);
+        String importPriceRaw = PartForm.getValueFromPart(importPricePart);
+        String listPriceRaw = PartForm.getValueFromPart(listPricePart);
+        String featured = PartForm.getValueFromPart(featuredPart);
+        String categoryRaw = PartForm.getValueFromPart(categoryPart);
 
         Product newProduct = new Product();
         if (thumbURL != null && !thumbURL.trim().isEmpty()) {
@@ -217,7 +218,7 @@ public class MarketingProductListServlet extends HttpServlet {
             double importPrice = Double.parseDouble(importPriceRaw);
             newProduct.setImportPrice(importPrice);
         }
-        if (listPriceRaw != null && listPriceRaw.isEmpty()) {
+        if (listPriceRaw != null && !listPriceRaw.isEmpty()) {
             double listPrice = Double.parseDouble(listPriceRaw);
             newProduct.setListPrice(listPrice);
         }
@@ -269,21 +270,6 @@ public class MarketingProductListServlet extends HttpServlet {
         }
 
         response.sendRedirect("marketingproductlist#addNewProduct");
-    }
-
-    private String getValueFromPart(Part part) throws IOException {
-        if (part != null) {
-            StringBuilder value = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), StandardCharsets.UTF_8))) {
-                char[] buffer = new char[1024];
-                int length;
-                while ((length = reader.read(buffer)) > 0) {
-                    value.append(buffer, 0, length);
-                }
-            }
-            return value.toString();
-        }
-        return null; // or return an empty string or handle the null case accordingly
     }
 
     /**

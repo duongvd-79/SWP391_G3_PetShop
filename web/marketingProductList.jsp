@@ -51,6 +51,9 @@
                 padding: 6px 12px;
                 cursor: pointer;
             }
+            .sidebar .active{
+                color: #b0b435;
+            }
         </style>
     </head>
     <body>
@@ -59,11 +62,11 @@
                 <div class="row">
                     <!-- Sidebar Start -->
                     <div class="container col-2 position-relative" >
-                        <div class="w-100 mb-1 sticky-top" style="top: 126px; z-index: 1; font-size: 18px">
+                        <div class="w-100 mb-1 sticky-top sidebar" style="top: 126px;z-index: 1;font-size: 18px;font-weight: bold">
                             <a href="#" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
-                            <a href="customerlist" class="nav-link active"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
+                            <a href="customerlist" class="nav-link"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
                             <a href="FeedbackManager" class="nav-link"><i class="bi bi-chat-left-text-fill p-2 rounded-circle" style="background-color: lightgray"></i> FEEDBACKS</a>
-                            <a href="marketingproductlist" class="nav-link"><i class="bi bi-archive-fill p-2 rounded-circle" style="background-color: lightgray"></i> PRODUCTS</a>
+                            <a href="marketingproductlist" class="nav-link active"><i class="bi bi-archive-fill p-2 rounded-circle" style="background-color: lightgray"></i> PRODUCTS</a>
                             <a href="SliderManager" class="nav-link"><i class="bi bi-image p-2 rounded-circle" style="background-color: lightgray"></i> SLIDERS</a>
                         </div>
                     </div>
@@ -75,7 +78,7 @@
                             <div class="row d-flex align-items-center mb-3">
                                 <div class="col-md-3">
                                     <form action="marketingproductlist" method="get">
-                                        <input type="text" name="search" class="w-100" placeholder="Search..." style="min-height: 37.6px" list="searchList"/>
+                                        <input type="text" name="search" class="w-100 form-control" placeholder="Search..." list="searchList"/>
                                         <datalist id="searchList">
                                         <c:forEach items="${allSearchList}" var="asl">
                                             <option value="${asl.title}"></option>
@@ -88,15 +91,15 @@
                                 </form>
                             </div>
                             <div class="col-md-2">
-                                <select class="form-select py-2 w-100" id="category">
+                                <select class="form-control w-100" id="category">
                                     <option value="">All Category</option>
                                     <c:forEach items="${applicationScope.prcategory}" var="prcate">
                                         <option value="${prcate.name}" ${prcate.name eq categorySelect ? 'selected' : ''}>${prcate.name}</option>
                                     </c:forEach>
                                 </select>
                             </div>
-                            <div class="col-md-1">
-                                <select class="form-select py-2" id="status">
+                            <div class="col-md-2">
+                                <select class="form-control" id="status">
                                     <option value="">All Status</option>
                                     <option value="Available" ${status eq 'Available' ? 'selected' : ''}>Available</option>
                                     <option value="Out of Stock" ${status eq 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
@@ -110,8 +113,8 @@
                             <div class="col-md-1">
                                 <a class="btn" style="text-decoration: none;color: white;background: #b0b435" href="marketingproductlist">Clear</a>
                             </div>
-                            <div class="col-md-4 d-flex justify-content-end">
-                                <a class="btn" href="#addNewProduct" style="text-decoration: none;color: white;background: #b0b435" type="button">Add New</a>
+                            <div class="col-md-3 d-flex justify-content-end">
+                                <button class="btn" style="text-decoration: none;color: white;background: #b0b435" type="button" data-toggle="modal" data-target="#addNewProduct">Add New</button>
                             </div>
                         </div>
                         <div class="row">
@@ -272,106 +275,114 @@
                                 </nav>
                             </div>
                         </div>
-                        <div id="addNewProduct" class="overlay" style="z-index: 999">
-                            <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4" style="max-height: 90vh;max-width: 75vw;overflow-y: auto">
-                                <form action="marketingproductlist" method="post" enctype="multipart/form-data">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="p-3 pt-5 pb-3">
-                                                <div class="d-flex justify-content-center align-items-center mb-3">
-                                                    <h2><strong>Add new Product</strong></h2>
-                                                    <a class="close" href="#!">&times;</a>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12 border-left border-right">
+                        <div class="modal fade" id="addNewProduct" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="min-width: 70vw">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <form action="marketingproductlist" method="post" enctype="multipart/form-data">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="p-3 pt-5 pb-3">
+                                                        <div class="d-flex justify-content-center align-items-center mb-3">
+                                                            <h2><strong>Add new Product</strong></h2>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
                                                         <div class="row">
-                                                            <div class="col-4">
-                                                                <div class="d-flex flex-column align-items-center text-center p-3">
-                                                                    <img class="rounded-circle my-3" id="preview-thumbnail" width="150px" height="150px" src="" onerror="this.src='images/error-product-image.jpg';this.onerror='';">
-                                                                    <h3 class="text-right"><strong>Thumbnail</strong></h3>
-                                                                    <input id="thumbnail-upload" type="file" name="thumbnail" accept="image/*">
-                                                                    <p id="thumbnail-size-warning" style="color: red; display: none;">File size exceeds 50MB!</p>
-                                                                    <label for="thumbnail-upload" class="custom-file-upload mt-2">Upload Image</label>
-                                                                    <span>or</span>
-                                                                    <input class="form-control mt-2" type="text" name="thumbnailURL" placeholder="Enter Thumbnail URL" id="thumbnailURL">
-                                                                    <span id="thumbnail-name"></span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-8">
-                                                                <div class="row mt-2">
-                                                                    <div class="col-md-12">
-                                                                        <label class="labels">Title <span class="text-danger">(*)</span></label>
-                                                                        <input type="text" class="form-control" name="title" id="newTitle" placeholder="Enter Product Title" value="${sessionScope.title}" required>
-                                                                        <% request.getSession().removeAttribute("title"); %>
+                                                            <div class="col-12 border-left border-right">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <div class="d-flex flex-column align-items-center text-center p-3">
+                                                                            <img class="rounded-circle my-3" id="preview-thumbnail" width="150px" height="150px" src="" onerror="this.src='images/error-product-image.jpg';this.onerror='';">
+                                                                            <h3 class="text-right"><strong>Thumbnail</strong></h3>
+                                                                            <input id="thumbnail-upload" type="file" name="thumbnail" accept="image/*">
+                                                                            <p id="thumbnail-size-warning" style="color: red; display: none;">File size exceeds 50MB!</p>
+                                                                            <label for="thumbnail-upload" class="custom-file-upload mt-2">Upload Image</label>
+                                                                            <span>or</span>
+                                                                            <input class="form-control mt-2" type="text" name="thumbnailURL" placeholder="Enter Thumbnail URL" id="thumbnailURL">
+                                                                            <span id="thumbnail-name"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-8">
+                                                                        <div class="row mt-2">
+                                                                            <div class="col-md-12">
+                                                                                <label class="labels">Title <span class="text-danger">(*)</span></label>
+                                                                                <input type="text" class="form-control" name="title" pattern="^[A-Za-zÀ-ỹà-ỹ0-9]+( [A-Za-zÀ-ỹà-ỹ0-9]+)*$" maxlength="255" 
+                                                                                       title="Alphanumeric characters only. Max 255 characters. Each word is separated by only 1 space."
+                                                                                       id="newTitle" placeholder="Enter Product Title" value="${sessionScope.title}" required>
+                                                                                <% request.getSession().removeAttribute("title"); %>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="row mt-3">
+                                                                            <div class="col-md-12">
+                                                                                <label class="labels">Description <span class="text-danger">(*)</span></label>
+                                                                                <textarea class="form-control" name="description" id="newDescription" placeholder="Enter Description" value="${sessionScope.description}" required>${sessionScope.description}</textarea>
+                                                                                <% request.getSession().removeAttribute("description"); %>
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mt-3">
-                                                                    <div class="col-md-12">
-                                                                        <label class="labels">Description <span class="text-danger">(*)</span></label>
-                                                                        <textarea class="form-control" name="description" id="newDescription" placeholder="Enter Description" value="${sessionScope.description}" required>${sessionScope.description}</textarea>
-                                                                        <% request.getSession().removeAttribute("description"); %>
+                                                                    <div class="col-md-6">
+                                                                        <label class="labels">Quantity <span class="text-danger">(*)</span></label>
+                                                                        <input type="number" class="form-control" name="quantity" id="newQuantity" placeholder="Enter Quantity" value="${sessionScope.quantity}" required>
+                                                                        <% request.getSession().removeAttribute("quantity"); %>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="labels">Status <span class="text-danger">(*)</span></label>
+                                                                        <select type="text" class="form-control py-2 w-100" name="status" id="newStatus" placeholder="Enter Status" value="${sessionScope.status}" required>
+                                                                            <option value="">Status</option>
+                                                                            <option value="Available" ${sessionScope.status eq 'Available' ? 'selected' : ''}>Available</option>
+                                                                            <option value="Hidden" ${sessionScope.status eq 'Hidden' ? 'selected' : ''}>Hidden</option>
+                                                                        </select>
+                                                                        <% request.getSession().removeAttribute("status"); %>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Quantity <span class="text-danger">(*)</span></label>
-                                                                <input type="number" class="form-control" name="quantity" id="newQuantity" placeholder="Enter Quantity" value="${sessionScope.quantity}" required>
-                                                                <% request.getSession().removeAttribute("quantity"); %>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Status <span class="text-danger">(*)</span></label>
-                                                                <select type="text" class="form-select py-2 w-100" name="status" id="newStatus" placeholder="Enter Status" value="${sessionScope.status}" required>
-                                                                    <option value="">Status</option>
-                                                                    <option value="Available" ${sessionScope.status eq 'Available' ? 'selected' : ''}>Available</option>
-                                                                    <option value="Hidden" ${sessionScope.status eq 'Hidden' ? 'selected' : ''}>Hidden</option>
-                                                                </select>
-                                                                <% request.getSession().removeAttribute("status"); %>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-12 border-left border-right">
-                                                        <div class="row mt-1">
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Import Price <span class="text-danger">(*)</span></label>
-                                                                <input class="form-control" type="number" name="importPrice" id="newImportPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
-                                                                <% request.getSession().removeAttribute("importPrice"); %>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="labels">List Price <span class="text-danger">(*)</span></label>
-                                                                <input class="form-control" type="number" name="listPrice" id="newListPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
-                                                                <% request.getSession().removeAttribute("listPrice"); %>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-6">
-                                                                <label class="labels">Import Price <span class="text-danger">(*)</span></label>
-                                                                <select class="form-control" type="number" name="category" id="newCategory" style="max-width: 100%;min-width:100%;" required>
-                                                                    <option value="">Category</option>
-                                                                    <c:forEach items="${applicationScope.prcategory}" var="prcate">
-                                                                        <option value="${prcate.id}">${prcate.name}</option>
-                                                                    </c:forEach>
-                                                                </select>
-                                                                <% request.getSession().removeAttribute("category"); %>
-                                                            </div>
-                                                            <div class="col-md-6 d-flex justify-content-start align-items-center">
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" name="featured" id="newFeatured" value="Is Featured">
-                                                                    <label class="form-check-label" for="newFeatured">Is Featured</label>
+                                                            <div class="col-12 border-left border-right">
+                                                                <div class="row mt-1">
+                                                                    <div class="col-md-6">
+                                                                        <label class="labels">Import Price <span class="text-danger">(*)</span></label>
+                                                                        <input class="form-control" type="number" name="importPrice" id="newImportPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
+                                                                        <% request.getSession().removeAttribute("importPrice"); %>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="labels">List Price <span class="text-danger">(*)</span></label>
+                                                                        <input class="form-control" type="number" name="listPrice" id="newListPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
+                                                                        <% request.getSession().removeAttribute("listPrice"); %>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mt-3">
+                                                                    <div class="col-md-6">
+                                                                        <label class="labels">Import Price <span class="text-danger">(*)</span></label>
+                                                                        <select class="form-control" type="number" name="category" id="newCategory" style="max-width: 100%;min-width:100%;" required>
+                                                                            <option value="">Category</option>
+                                                                            <c:forEach items="${applicationScope.prcategory}" var="prcate">
+                                                                                <option value="${prcate.id}">${prcate.name}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+                                                                        <% request.getSession().removeAttribute("category"); %>
+                                                                    </div>
+                                                                    <div class="col-md-6 d-flex justify-content-start align-items-end">
+                                                                        <div class="form-check">
+                                                                            <input type="checkbox" class="form-check-input" name="featured" id="newFeatured" value="Is Featured">
+                                                                            <label class="form-check-label" for="newFeatured">Is Featured</label>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
+                                            <div class="mt-3 text-center">
+                                                <button class="btn text-light" id="save-button" type="submit" style="background-color: #b0b435">Add Product</button>
+                                            </div>
+                                        </form>
                                     </div>
-                                    <input type="text" class="form-control text-danger" id="pathName" name="page" value="" hidden>
-                                    <div class="mt-3 text-center">
-                                        <button class="btn text-light" id="save-button" type="submit" style="background-color: #b0b435">Add Product</button>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -396,6 +407,13 @@
             <script src="js/baguetteBox.min.js"></script>
             <script src="js/form-validator.min.js"></script>
             <script src="js/custom.js"></script>
+            <script>
+                const hash = window.location.hash;
+                if (hash && hash.toString().includes('product')) {
+                    const modal = new bootstrap.Modal(document.getElementById(hash.substring(1)));
+                    modal.show();
+                }
+            </script>
             <script>
                 document.getElementById('status').addEventListener('change', function () {
                     var selectedValue = this.value;

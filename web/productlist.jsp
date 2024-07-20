@@ -250,7 +250,7 @@
                                                         </div>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';"" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
+                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%

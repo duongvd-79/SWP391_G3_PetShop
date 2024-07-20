@@ -3,6 +3,7 @@
 package controller;
 
 import dal.ProductDAO;
+import helper.PartForm;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,9 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import model.Product;
 import model.User;
 
@@ -85,21 +83,6 @@ public class MarketingProductDetailServlet extends HttpServlet {
         }
     }
 
-    private String getValueFromPart(Part part) throws IOException {
-        if (part != null) {
-            StringBuilder value = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), StandardCharsets.UTF_8))) {
-                char[] buffer = new char[1024];
-                int length;
-                while ((length = reader.read(buffer)) > 0) {
-                    value.append(buffer, 0, length);
-                }
-            }
-            return value.toString();
-        }
-        return null; // or return an empty string or handle the null case accordingly
-    }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -128,21 +111,21 @@ public class MarketingProductDetailServlet extends HttpServlet {
         Part categoryPart = request.getPart("category");
 
         // Convert to string
-        String idRaw = getValueFromPart(idPart);
-        String thumbURL = getValueFromPart(thumbURLPart);
-        String title = getValueFromPart(titlepPart);
-        String description = getValueFromPart(descriptionPart);
-        String quantityRaw = getValueFromPart(quantityPart);
-        String status = getValueFromPart(statusPart);
-        String importPriceRaw = getValueFromPart(importPricePart);
-        String listPriceRaw = getValueFromPart(listPricePart);
-        String featured = getValueFromPart(featuredPart);
-        String categoryRaw = getValueFromPart(categoryPart);
+        String idRaw = PartForm.getValueFromPart(idPart);
+        String thumbURL = PartForm.getValueFromPart(thumbURLPart).trim();
+        String title = PartForm.getValueFromPart(titlepPart).trim();
+        String description = PartForm.getValueFromPart(descriptionPart);
+        String quantityRaw = PartForm.getValueFromPart(quantityPart);
+        String status = PartForm.getValueFromPart(statusPart);
+        String importPriceRaw = PartForm.getValueFromPart(importPricePart);
+        String listPriceRaw = PartForm.getValueFromPart(listPricePart);
+        String featured = PartForm.getValueFromPart(featuredPart);
+        String categoryRaw = PartForm.getValueFromPart(categoryPart);
 
         if (idRaw != null && !idRaw.isEmpty()) {
             int id = Integer.parseInt(idRaw);
             Product product = pdao.getProductById(id);
-            if (thumbURL != null && !thumbURL.trim().isEmpty()) {
+            if (thumbURL != null && !thumbURL.isEmpty()) {
                 product.setThumbnail(thumbURL);
             }
             if (title != null && !title.trim().isEmpty()) {
@@ -155,7 +138,7 @@ public class MarketingProductDetailServlet extends HttpServlet {
                 int quantity = Integer.parseInt(quantityRaw);
                 product.setQuantity(quantity);
             }
-            if (status != null && !status.trim().isEmpty()) {
+            if (status != null && !status.isEmpty()) {
                 product.setStatus(status);
             }
             if (importPriceRaw != null && !importPriceRaw.isEmpty()) {

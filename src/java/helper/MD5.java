@@ -13,13 +13,13 @@ public class MD5 {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(input.getBytes());
-            return convertByteToHex1(messageDigest);
+            return convertByteToHex(messageDigest);
         } catch (NoSuchAlgorithmException e) {
         }
         return null;
     }
 
-    private static String convertByteToHex1(byte[] data) {
+    private static String convertByteToHex(byte[] data) {
         BigInteger number = new BigInteger(1, data);
         String hashtext = number.toString(16);
         // 

@@ -165,7 +165,7 @@
                                                 <div class="type-lb">
                                                     <p class="sale">Hot</p>
                                                 </div>
-                                                <img src="${apr.thumbnail}" class="img-fluid" alt="Image">
+                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';" class="img-fluid" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%

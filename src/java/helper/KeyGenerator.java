@@ -11,13 +11,16 @@ import java.util.Random;
  * @author ACER
  */
 public class KeyGenerator {
+
     public static String getKey() {
         Random rd = new Random();
         String key = "";
-        for(int i=1;i<=50;i++){
+        for (int i = 1; i <= 50; i++) {
             int num = rd.nextInt(65, 116);
-            if(num>=91) num+=6;
-            key += (char)num;
+            if (num >= 91) {
+                num += 6;
+            }
+            key += (char) num;
         }
         return key;
     }

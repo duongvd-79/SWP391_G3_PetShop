@@ -192,14 +192,14 @@ public class CustomerListServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         // Get param
-        String email = request.getParameter("email");
-        String pw = request.getParameter("password");
-        String name = request.getParameter("name");
+        String email = request.getParameter("email").trim();
+        String pw = request.getParameter("password").trim();
+        String name = request.getParameter("name").trim();
         String gender = request.getParameter("gender");
         String city = request.getParameter("city");
         String district = request.getParameter("district");
-        String detail = request.getParameter("detailaddress");
-        String phone = request.getParameter("phone");
+        String detail = request.getParameter("detailaddress").trim();
+        String phone = request.getParameter("phone").trim();
 
         UserDAO udao = new UserDAO();
         User user = new User();

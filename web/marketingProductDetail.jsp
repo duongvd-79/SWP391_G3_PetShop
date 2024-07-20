@@ -51,6 +51,9 @@
                 padding: 6px 12px;
                 cursor: pointer;
             }
+            .sidebar .active{
+                color: #b0b435;
+            }
         </style>
     </head>
     <body>
@@ -60,7 +63,7 @@
 
                     <!-- Sidebar Start -->
                     <div class="container col-2 position-relative" >
-                        <div class="w-100 mb-1 sticky-top" style="top: 126px; z-index: 1; font-size: 18px">
+                        <div class="w-100 mb-1 sticky-top sidebar" style="top: 126px;z-index: 1;font-size: 18px;font-weight: bold">
                             <a href="marketingdashboard" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
                             <a href="customerlist" class="nav-link"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
                             <a href="feedbacklist" class="nav-link"><i class="bi bi-chat-left-text-fill p-2 rounded-circle" style="background-color: lightgray"></i> FEEDBACKS</a>

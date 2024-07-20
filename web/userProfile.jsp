@@ -29,7 +29,7 @@
                                 <div class="row mt-2">
                                     <div class="col-md-12">
                                         <label class="labels">Name</label>
-                                        <input type="text" class="form-control" name="pfname" id="pfname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" placeholder="Enter Name" value="${sessionScope.user.name}" required>
+                                        <input type="text" class="form-control" name="pfname" id="pfname" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+)*$" maxlength="50" placeholder="Enter Name" value="${sessionScope.user.name}" required>
                                         <span id="name-info" class="info-popup">Letters only, max 50 characters. Each word is separated by only 1 space.</span>
                                     </div>
                                 </div>
@@ -61,14 +61,14 @@
                                 <div class="row mt-1">
                                     <div class="col-md-6">
                                         <label class="labels">City</label>
-                                        <select class="form-select p-2" name="pfcity" id="pfcity" style="max-width: 100%;min-width:100%;" required>
+                                        <select class="form-control p-2" name="pfcity" id="pfcity" style="max-width: 100%;min-width:100%;" required>
                                             <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">City</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">District</label>
                                         <br>
-                                        <select class="form-select p-2" name="pfdistrict" id="pfdistrict" style="max-width: 100%;min-width:100%;" required>
+                                        <select class="form-control p-2" name="pfdistrict" id="pfdistrict" style="max-width: 100%;min-width:100%;" required>
                                             <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">District</option>
                                         </select>
                                     </div>
