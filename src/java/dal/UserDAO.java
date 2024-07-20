@@ -293,11 +293,10 @@ public class UserDAO extends DBContext {
         String sql = "SELECT * from user ORDER BY id DESC LIMIT 1";
         PreparedStatement sta = connection.prepareStatement(sql);
         ResultSet rs = sta.executeQuery();
-        int id = 0;
-        while (rs.next()) {
-            id = rs.getInt("id");
+        if (rs.next()) {
+            return rs.getInt("id");
         }
-        return id;
+        return 0;
     }
 
     public List<User> getAllCustomer(boolean isPaginated, String status, String gender, String search, String sort, int index) {
@@ -557,11 +556,11 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    
+
     public ArrayList<User> getUserByRoleID(int roleID) throws SQLException {
         String sql = "SELECT * FROM user where role_id = ?";
         PreparedStatement sta = connection.prepareStatement(sql);
-        sta.setInt(1,roleID);
+        sta.setInt(1, roleID);
         ResultSet rs = sta.executeQuery();
         ArrayList<User> lst = new ArrayList<>();
         while (rs.next()) {
@@ -580,6 +579,7 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
+
     public ArrayList<User> getAllSale() throws SQLException {
         String sql = "select * from user where role_id=3";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -607,6 +607,10 @@ public class UserDAO extends DBContext {
         List<User> list = udao.getAllCustomer(false, "", "", "", "", 0);
         for (User u : list) {
             System.out.println(u.getName());
+        }
+        try {
+            System.out.println(udao.getLastId());
+        } catch (SQLException e) {
         }
     }
 }

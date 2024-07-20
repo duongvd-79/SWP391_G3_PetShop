@@ -62,8 +62,8 @@
             <div class="container-fluid">
                 <div class="row">
 
-                   
-                   <!-- Sidebar Start -->
+
+                    <!-- Sidebar Start -->
                     <div class="container col-2 position-relative" >
                         <div class="w-100 mb-1 sticky-top sidebar" style="top: 126px;z-index: 1;font-size: 18px;font-weight: bold">
                             <a href="#" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
@@ -470,13 +470,6 @@
                                                                 <label class="labels"><strong>Email</strong> <span class="text-danger">(*)</span></label>
                                                                 <input type="email" class="form-control" name="email" id="newemail" placeholder="example@domain.com" value="${sessionScope.email}">
                                                                 <% request.getSession().removeAttribute("email"); %>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row mt-3">
-                                                            <div class="col-md-12">
-                                                                <label class="labels"><strong>Password</strong> <span class="text-danger">(*)</span></label>
-                                                                <input type="text" class="form-control" name="password" id="newpassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="Enter Name" value="" required>
-                                                                <span id="name-info" class="info-popup">Letters only, max 50 characters. Each word is separated by only 1 space.</span>
                                                             </div>
                                                         </div>
                                                         <div class="row mt-3">

@@ -167,6 +167,10 @@
             <!-- Begin Reset Password Popup -->
         <jsp:include page="resetPassword.jsp"></jsp:include>
             <!-- End Reset Password Popup -->
+
+            <!-- Begin Create Password -->
+        <jsp:include page="createPassword.jsp"></jsp:include>
+            <!-- End Create Password -->
         <%}%>
 
         <%

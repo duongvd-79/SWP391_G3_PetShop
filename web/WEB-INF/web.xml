@@ -228,6 +228,10 @@
         <servlet-name>ChangeStatusFeedbackServlet</servlet-name>
         <servlet-class>controller.ChangeStatusFeedbackServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>CreatePasswordServlet</servlet-name>
+        <servlet-class>controller.CreatePasswordServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -447,5 +451,9 @@
     <servlet-mapping>
         <servlet-name>ChangeStatusFeedbackServlet</servlet-name>
         <url-pattern>/changestatusfeedback</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CreatePasswordServlet</servlet-name>
+        <url-pattern>/createpassword</url-pattern>
     </servlet-mapping>
 </web-app>

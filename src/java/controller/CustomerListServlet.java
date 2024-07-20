@@ -6,6 +6,7 @@ import dal.AddressDAO;
 import dal.RecordDAO;
 import dal.SettingDAO;
 import dal.UserDAO;
+import helper.KeyGenerator;
 import helper.SendMail;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -193,7 +195,6 @@ public class CustomerListServlet extends HttpServlet {
 
         // Get param
         String email = request.getParameter("email").trim();
-        String pw = request.getParameter("password").trim();
         String name = request.getParameter("name").trim();
         String gender = request.getParameter("gender");
         String city = request.getParameter("city");
@@ -204,16 +205,12 @@ public class CustomerListServlet extends HttpServlet {
         UserDAO udao = new UserDAO();
         User user = new User();
         user.setEmail(email);
-        user.setPassword(pw);
+        user.setPassword("");
         user.setName(name);
         user.setRoleId(5);
         user.setGender(gender.equalsIgnoreCase("Male"));
         user.setPhone(phone);
         user.setCreateDate(new Date());
-
-        AddressDAO adao = new AddressDAO();
-        adao.addNew(city, district, detail);
-        adao.addNewUserAddress();
 
         boolean flag = false;
         try {
@@ -238,14 +235,24 @@ public class CustomerListServlet extends HttpServlet {
                 response.sendRedirect("customerlist#addNewCustomer");
             } else {
                 udao.addNewUser(user);
-                SendMail.sendMail(email, "Your account has been created using this email.", "Your password: " + pw);
+                AddressDAO adao = new AddressDAO();
+                adao.addDefaultAddress(city, district, detail);
+                adao.addNewUserAddress();
+                String key = KeyGenerator.getKey();
+                getServletContext().setAttribute("createPasswordKey", key);
+                int id = udao.getLastId();
+                SendMail.sendMail(email, "Create Your Password", "Your account has been created using this email.\n"
+                        + "Click this link to create your password:\n"
+                        + "http://localhost:9090/SWP391_G3_PetShop/createpassword?id=" + id + "&key="
+                        + key + "\nThis link will expired in 10 minutes.");
+
                 session.setAttribute("noti", "Customer created successfully!");
                 session.setAttribute("toastType", "success");
                 response.sendRedirect("customerlist#addNewCustomer");
             }
         } catch (SQLException e) {
             PrintWriter out = response.getWriter();
-            out.print(e.getMessage());
+            out.print(Arrays.toString(e.getStackTrace()));
         }
     }
 
