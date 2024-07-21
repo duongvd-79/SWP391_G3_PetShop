@@ -326,7 +326,7 @@
                                                                 <div class="row mt-3">
                                                                     <div class="col-md-6">
                                                                         <label class="labels">Quantity <span class="text-danger">(*)</span></label>
-                                                                        <input type="number" class="form-control" name="quantity" id="newQuantity" placeholder="Enter Quantity" value="${sessionScope.quantity}" required>
+                                                                        <input type="number" min="0" class="form-control" name="quantity" id="newQuantity" placeholder="Enter Quantity" value="${sessionScope.quantity}" required>
                                                                         <% request.getSession().removeAttribute("quantity"); %>
                                                                     </div>
                                                                     <div class="col-md-6">
@@ -334,6 +334,7 @@
                                                                         <select type="text" class="form-control py-2 w-100" name="status" id="newStatus" placeholder="Enter Status" value="${sessionScope.status}" required>
                                                                             <option value="">Status</option>
                                                                             <option value="Available" ${sessionScope.status eq 'Available' ? 'selected' : ''}>Available</option>
+                                                                            <option value="Out of Stock" ${sessionScope.status eq 'Out of Stock' ? 'selected' : ''}>Out of Stock</option>
                                                                             <option value="Hidden" ${sessionScope.status eq 'Hidden' ? 'selected' : ''}>Hidden</option>
                                                                         </select>
                                                                         <% request.getSession().removeAttribute("status"); %>
@@ -344,18 +345,18 @@
                                                                 <div class="row mt-1">
                                                                     <div class="col-md-6">
                                                                         <label class="labels">Import Price <span class="text-danger">(*)</span></label>
-                                                                        <input class="form-control" type="number" name="importPrice" id="newImportPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
+                                                                        <input class="form-control" type="number" min="0" name="importPrice" id="newImportPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
                                                                         <% request.getSession().removeAttribute("importPrice"); %>
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <label class="labels">List Price <span class="text-danger">(*)</span></label>
-                                                                        <input class="form-control" type="number" name="listPrice" id="newListPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
+                                                                        <input class="form-control" type="number" min="0" name="listPrice" id="newListPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
                                                                         <% request.getSession().removeAttribute("listPrice"); %>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mt-3">
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">Import Price <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels">Category <span class="text-danger">(*)</span></label>
                                                                         <select class="form-control" type="number" name="category" id="newCategory" style="max-width: 100%;min-width:100%;" required>
                                                                             <option value="">Category</option>
                                                                             <c:forEach items="${applicationScope.prcategory}" var="prcate">
@@ -486,6 +487,28 @@
             thumbURL.addEventListener('input', function () {
                 fileSizeWarning.style.display = 'none';
                 previewImage.src = thumbURL.value;
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const quantityInput = document.getElementById('newQuantity');
+                const statusSelect = document.getElementById('newStatus');
+
+                quantityInput.addEventListener('change', function () {
+                    if (parseInt(this.value) === 0) {
+                        statusSelect.value = 'Out of Stock';
+                    } else if (parseInt(this.value) > 0 && statusSelect.value === 'Out of Stock') {
+                        statusSelect.value = 'Available';
+                    }
+                });
+
+                statusSelect.addEventListener('change', function () {
+                    if (this.value === 'Out of Stock') {
+                        quantityInput.value = 0;
+                    } else if (parseInt(quantityInput.value) === 0) {
+                        quantityInput.value = 1;
+                    }
+                });
             });
         </script>
     </body>

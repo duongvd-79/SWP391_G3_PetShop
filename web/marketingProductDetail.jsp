@@ -123,11 +123,11 @@
                                                 <div class="row mt-3">
                                                     <div class="col-md-6">
                                                         <label class="labels"><strong>Quantity</strong> <span class="text-danger">(*)</span></label>
-                                                        <input type="number" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity" value="${p.quantity}" required>
+                                                        <input type="number" min="0" class="form-control" name="quantity" id="quantity" placeholder="Enter Quantity" value="${p.quantity}" required>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="labels"><strong>Status</strong> <span class="text-danger">(*)</span></label>
-                                                        <select type="text" class="form-select py-2 w-100" name="status" id="status" placeholder="Enter Status" value="${p.status}" required>
+                                                        <select type="text" class="form-control w-100" name="status" id="status" placeholder="Enter Status" value="${p.status}" required>
                                                             <option value="">Status</option>
                                                             <option value="Available" ${p.status eq 'Available' ? 'selected' : ''}>Available</option>
                                                             <option value="Hidden" ${p.status eq 'Hidden' ? 'selected' : ''}>Hidden</option>
@@ -140,11 +140,11 @@
                                                 <div class="row mt-1">
                                                     <div class="col-md-6">
                                                         <label class="labels"><strong>Import Price</strong> <span class="text-danger">(*)</span></label>
-                                                        <input class="form-control" type="number" name="importPrice" value="${p.importPrice}" id="importPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
+                                                        <input class="form-control" type="number" min="0" name="importPrice" value="${p.importPrice}" id="importPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label class="labels"><strong>List Price</strong> <span class="text-danger">(*)</span></label>
-                                                        <input class="form-control" type="number" name="listPrice" value="${p.listPrice}" id="listPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
+                                                        <input class="form-control" type="number" min="0" name="listPrice" value="${p.listPrice}" id="listPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-3">
@@ -248,6 +248,28 @@
         thumbURL.addEventListener('input', function () {
             fileSizeWarning.style.display = 'none';
             previewImage.src = thumbURL.value;
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const quantityInput = document.getElementById('quantity');
+            const statusSelect = document.getElementById('status');
+
+            quantityInput.addEventListener('change', function () {
+                if (parseInt(this.value) === 0) {
+                    statusSelect.value = 'Out of Stock';
+                } else if (parseInt(this.value) > 0 && statusSelect.value === 'Out of Stock') {
+                    statusSelect.value = 'Available';
+                }
+            });
+
+            statusSelect.addEventListener('change', function () {
+                if (this.value === 'Out of Stock') {
+                    quantityInput.value = 0;
+                } else if (parseInt(quantityInput.value) === 0) {
+                    quantityInput.value = ${p.quantity};
+                }
+            });
         });
     </script>
 </body>

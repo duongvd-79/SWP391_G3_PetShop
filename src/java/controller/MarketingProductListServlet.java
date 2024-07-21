@@ -185,8 +185,8 @@ public class MarketingProductListServlet extends HttpServlet {
         Part categoryPart = request.getPart("category");
 
         // Convert to string
-        String thumbURL = PartForm.getValueFromPart(thumbURLPart);
-        String title = PartForm.getValueFromPart(titlepPart);
+        String thumbURL = PartForm.getValueFromPart(thumbURLPart).trim();
+        String title = PartForm.getValueFromPart(titlepPart).trim();
         String description = PartForm.getValueFromPart(descriptionPart);
         String quantityRaw = PartForm.getValueFromPart(quantityPart);
         String status = PartForm.getValueFromPart(statusPart);
@@ -197,10 +197,10 @@ public class MarketingProductListServlet extends HttpServlet {
 
         Product newProduct = new Product();
         newProduct.setCreatedDate(new Date());
-        if (thumbURL != null && !thumbURL.trim().isEmpty()) {
+        if (thumbURL != null && !thumbURL.isEmpty()) {
             newProduct.setThumbnail(thumbURL);
         }
-        if (title != null && !title.trim().isEmpty()) {
+        if (title != null && !title.isEmpty()) {
             newProduct.setTitle(title);
         }
         if (description != null && !description.isEmpty()) {
@@ -210,7 +210,7 @@ public class MarketingProductListServlet extends HttpServlet {
             int quantity = Integer.parseInt(quantityRaw);
             newProduct.setQuantity(quantity);
         }
-        if (status != null && !status.trim().isEmpty()) {
+        if (status != null && !status.isEmpty()) {
             newProduct.setStatus(status);
         }
         if (importPriceRaw != null && !importPriceRaw.isEmpty()) {
