@@ -169,7 +169,9 @@
                                     <div class="form-group col-md-12 mb-2"><label class="labels">Password</label>
                                         <input id="password" type="password" name="password" class="form-control" placeholder="Enter Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required>
                                     </div>
-                                    <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="" value="" required></div>
+                                    <div class="col-md-7 mb-2"><label class="labels">Name</label><input type="text" name="name" class="form-control" 
+                                                                                                        pattern="^\s*[A-Za-zÀ-ỹà-ỹ]+([A-Za-zÀ-ỹà-ỹ ]+){1,50}\s*$" required="" 
+                                                                                                        title="Not contain special character or only white space" value="" required></div>
                                     <div class="col-md-5"><label class="labels">Role</label>
                                         <select class="form-select" id="roles" name="roleid">
                                             <c:forEach items="${roleList}" var="r">

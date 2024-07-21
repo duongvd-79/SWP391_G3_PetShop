@@ -420,7 +420,7 @@ public class ProductDAO extends DBContext {
             }
         }
         if (start != null && !start.isEmpty()) {
-            sql += " and ordered_date between '" + start + "' AND '" + end + "'";
+            sql += " and ordered_date between '" + start + "' AND '" + end + " 23:59'";
         }
         sql += " AND (od.order_id, od.product_id) IN (\n"
                 + "SELECT order_id, MIN(product_id) FROM order_details \n"

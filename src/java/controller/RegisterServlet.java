@@ -91,15 +91,15 @@ public class RegisterServlet extends HttpServlet {
         } catch (SQLException ex) {
         }
         AddressDAO aDAO = new AddressDAO();
-        String email = request.getParameter("email");
+        String email = request.getParameter("email").trim();
         String password = request.getParameter("password");
         String cfpassword = request.getParameter("cfpassword");
-        String name = request.getParameter("name");
-        String phone = request.getParameter("phone");
+        String name = request.getParameter("name").trim();
+        String phone = request.getParameter("phone").trim();
         String gender = request.getParameter("gender");
         String city = request.getParameter("city");
         String district = request.getParameter("district");
-        String address = request.getParameter("address");
+        String address = request.getParameter("address").trim();
         boolean dup = false;
         Address a = new Address(0, district, city, address, true);
         User u = new User(email, password, name, "Pending", phone, null, (gender.equals("Male")), 5);

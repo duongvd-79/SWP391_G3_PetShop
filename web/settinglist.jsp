@@ -109,10 +109,10 @@
                                                 <td ><div class="d-flex justify-content-evenly align-items-center py-2">
                                                         <div class="me-4"><a href="setting?action=edit&id=${s.getId()}"><img class="mb-1" height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
                                                         <div class="btn py-1 ${s.getStatus().equals('Active') ? 'bg-danger' : 'bg-primary'}" style="line-height: 25px;width:100px;">
-                                                            <c:if test="${s.getName()!='admin'}">
+                                                            <c:if test="${s.getId()!=1}">
                                                                 <a value="" style="text-decoration: none;color: white;" href="setting?id=${s.getId()}&cstatus=${s.getStatus().equals('Active') ? 'Inactive' : 'Active'}" >${s.getStatus().equals('Active') ? 'Disable' : 'Activate'}</a>
                                                             </c:if>
-                                                            <c:if test="${s.getName() == 'admin'}">
+                                                            <c:if test="${s.getId() == 1}">
                                                                 <span>Unchange</span>
                                                             </c:if>
                                                         </div>
@@ -125,7 +125,10 @@
                                 </table>
                             </div>
                         </div>
-
+                                            <c:if test="${pageNum == 0}">
+                                                <div style="text-align: center" class="h5 mt-4">No Setting Here </div>
+                                            </c:if>
+                                            <c:if test="${pageNum > 0}">
                         <nav aria-label="setting list paging">
                             <ul class="pagination d-flex justify-content-end mb-2">
                                 <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
@@ -134,31 +137,33 @@
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
                                 <c:choose>
-                                    <c:when test="${requestScope.page >= requestScope.pageNum-2}">
+                                    <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 4} ">
                                         <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
                                             <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
                                         </c:forEach>
                                     </c:when>
-                                    <c:when test="${requestScope.page >= 2}">
+                                    <c:when test="${requestScope.page >= 2 && requestScope.page <= requestScope.pageNum-1}">
                                         <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
                                             <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
-                                <c:if test="${requestScope.page < requestScope.pageNum-2}">
+                                <c:if test="${requestScope.page <= requestScope.pageNum-2}">
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
+                                <c:if test="${requestScope.page != requestScope.pageNum-1 && requestScope.pageNum != 1}">
                                 <li class="page-item ${ requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${requestScope.pageNum}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${requestScope.pageNum}</a></li>
-
+                                </c:if>
                                 <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
                             </ul>
                         </nav>
+                                            </c:if>
                         <div id="popup1" class="overlay">
                             <div class="popup">
                                 <div class="h5 ms-3 mb-3">Add New Setting</div>
                                 <a class="close" href="#">&times;</a>
                                 <div class="container-fluid">
-                                    <form method="get" action="setting" class="row">
+                                    <form method="post" action="setting" class="row">
                                         <input type="hidden" name="action" value="add">
                                         <div class="col-md-7"><label class="labels">Group</label>
                                             <select class="form-select" id="roles" name="type" >

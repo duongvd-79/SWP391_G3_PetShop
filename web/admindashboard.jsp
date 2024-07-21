@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -106,7 +107,10 @@
                                         <h3 class="card-title fw-bolder">REVENUES</h3>
                                     </div>
                                 </div>
-                                <h1 class="mt-1 mb-3">${revenues}</h1>
+                                <c:set var="formattedPrice">
+                                    <fmt:formatNumber value="${revenues * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                </c:set>
+                                <h1 class="mt-1 mb-3">${formattedPrice} đ</h1>
                                 <span class="h6 text-uppercase">${interval}&emsp;${pname}</span>
                             </div>
 
@@ -200,12 +204,20 @@
                                             <td class="text-end ">${orderList.get(0)}</td>
                                         </tr>
                                         <tr>
+                                            <td><i style="color:#17a2b8;" class="fas fa-circle fa-fw"></i> Confirmed</td>
+                                            <td class="text-end ">${orderList.get(1)}</td>
+                                        </tr>
+                                        <tr>
+                                            <td><i style="color:#ffc107;" class="fas fa-circle fa-fw"></i> Shipping</td>
+                                            <td class="text-end ">${orderList.get(2)}</td>
+                                        </tr>
+                                        <tr>
                                             <td><i class="fas fa-circle text-primary fa-fw"></i> Submitted</td>
-                                            <td class="text-end">${orderList.get(1)}</td>
+                                            <td class="text-end">${orderList.get(3)}</td>
                                         </tr>
                                         <tr>
                                             <td><i class="fas fa-circle text-danger fa-fw"></i> Cancelled</td>
-                                            <td class="text-end">${orderList.get(2)}</td>
+                                            <td class="text-end">${orderList.get(4)}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -229,8 +241,8 @@
                         </div>
                     </div>
                 </div> 
-            <jsp:include page="footer.jsp"></jsp:include>  
-            </div>
+                <jsp:include page="footer.jsp"></jsp:include>  
+                </div>
             </div>
 
             <!-- Content End -->
@@ -255,11 +267,13 @@
                     new Chart(document.getElementById("orderstatuschart"), {
                         type: "doughnut",
                         data: {
-                            labels: ["Success", "Submitted", "Cancelled"],
+                            labels: ["Success", "Confirmed", "Shipping", "Submitted", "Cancelled"],
                             datasets: [{
                                     data: data,
                                     backgroundColor: [
                                         '#28a745', // Success color
+                                        '#17a2b8',
+                                        '#ffc107',
                                         '#007bff', // Primary color
                                         '#dc3545', // Danger color
                                     ],

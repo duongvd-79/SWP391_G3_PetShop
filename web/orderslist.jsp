@@ -6,6 +6,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -160,6 +161,10 @@
                                             <div>Customer : ${oList[i].customerName}</div>
                                             <div>${pList[i].title} x ${pQuantity[i]}</div>
                                             <div>And ${remainNum[i]} more products.</div>
+                                            <c:set var="formattedPrice">
+                                                    <fmt:formatNumber value="${oList[i].total * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                </c:set>
+                                                <div>${formattedPrice} đ</div>
                                             <div><a class="text-primary" href="orderdetails?id=${oList[i].id}">View Detail Here</a></div>
                                         </div>
                                     </div>
@@ -173,21 +178,21 @@
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
                                 <c:choose>
-                                    <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 3}">
+                                    <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 4}">
                                         <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
                                             <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
                                         </c:forEach>
                                     </c:when>
-                                    <c:when test="${requestScope.page >= 2}">
+                                    <c:when test="${requestScope.page >= 2 && requestScope.page <= requestScope.pageNum-1 }">
                                         <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
                                             <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${i}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${i}</a></li>
                                         </c:forEach>
                                     </c:when>
                                 </c:choose>
-                                <c:if test="${requestScope.page < requestScope.pageNum-2}">
+                                <c:if test="${requestScope.page <= requestScope.pageNum-2}">
                                     <li class="page-item"><a class="page-link" href="">...</a></li>
                                 </c:if>
-                                <c:if test="${requestScope.pageNum > 1}">
+                                <c:if test="${requestScope.page != requestScope.pageNum-1 && requestScope.pageNum != 1}">
                                 <li class="page-item ${requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="orderslist?page=${requestScope.pageNum}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">${requestScope.pageNum}</a></li>
                                 </c:if>
                                 <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="orderslist?page=${page+1}&search=${search}&searchby=${searchby}&sortby=${sortby}&order=${order}&status=${status}&start=${start}&end=${end}&saleid=${saleid}">Next</a></li>

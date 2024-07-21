@@ -97,7 +97,7 @@ public class OrderDetailsServlet extends HttpServlet {
             }
             
             //change sale note
-            if (request.getParameter("changesale") != null && !request.getParameter("changesale").isEmpty()) {
+            if (user.getRoleId() == 4 && request.getParameter("changesale") != null && !request.getParameter("changesale").isEmpty()) {
                 saleid = Integer.parseInt(request.getParameter("changesale"));
             }
             String note = (String) request.getParameter("note");
@@ -120,8 +120,9 @@ public class OrderDetailsServlet extends HttpServlet {
                         pDAO.updateQuantity(pListUpdate.get(i).getId(), pListUpdate.get(i).getQuantity() + odListUpdate.get(i).getQuantity());
                     }
                 }
-                String noti = "Change success";
+                String noti = "Status changed!";
                 session.setAttribute("noti", noti);
+                session.setAttribute("toastType", "success");
             }
             Order order = oDAO.getOrderById(id);
             if (saleid != 0) {

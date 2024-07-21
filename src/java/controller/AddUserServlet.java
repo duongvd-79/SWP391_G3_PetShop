@@ -93,11 +93,16 @@ public class AddUserServlet extends HttpServlet {
                 }
             }
             if (dup) {
-                session.setAttribute("msg", "The email had been taken");
-                response.sendRedirect("userlist");
+                String Noti = "The email had been taken!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "error");
+            response.sendRedirect("userlist");
             }
             uDAO.addNewUser(u);
             SendMail.sendMail(email, "Your account has been create by this email.", "Your password: " + password);
+            String Noti = "New user added!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
             response.sendRedirect("userlist");
         } catch (SQLException ex) {
             Logger.getLogger(AddUserServlet.class.getName()).log(Level.SEVERE, null, ex);

@@ -104,6 +104,8 @@ public class AdminDashBoardServet extends HttpServlet {
                     numOfCustomers = uDAO.getCountCustomer(start, end);
                     avgRating = fDAO.getAverageRating(start, end, pcategory);
                     orderList.add(oDAO.countOrderByStatus("success", start, end));
+                    orderList.add(oDAO.countOrderByStatus("confirmed", start, end));
+                    orderList.add(oDAO.countOrderByStatus("shipping", start, end));
                     orderList.add(oDAO.countOrderByStatus("submitted", start, end));
                     orderList.add(oDAO.countOrderByStatus("cancelled", start, end));
                 } else {
@@ -117,6 +119,8 @@ public class AdminDashBoardServet extends HttpServlet {
                 numOfCustomers = uDAO.getCountCustomer();
                 avgRating = fDAO.getAverageRating(pcategory);
                 orderList.add(oDAO.countOrderByStatus("success"));
+                orderList.add(oDAO.countOrderByStatus("confirmed"));
+                orderList.add(oDAO.countOrderByStatus("shipping"));
                 orderList.add(oDAO.countOrderByStatus("submitted"));
                 orderList.add(oDAO.countOrderByStatus("cancelled"));
             } else if (interval.equals("LAST 7 DAYS")) {//last 7 day
@@ -126,6 +130,8 @@ public class AdminDashBoardServet extends HttpServlet {
                 numOfCustomers = uDAO.getCountCustomer(getDateXBefore(7), getCurrentDate());
                 avgRating = fDAO.getAverageRating(getDateXBefore(7), getCurrentDate(), pcategory);
                 orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(7), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("confirmed", getDateXBefore(7), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("shipping", getDateXBefore(7), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(7), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(7), getCurrentDate()));
             } else if (interval.equals("LAST 30 DAYS")) {//last 30 day
@@ -135,6 +141,8 @@ public class AdminDashBoardServet extends HttpServlet {
                 numOfCustomers = uDAO.getCountCustomer(getDateXBefore(30), getCurrentDate());
                 avgRating = fDAO.getAverageRating(getDateXBefore(30), getCurrentDate(), pcategory);
                 orderList.add(oDAO.countOrderByStatus("success", getDateXBefore(30), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("confirmed", getDateXBefore(30), getCurrentDate()));
+                orderList.add(oDAO.countOrderByStatus("shipping", getDateXBefore(30), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("submitted", getDateXBefore(30), getCurrentDate()));
                 orderList.add(oDAO.countOrderByStatus("cancelled", getDateXBefore(30), getCurrentDate()));
             }

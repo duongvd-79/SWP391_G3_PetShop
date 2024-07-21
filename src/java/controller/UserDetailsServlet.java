@@ -74,6 +74,9 @@ public class UserDetailsServlet extends HttpServlet {
                 String status = request.getParameter("status");
                 int roleid = Integer.parseInt(request.getParameter("roleid"));
                 uDAO.updateUser(roleid, status, id);
+                String Noti = "Change saved!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
                 response.sendRedirect("userlist");
             } else {
                 List<Setting> rList;

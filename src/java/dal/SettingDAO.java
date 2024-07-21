@@ -155,17 +155,6 @@ public class SettingDAO extends DBContext {
         return outputlist;
     }
 
-    //Lấy theo phân trang
-    public List<Setting> getByPage(List<Setting> list, int page, int rows) {
-        List<Setting> outputlist = new ArrayList<>();
-        for (int i = (page - 1) * rows; i <= (page - 1) * rows + rows - 1; i++) {
-            if (i >= list.size()) {
-                return outputlist;
-            }
-            outputlist.add(list.get(i));
-        }
-        return outputlist;
-    }
 
     //Lấy id từ tên type
     public int getTypeId(String n) {

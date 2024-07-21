@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.User"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -22,7 +23,7 @@
         <link rel="stylesheet" href="css/style.css">
         <!-- Responsive CSS -->
         <link rel="stylesheet" href="css/responsive.css">
-                <link rel="stylesheet" href="css/public/productList.css">
+        <link rel="stylesheet" href="css/public/productList.css">
         <title>JSP Page</title>
         <style>
             .status{
@@ -76,10 +77,10 @@
                                 <div class="row">
                                     <div class="col-12 text-center mt-3">
                                         <h3 style="font-weight: 700; font-size: 32px; margin: 20px 0px;">Product Filter</h3>
+                                    </div>
                                 </div>
-                            </div>
-                            <form action="productlist" method="get">
-                                <input name="category" value="${category}" hidden>
+                                <form action="productlist" method="get">
+                                    <input name="category" value="${category}" hidden>
                                 <div class="row border-top pt-3">
                                     <div class="col-12 input-group mb-3">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Search" value="${search}" list="searchList">
@@ -193,8 +194,8 @@
                                 <li class="nav-item status">
                                     <a style="border-bottom:#DC3545 solid 0px;" class="nav-link text-danger ${'cancelled'.equals(requestScope.status)? 'active' : ''}" href="myorders?status=cancelled">Cancelled</a>
                                 </li>
-                                
-                                
+
+
                             </ul>
                         </div>
                         <div style="max-height: 670px;background-color: #f9f9f9;border: #dadada solid 1px;position: relative;padding-bottom: 71px;" class="row d-flex">
@@ -215,17 +216,39 @@
                                             </div>
                                         </div>
                                         <div class="col-2 d-flex align-items-center">
-                                            <div><b>Total Cost: ${oList[i].total}</b></div>
+                                            <c:set var="formattedPrice">
+                                                <fmt:formatNumber value="${oList[i].total * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                            </c:set>
+                                            <div><b>Total Cost: ${formattedPrice} đ</b></div>
                                         </div>
                                     </div>
                                 </c:forEach>
                                 <nav style="position: absolute;bottom: 5px; left:10px;" aria-label="setting list paging">
                                     <ul class="pagination d-flex justify-content-end mb-2">
-                                        <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="myorders?status=${status}&page=${page-1}" >Previous</a></li>
-                                            <c:forEach begin="1" end="${requestScope.pageNum}" step="1" var="i">
-                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${i}">${i}</a></li>
-                                            </c:forEach>
-                                        <li class="page-item"><a class="page-link ${requestScope.page == requestScope.pageNum ? 'd-none' : ''}" href="myorders?status=${status}&page=${page+1}">Next</a></li>
+                                        <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="myorders?status=${status}&page=${page-1}">Previous</a></li>
+                                        <li class="page-item ${ 1 == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=1">1</a></li>
+                                            <c:if test="${requestScope.page > 2}">
+                                            <li class="page-item"><a class="page-link" href="">...</a></li>
+                                            </c:if>
+                                            <c:choose>
+                                                <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 4} ">
+                                                    <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
+                                                    <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                                </c:when>
+                                                <c:when test="${requestScope.page >= 2 && requestScope.page <= requestScope.pageNum-1}">
+                                                    <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
+                                                    <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${i}">${i}</a></li>
+                                                    </c:forEach>
+                                                </c:when>
+                                            </c:choose>
+                                            <c:if test="${requestScope.page <= requestScope.pageNum-2}">
+                                            <li class="page-item"><a class="page-link" href="">...</a></li>
+                                            </c:if>
+                                            <c:if test="${requestScope.page != requestScope.pageNum-1 && requestScope.pageNum != 1}">
+                                            <li class="page-item ${ requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="myorders?status=${status}&page=${pageNum}">${requestScope.pageNum}</a></li>
+                                            </c:if>
+                                        <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="myorders?status=${status}&page=${pageNum}">Next</a></li>
                                     </ul>
                                 </nav>
                             </c:if>
@@ -262,57 +285,57 @@
     <script src="js/contact-form-script.js"></script>
     <script src="js/custom.js"></script>
     <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
-                const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
-                const customPriceInputs = document.querySelectorAll('.display input');
+                                             document.addEventListener('DOMContentLoaded', function () {
+                                                 const predefinedPrices = document.querySelectorAll('input[name="priceOption"]:not([value="customPrice"])');
+                                                 const customPriceRadio = document.querySelector('input[name="priceOption"][value="customPrice"]');
+                                                 const customPriceInputs = document.querySelectorAll('.display input');
 
-                function updateStates() {
-                    if (customPriceRadio.checked) {
-                        customPriceInputs.forEach(input => input.disabled = false);
-                    } else {
-                        customPriceInputs.forEach(input => input.disabled = true);
-                    }
-                }
+                                                 function updateStates() {
+                                                     if (customPriceRadio.checked) {
+                                                         customPriceInputs.forEach(input => input.disabled = false);
+                                                     } else {
+                                                         customPriceInputs.forEach(input => input.disabled = true);
+                                                     }
+                                                 }
 
-                // Initial state check
-                updateStates();
+                                                 // Initial state check
+                                                 updateStates();
 
-                predefinedPrices.forEach(price => {
-                    price.addEventListener('change', function () {
-                        updateStates();
-                    });
-                });
-                customPriceRadio.addEventListener('change', function () {
-                    updateStates();
-                });
-            });
-        </script>
-        <script>
-            // Clear search button
-            const searchInput = document.getElementById('search');
-            const clearButton = document.getElementById('clearSearchInput');
+                                                 predefinedPrices.forEach(price => {
+                                                     price.addEventListener('change', function () {
+                                                         updateStates();
+                                                     });
+                                                 });
+                                                 customPriceRadio.addEventListener('change', function () {
+                                                     updateStates();
+                                                 });
+                                             });
+    </script>
+    <script>
+        // Clear search button
+        const searchInput = document.getElementById('search');
+        const clearButton = document.getElementById('clearSearchInput');
 
-            document.addEventListener('DOMContentLoaded', () => {
-                if (searchInput.value.trim() !== '') {
-                    clearButton.style.display = 'block';
-                }
-            });
-            searchInput.addEventListener('input', () => {
-                if (searchInput.value !== '') {
-                    clearButton.style.display = 'block';
-                } else {
-                    clearButton.style.display = 'none';
-                }
-            });
-            searchInput.addEventListener('focusout', () => {
-                if (searchInput.value === '') {
-                    clearButton.style.display = 'none';
-                }
-            });
-            clearButton.addEventListener('click', () => {
-                searchInput.value = '';
+        document.addEventListener('DOMContentLoaded', () => {
+            if (searchInput.value.trim() !== '') {
+                clearButton.style.display = 'block';
+            }
+        });
+        searchInput.addEventListener('input', () => {
+            if (searchInput.value !== '') {
+                clearButton.style.display = 'block';
+            } else {
                 clearButton.style.display = 'none';
-            });
-        </script>
+            }
+        });
+        searchInput.addEventListener('focusout', () => {
+            if (searchInput.value === '') {
+                clearButton.style.display = 'none';
+            }
+        });
+        clearButton.addEventListener('click', () => {
+            searchInput.value = '';
+            clearButton.style.display = 'none';
+        });
+    </script>
 </html>

@@ -494,7 +494,7 @@ public class UserDAO extends DBContext {
                 + "FROM user u\n"
                 + "JOIN (\n"
                 + "    SELECT customer_id, MAX(ordered_date) AS latest_order_date\n"
-                + "    FROM `order`\n"
+                + "    FROM `order` where status='success'\n"
                 + "    GROUP BY customer_id\n"
                 + ") o ON u.id = o.customer_id\n"
                 + "ORDER BY o.latest_order_date DESC\n"

@@ -429,7 +429,8 @@
         password.setAttribute('type', type);
         this.innerHTML = type === 'password' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
     });
-
+</script>
+<script>
     document.getElementById('togglePassword6').addEventListener('click', function () {
         const password = document.getElementById('login-password6');
         const type = password.getAttribute('type') === 'password' ? 'text' : 'password';

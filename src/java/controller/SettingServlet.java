@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import model.Setting;
@@ -122,30 +123,7 @@ public class SettingServlet extends HttpServlet {
                 sList = sDAO.getAllByStatus(sList, status);
             }
 
-            //Update setting
-            if (action != null && action.equals("update")) {
-                int id = Integer.parseInt(request.getParameter("id"));
-                String typeName = request.getParameter("type");
-                int typeId = sDAO.getTypeId(typeName);
-                int order = Integer.parseInt(request.getParameter("order"));
-                String name = request.getParameter("name");
-                String desciption = request.getParameter("note");
-                Setting changeSetting = new Setting(id, typeId, type, order, name, status, desciption);
-                sDAO.updateSetting(id, changeSetting);
-
-                sList = sDAO.getAll();
-            }
-
-            //Add setting
-            if (action != null && action.equals("add")) {
-                String typeName = request.getParameter("type");
-                int typeId = sDAO.getTypeId(typeName);
-                int order = Integer.parseInt(request.getParameter("order"));
-                String name = request.getParameter("name");
-                String desciption = request.getParameter("note");
-                sDAO.addNew(typeId, order, name, status, desciption);
-                sList = sDAO.getAll();
-            }
+            
 
             //sort 
             if (sort != null && sort.equals("type")) {
@@ -171,7 +149,7 @@ public class SettingServlet extends HttpServlet {
             }
             request.setAttribute("pageNum", pageNum);
             request.setAttribute("page", page);
-            sList = sDAO.getByPage(sList, page, rows);
+            sList = getByPage(sList, page, rows);
 
             request.setAttribute("settingList", sList);
             request.getRequestDispatcher("settinglist.jsp").forward(request, response);
@@ -180,6 +158,17 @@ public class SettingServlet extends HttpServlet {
         else {
             response.sendRedirect("404.html");
         }
+    }
+        //Lấy theo phân trang
+    public static List<Setting> getByPage(List<Setting> list, int page, int rows) {
+        List<Setting> outputlist = new ArrayList<>();
+        for (int i = (page - 1) * rows; i <= (page - 1) * rows + rows - 1; i++) {
+            if (i >= list.size()) {
+                return outputlist;
+            }
+            outputlist.add(list.get(i));
+        }
+        return outputlist;
     }
 
     /**
@@ -193,7 +182,46 @@ public class SettingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+            HttpSession session = request.getSession();
+            SettingDAO sDAO = new SettingDAO();
+            String action = request.getParameter("action");
+            String type = request.getParameter("type");
+            String status = request.getParameter("status");
+            
+            //Lấy danh sách setting
+            List<Setting> sList = sDAO.getAll();
+
+            //Update setting
+            if (action != null && action.equals("update")) {
+                int id = Integer.parseInt(request.getParameter("id"));
+                String typeName = request.getParameter("type");
+                int typeId = sDAO.getTypeId(typeName);
+                int order = Integer.parseInt(request.getParameter("order"));
+                String name = request.getParameter("name");
+                String description = request.getParameter("note");
+                Setting changeSetting = new Setting(id, typeId, type, order, name, status, description);
+                sDAO.updateSetting(id, changeSetting);
+                String Noti = "Change saved!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+                sList = sDAO.getAll();
+            }
+
+            //Add setting
+            if (action != null && action.equals("add")) {
+                String typeName = request.getParameter("type");
+                int typeId = sDAO.getTypeId(typeName);
+                int order = Integer.parseInt(request.getParameter("order"));
+                String name = request.getParameter("name");
+                String desciption = request.getParameter("note");
+                sDAO.addNew(typeId, order, name, status, desciption);
+                String Noti = "New setting added!";
+                    session.setAttribute("noti", Noti);
+                    session.setAttribute("toastType", "success");
+                sList = sDAO.getAll();
+            }
+            
+            response.sendRedirect("setting");
     }
 
     /**

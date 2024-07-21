@@ -60,7 +60,7 @@
                     <div class="row">
                         <div style="width:60vw;" class="p-2 pb-5 pt-1">
 
-                            <form class="row mt-3" method="get" action="setting">
+                            <form class="row mt-3" method="post" action="setting">
                                 <input type="hidden" name="action" value="update">
                                 <input type="hidden" name="id" value="${detail.getId()}">
                                 <input type="hidden" name="type" value="${detail.getType()}">
@@ -78,15 +78,15 @@
                                     <label class="labels">Status</label><br>
                                     <div class="my-2">
                                         <div class="form-check custom-radio form-check-inline">
-
-                                            <input class="form-check-input font-weight-bold" type="radio" name="status" value="Active" id="active" ${'Active' == detail.status ? 'checked' : ''} ${detail.name == 'admin' ? 'disabled' : ''}>
+                                            <input class="form-check-input font-weight-bold" type="radio" name="status" value="Active" id="active" checked ${detail.id == 1 ? 'disabled' : ''}>
                                             <label class="form-check-label" for="active">
                                                 Active
                                             </label>
                                         </div>
+                                        ${detail.id == 1 ? '<input type="hidden" name="status" value="Active">' : ''}
                                         <div class="form-check custom-radio form-check-inline">
 
-                                            <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive" ${'Active' == detail.status ? '':'checked'} ${detail.name == 'admin' ? 'disabled' : ''}>
+                                            <input class="form-check-input" type="radio" name="status" value="Inactive" id="inactive" ${'Inactive' == detail.status ? 'checked':''} ${detail.id == 1 ? 'disabled' : ''}>
                                             <label class="form-check-label" for="inactive">
                                                 Inactive
                                             </label>
@@ -111,7 +111,7 @@
                                 <a class="close" href="#">&times;</a>
                                 <div class="container-fluid">
 
-                                    <form method="get" action="setting" class="row">
+                                    <form method="post" action="setting" class="row">
                                         <input type="hidden" name="action" value="add">
                                         <div class="col-md-7"><label class="labels">Group</label>
                                             <select class="form-select" id="roles" name="type" >

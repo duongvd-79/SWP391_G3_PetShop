@@ -15,21 +15,28 @@
             <form action="register" method="post">
                 <div class="form-group first mb-2">
                     <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
+                    <input type="email" class="form-control" name="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(\\.[a-zA-Z]{2,})?$" 
+                           title="Enter an valid email" required="" placeholder="Enter email" value="${newuser.getEmail()}">
                 </div>
                 <div class="form-group last mb-2 position-relative">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="login-password2" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required="">
+                    <input type="password" class="form-control" id="login-password2" 
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="password" placeholder="Enter password" 
+                           title="Must contain at least one number, one uppercase and lowercase letter, and at least 8 or more characters" required="">
                     <span id="togglePassword2" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-2 position-relative">
                     <label for="password">Confirm password</label>
-                    <input type="password" class="form-control" id="login-password3" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" placeholder="Confirm your password" required="">
+                    <input type="password" class="form-control" id="login-password3" 
+                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" name="cfpassword" 
+                           placeholder="Confirm your password" required="">
                     <span id="togglePassword3" class="toggle-password-button"><i class="bi bi-eye"></i></span>
                 </div>
                 <div class="form-group last mb-2">
                     <label for="fullname">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" name="name" pattern="^[A-Za-zÀ-ỹà-ỹ]+( [A-Za-zÀ-ỹà-ỹ]+){0,4}$" required="" placeholder="Enter fullname" value="${newuser.getName()}">
+                    <input type="text" class="form-control" id="fullname" name="name" 
+                           pattern="^\s*[A-Za-zÀ-ỹà-ỹ]+([A-Za-zÀ-ỹà-ỹ ]+){1,50}\s*$" required="" 
+                           title="Not contain special character or only white space" placeholder="Enter fullname" value="${newuser.getName()}">
                 </div>
                 <div class="form-group last mb-1">
                     <label for="phone">Phone</label>
@@ -53,17 +60,17 @@
                     <label for="fullname">Address</label>
                     <div class="d-flex justify-content-start">
                         <div class="mr-3">
-                            <select class="form-select form-select-sm mb-3 p-2" name="city" id="city" aria-label=".form-select-sm" required>
-                                <option value="" selected>${empty address.getCity() ? 'City' : address.getCity()}</option>
+                            <select class="form-select form-select-sm mb-3 p-2" pattern= name="city" id="city" aria-label=".form-select-sm" required>
+                                <option value="" selected>City</option>
                             </select>
                         </div>
                         <div>
                             <select class="form-select form-select-sm mb-3 p-2" name="district" id="district" aria-label=".form-select-sm" required>
-                                <option value="" selected>${empty address.getDistrict() ? 'District' : address.getDistrict()}</option>
+                                <option value="" selected>District</option>
                             </select>
                         </div>
                     </div>
-                    <input value="${address.getDetail()}" type="text" pattern="^.{1,255}$" class="form-control" id="address" name="address" required placeholder="Your address">
+                    <input value="${address.getDetail()}" type="text" pattern="^\S.{1,255}^\S$" title="Can not empty" class="form-control" id="address" name="address" required placeholder="Your address">
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>

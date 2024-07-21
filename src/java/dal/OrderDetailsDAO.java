@@ -82,7 +82,7 @@ public class OrderDetailsDAO extends DBContext {
     public double getRevenue(String start, String end, String pcategory) {
         String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
                 + "JOIN `order` as o ON o.id = od.order_id JOIN product AS p ON p.id = od.product_id "
-                + "WHERE o.status='success' and ordered_date between '" + start + "' and '" + end + "'";
+                + "WHERE o.status='success' and ordered_date between '" + start + "' and '" + end + " 23:59'";
         if (pcategory != null && !pcategory.isEmpty()) {
             sql += "and p.category_id = '" + pcategory + "'";
         }
@@ -101,7 +101,7 @@ public class OrderDetailsDAO extends DBContext {
     public double getRevenue(String start, String end) {
         String sql = "SELECT SUM(od.sell_price * od.quantity) AS totalRevenue FROM order_details as od "
                 + "JOIN `order` as o ON o.id = od.order_id JOIN product AS p ON p.id = od.product_id "
-                + "WHERE ordered_date between '" + start + "' and '" + end + "'";
+                + "WHERE ordered_date between '" + start + "' and '" + end + " 23:59'";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();

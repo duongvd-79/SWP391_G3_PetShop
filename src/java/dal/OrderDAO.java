@@ -84,7 +84,7 @@ public class OrderDAO extends DBContext {
             }
         }
         if (start != null && !start.isEmpty()) {
-            sql += " and ordered_date between '" + start + "' AND '" + end + "'";
+            sql += " and ordered_date between '" + start + "' AND '" + end + " 23:59'";
         }
         if (sortby != null && !sortby.isEmpty()) {
             sql += " order by " + sortby + " " + order + " limit ?,?";
@@ -140,7 +140,7 @@ public class OrderDAO extends DBContext {
     }
 
     public int countOrderByStatus(String status, String start, String end) {
-        String sql = "SELECT COUNT(*) as count FROM `order` where status=? and ordered_date between '" + start + "' and '" + end + "'";
+        String sql = "SELECT COUNT(*) as count FROM `order` where status=? and ordered_date between '" + start + "' and '" + end + " 23:59'";
         try {
             List<Order> orderList = new ArrayList<>();
             stm = connection.prepareStatement(sql);
@@ -171,7 +171,7 @@ public class OrderDAO extends DBContext {
 
     //count order base on an interval of time
     public int getCountOrder(String start, String end) {
-        String sql = "SELECT COUNT(*) as count FROM `order` where ordered_date between '" + start + "' and '" + end + "'";
+        String sql = "SELECT COUNT(*) as count FROM `order` where ordered_date between '" + start + "' and '" + end + " 23:59'";
         try {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
@@ -227,7 +227,7 @@ public class OrderDAO extends DBContext {
             }
         }
         if (start != null && !start.isEmpty()) {
-            sql += " and ordered_date between '" + start + "' AND '" + end + "'";
+            sql += " and ordered_date between '" + start + "' AND '" + end + " 23:59'";
         }
         if (sortby != null && !sortby.isEmpty()) {
             sql += " GROUP BY o.id order by " + sortby + " " + order + " limit ?,?";
@@ -355,7 +355,8 @@ public class OrderDAO extends DBContext {
        Order hehe = oDAO.getLatestOrder();
         System.out.println(hehe.getAddressId());
 
-oDAO.changeSaleNote("jirnvrv", 16);
+ oDAO.changeSale(15, 10);
+        System.out.println(oDAO.getOrderById(15).getSaleId());
         System.out.println();
 
     }
