@@ -1,10 +1,7 @@
 /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controller;
 
-import dal.AddressDAO;
 import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,16 +11,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Address;
-import model.User;
 
 /**
  *
- * @author ACER
+ * @author duongvu
  */
-public class EmailVerifyServlet extends HttpServlet {
+public class CreatePasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +35,10 @@ public class EmailVerifyServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet EmailVerifyServlet</title>");
+            out.println("<title>Servlet CreatePasswordServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet EmailVerifyServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CreatePasswordServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,39 +56,34 @@ public class EmailVerifyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String key = request.getParameter("key");
-        String alert = "";
-        UserDAO uDAO = new UserDAO();
-        AddressDAO aDAO = new AddressDAO();
-        User u = (User) session.getAttribute("newuser");
-        Address a = (Address) session.getAttribute("address");
-        long creationTime = session.getCreationTime();
-        long currentTime = System.currentTimeMillis();
-        long maxInactiveInterval = 180 * 1000;
-        //nếu khớp key gửi qua email
-        if (key.equals((String) session.getAttribute("key")) && currentTime - creationTime < maxInactiveInterval ) {
-            try {
-                uDAO.addNewUser(u);
-                aDAO.addDefaultAddress(a.getCity(), a.getDistrict(), a.getDetail());
-                aDAO.addNewUserAddress();
-                String Noti = "Account is created successfully. Please Sign In.";
-                    session.setAttribute("noti", Noti);
-                    session.setAttribute("toastType", "success");
-                alert = "Account is created successfully. Please Sign In.";
-                response.sendRedirect("home#login");
-            } catch (SQLException ex) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            String key = request.getParameter("key");
+            String idRaw = request.getParameter("id");
+            int id = 0;
+            if (idRaw != null) {
+                id = Integer.parseInt(idRaw);
             }
-        } else if (session.getAttribute("key") == null || currentTime - creationTime > maxInactiveInterval) {
-            alert = "Link had been expired";
-            session.setAttribute("alert", alert);
-        response.sendRedirect("home#register");
-        } else {
-            alert = "Not authorize access";
-            session.setAttribute("alert", alert);
-        response.sendRedirect("home#register");
-        }
+            getServletContext().setAttribute("id", id);
 
+            String alert;
+            long creationTime = session.getCreationTime();
+            long currentTime = System.currentTimeMillis();
+            long maxInactiveInterval = 600 * 1000;
+            if (key.equals((String) getServletContext().getAttribute("createPasswordKey")) && currentTime - creationTime < maxInactiveInterval) {
+                response.sendRedirect("home#createPassword");
+            } else if (currentTime - creationTime > maxInactiveInterval) {
+                alert = "Link had been expired!";
+                session.setAttribute("error", alert);
+                response.sendRedirect("home#login");
+            } else {
+                alert = "Not authorized access!";
+                session.setAttribute("error", alert);
+                response.sendRedirect("home#login");
+            }
+        } else {
+            response.sendRedirect("404.html");
+        }
     }
 
     /**
@@ -109,7 +97,37 @@ public class EmailVerifyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        HttpSession session = request.getSession(true);
+        UserDAO udao = new UserDAO();
+
+        String idRaw = request.getParameter("id");
+        int i = 0;
+        if (idRaw != null) {
+            i = Integer.parseInt(idRaw);
+        }
+        String password = request.getParameter("password");
+        String cfPassword = request.getParameter("cfpassword");
+        String email = "";
+        try {
+            email = udao.getUserByID(i).getEmail();
+        } catch (SQLException e) {
+        }
+
+        String alert;
+        // Check passwords
+        if (!password.equals(cfPassword)) {
+            alert = "Confirm password does not match";
+            session.setAttribute("alert", alert);
+            response.sendRedirect("home#createPassword");
+        } else {
+            udao.changePassword(email, password);
+            String noti = "Password changed successfully!";
+            session.setAttribute("noti", noti);
+            session.setAttribute("toastType", "success");
+            alert = "";
+            session.setAttribute("alert", alert);
+            response.sendRedirect("home#login");
+        }
     }
 
     /**

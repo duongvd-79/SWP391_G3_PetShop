@@ -3,6 +3,7 @@ package controller;
 import dal.AddressDAO;
 import dal.RecordDAO;
 import dal.UserDAO;
+import helper.PartForm;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -133,22 +134,22 @@ public class UserProfileServlet extends HttpServlet {
 
                 // Handle text inputs
                 Part namePart = request.getPart("pfname");
-                String name = getValueFromPart(namePart).trim();
+                String name = PartForm.getValueFromPart(namePart).trim();
 
                 Part phonePart = request.getPart("pfphone");
-                String phone = getValueFromPart(phonePart).trim();
+                String phone = PartForm.getValueFromPart(phonePart).trim();
 
                 Part genderPart = request.getPart("pfgender");
-                String gender = getValueFromPart(genderPart).trim();
+                String gender = PartForm.getValueFromPart(genderPart);
 
                 Part districtPart = request.getPart("pfdistrict");
-                String district = getValueFromPart(districtPart).trim();
+                String district = PartForm.getValueFromPart(districtPart);
 
                 Part cityPart = request.getPart("pfcity");
-                String city = getValueFromPart(cityPart).trim();
+                String city = PartForm.getValueFromPart(cityPart);
 
                 Part detailaddressPart = request.getPart("pfdetailaddress");
-                String detailAddress = getValueFromPart(detailaddressPart);
+                String detailAddress = PartForm.getValueFromPart(detailaddressPart).trim();
 
                 // Update user
                 String oldName = user.getName();
@@ -215,21 +216,6 @@ public class UserProfileServlet extends HttpServlet {
                 response.sendRedirect(page + "#profile");
             }
         }
-    }
-
-    private String getValueFromPart(Part part) throws IOException {
-        if (part != null) {
-            StringBuilder value = new StringBuilder();
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(part.getInputStream(), StandardCharsets.UTF_8))) {
-                char[] buffer = new char[1024];
-                int length;
-                while ((length = reader.read(buffer)) > 0) {
-                    value.append(buffer, 0, length);
-                }
-            }
-            return value.toString();
-        }
-        return null; // or return an empty string or handle the null case accordingly
     }
 
     /**

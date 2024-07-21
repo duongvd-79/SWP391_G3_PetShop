@@ -133,9 +133,9 @@
                                         <label class="form-check-label" for="customPrice">Custom Price:</label>
                                     </div>
                                     <div class="display row">
-                                        <input type="number" class="form-control col" name="minPrice" id="min" value="${minPrice}">
+                                        <input type="number" min="0" class="form-control col" name="minPrice" id="min" value="${minPrice}">
                                         <span class="col-2 text-center" style="padding: 5px 2px 0  0">to</span>
-                                        <input type="number" class="form-control col" name="maxPrice" id="max" value="${maxPrice}">
+                                        <input type="number" min="0" class="form-control col" name="maxPrice" id="max" value="${maxPrice}">
                                     </div>
                                 </div>
                                 <div class="col-12 text-center mb-4">
@@ -250,7 +250,7 @@
                                                         </div>
                                                     </c:otherwise>
                                                 </c:choose>
-                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';"" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
+                                                <img src="${apr.thumbnail}" onerror="this.src='images/error-product-image.jpg';this.onerror='';" class="img-fluid ${apr.status != 'Available' ? 'out-of-stock-img' : ''}" alt="Image">
                                                 <div class="mask-icon">
                                                     <a class="view" href="productdetail?id=${apr.id}">View</a>
                                                     <%

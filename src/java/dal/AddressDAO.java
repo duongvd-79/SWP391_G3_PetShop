@@ -19,7 +19,7 @@ public class AddressDAO extends DBContext {
     PreparedStatement stm;
     ResultSet rs;
 
-    public void addNew(String city, String district, String detail) {
+    public void addDefaultAddress(String city, String district, String detail) {
         try {
             String strSelect = "insert into address(detail,city,district,is_default) values (?,?,?,1) ";
             stm = connection.prepareStatement(strSelect);

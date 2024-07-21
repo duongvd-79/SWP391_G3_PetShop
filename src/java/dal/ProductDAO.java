@@ -3,6 +3,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
@@ -54,8 +55,8 @@ public class ProductDAO extends DBContext {
     }
 
     public boolean addProduct(Product product) {
-        String sql = "INSERT INTO product (title, description, thumbnail, quantity, status, import_price, list_price, is_featured, category_id)"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO product (title, description, thumbnail, quantity, status, import_price, list_price, is_featured, category_id, created_date)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             stm = connection.prepareStatement(sql);
             stm.setString(1, product.getTitle());
@@ -67,6 +68,7 @@ public class ProductDAO extends DBContext {
             stm.setDouble(7, product.getListPrice());
             stm.setBoolean(8, product.isIsFeatured());
             stm.setInt(9, product.getCategoryId());
+            stm.setTimestamp(10, new Timestamp(product.getCreatedDate().getTime()));
             stm.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
