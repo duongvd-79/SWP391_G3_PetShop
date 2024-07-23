@@ -70,7 +70,7 @@
                             </select>
                         </div>
                     </div>
-                    <input value="${address.getDetail()}" type="text" pattern="^\S.{1,255}^\S$" title="Can not empty" class="form-control" id="address" name="address" required placeholder="Your address">
+                    <input value="${address.getDetail()}" type="text" pattern="^\s*(.{0,255})\s*$" title="Can not empty" class="form-control" id="address" name="address" required placeholder="Your address">
                 </div>
                 <input type="submit" value="Sign Up" class="btn btn-pill text-white btn-block btn-primary">
             </form>

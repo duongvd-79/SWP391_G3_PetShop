@@ -107,15 +107,13 @@ public class OrderDetailsServlet extends HttpServlet {
             
             // change status
             String changestatus = (String) request.getParameter("changestatus");
-            if (changestatus != null && !changestatus.isEmpty()) {
+            if (changestatus != null && !changestatus.isEmpty() && !changestatus.equals(oDAO.getOrderById(id).getStatus())) {
                 oDAO.changeStatus(id, changestatus);
                 if (changestatus.equals("Cancelled")) {
                     List<Product> pListUpdate = new ArrayList<>();
                     List<OrderDetails> odListUpdate = new ArrayList<>();
-                    
                     pListUpdate = pDAO.getAllByOrderId(id);
                     odListUpdate = odDAO.getByOrderId(id);
-                    
                     for (int i = 0; i < pListUpdate.size(); i++) {
                         pDAO.updateQuantity(pListUpdate.get(i).getId(), pListUpdate.get(i).getQuantity() + odListUpdate.get(i).getQuantity());
                     }

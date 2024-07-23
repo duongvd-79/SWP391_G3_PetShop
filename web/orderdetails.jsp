@@ -83,7 +83,7 @@
                             <div class="h6">${order.getOrderedDate()}</div>
                         </div>
                         <div style="margin-top: 41px;margin-bottom: 35px;" class="col-4 d-flex align-items-center ">
-                            <a id="btnsale" href="${user.getId()==4?'#salelist':'get'}" class="py-2 pe-2">
+                            <a id="btnsale" ${user.getId()==4 ? 'href="#salelist"':''} class="py-2 pe-2">
                                 <img src="${requestScope.sale.getPfp()}" height="80" class="ms-3" alt="alt"/>
                                 <span class="h5 mb-0 ms-4">Sale : ${sale.getName()}</span>
                             </a>                         
