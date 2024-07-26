@@ -218,7 +218,10 @@
                                         </div>
                                         <div class="col-sm-7">
                                             <div style="font-size: 20px;" class="mt-2">${pList[i].title} x ${odList[i].quantity}</div>
-                                            <div class="mt-1 mb-4">Unit Price : ${pList[i].listPrice}</div>
+                                            <c:set var="formattedPrice">
+                                                    <fmt:formatNumber value="${pList[i].listPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                </c:set>
+                                            <div class="mt-1 mb-4">Unit Price : ${formattedPrice} đ</div>
                                             <a style="line-height: 1rem;color:white; ${('Success'.equals(order.getStatus()) || 'Cancelled'.equals(order.getStatus()))? '' : 'pointer-events: none;background-color: #9da13a;'}" 
                                                class="btn btn-apply mt-4 mr-3" href="productdetail?id=${pList[i].id}">Re-buy</a>
                                             <a style="line-height: 1rem;color:white;${'Success'.equals(order.getStatus())? '' : 'pointer-events: none;background-color: #9da13a;'}

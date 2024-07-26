@@ -115,7 +115,10 @@
                                     </div>
                                     <div class="col-sm-7">
                                         <div style="font-size: 20px;" class="mt-2">${pList[i].title} x ${odList[i].quantity}</div>
-                                        <div class="mt-1 mb-4">Unit Price : ${pList[i].listPrice}</div>
+                                        <c:set var="formattedPrice">
+                                                    <fmt:formatNumber value="${pList[i].listPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                </c:set>
+                                        <div class="mt-1 mb-4">Unit Price : ${formattedPrice} đ</div>
                                     </div>
                                     <div class="col-sm-3 d-flex align-items-center">
                                         <c:set var="total" value="${pList[i].listPrice * odList[i].quantity}"></c:set>
