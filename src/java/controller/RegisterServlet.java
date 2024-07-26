@@ -122,7 +122,7 @@ public class RegisterServlet extends HttpServlet {
             session.removeAttribute("alert");
             String key = KeyGenerator.getKey();
             session.setAttribute("key", key);
-            SendMail.sendMail(email, "Email verificaton", "Click this link to finish you registration:\n" + "http://localhost:9090/SWP391_G3_PetShop/emailverify?key=" + key + "\n This link will expired in 3 minutes.");
+            SendMail.sendMail(email, "Email verificaton", "Click this link to finish you registration:\n" + "http://localhost:9998/SWP391_G3_PetShop/emailverify?key=" + key + "\n This link will expired in 3 minutes.");
             response.sendRedirect("home#verify");
         }
 

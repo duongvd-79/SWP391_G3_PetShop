@@ -86,7 +86,7 @@ public class ResetPasswordServlet extends HttpServlet {
             session.setAttribute("key", key);
             session.setAttribute("email",email);
             session.setAttribute("mail",email);
-            SendMail.sendMail(email, "Reset Your Password", "Click this link to reset your password:\n"+"http://localhost:9090/SWP391_G3_PetShop/resetverify?key="+key+"\n This link will expired in 3 minutes.");
+            SendMail.sendMail(email, "Reset Your Password", "Click this link to reset your password:\n"+"http://localhost:9998/SWP391_G3_PetShop/resetverify?key="+key+"\n This link will expired in 3 minutes.");
             response.sendRedirect("home#verify");
         }
     }

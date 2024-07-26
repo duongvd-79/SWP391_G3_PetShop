@@ -309,10 +309,10 @@
             var revenues = [];
             var profits = [];
             <c:forEach items="${requestScope.monthlyRevenueList}" var="val" varStatus="loop">
-            revenues.push(${val});
+            revenues.push(${val*1000});
             </c:forEach>
             <c:forEach items="${requestScope.monthlyProfitList}" var="val" varStatus="loop">
-            profits.push(${val});
+            profits.push(${val*1000});
             </c:forEach>
             document.addEventListener("DOMContentLoaded", function () {
                 // Define window.theme if not already defined

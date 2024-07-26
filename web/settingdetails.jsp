@@ -36,7 +36,7 @@
             display:none !important;
         }
     </style>
-        <jsp:include page="header.jsp"></jsp:include>
+    <jsp:include page="header.jsp"></jsp:include>
         <body>
             <div class="container-fluid position-relative bg-white d-flex p-0">
                 <div class="row">
@@ -121,7 +121,10 @@
                                             </select>
                                         </div>
                                         <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
-                                        <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
+                                        <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name"
+                                                                                                             pattern="^\s*[A-Za-zÀ-ỹà-ỹ]+([A-Za-zÀ-ỹà-ỹ ]+){1,50}\s*$"
+                                                                                                             title="Not contain special character or only white space"
+                                                                                                             class="form-control" placeholder="Enter Setting Name" required=""></div>
                                         <div class="col-md-12"><label class="labels">Description</label>
                                             <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}">${detail.getDescription()}</textarea>
                                         </div>

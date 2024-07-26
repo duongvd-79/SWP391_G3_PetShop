@@ -64,7 +64,7 @@ public class SendMailOrder {
                 htmlContent.append("<tr><td style='padding: 10px; border: 1px solid #ddd;'>")
                            .append(product.getTitle())
                            .append("</td><td style='padding: 10px; border: 1px solid #ddd;'>")
-                           .append(product.getList_price())
+                           .append(product.getList_price()*1000)
                            .append(" VND</td><td style='padding: 10px; border: 1px solid #ddd;'><img src='")
                            .append(product.getThumbnail())
                            .append("' alt='")
@@ -73,7 +73,7 @@ public class SendMailOrder {
             }
 
             htmlContent.append("</table>")
-                       .append("<p style='font-size: 16px;'><strong>Tổng cộng: ").append(totalPrice).append(" VND</strong></p>")
+                       .append("<p style='font-size: 16px;'><strong>Tổng cộng: ").append(totalPrice*1000).append(" VND</strong></p>")
                        .append("<h3 style='border-bottom: 1px solid #ddd; padding-bottom: 5px;'>Thông tin khách hàng</h3>")
                        .append("<p style='font-size: 16px; line-height: 1.5;'><strong>Địa chỉ giao hàng:</strong> ").append(detailAddress).append(", ").append(district).append(", ").append(city).append("</p>")
                        .append("<p style='font-size: 16px; line-height: 1.5;'><strong>Phương thức thanh toán:</strong> ").append(paymentMethod).append("</p>");
