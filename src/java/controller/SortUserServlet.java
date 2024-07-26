@@ -63,26 +63,49 @@ public class SortUserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
          String order_by = request.getParameter("order_by");
+         String pageStr = request.getParameter("page");
+        int page = 0;
+        if (pageStr.isEmpty() || pageStr.isBlank()) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(pageStr);
+        }
+
+         
         UserDAO userDAO = new UserDAO();
         
         try {
-            ArrayList<User> userList = userDAO.orderUserBy(order_by);
             ArrayList<User> allUserList = userDAO.getAllUser();
             ArrayList<Setting> roleList = userDAO.getAllRole();
 
             // get all status currently have in useList
-            ArrayList<String> tempList = new ArrayList<>();
-            for (User u : allUserList) {
-                tempList.add(u.getStatus());
-            }
+            int count = 0;
+                int pageNum = 0;
+                ArrayList<String> tempList = new ArrayList<>();
+                for (User u : allUserList) {
+                    count++;
+                    tempList.add(u.getStatus());
+                }
+                if (count % 4 == 0) {
+                    pageNum = count / 4;
+                } else if (count % 4 != 0) {
+                    pageNum = (count / 4) + 1;
+                }
+
+                ArrayList<User> userListPaging = userDAO.orderUserBy(order_by, page);
+
 
             Set<String> setWithoutDuplicates = new HashSet<>(tempList);
 
             ArrayList<String> statusList = new ArrayList<>(setWithoutDuplicates);
 
+            request.setAttribute("order_by", order_by);
+            request.setAttribute("link", "sortuser");
+            request.setAttribute("pageNum", pageNum);
+            request.setAttribute("page", page);
             request.setAttribute("roleList", roleList);
             request.setAttribute("statusList", statusList);
-            request.setAttribute("userList", userList);
+            request.setAttribute("userList", userListPaging);
             request.getRequestDispatcher("UserList.jsp").forward(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(SortUserServlet.class.getName()).log(Level.SEVERE, null, ex);

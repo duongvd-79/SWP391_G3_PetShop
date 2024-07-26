@@ -68,6 +68,29 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
+    
+    public ArrayList<User> getAllUserPaging(int index) throws SQLException {
+        String sql = "select * from user LIMIT 4 OFFSET ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, (index-1)*4);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String name = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, name, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
 
     public ArrayList<User> searchUserByName(String name) throws SQLException {
         String sql = "SELECT * FROM user where user.name like ?";
@@ -160,6 +183,30 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
+    
+     public ArrayList<User> filterUserByGenderPaging(int num, int index) throws SQLException {
+        String sql = "SELECT * FROM user where user.gender like ? LIMIT 4 OFFSET ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, num);
+        sta.setInt(2, (index-1)*4);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String fullname = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
 
     public ArrayList<Setting> getAllRole() throws SQLException {
         String sql = "SELECT * FROM setting where setting.type_id = 3 ";
@@ -202,6 +249,30 @@ public class UserDAO extends DBContext {
         return lst;
     }
 
+     public ArrayList<User> filterUserByRolePaging(int role, int index) throws SQLException {
+        String sql = "SELECT * FROM user where user.role_id like ? LIMIT 4 OFFSET ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, role);
+        sta.setInt(2, (index-1)*4);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String fullname = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
+
     public ArrayList<User> filterUserByStatus(String userStatus) throws SQLException {
         String sql = "SELECT * FROM user where user.status like ?";
         PreparedStatement sta = connection.prepareStatement(sql);
@@ -224,10 +295,35 @@ public class UserDAO extends DBContext {
         }
         return lst;
     }
-
-    public ArrayList<User> orderUserBy(String msg) throws SQLException {
-        String sql = "SELECT * FROM user order by " + msg;
+    
+     public ArrayList<User> filterUserByStatusPaging(String userStatus, int index) throws SQLException {
+        String sql = "SELECT * FROM user where user.status like ? LIMIT 4 OFFSET ?";
         PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setString(1, userStatus);
+        sta.setInt(2, (index-1)*4);
+        ResultSet rs = sta.executeQuery();
+        ArrayList<User> lst = new ArrayList<>();
+        while (rs.next()) {
+            int id = rs.getInt("id");
+            String email = rs.getString("email");
+            String pass = rs.getString("password");
+            String fullname = rs.getString("name");
+            boolean gender = rs.getBoolean("gender");
+            String status = rs.getString("status");
+            int role_id = rs.getInt("role_id");
+            String phone = rs.getString("phone");
+            Date lastlog = rs.getDate("last_log");
+            String pfp = rs.getString("pfp");
+            User u = new User(id, email, pass, fullname, status, phone, pfp, role_id, gender, lastlog);
+            lst.add(u);
+        }
+        return lst;
+    }
+
+    public ArrayList<User> orderUserBy(String msg, int index) throws SQLException {
+        String sql = "SELECT * FROM user order by " + msg + " LIMIT 4 OFFSET ?";
+        PreparedStatement sta = connection.prepareStatement(sql);
+        sta.setInt(1, (index-1)*4);
         ResultSet rs = sta.executeQuery();
         ArrayList<User> lst = new ArrayList<>();
         while (rs.next()) {

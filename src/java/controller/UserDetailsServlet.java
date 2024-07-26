@@ -77,7 +77,7 @@ public class UserDetailsServlet extends HttpServlet {
                 String Noti = "Change saved!";
                     session.setAttribute("noti", Noti);
                     session.setAttribute("toastType", "success");
-                response.sendRedirect("userlist");
+                response.sendRedirect("userlist?page=1");
             } else {
                 List<Setting> rList;
                 List<User> uList = new ArrayList<>();

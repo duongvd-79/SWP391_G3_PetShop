@@ -166,7 +166,7 @@
         <!-- update address popup -->
         <div id="updateaddresspopup" class="overlay">
             <div class="popup">
-                <form action="updateaddress" method="get" onsubmit="return validateAddNewAddress()">
+                <form action="updateaddress" method="get" onsubmit="return validateUpdateAddress()">
                     <div class="popup-header border-bottom">
                         <h3>Update Address</h3>
                         <a class="close" href="#!">&times;</a>
@@ -540,34 +540,32 @@
             }
         </script>
 
-                <script>
-                    function validateAddNewAddress() {
-                        var detailAddress = document.getElementById('inputDetailAddress').value;
-                        var city = document.getElementById('newcity').value;
-                        var district = document.getElementById('newdistrict').value;
-        
-                        if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
-                            alert("Please fill in all fields.");
-                            return false;
-                        }
-                        return true;
-                    }
-                </script>
-        
-                <script>
-                    function validateAddNewAddress() {
-                        var detailAddress = document.getElementById('inputDetailAddress').value;
-                        var city = document.getElementById('newcity').value;
-                        var district = document.getElementById('newdistrict').value;
-        
-                        if (detailAddress.trim() === "" || city.trim() === "" || district.trim() === "") {
-                            alert("Please fill in the information.");
-                            return false;
-                        }
-        
-                        return true;
-                    }
-                </script>
+        <script>
+            function validateAddNewAddress() {
+                var detailAddress = document.getElementById("inputDetailAddress").value.trim();
+                var city = document.getElementById("newcity").value.trim();
+                var district = document.getElementById("newdistrict").value.trim();
+
+                if (detailAddress === "" || city === "" || district === "") {
+                    alert("Please fill in all fields.");
+                    return false;
+                }
+                return true;
+            }
+
+            function validateUpdateAddress() {
+                var detailAddress = document.getElementById("inputDetailAddress").value.trim();
+                var city = document.getElementById("adcity").value.trim();
+                var district = document.getElementById("addistrict").value.trim();
+
+                if (detailAddress === "" || city === "" || district === "") {
+                    alert("Please fill in all fields.");
+                    return false;
+                }
+                return true;
+            }
+
+        </script>
 
         <script>
             function confirmRemove(addressId, event) {

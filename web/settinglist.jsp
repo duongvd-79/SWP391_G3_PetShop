@@ -44,7 +44,7 @@
                     <div style="top:130px;" class="w-100 mb-1 sticky-top">
                         <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                         <a href="setting" class="nav-link active"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                        <a href="userlist" class="nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
+                        <a href="userlist?page=1" class="nav-link"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                     </div>
                 </div>
                 <!-- Sidebar End -->
