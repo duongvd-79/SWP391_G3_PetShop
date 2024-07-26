@@ -64,25 +64,46 @@ public class UserListServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
+        String pageStr = request.getParameter("page");
+        int page = 0;
+        if (pageStr.isEmpty() || pageStr.isBlank()) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(pageStr);
+        }
+
         HttpSession session = request.getSession();
         if (session.getAttribute("user") != null && ((User) session.getAttribute("user")).getRoleId() == 1) {
-        try {
-            UserDAO userDAO = new UserDAO();
-            ArrayList<User> userList = userDAO.getAllUser();
-            ArrayList<Setting> roleList = userDAO.getAllRole();
+            try {
+                UserDAO userDAO = new UserDAO();
+                ArrayList<User> userList = userDAO.getAllUser();
+                ArrayList<Setting> roleList = userDAO.getAllRole();
 
                 // get all status currently have in useList
+                int count = 0;
+                int pageNum = 0;
                 ArrayList<String> tempList = new ArrayList<>();
                 for (User u : userList) {
+                    count++;
                     tempList.add(u.getStatus());
                 }
+                if (count % 4 == 0) {
+                    pageNum = count / 4;
+                } else if (count % 4 != 0) {
+                    pageNum = (count / 4) + 1;
+                }
+
+                ArrayList<User> userListPaging = userDAO.getAllUserPaging(page);
 
                 Set<String> setWithoutDuplicates = new HashSet<>(tempList);
 
                 ArrayList<String> statusList = new ArrayList<>(setWithoutDuplicates);
 
-                request.setAttribute("userList", userList);
+                request.setAttribute("pageNum", pageNum);
+                request.setAttribute("link", "userlist");
+                request.setAttribute("page", page);
+                request.setAttribute("userList", userListPaging);
                 request.setAttribute("roleList", roleList);
                 request.setAttribute("statusList", statusList);
                 request.getRequestDispatcher("UserList.jsp").forward(request, response);

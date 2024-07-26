@@ -104,6 +104,7 @@ public class RegisterServlet extends HttpServlet {
         Address a = new Address(0, district, city, address, true);
         User u = new User(email, password, name, "Pending", phone, null, (gender.equals("Male")), 5);
         session.setAttribute("newuser", u);
+        session.setAttribute("mail", u.getEmail());
         session.setAttribute("address", a);
         for (User user : uList) {
             if (user.getEmail().equals(email)) {

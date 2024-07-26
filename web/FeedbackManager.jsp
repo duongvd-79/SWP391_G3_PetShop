@@ -50,6 +50,9 @@
                 outline: none;
                 box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
             }
+             .sidebar .active{
+                color: #b0b435;
+            }
         </style>
         <title>SLIDER DASHBOARD</title>
     </head>
@@ -60,11 +63,11 @@
 
                     <!-- Sidebar Start -->
                     <div class="container col-2 position-relative" >
-                        <div class="w-100 mb-1 sticky-top" style="top: 126px; z-index: 1; font-size: 18px">
+                        <div class="w-100 mb-1 sticky-top sidebar" style="top: 126px;z-index: 1;font-size: 18px;font-weight: bold">
                             <a href="#" class="nav-link"><i class="bi bi-clipboard-data-fill p-2 rounded-circle" style="background-color: lightgray"></i> DASHBOARD</a>
-                            <a href="customerlist" class="nav-link active"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
+                            <a href="customerlist" class="nav-link"><i class="bi bi-people-fill p-2 rounded-circle" style="background-color: lightgray"></i> CUSTOMERS/<br>CONTACTS</a>
                             <a href="FeedbackManager" class="nav-link"><i class="bi bi-chat-left-text-fill p-2 rounded-circle" style="background-color: lightgray"></i> FEEDBACKS</a>
-                            <a href="marketingproductlist" class="nav-link"><i class="bi bi-archive-fill p-2 rounded-circle" style="background-color: lightgray"></i> PRODUCTS</a>
+                            <a href="marketingproductlist" class="nav-link active"><i class="bi bi-archive-fill p-2 rounded-circle" style="background-color: lightgray"></i> PRODUCTS</a>
                             <a href="SliderManager" class="nav-link"><i class="bi bi-image p-2 rounded-circle" style="background-color: lightgray"></i> SLIDERS</a>
                         </div>
                     </div>
