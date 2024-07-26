@@ -35,6 +35,32 @@
         #search-form{
             display:none !important;
         }
+
+        .gender-dropdown {
+            border: none; /* Remove border */
+            font-weight: bold; /* Make text bold */
+            background: none; /* Remove background */
+            appearance: none; /* Remove default appearance */
+            -webkit-appearance: none; /* Remove default appearance for Safari */
+            -moz-appearance: none; /* Remove default appearance for Firefox */
+            padding: 5px; /* Add some padding */
+            padding-right: 25px; /* Ensure space for the arrow */
+            cursor: pointer; /* Change cursor to pointer */
+            background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5" viewBox="0 0 10 5"><path fill="black" d="M0 0l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: calc(100% - 10px) center; /* Adjust the position of the arrow */
+            background-size: 10px; /* Adjust the size of the arrow */
+        }
+
+        /* Style for option elements */
+        .gender-dropdown option {
+            font-weight: normal; /* Set the weight of options to normal if needed */
+        }
+
+        /* If you want to change the text of the headers only */
+        th select.gender-dropdown {
+            font-weight: bold; /* Make header text bold */
+        }
     </style>
     <jsp:include page="header.jsp"></jsp:include>
         <body>
@@ -45,7 +71,7 @@
                         <div style="top:130px;" class="w-100 mb-1 sticky-top">
                             <a href="admindashboard" class="nav-link"><i class="fa fa-tachometer-alt me-2"></i>DASHBOARD</a>
                             <a href="setting" class="nav-link"><i class="bi bi-gear-fill me-2"></i>SETTING</a>
-                            <a href="userlist" class="nav-link active"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
+                            <a href="#" class="nav-link active"><i class="bi bi-people-fill me-2"></i>USER LIST</a>
                         </div>
                     </div>
                     <!-- Sidebar End -->
@@ -70,14 +96,13 @@
                                     <label>Sort User By: </label>
                                     <select name="type" class="form-select" id="type" onchange="if (this.value)
                                                 window.location.href = this.value">
-                                        <option>All Users</option>
-                                        <option value="sortuser?order_by=id"}>User ID</option>
-                                        <option value="sortuser?order_by=name"}>FullName</option>
-                                        <option value="sortuser?order_by=gender"}>Gender</option>
-                                        <option value="sortuser?order_by=email"}>Email</option>
-                                        <option value="sortuser?order_by=phone"}>Mobile</option>
-                                        <option value="sortuser?order_by=role_id"}>Role ID</option>
-                                        <option value="sortuser?order_by=status"}>Status</option>
+                                        <option value="sortuser?order_by=id&page=1"}>User ID</option>
+                                        <option value="sortuser?order_by=name&page=1"}>FullName</option>
+                                        <option value="sortuser?order_by=gender&page=1"}>Gender</option>
+                                        <option value="sortuser?order_by=email&page=1"}>Email</option>
+                                        <option value="sortuser?order_by=phone&page=1"}>Mobile</option>
+                                        <option value="sortuser?order_by=role_id&page=1"}>Role ID</option>
+                                        <option value="sortuser?order_by=status&page=1"}>Status</option>
                                     </select>
 
                                 </div>
@@ -100,10 +125,10 @@
                                                         <th>
                                                             <select class="gender-dropdown" onchange="if (this.value)
                                                                         window.location.href = this.value">
-                                                                <option>Gender:</option>
-                                                                <option value="userlist">All User</option>
-                                                                <option value="filteruser?gender=male">Male</option>
-                                                                <option value="filteruser?gender=female">Female</option>
+                                                                <option>Gender</option>
+                                                                <option value="userlist?page=1">All User</option>
+                                                                <option value="filteruser?gender=male&page=1">Male</option>
+                                                                <option value="filteruser?gender=female&page=1">Female</option>
                                                             </select>
                                                         </th>
                                                         <th>Email</th>
@@ -111,17 +136,17 @@
                                                         <th> <select class="gender-dropdown" onchange="if (this.value)
                                                                     window.location.href = this.value">
                                                                 <option selected>Role</option>
-                                                                <option value="userlist">All Role</option>
+                                                                <option value="userlist?page=1">All Role</option>
                                                             <c:forEach items="${roleList}" var="r">
-                                                                <option value="filteruser?role=${r.id}" >${r.name}</option>
+                                                                <option value="filteruser?role=${r.id}&page=1" >${r.name}</option>
                                                             </c:forEach>
                                                         </select></th>
                                                     <th> <select class="gender-dropdown" onchange="if (this.value)
                                                                 window.location.href = this.value">
                                                             <option>Status</option>
-                                                            <option value="userlist">All Status</option>
+                                                            <option value="userlist?page=1">All Status</option>
                                                             <c:forEach items="${statusList}" var="s">
-                                                                <option value="filteruser?status=${s}" >${s}</option>
+                                                                <option value="filteruser?status=${s}&page=1" >${s}</option>
                                                             </c:forEach>
                                                         </select></th>
                                                     <th>Action</th>
@@ -136,7 +161,7 @@
                                                         <td>${u.email}</td>
                                                         <td>${u.phone}</td>
                                                         <td>${u.roleId}</td>
-                                                        <td>${u.status}</td>
+                                                        <td class="${u.getStatus().equals('Active') ? 'text-primary' : 'text-danger'} fw-bolder">${u.status}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-evenly align-items-center py-2">
                                                                 <div class="me-4"><a href="userdetails?id=${u.id}&name=${u.name}&gender=${u.gender}&email=${u.email}&phone=${u.phone}&roleid=${u.roleId}&status=${u.status}"><img height="35" src="https://img.icons8.com/?size=100&id=114169&format=png&color=000000" height="50px"></a></div>
@@ -149,7 +174,66 @@
                                         </table>
                                     </div>
                                 </div>
+                                <c:if test="${link == 'userlist'}">
+                                    <nav style="position: absolute;bottom: -30px; right: 42px" aria-label="setting list paging">
+                                        <ul class="pagination d-flex justify-content-end mb-2">
+                                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="userlist?page=${page-1}">Previous</a></li>
+                                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="userlist?page=${i}">${i}</a></li>
+                                                </c:forEach>
 
+                                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="userlist?page=${page + 1}">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+                                <c:if test="${link == 'sortuser'}">
+                                    <nav style="position: absolute;bottom: -30px; right: 42px" aria-label="setting list paging">
+                                        <ul class="pagination d-flex justify-content-end mb-2">
+                                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="sortuser?order_by=${order_by}&page=${page-1}">Previous</a></li>
+                                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="sortuser?order_by=${order_by}&page=${i}">${i}</a></li>
+                                                </c:forEach>
+
+                                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="sortuser?order_by=${order_by}&page=${page + 1}">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+                                <c:if test="${link == 'filteruser' and gender != null}">
+                                    <nav style="position: absolute;bottom: -30px; right: 42px" aria-label="setting list paging">
+                                        <ul class="pagination d-flex justify-content-end mb-2">
+                                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="filteruser?gender=${gender}&page=${page-1}">Previous</a></li>
+                                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="filteruser?gender=${gender}&page=${i}">${i}</a></li>
+                                                </c:forEach>
+
+                                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="filteruser?gender=${gender}&page=${page + 1}">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+                                <c:if test="${link == 'filteruser' and role != null}">
+                                    <nav style="position: absolute;bottom: -30px; right: 42px" aria-label="setting list paging">
+                                        <ul class="pagination d-flex justify-content-end mb-2">
+                                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="filteruser?role=${role}&page=${page-1}">Previous</a></li>
+                                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="filteruser?role=${role}&page=${i}">${i}</a></li>
+                                                </c:forEach>
+
+                                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="filteruser?role=${role}&page=${page + 1}">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
+                                <c:if test="${link == 'filteruser' and status != null}">
+                                    <nav style="position: absolute;bottom: -30px; right: 42px" aria-label="setting list paging">
+                                        <ul class="pagination d-flex justify-content-end mb-2">
+                                            <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="filteruser?status=${status}&page=${page-1}">Previous</a></li>
+                                                <c:forEach begin="1" end="${requestScope.pageNum}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="filteruser?status=${status}&page=${i}">${i}</a></li>
+                                                </c:forEach>
+
+                                            <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="filteruser?status=${status}&page=${page + 1}">Next</a></li>
+                                        </ul>
+                                    </nav>
+                                </c:if>
                                 <div class="text-left text-danger">${msg}</div>
 
                             </div>

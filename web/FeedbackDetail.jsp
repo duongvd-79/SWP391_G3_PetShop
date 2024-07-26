@@ -23,6 +23,9 @@
         <link rel="stylesheet" href="css/responsive.css">
 
         <style>
+             .sidebar .active{
+                color: #b0b435;
+            }
             a:hover{
                 color:white;
             }
@@ -106,7 +109,7 @@
                         <div class="col-6 d-flex flex-column align-items-start">
                             <div class="h5" style="margin-bottom: 15px;">User Information</div>
                             <div style="border-left:#b0b435 4px solid;" class="w-100 d-flex align-items-center">
-                                <img src="images/userpfp/default.jpg" class="img-fluid img-thumbnail img-circle mr-3" alt="User Image" style="max-width: 100px; margin-left: 5px;">
+                                <img src="${sessionScope.user.pfp}" class="img-fluid img-thumbnail img-circle mr-3" alt="User Image" style="max-width: 100px; margin-left: 5px;">
                                 <div>
                                     <div style="margin-bottom: 10px;">Information : ${sessionScope.user.name},&emsp; ${sessionScope.user.gender}</div>
                                     <div style="margin-bottom: 10px;">Contact : ${sessionScope.user.email},&emsp;${sessionScope.user.phone}</div>

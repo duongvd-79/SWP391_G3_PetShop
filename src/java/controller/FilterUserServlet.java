@@ -67,6 +67,16 @@ public class FilterUserServlet extends HttpServlet {
         String gender = request.getParameter("gender");
         String role = request.getParameter("role");
         String status = request.getParameter("status");
+        String pageStr = request.getParameter("page");
+        int page = 0;
+        if (pageStr.isEmpty() || pageStr.isBlank()) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(pageStr);
+        }
+        
+        int pageNum = 0;
+        
         UserDAO userDAO = new UserDAO();
         try {
             ArrayList<User> userList = new ArrayList<>();
@@ -78,16 +88,46 @@ public class FilterUserServlet extends HttpServlet {
                 } else {
                     new_gender = 0;
                 }
-                userList = userDAO.filterUserByGender(new_gender);
+                ArrayList<User> pageList = userDAO.filterUserByGender(new_gender);
+                int count = 0;
+                for (User u : pageList) {
+                    count++;
+                }
+                if (count % 4 == 0) {
+                    pageNum = count / 4;
+                } else if (count % 4 != 0) {
+                    pageNum = (count / 4) + 1;
+                }
+                userList = userDAO.filterUserByGenderPaging(new_gender, page);
                 // check if user filter by role 
             } else if (role != null) {
                 int role_id = Integer.parseInt(role);
-                userList = userDAO.filterUserByRole(role_id);
+                ArrayList<User> pageList1 = userDAO.filterUserByRole(role_id);
+                int count = 0;
+                for (User u : pageList1) {
+                    count++;
+                }
+                if (count % 4 == 0) {
+                    pageNum = count / 4;
+                } else if (count % 4 != 0) {
+                    pageNum = (count / 4) + 1;
+                }
+                userList = userDAO.filterUserByRolePaging(role_id, page);
                 // check if user filter by status
             } else if (status != null) {
+                ArrayList<User> pageList2 = userDAO.filterUserByStatus(status);
+                int count = 0;
+                for (User u : pageList2) {
+                    count++;
+                }
+                if (count % 4 == 0) {
+                    pageNum = count / 4;
+                } else if (count % 4 != 0) {
+                    pageNum = (count / 4) + 1;
+                }
                 userList = userDAO.filterUserByStatus(status);
             }
-
+            
             ArrayList<User> allUserList = userDAO.getAllUser();
             ArrayList<Setting> roleList = userDAO.getAllRole();
             ArrayList<String> tempList = new ArrayList<>();
@@ -98,7 +138,13 @@ public class FilterUserServlet extends HttpServlet {
             // make a list with not duplicate status
             Set<String> setWithoutDuplicates = new HashSet<>(tempList);
             ArrayList<String> statusList = new ArrayList<>(setWithoutDuplicates);
-
+            
+            request.setAttribute("status", status);
+            request.setAttribute("role", role);
+            request.setAttribute("gender", gender);
+            request.setAttribute("link", "filteruser");
+            request.setAttribute("pageNum", pageNum);
+            request.setAttribute("page", page);
             request.setAttribute("userList", userList);
             request.setAttribute("statusList", statusList);
             request.setAttribute("roleList", roleList);
@@ -106,7 +152,7 @@ public class FilterUserServlet extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(FilterUserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     /**

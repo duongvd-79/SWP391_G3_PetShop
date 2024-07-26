@@ -204,7 +204,7 @@
                 <div class="col-12 my-5 px-0 ms-2">
                     <div class="card card-outline-secondary my-4 px-0">
                         <div class="card-header">
-                            <h2>Product Reviews</h2>
+                            <h2>Newest Reviews</h2>
                         </div>
                         <div class="card-body">
                             <c:set var="fl" value="${requestScope.feedbackList}"/>
@@ -280,14 +280,8 @@
                             </c:choose>
 
                             <hr>
-                            <c:if test="${not empty fl}">
-                                <a href="#" class="btn hvr-hover">See more</a>
-                            </c:if>
-                            <%
-                                       if (user != null) {
-                            %>
-                            <a href="feedback?productid=${requestScope.product.id}" class="btn hvr-hover">Leave a Review</a>
-                            <% } %>
+                            
+                           
                         </div>
                     </div>
                 </div>
