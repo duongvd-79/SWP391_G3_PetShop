@@ -65,7 +65,7 @@
                     <div class="col-sm-9 ms-5 px-0 mb-5">
                         <div class="row">
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-8 d-flex align-items-baseline flex-column ms-0">
-                                <span style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} </span>
+                                <span style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} - ${order.payment_method} </span>
                             <select style="border: 0 !important;color:${'Success'.equals(order.getStatus())?'#28a745':''}
                                     ${'Submitted'.equals(order.status)?'#007bff':''}
                                     ${'Confirmed'.equals(order.status)?'#17a2b8':''}

@@ -186,7 +186,7 @@
                     <div class="col-sm-9">
                         <div class="row">
                             <div style="margin-top: 41px;margin-bottom: 35px;" class="col-10 d-flex align-items-baseline flex-column ms-4">
-                                <div style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} - <span style="color: ${'Submitted'.equals(order.getStatus())?'#007bff':''}
+                                <div style="color:black;" class="h4 font-weight-bold">Order ID : ${order.getId()} - ${order.payment_method} - <span style="color: ${'Submitted'.equals(order.getStatus())?'#007bff':''}
                                                                                                                           ${'Success'.equals(order.getStatus())?'#28a745':''}
                                                                                                                           ${'Confirmed'.equals(order.getStatus())?'#17a2b8':''}
                                                                                                                           ${'Shipping'.equals(order.getStatus())?'#ffc107':''}
