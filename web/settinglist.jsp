@@ -125,39 +125,39 @@
                                 </table>
                             </div>
                         </div>
-                                            <c:if test="${pageNum == 0}">
-                                                <div style="text-align: center" class="h5 mt-4">No Setting Here </div>
-                                            </c:if>
-                                            <c:if test="${pageNum > 0}">
-                        <nav aria-label="setting list paging">
-                            <ul class="pagination d-flex justify-content-end mb-2">
-                                <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
-                                <li class="page-item ${ 1 == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">1</a></li>
-                                <c:if test="${requestScope.page > 2}">
-                                    <li class="page-item"><a class="page-link" href="">...</a></li>
-                                </c:if>
-                                <c:choose>
-                                    <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 4} ">
-                                        <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
-                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
-                                        </c:forEach>
-                                    </c:when>
-                                    <c:when test="${requestScope.page >= 2 && requestScope.page <= requestScope.pageNum-1}">
-                                        <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
-                                            <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
-                                        </c:forEach>
-                                    </c:when>
-                                </c:choose>
-                                <c:if test="${requestScope.page <= requestScope.pageNum-2}">
-                                    <li class="page-item"><a class="page-link" href="">...</a></li>
-                                </c:if>
-                                <c:if test="${requestScope.page != requestScope.pageNum-1 && requestScope.pageNum != 1}">
-                                <li class="page-item ${ requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${requestScope.pageNum}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${requestScope.pageNum}</a></li>
-                                </c:if>
-                                <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
-                            </ul>
-                        </nav>
-                                            </c:if>
+                        <c:if test="${pageNum == 0}">
+                            <div style="text-align: center" class="h5 mt-4">No Setting Here </div>
+                        </c:if>
+                        <c:if test="${pageNum > 0}">
+                            <nav aria-label="setting list paging">
+                                <ul class="pagination d-flex justify-content-end mb-2">
+                                    <li class="page-item"><a class="page-link ${requestScope.page == 1 ? 'd-none' : ''}" href="setting?page=${requestScope.page-1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Previous</a></li>
+                                    <li class="page-item ${ 1 == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=1&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">1</a></li>
+                                        <c:if test="${requestScope.page > 2}">
+                                        <li class="page-item"><a class="page-link" href="">...</a></li>
+                                        </c:if>
+                                        <c:choose>
+                                            <c:when test="${requestScope.page >= requestScope.pageNum-2 && requestScope.pageNum > 4} ">
+                                                <c:forEach begin="${requestScope.pageNum-2}" end="${requestScope.pageNum-1}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                                </c:forEach>
+                                            </c:when>
+                                            <c:when test="${requestScope.page >= 2 && requestScope.page <= requestScope.pageNum-1}">
+                                                <c:forEach begin="${requestScope.page}" end="${requestScope.page+1}" var="i">
+                                                <li class="page-item ${ i == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${i}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${i}</a></li>
+                                                </c:forEach>
+                                            </c:when>
+                                        </c:choose>
+                                        <c:if test="${requestScope.page <= requestScope.pageNum-2}">
+                                        <li class="page-item"><a class="page-link" href="">...</a></li>
+                                        </c:if>
+                                        <c:if test="${requestScope.page != requestScope.pageNum-1 && requestScope.pageNum != 1}">
+                                        <li class="page-item ${ requestScope.pageNum == requestScope.page ? 'active': ''}"><a class="page-link" href="setting?page=${requestScope.pageNum}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">${requestScope.pageNum}</a></li>
+                                        </c:if>
+                                    <li class="page-item"><a class="page-link ${(requestScope.pageNum == 0 || requestScope.page == requestScope.pageNum) ? 'd-none' : ''}" href="setting?page=${requestScope.page+1}&search=${requestScope.sName}&sort=${requestScope.sort}&action=filter&status=${requestScope.status}&type=${requestScope.type}">Next</a></li>
+                                </ul>
+                            </nav>
+                        </c:if>
                         <div id="popup1" class="overlay">
                             <div class="popup">
                                 <div class="h5 ms-3 mb-3">Add New Setting</div>
@@ -173,7 +173,10 @@
                                             </select>
                                         </div>
                                         <div class="col-md-5"><label class="labels">Order</label><input type="text" name="order" class="form-control" placeholder="Enter Setting Order" required=""></div>
-                                        <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control" placeholder="Enter Setting Name" required=""></div>
+                                        <div class="col-md-12 my-3"><label class="labels">Name</label><input type="text" name="name" class="form-control"
+                                                                                                             pattern="^\s*[A-Za-zÀ-ỹà-ỹ]+([A-Za-zÀ-ỹà-ỹ ]+){1,50}\s*$"
+                                                                                                             title="Not contain special character or only white space"
+                                                                                                             placeholder="Enter Setting Name" required=""></div>
                                         <div class="col-md-12"><label class="labels">Description</label>
                                             <textarea class="form-control" id="note" name="note" rows="3" value="${detail.getDescription()}" placeholder="Description"></textarea>
                                         </div>
