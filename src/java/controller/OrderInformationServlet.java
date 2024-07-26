@@ -86,7 +86,7 @@ public class OrderInformationServlet extends HttpServlet {
             OrderDetailsDAO odDAO = new OrderDetailsDAO();
             //thông tin khách hàng
             AddressDAO aDAO = new AddressDAO();
-            // order chỉ được feedback 1 lần
+            // product success chỉ được feedback 1 lần
             FeedbackDAO fbDAO = new FeedbackDAO();
 
             List<Product> lastestProduct = new ArrayList<>();
@@ -102,6 +102,7 @@ public class OrderInformationServlet extends HttpServlet {
             }
             int id = Integer.parseInt(request.getParameter("id"));
             Order order = oDAO.getOrderById(id);
+            //get customer info and order info
             try {
                 address = aDAO.getChosenAddress(order.getAddressId());
                 pList = pDAO.getAllByOrderId(id);

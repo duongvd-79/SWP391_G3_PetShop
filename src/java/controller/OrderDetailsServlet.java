@@ -123,11 +123,12 @@ public class OrderDetailsServlet extends HttpServlet {
                 session.setAttribute("toastType", "success");
             }
             Order order = oDAO.getOrderById(id);
+            //chảng sale note
             if (saleid != 0) {
                 order.setSaleId(saleid);
                 oDAO.changeSale(order.getId(), saleid);
             }
-
+            //get customer and order info
             try {
                 customer = uDAO.getUserByID(order.getCustomerId());
                 address = aDAO.getChosenAddress(order.getAddressId());
