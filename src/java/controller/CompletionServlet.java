@@ -138,6 +138,9 @@ public class CompletionServlet extends HttpServlet {
 
                 // delete all the product in the cart
                 cartdao.deleteAllItemOfUser(u.getId());
+                
+                // delete session of cart badge
+                session.removeAttribute("size");
 
                 request.setAttribute("payment_method", payment_method);
                 request.setAttribute("orderID", latestOrder.getId());
