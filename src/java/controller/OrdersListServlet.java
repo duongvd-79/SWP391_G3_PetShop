@@ -100,7 +100,6 @@ public class OrdersListServlet extends HttpServlet {
             }
             }catch(Exception e){}
 
-            //Initialize
             List<Order> oList;
             List<Product> pList;
             List<Integer> remainNum;

@@ -5,7 +5,7 @@
         <h2 class="ms-3 mb-3">H2DV Petshop</h2>
         <a class="close" href="#">&times;</a>
         <div class="content container-fluid">
-            <h2>A verification link had been sended to ${sessionScope.newuser.getEmail()}</h2>
+            <h2>A verification link had been sended to ${sessionScope.mail}</h2>
             <h3>Check your email for verification!</h3>
         </div>
     </div>
