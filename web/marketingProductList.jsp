@@ -78,8 +78,8 @@
                             <div class="row d-flex align-items-center mb-3">
                                 <div class="col-md-3">
                                     <form action="marketingproductlist" method="get">
-                                        <input type="text" name="search" class="w-100 form-control" placeholder="Search..." list="searchList"/>
-                                        <datalist id="searchList">
+                                        <input type="text" name="search" class="w-100 form-control" placeholder="Search..." list="searchData"/>
+                                        <datalist id="searchData">
                                         <c:forEach items="${allSearchList}" var="asl">
                                             <option value="${asl.title}"></option>
                                         </c:forEach>
@@ -110,16 +110,23 @@
                                 <input type="checkbox" id="isFeatured" ${featured eq 'Is Featured' ? 'checked' : ''} value="${featured eq 'Is Featured' ? '' : 'Is Featured'}">
                                 <label class="form-check-label" for="isFeatured">Featured</label>
                             </div>
-                            <div class="col-md-1">
-                                <a class="btn" style="text-decoration: none;color: white;background: #b0b435" href="marketingproductlist">Clear</a>
+                            <div class="col-md-2">
+                                <select class="form-control" id="sort">
+                                    <option value="">Sort</option>
+                                    <option value="Date DESC" ${sort eq 'Date DESC' ? 'selected' : ''}>Latest/New Item(s)</option>
+                                    <option value="Date ASC" ${sort eq 'Date ASC' ? 'selected' : ''}>Oldest Item(s)</option>
+                                </select>
                             </div>
-                            <div class="col-md-3 d-flex justify-content-end">
+                            <div class="col-md-1 d-flex justify-content-end">
+                                <a class="btn btn-secondary" href="marketingproductlist">Clear</a>
+                            </div>
+                            <div class="col-md-1 d-flex justify-content-end">
                                 <button class="btn" style="text-decoration: none;color: white;background: #b0b435" type="button" data-toggle="modal" data-target="#addNewProduct">Add New</button>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-12 table-responsive">
-                                <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <table class="table text-start align-middle table-bordered table-hover mb-0" id="pTable" title="Click to see created date.">
                                     <thead style="font-size:20px;">
                                         <tr>
                                             <th>
@@ -181,6 +188,11 @@
                                                     Action
                                                 </div>
                                             </th>
+                                            <th id="headerDate" style="display: none;max-width: 100px">
+                                                <div class="d-flex justify-content-center">
+                                                    Created Date
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size:20px;">
@@ -228,6 +240,9 @@
                                                                     ${p.status eq 'Hidden' ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>'}
                                                                 </a>
                                                             </div>
+                                                        </td>
+                                                        <td class="row-date" style="word-wrap: break-word;white-space: normal;max-width: 150px;display: none">
+                                                            <fmt:formatDate value="${p.createdDate}" pattern="dd-MM-yyyy hh:mm:ss"/>
                                                         </td>
                                                     </tr>
                                                 </c:forEach>
@@ -306,7 +321,7 @@
                                                                     <div class="col-8">
                                                                         <div class="row mt-2">
                                                                             <div class="col-md-12">
-                                                                                <label class="labels">Title <span class="text-danger">(*)</span></label>
+                                                                                <label class="labels"><strong>Title</strong> <span class="text-danger">(*)</span></label>
                                                                                 <input type="text" class="form-control" name="title" pattern="^[A-Za-zÀ-ỹà-ỹ0-9]+( [A-Za-zÀ-ỹà-ỹ0-9]+)*$" maxlength="255" 
                                                                                        title="Alphanumeric characters only. Max 255 characters. Each word is separated by only 1 space."
                                                                                        id="newTitle" placeholder="Enter Product Title" value="${sessionScope.title}" required>
@@ -315,7 +330,7 @@
                                                                         </div>
                                                                         <div class="row mt-3">
                                                                             <div class="col-md-12">
-                                                                                <label class="labels">Description <span class="text-danger">(*)</span></label>
+                                                                                <label class="labels"><strong>Description</strong> <span class="text-danger">(*)</span></label>
                                                                                 <textarea class="form-control" name="description" id="newDescription" placeholder="Enter Description" value="${sessionScope.description}" required>${sessionScope.description}</textarea>
                                                                                 <% request.getSession().removeAttribute("description"); %>
                                                                             </div>
@@ -324,12 +339,12 @@
                                                                 </div>
                                                                 <div class="row mt-3">
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">Quantity <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels"><strong>Quantity</strong> <span class="text-danger">(*)</span></label>
                                                                         <input type="number" min="0" class="form-control" name="quantity" id="newQuantity" placeholder="Enter Quantity" value="${sessionScope.quantity}" required>
                                                                         <% request.getSession().removeAttribute("quantity"); %>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">Status <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels"><strong>Status</strong> <span class="text-danger">(*)</span></label>
                                                                         <select type="text" class="form-control py-2 w-100" name="status" id="newStatus" placeholder="Enter Status" value="${sessionScope.status}" required>
                                                                             <option value="">Status</option>
                                                                             <option value="Available" ${sessionScope.status eq 'Available' ? 'selected' : ''}>Available</option>
@@ -343,19 +358,19 @@
                                                             <div class="col-12 border-left border-right">
                                                                 <div class="row mt-1">
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">Import Price <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels"><strong>Import Price</strong> <span class="text-danger">(*)</span></label>
                                                                         <input class="form-control" type="number" min="0" name="importPrice" id="newImportPrice" placeholder="Enter Import Price" style="max-width: 100%;min-width:100%;" required>
                                                                         <% request.getSession().removeAttribute("importPrice"); %>
                                                                     </div>
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">List Price <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels"><strong>List Price</strong> <span class="text-danger">(*)</span></label>
                                                                         <input class="form-control" type="number" min="0" name="listPrice" id="newListPrice" placeholder="Enter List Price" style="max-width: 100%;min-width:100%;" required>
                                                                         <% request.getSession().removeAttribute("listPrice"); %>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mt-3">
                                                                     <div class="col-md-6">
-                                                                        <label class="labels">Category <span class="text-danger">(*)</span></label>
+                                                                        <label class="labels"><strong>Category</strong> <span class="text-danger">(*)</span></label>
                                                                         <select class="form-control" type="number" name="category" id="newCategory" style="max-width: 100%;min-width:100%;" required>
                                                                             <option value="">Category</option>
                                                                             <c:forEach items="${applicationScope.prcategory}" var="prcate">
@@ -367,7 +382,7 @@
                                                                     <div class="col-md-6 d-flex justify-content-start align-items-end">
                                                                         <div class="form-check">
                                                                             <input type="checkbox" class="form-check-input" name="featured" id="newFeatured" value="Is Featured">
-                                                                            <label class="form-check-label" for="newFeatured">Is Featured</label>
+                                                                            <label class="form-check-label" for="newFeatured"><strong>Is Featured</strong></label>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -425,10 +440,28 @@
                     window.location.href = '?status=${status}&category=' + encodeURIComponent(selectedValue)
                             + '&featured=${featured}&search=${search}&sort=${sort}';
                 });
+                document.getElementById('sort').addEventListener('change', function () {
+                    var selectedValue = this.value;
+                    window.location.href = '?status=${status}&category=${category}'
+                            + '&featured=${featured}&search=${search}&sort=' + selectedValue;
+                });
                 document.getElementById('isFeatured').addEventListener('change', function () {
                     var selectedValue = this.value;
                     window.location.href = '?category=${category}&status=${status}&featured=' + selectedValue
                             + '&search=${search}&sort=${sort}';
+                });
+                document.getElementById('pTable').addEventListener('click', function () {
+                    if (document.getElementById('headerDate').style.display === 'none') {
+                        document.getElementById('headerDate').style.display = '';
+                        document.querySelectorAll('.row-date').forEach(function (rowDate) {
+                            rowDate.style.display = '';
+                        });
+                    } else {
+                        document.getElementById('headerDate').style.display = 'none';
+                        document.querySelectorAll('.row-date').forEach(function (rowDate) {
+                            rowDate.style.display = 'none';
+                        });
+                    }
                 });
         </script>
         <script>

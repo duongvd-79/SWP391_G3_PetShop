@@ -75,7 +75,7 @@
 
                     <!-- Content Start -->
                     <div class="col-10 container-fluid rounded pb-1 px-4" style="background-color: lightgrey">
-                        <div class="container rounded bg-white mt-md-2 mt-lg-5 mb-md-2 mb-lg-5 pb-4">
+                        <div class="container rounded bg-white mt-md-2 mt-lg-3 mb-md-2 mb-lg-3 pb-4">
                             <form action="marketingproductdetail" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-12">
@@ -157,7 +157,7 @@
                                                             </c:forEach>
                                                         </select>
                                                     </div>
-                                                    <div class="col-md-6 d-flex justify-content-start align-items-center">
+                                                    <div class="col-md-6 d-flex justify-content-start align-items-end">
                                                         <div class="form-check">
                                                             <input type="checkbox" class="form-check-input" name="featured" id="newFeatured" value="Is Featured" ${p.isFeatured ? 'checked' : ''}>
                                                             <label class="form-check-label" for="newFeatured">Is Featured</label>

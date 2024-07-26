@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import model.Product;
 import model.Setting;
@@ -125,11 +124,11 @@ public class ProductDAO extends DBContext {
             stm = connection.prepareStatement(sql);
             rs = stm.executeQuery();
             while (rs.next()) {
-                Product p = setProduct(rs);
-                productList.add(p);
+                productList.add(setProduct(rs));
             }
             if (search != null && !search.trim().isEmpty()) {
-                productList.removeIf(p -> !p.getDescription().contains(search) && !p.getTitle().contains(search));
+                productList.removeIf(p -> (p.getDescription() == null || !p.getDescription().contains(search))
+                        && (p.getTitle() == null || !p.getTitle().contains(search)));
             }
             if (category != null && !category.trim().isEmpty()) {
                 List<Setting> cateList = new SettingDAO().getAllProductCategory();
@@ -168,14 +167,14 @@ public class ProductDAO extends DBContext {
                         productList.sort(Comparator.comparing(Product::getListPrice));
                     case "List Price DESC" ->
                         productList.sort(Comparator.comparing(Product::getListPrice).reversed());
-                    case "Featured ASC" ->
-                        productList.sort(Comparator.comparing(Product::isIsFeatured));
-                    case "Featured DESC" ->
-                        productList.sort(Comparator.comparing(Product::isIsFeatured).reversed());
                     case "Status ASC" ->
                         productList.sort(Comparator.comparing(Product::getStatus));
                     case "Status DESC" ->
                         productList.sort(Comparator.comparing(Product::getStatus).reversed());
+                    case "Date ASC" ->
+                        productList.sort(Comparator.comparing(Product::getCreatedDate));
+                    case "Date DESC" ->
+                        productList.sort(Comparator.comparing(Product::getCreatedDate).reversed());
                     default ->
                         productList.sort(Comparator.comparing(Product::getId));
                 }
@@ -501,7 +500,7 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getActive(true, "", "0", "0", "hat", "", 1);
+        List<Product> productList = p.getAllPaginated(1, 5, "hat", "", "", "", "Title");
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
         }
