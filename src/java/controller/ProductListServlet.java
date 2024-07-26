@@ -4,7 +4,6 @@ package controller;
 
 import dal.FeedbackDAO;
 import dal.ProductDAO;
-import dal.SliderDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 import model.Product;
 import model.ProductFeedback;
-import model.Slider;
 
 /**
  *
@@ -73,11 +71,6 @@ public class ProductListServlet extends HttpServlet {
         List<Product> allProduct;
         List<Product> productList;
 
-        // Get slider list
-        SliderDAO sliderDAO = new SliderDAO();
-        List<Slider> sliderList = sliderDAO.getActive();
-        request.setAttribute("slider", sliderList);
-
         // Get attributes
         String categoryRaw = request.getParameter("category");
         String minPriceRaw = null;
@@ -114,6 +107,8 @@ public class ProductListServlet extends HttpServlet {
         request.setAttribute("priceOption", priceOption);
         String search = request.getParameter("search");
         request.setAttribute("search", search);
+        System.out.println(minPriceRaw);
+        System.out.println(maxPriceRaw);
 
         // Handle search by category
         String[] searchArray = new String[0];

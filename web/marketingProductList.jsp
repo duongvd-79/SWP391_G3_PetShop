@@ -207,13 +207,12 @@
                                                             ${p.title}
                                                         </td>
                                                         <td>${cateMap[p.categoryId]}</td>
-                                                        <c:set var="formattedPrice">
-                                                            <fmt:formatNumber value="${p.listPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
-                                                        </c:set>
                                                         <td>
-                                                            ${formattedPrice} đ
+                                                            <fmt:formatNumber value="${p.importPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/> đ
                                                         </td>
-                                                        <td>${formattedPrice} đ</td>
+                                                        <td>
+                                                            <fmt:formatNumber value="${p.listPrice * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/> đ
+                                                        </td>
                                                         <td class="text-center is-featured" style="font-size: 32px">
                                                             <a href="?id=${p.id}&pfeatured=${p.isFeatured ? 'Is Featured' : 'Not Featured'}&category=${category}&status=${status}&search=${search}&sort=${sort}&page=${page}">
                                                                 ${p.isFeatured ? '<i class="bi bi-check-square-fill"></i>' : '<i class="bi bi-square"></i>'}

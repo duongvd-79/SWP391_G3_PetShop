@@ -218,7 +218,7 @@ public class ProductDAO extends DBContext {
             sqlMaxPrice = "AND list_price <= ? ";
         }
         if (search != null && !search.equals("")) {
-            sqlSearch = "AND s.name LIKE ? OR pr.title LIKE ? ";
+            sqlSearch = "AND (s.name LIKE ? OR pr.title LIKE ?) ";
         }
         if (sortType != null && !sortType.equals("")) {
             switch (sortType) {
@@ -501,11 +501,9 @@ public class ProductDAO extends DBContext {
 
     public static void main(String[] args) throws SQLException {
         ProductDAO p = new ProductDAO();
-        List<Product> productList = p.getAllPaginated(1, 20, "hạt", "", "", "", "List Price ASC");
+        List<Product> productList = p.getActive(true, "", "0", "0", "hat", "", 1);
         for (Product pr : productList) {
             System.out.println(pr.getTitle());
-            }
-        p.showProduct(1);
-        p.updateProduct(new Product(32, 50, 6, "haha", "Available", "haha", "haha", 0, 0, new Date(), false));
+        }
     }
 }
