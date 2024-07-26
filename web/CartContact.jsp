@@ -5,6 +5,8 @@
     <%@page import="model.User"%>
     <%@page import="model.Address"%>
     <%@ page import="java.util.ArrayList" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -92,15 +94,21 @@
                                     <img src="${c.thumbnail}" class="mr-3" alt="Product Image" style="width: 100px;">
                                     <div class="media-body">
                                         <a href="#">${c.title}</a>
+                                        <c:set var="formattedPrice">
+                                            <fmt:formatNumber value="${c.list_price *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                        </c:set>
                                         <div class="small text-muted">
-                                            Price: ${c.list_price}00₫ <span class="quantity">Quantity: ${c.quantity}</span>
+                                            Price: ${formattedPrice} đ<span class="quantity">Quantity: ${c.quantity}</span>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
                             <div class="d-flex">
                                 <h4>Subtotal</h4>
-                                <div class="ml-auto font-weight-bold">${total_cost}00₫</div>
+                                <c:set var="formattedPrice">
+                                            <fmt:formatNumber value="${total_cost *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                </c:set>
+                                <div class="ml-auto font-weight-bold">${formattedPrice} đ</div>
                             </div>
                             <div class="d-flex border-bottom">
                                 <h4>Shipping cost</h4>
@@ -108,7 +116,7 @@
                             </div>
                             <div class="d-flex gr-total">
                                 <h5>Total</h5>
-                                <div class="ml-auto h5">${total_cost}00₫</div>
+                                <div class="ml-auto h5">${formattedPrice} đ</div>
                             </div>
                         </div>
                     </div>

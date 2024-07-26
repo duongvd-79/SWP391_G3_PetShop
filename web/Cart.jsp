@@ -7,6 +7,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.User"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,10 +56,10 @@
     </head>
     <body>
         <jsp:include page="header.jsp"></jsp:include>
-        
-        
-        <div class="cart-box-main">
-            <div  class="container">
+
+
+            <div class="cart-box-main">
+                <div  class="container">
                 <c:choose>
                     <c:when test="${empty cartDetailList}">
                         <div class="row justify-content-center">
@@ -91,7 +93,7 @@
                                                 User user = (User) session.getAttribute("user");
                                                 if (user != null) {
                                             %>
-                                             <c:forEach begin="0" end="${length}" var="i" step="1">
+                                            <c:forEach begin="0" end="${length}" var="i" step="1">
                                                 <tr>
                                                     <td class="thumbnail-img">
                                                         <a href="#">
@@ -104,13 +106,19 @@
                                                         </a>
                                                     </td>
                                                     <td class="price-pr">
-                                                        <p>${cartDetailList[i].list_price}00 vnd</p>
+                                                        <c:set var="formattedPrice">
+                                                            <fmt:formatNumber value="${cartDetailList[i].list_price *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                        </c:set>
+                                                        <p>${formattedPrice} đ</p>
                                                     </td>
                                                     <td class="quantity-box">                   
                                                         <input type="number" size="4" value="${cartDetailList[i].quantity}" min="1" step="1" max="${quantityList[i]}" class="c-input-text qty text" onchange="updateQuantity(${cartDetailList[i].productId}, this.value)">
                                                     </td>
                                                     <td class="total-pr">
-                                                        <p>${cartDetailList[i].list_price * cartDetailList[i].quantity}00 vnd</p>
+                                                        <c:set var="formattedPrice">
+                                                            <fmt:formatNumber value="${cartDetailList[i].list_price * cartDetailList[i].quantity *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                        </c:set>
+                                                        <p>${formattedPrice} đ</p>
                                                     </td>
                                                     <td class="remove-pr">
                                                         <a href="deletecartitem?id=${cartDetailList[i].id}">
@@ -135,7 +143,10 @@
                                         <h3>Order summary</h3>
                                         <div class="d-flex gr-total">
                                             <h5>Grand Total</h5>
-                                            <div class="ml-auto h5">${grand_total}00 vnd</div>
+                                            <c:set var="formattedPrice">
+                                                <fmt:formatNumber value="${grand_total *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                            </c:set>
+                                            <div class="ml-auto h5">${formattedPrice} đ</div>
                                         </div>
                                         <hr> 
                                     </div>
@@ -174,7 +185,10 @@
                                 </div>
                                 <div class="why-text">
                                     <h4>${l.title}</h4>
-                                    <h5>${l.listPrice}00 vnd</h5>
+                                    <c:set var="formattedPrice">
+                                        <fmt:formatNumber value="${l.listPrice *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                    </c:set>
+                                    <h5>${formattedPrice} đ</h5>
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,8 @@
 <html lang="en">
     <%@page contentType="text/html" pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -107,102 +109,108 @@
 
         <jsp:include page="header.jsp"></jsp:include>
 
-        <div class="cart-box-main">
-            <div class="container">
-                <div class="row new-account-login">
-                    <div class="col-lg-7 mb-3">
-                        <div class="sticky-top" style="top: 150px; z-index: 2;">
-                            <div style="font-size: 16px; font-weight: 700; margin-bottom: 20px">
-                                <h3>Delivery Method</h3>
-                            </div>
-                            <form class="mt-3" id="order-form" onsubmit="return validateForm()" action="completion" method="get">
-                                <div class="delivery-method">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-1">
-                                            <label>
-                                                <input type="radio"  checked>
-                                            </label>
-                                        </div>
-                                        <div class="form-group col-md-9">
-                                            <label for="standard">Giao hàng từ 3-4 ngày (Nếu kiện hàng có kích thước to hoặc nặng hơn 2kg, nhân viên sẽ báo lại phí ship với khách)</label>
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            26.000vnd
-                                        </div>
-                                    </div>
-                                </div>
-
+            <div class="cart-box-main">
+                <div class="container">
+                    <div class="row new-account-login">
+                        <div class="col-lg-7 mb-3">
+                            <div class="sticky-top" style="top: 150px; z-index: 2;">
                                 <div style="font-size: 16px; font-weight: 700; margin-bottom: 20px">
-                                    <h3>Payment Method</h3>
+                                    <h3>Delivery Method</h3>
                                 </div>
-                                <div class="payment-method">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-1">
-                                            <label>
-                                                <input type="radio" name="payment" value="COD" onclick="showPaymentInstructions('credit-card-instructions')">
-                                            </label>
-                                        </div>
-                                        <div class="form-group col-md-11">
-                                            <label for="COD">Pay after receiving products (COD)</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-1">
-                                            <label>
-                                                <input type="radio" name="payment" value="Banking" onclick="showPaymentInstructions('paypal-instructions')">
-                                            </label>
-                                        </div>
-                                        <div class="form-group col-md-11">
-                                            <label for="Banking">Online bank transfer</label>
+                                <form class="mt-3" id="order-form" onsubmit="return validateForm()" action="completion" method="get">
+                                    <div class="delivery-method">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                                <label>
+                                                    <input type="radio"  checked>
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-9">
+                                                <label for="standard">Giao hàng từ 3-4 ngày (Nếu kiện hàng có kích thước to hoặc nặng hơn 2kg, nhân viên sẽ báo lại phí ship với khách)</label>
+                                            </div>
+                                            <div class="form-group col-md-2">
+                                                26.000vnd
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div id="payment-instructions" class="mt-3">
-                                    <div id="credit-card-instructions" class="instructions">
-                                        <p>1. After successfully placing an order, Shop receives information and confirms the order with the customer via Email (please check your Email).</p>
-                                        <p>2. Shop creates a shipping order for the confirmed order.</p>
-                                        <p>3. Play with Boss and wait for the shipper to deliver to your house.</p>
-                                    </div>
-                                    <div id="paypal-instructions" class="instructions">
-                                        <p>Ngân hàng Quân Đội Việt Nam MBBank</p>
-                                        <p>Chủ tài khoản: NGUYEN QUY DUONG</p>
-                                        <p>Số tài khoản: 388815092004</p>
-                                        <p></p>
-                                        <p>1. Sau khi đặt hàng và chuyển khoản thanh toán thành công (Nội dung chuyển khoản: Họ tên + mã đơn hàng).</p>
-                                        <p>2. PawPaw nhận thông tin và xác nhận đơn với khách hàng qua Email (khách vui lòng kiểm tra Email).</p>
-                                        <p>3. PawPaw tạo đơn vận chuyển cho đơn hàng đã được xác nhận.</p>
-                                        <p>4. Chơi với Boss và đợi shipper giao hàng tận cửa.</p>
-                                    </div>
-                                </div>
-                                <div class="form-row mt-4">
-                                    <div class="form-group col-md-12 d-flex justify-content-between">
-                                        <p><a href="cart" class="link-opacity-10-hover" id="back-to-cart">Back to cart</a></p>
-                                        <button type="submit" class="btn btn-luxury ml-auto">Finish purchasing order</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
 
-                    <div class="col-lg-5 mb-3 rounded p-2 bg-light">
-                        <div class="title-left">
-                            <h3>Cart information</h3>
+                                    <div style="font-size: 16px; font-weight: 700; margin-bottom: 20px">
+                                        <h3>Payment Method</h3>
+                                    </div>
+                                    <div class="payment-method">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                                <label>
+                                                    <input type="radio" name="payment" value="COD" onclick="showPaymentInstructions('credit-card-instructions')">
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-11">
+                                                <label for="COD">Pay after receiving products (COD)</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-1">
+                                                <label>
+                                                    <input type="radio" name="payment" value="Banking" onclick="showPaymentInstructions('paypal-instructions')">
+                                                </label>
+                                            </div>
+                                            <div class="form-group col-md-11">
+                                                <label for="Banking">Online bank transfer</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="payment-instructions" class="mt-3">
+                                        <div id="credit-card-instructions" class="instructions">
+                                            <p>1. After successfully placing an order, Shop receives information and confirms the order with the customer via Email (please check your Email).</p>
+                                            <p>2. Shop creates a shipping order for the confirmed order.</p>
+                                            <p>3. Play with Boss and wait for the shipper to deliver to your house.</p>
+                                        </div>
+                                        <div id="paypal-instructions" class="instructions">
+                                            <p>Ngân hàng Quân Đội Việt Nam MBBank</p>
+                                            <p>Chủ tài khoản: NGUYEN QUY DUONG</p>
+                                            <p>Số tài khoản: 388815092004</p>
+                                            <p></p>
+                                            <p>1. Sau khi đặt hàng và chuyển khoản thanh toán thành công (Nội dung chuyển khoản: Họ tên + mã đơn hàng).</p>
+                                            <p>2. PawPaw nhận thông tin và xác nhận đơn với khách hàng qua Email (khách vui lòng kiểm tra Email).</p>
+                                            <p>3. PawPaw tạo đơn vận chuyển cho đơn hàng đã được xác nhận.</p>
+                                            <p>4. Chơi với Boss và đợi shipper giao hàng tận cửa.</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-row mt-4">
+                                        <div class="form-group col-md-12 d-flex justify-content-between">
+                                            <p><a href="cart" class="link-opacity-10-hover" id="back-to-cart">Back to cart</a></p>
+                                            <button type="submit" class="btn btn-luxury ml-auto">Finish purchasing order</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div class="rounded p-2 bg-light">
+
+                        <div class="col-lg-5 mb-3 rounded p-2 bg-light">
+                            <div class="title-left">
+                                <h3>Cart information</h3>
+                            </div>
+                            <div class="rounded p-2 bg-light">
                             <c:forEach items="${cartDetailList}" var="c">
                                 <div class="media mb-2 border-bottom">
                                     <img src="${c.thumbnail}" class="mr-3" alt="Product Image" style="width: 100px;">
                                     <div class="media-body">
                                         <a href="#">${c.title}</a>
                                         <div class="small text-muted">
-                                            Price: ${c.list_price}00₫ <span class="quantity">Quantity: ${c.quantity}</span>
+                                            <c:set var="formattedPrice">
+                                                <fmt:formatNumber value="${c.list_price}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                            </c:set>
+                                            Price: ${formattedPrice} đ<span class="quantity">Quantity: ${c.quantity}</span>
                                         </div>
                                     </div>
                                 </div>
                             </c:forEach>
                             <div class="d-flex">
                                 <h4>Subtotal</h4>
-                                <div class="ml-auto font-weight-bold">${total_cost}00₫</div>
+                                <c:set var="formattedPrice">
+                                    <fmt:formatNumber value="${total_cost}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                </c:set>
+                                <div class="ml-auto font-weight-bold">${formattedPrice} đ</div>
                             </div>
                             <div class="d-flex border-bottom">
                                 <h4>Shipping cost</h4>
@@ -210,7 +218,7 @@
                             </div>
                             <div class="d-flex gr-total">
                                 <h5>Total</h5>
-                                <div class="ml-auto h5">${total_cost}00₫</div>
+                                <div class="ml-auto h5">${formattedPrice} đ</div>
                             </div>
                         </div>
                     </div>
@@ -229,32 +237,32 @@
         <script src="js/custom.js"></script>
         <script src="js/active.js"></script>
         <script>
-            function showPaymentInstructions(id) {
-                var instructions = document.getElementsByClassName('instructions');
-                for (var i = 0; i < instructions.length; i++) {
-                    instructions[i].style.display = 'none';
-                }
-                document.getElementById(id).style.display = 'block';
-            }
+                                                    function showPaymentInstructions(id) {
+                                                        var instructions = document.getElementsByClassName('instructions');
+                                                        for (var i = 0; i < instructions.length; i++) {
+                                                            instructions[i].style.display = 'none';
+                                                        }
+                                                        document.getElementById(id).style.display = 'block';
+                                                    }
 
-            function validateForm() {
-                var paymentMethods = document.getElementsByName('payment');
-                var paymentSelected = false;
+                                                    function validateForm() {
+                                                        var paymentMethods = document.getElementsByName('payment');
+                                                        var paymentSelected = false;
 
-                for (var i = 0; i < paymentMethods.length; i++) {
-                    if (paymentMethods[i].checked) {
-                        paymentSelected = true;
-                        break;
-                    }
-                }
+                                                        for (var i = 0; i < paymentMethods.length; i++) {
+                                                            if (paymentMethods[i].checked) {
+                                                                paymentSelected = true;
+                                                                break;
+                                                            }
+                                                        }
 
-                if (!paymentSelected) {
-                    alert('Please choose a payment method.');
-                    return false;
-                }
+                                                        if (!paymentSelected) {
+                                                            alert('Please choose a payment method.');
+                                                            return false;
+                                                        }
 
-                return true;
-            }
+                                                        return true;
+                                                    }
         </script>
     </body>
 </html>

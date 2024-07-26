@@ -2,6 +2,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="model.User"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <!-- Basic -->
@@ -94,8 +96,13 @@
                         <div class="single-product-details">
                             <h2>${requestScope.product.title}</h2>
                             <div class="price-with-rating">
-                                <h5>
-                                    <del>${requestScope.product.listPrice + 100}00 đ </del>${requestScope.product.listPrice}00 đ
+                                <h5><c:set var="formattedPrice">
+                                        <fmt:formatNumber value="${requestScope.product.listPrice * 1000 +100000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                    </c:set>
+                                    <c:set var="formattedPrice2">
+                                        <fmt:formatNumber value="${requestScope.product.listPrice *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                    </c:set>
+                                    <del>${formattedPrice} đ </del>${formattedPrice2} đ
                                     <c:if test="${star == 1}">
                                         <span class="product-rating">
                                             <i class="bi bi-star-fill text-warning"></i>
