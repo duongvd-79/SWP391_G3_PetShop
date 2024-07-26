@@ -61,14 +61,14 @@
                                 <div class="row mt-1">
                                     <div class="col-md-6">
                                         <label class="labels">City</label>
-                                        <select class="form-control p-2" name="pfcity" id="pfcity" style="max-width: 100%;min-width:100%;" required>
+                                        <select class="form-control" name="pfcity" id="pfcity" style="max-width: 100%;min-width:100%;" required>
                                             <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">City</option>
                                         </select>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="labels">District</label>
                                         <br>
-                                        <select class="form-control p-2" name="pfdistrict" id="pfdistrict" style="max-width: 100%;min-width:100%;" required>
+                                        <select class="form-control" name="pfdistrict" id="pfdistrict" style="max-width: 100%;min-width:100%;" required>
                                             <option ${sessionScope.address.getCity() == null ? 'selected' : ''} value="">District</option>
                                         </select>
                                     </div>
