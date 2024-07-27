@@ -698,10 +698,10 @@ public class UserDAO extends DBContext {
         return lst;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         UserDAO udao = new UserDAO();
         List<User> list = udao.getAllCustomer(false, "", "", "", "", 0);
-        for (User u : list) {
+        for (User u : udao.getAllUser()) {
             System.out.println(u.getName());
         }
         try {

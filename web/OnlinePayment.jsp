@@ -8,7 +8,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>PawPaw Petshop</title>
+        <title>H2DV Petshop</title>
         <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
         <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -198,7 +198,7 @@
                                         <a href="#">${c.title}</a>
                                         <div class="small text-muted">
                                             <c:set var="formattedPrice">
-                                                <fmt:formatNumber value="${c.list_price}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                                <fmt:formatNumber value="${c.list_price * 1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
                                             </c:set>
                                             Price: ${formattedPrice} đ<span class="quantity">Quantity: ${c.quantity}</span>
                                         </div>
@@ -208,7 +208,7 @@
                             <div class="d-flex">
                                 <h4>Subtotal</h4>
                                 <c:set var="formattedPrice">
-                                    <fmt:formatNumber value="${total_cost}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
+                                    <fmt:formatNumber value="${total_cost *1000}" type="number" groupingUsed="true" minFractionDigits="0" maxFractionDigits="0"/>
                                 </c:set>
                                 <div class="ml-auto font-weight-bold">${formattedPrice} đ</div>
                             </div>
